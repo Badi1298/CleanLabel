@@ -1,6 +1,5 @@
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 import { z } from "zod";
 import { Button } from "#/components/ui/button";
 import {
@@ -65,16 +64,15 @@ function Signup() {
 						}}
 						className="space-y-4"
 					>
-						<form.Subscribe
-							selector={(state) => [state.errorMap]}
-							children={([errorMap]) =>
+						<form.Subscribe selector={(state) => [state.errorMap]}>
+							{([errorMap]) =>
 								errorMap.onSubmit ? (
 									<div className="p-3 text-sm text-red-500 bg-red-50 rounded-md">
 										{errorMap.onSubmit.toString()}
 									</div>
 								) : null
 							}
-						/>
+						</form.Subscribe>
 
 						<form.Field
 							name="name"
@@ -83,7 +81,8 @@ function Signup() {
 									.string()
 									.min(2, "Name must be at least 2 characters"),
 							}}
-							children={(field) => (
+						>
+							{(field) => (
 								<div className="space-y-2">
 									<Label htmlFor={field.name}>Name</Label>
 									<Input
@@ -96,19 +95,27 @@ function Signup() {
 									/>
 									{field.state.meta.errors ? (
 										<p className="text-sm text-red-500">
-											{field.state.meta.errors.map((err) => typeof err === "string" ? err : (err as any).message || String(err)).join(", ")}
+											{field.state.meta.errors
+												.map((err) =>
+													typeof err === "string"
+														? err
+														: (err as { message?: string })?.message ||
+															String(err),
+												)
+												.join(", ")}
 										</p>
 									) : null}
 								</div>
 							)}
-						/>
+						</form.Field>
 
 						<form.Field
 							name="email"
 							validators={{
 								onChange: z.string().email("Invalid email address"),
 							}}
-							children={(field) => (
+						>
+							{(field) => (
 								<div className="space-y-2">
 									<Label htmlFor={field.name}>Email</Label>
 									<Input
@@ -121,12 +128,19 @@ function Signup() {
 									/>
 									{field.state.meta.errors ? (
 										<p className="text-sm text-red-500">
-											{field.state.meta.errors.map((err) => typeof err === "string" ? err : (err as any).message || String(err)).join(", ")}
+											{field.state.meta.errors
+												.map((err) =>
+													typeof err === "string"
+														? err
+														: (err as { message?: string })?.message ||
+															String(err),
+												)
+												.join(", ")}
 										</p>
 									) : null}
 								</div>
 							)}
-						/>
+						</form.Field>
 
 						<form.Field
 							name="password"
@@ -135,7 +149,8 @@ function Signup() {
 									.string()
 									.min(8, "Password must be at least 8 characters"),
 							}}
-							children={(field) => (
+						>
+							{(field) => (
 								<div className="space-y-2">
 									<Label htmlFor={field.name}>Password</Label>
 									<Input
@@ -147,16 +162,24 @@ function Signup() {
 									/>
 									{field.state.meta.errors ? (
 										<p className="text-sm text-red-500">
-											{field.state.meta.errors.map((err) => typeof err === "string" ? err : (err as any).message || String(err)).join(", ")}
+											{field.state.meta.errors
+												.map((err) =>
+													typeof err === "string"
+														? err
+														: (err as { message?: string })?.message ||
+															String(err),
+												)
+												.join(", ")}
 										</p>
 									) : null}
 								</div>
 							)}
-						/>
+						</form.Field>
 
 						<form.Subscribe
 							selector={(state) => [state.canSubmit, state.isSubmitting]}
-							children={([canSubmit, isSubmitting]) => (
+						>
+							{([canSubmit, isSubmitting]) => (
 								<Button
 									type="submit"
 									disabled={!canSubmit || isSubmitting}
@@ -165,7 +188,7 @@ function Signup() {
 									{isSubmitting ? "Creating account..." : "Sign Up"}
 								</Button>
 							)}
-						/>
+						</form.Subscribe>
 					</form>
 				</CardContent>
 				<CardFooter className="flex justify-center">
