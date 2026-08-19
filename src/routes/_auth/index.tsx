@@ -8,7 +8,7 @@ import { Button } from "#/components/ui/button";
 import { authClient } from "#/lib/auth-client";
 import { getSession } from "#/lib/auth-server";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_auth/")({
 	beforeLoad: async () => {
 		try {
 			const session = await getSession();
