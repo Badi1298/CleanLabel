@@ -9,6 +9,14 @@ export const auth = betterAuth({
 	}),
 	emailAndPassword: {
 		enabled: true,
+		requireEmailVerification: true,
+	},
+	emailVerification: {
+		sendOnSignUp: true,
+		sendVerificationEmail: async ({ user, url }) => {
+			// TODO: Replace with an actual email provider like Resend
+			console.log(`[Email Verification] Send to ${user.email}: ${url}`);
+		},
 	},
 	plugins: [tanstackStartCookies()],
 });
