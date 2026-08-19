@@ -34,9 +34,7 @@ function Login() {
 				});
 
 				if (error) {
-					return {
-						form: error.message || "Failed to login",
-					};
+					return error.message || "Failed to login";
 				}
 				return null;
 			},

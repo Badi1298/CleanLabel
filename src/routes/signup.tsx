@@ -36,9 +36,7 @@ function Signup() {
 				});
 
 				if (error) {
-					return {
-						form: error.message || "Failed to create account",
-					};
+					return error.message || "Failed to create account";
 				}
 				return null;
 			},
