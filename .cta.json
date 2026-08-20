@@ -19,13 +19,14 @@
   "framework": "react",
   "chosenAddOns": [
     "biome",
-    "nitro",
+    "railway",
+    "compiler",
     "drizzle",
     "form",
     "shadcn",
     "t3env",
     "better-auth",
-    "tanstack-query",
-    "store"
+    "store",
+    "tanstack-query"
   ]
 }

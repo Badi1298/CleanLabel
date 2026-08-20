@@ -42,18 +42,23 @@ npm run check
 ```
 
 
-## Deploy with Nitro
+## Deploy to Railway
 
-This project uses Nitro as a generic server adapter, so it can run on any Node-compatible host.
+Railway's Railpack builder detects the project's package manager and package
+scripts automatically.
 
-```bash
-npm run build
-node dist/server/index.mjs
-```
+1. Push this repo to GitHub
+2. Visit https://railway.com/new and create a project from your repo
+3. In the **Variables** tab, add the entries from `.env.example` with their production values
+4. Deploy, then open **Networking** and select **Generate Domain**
 
-The build output is a self-contained Node server. To deploy, push the `dist/` directory to your host (Render, Fly.io, your own VPS, etc.) and run the server command above.
+Railpack runs the project's build script and starts the generated Nitro server
+with `node .output/server/index.mjs`. The server handles SSR, server functions,
+API routes, and static assets.
 
-For host-specific presets (Vercel, Netlify, Cloudflare, AWS Lambda, etc.) and tuning, see https://v3.nitro.build/deploy.
+Need a database? Add one from the Railway project canvas, then connect it to the
+app with a Railway reference variable. The variable name and value depend on the
+database service you choose.
 
 
 ## Shadcn
@@ -260,17 +265,6 @@ function PeopleComponent() {
 
 Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
 
-## Deploy to Cloudflare Workers
-
-This project uses the Cloudflare Vite plugin (configured in `vite.config.ts`) and `wrangler.jsonc`:
-
-1. Install Wrangler: `npm install -g wrangler`
-2. Authenticate: `wrangler login`
-3. Deploy: `npx wrangler deploy`
-
-For production env vars, run `wrangler secret put MY_VAR` for each secret listed in `.env.example`. Public (non-secret) vars go in `wrangler.jsonc` under `vars`.
-
-KV, D1, R2, and Durable Object bindings are configured in `wrangler.jsonc` — see https://developers.cloudflare.com/workers/wrangler/configuration/.
 
 
 # Learn More
