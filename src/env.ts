@@ -21,13 +21,25 @@ export const env = createEnv({
 
 	client: {
 		VITE_APP_TITLE: z.string().min(1).optional(),
+		VITE_BETTER_AUTH_URL: z.url(),
 	},
 
 	/**
 	 * What object holds the environment variables at runtime. This is usually
 	 * `process.env` or `import.meta.env`.
 	 */
-	runtimeEnv: import.meta.env,
+	runtimeEnv: {
+		DATABASE_URL: process.env.DATABASE_URL,
+		DATABASE_URL_UNPOOLED: process.env.DATABASE_URL_UNPOOLED,
+		BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+		BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+		BETTER_AUTH_API_KEY: process.env.BETTER_AUTH_API_KEY,
+		NEON_BRANCH: process.env.NEON_BRANCH,
+		NEON_AUTH_BASE_URL: process.env.NEON_AUTH_BASE_URL,
+		NEON_AUTH_JWKS_URL: process.env.NEON_AUTH_JWKS_URL,
+		VITE_APP_TITLE: import.meta.env.VITE_APP_TITLE,
+		VITE_BETTER_AUTH_URL: import.meta.env.VITE_BETTER_AUTH_URL,
+	},
 
 	/**
 	 * By default, this library will feed the environment variables directly to
