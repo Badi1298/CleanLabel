@@ -1,16 +1,16 @@
+import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
-
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import { VitePWA } from "vite-plugin-pwa";
-
 import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 const config = defineConfig({
 	resolve: { tsconfigPaths: true },
 	plugins: [
+		cloudflare({ viteEnvironment: { name: "ssr" } }),
 		devtools(),
 		nitro({ rollupConfig: { external: [/^@sentry\//] } }),
 		tailwindcss(),
@@ -28,20 +28,20 @@ const config = defineConfig({
 					{
 						src: "pwa-192x192.png",
 						sizes: "192x192",
-						type: "image/png"
+						type: "image/png",
 					},
 					{
 						src: "pwa-512x512.png",
 						sizes: "512x512",
 						type: "image/png",
-						purpose: "any maskable"
-					}
-				]
+						purpose: "any maskable",
+					},
+				],
 			},
 			outDir: ".output/public",
 			devOptions: {
-				enabled: true
-			}
+				enabled: true,
+			},
 		}),
 	],
 });
