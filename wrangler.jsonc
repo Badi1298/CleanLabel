@@ -7,5 +7,12 @@
   "vars": {
     "DATABASE_URL": "postgresql://postgres:CwSHYoRszccuOMqT@db.pinaqragwzbmrkdyhuyp.supabase.co:5432/postgres",
     "BETTER_AUTH_URL": "https://tanstack-start-app.serbandavid83.workers.dev/"
-  }
+  },
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "70158cb7e86449ffadab59ee85ee14db",
+      "localConnectionString": "postgresql://postgres:CwSHYoRszccuOMqT@db.pinaqragwzbmrkdyhuyp.supabase.co:5432/postgres"
+    }
+  ]
 }
