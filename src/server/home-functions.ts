@@ -1,31 +1,43 @@
 import { createServerFn } from "@tanstack/react-start";
 import { desc, eq } from "drizzle-orm";
 import { db } from "#/db";
-import { categories, products, stores } from "#/db/app-schema";
+import { categories, productStores, products, stores } from "#/db/app-schema";
 
 export const getHomeData = createServerFn({
 	method: "GET",
-}).handler(async () => {
-	const allStores = await db.select().from(stores);
+})
+	.validator((data: { storeId?: string } | undefined) => data)
+	.handler(async ({ data }) => {
+		const storeId = data?.storeId;
+		const allStores = await db.select().from(stores);
 
-	const recentProducts = await db
-		.select({
-			id: products.id,
-			name: products.name,
-			brand: products.brand,
-			score: products.score,
-			imageFrontUrl: products.imageFrontUrl,
-			categoryName: categories.name,
-			status: products.status,
-			createdAt: products.createdAt,
-		})
-		.from(products)
-		.leftJoin(categories, eq(products.categoryId, categories.id))
-		.orderBy(desc(products.createdAt))
-		.limit(10);
+		let productsQuery = db
+			.select({
+				id: products.id,
+				name: products.name,
+				brand: products.brand,
+				score: products.score,
+				imageFrontUrl: products.imageFrontUrl,
+				categoryName: categories.name,
+				status: products.status,
+				createdAt: products.createdAt,
+			})
+			.from(products)
+			.leftJoin(categories, eq(products.categoryId, categories.id))
+			.$dynamic();
 
-	return {
-		stores: allStores,
-		recentProducts,
-	};
-});
+		if (storeId) {
+			productsQuery = productsQuery
+				.innerJoin(productStores, eq(products.id, productStores.productId))
+				.where(eq(productStores.storeId, storeId));
+		}
+
+		const recentProducts = await productsQuery
+			.orderBy(desc(products.createdAt))
+			.limit(10);
+
+		return {
+			stores: allStores,
+			recentProducts,
+		};
+	});

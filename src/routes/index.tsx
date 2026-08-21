@@ -14,25 +14,36 @@ import {
 import { getHomeData } from "#/server/home-functions";
 
 export const Route = createFileRoute("/")({
-	loader: async () => await getHomeData(),
+	validateSearch: (search: Record<string, unknown>): { storeId?: string } => {
+		return {
+			storeId: typeof search.storeId === "string" ? search.storeId : undefined,
+		};
+	},
+	loaderDeps: ({ search: { storeId } }) => ({ storeId }),
+	loader: async ({ deps: { storeId } }) =>
+		await getHomeData({ data: { storeId } }),
 	component: Home,
 });
 
 function Home() {
 	const navigate = useNavigate();
 	const { stores, recentProducts } = Route.useLoaderData();
+	const { storeId } = Route.useSearch();
 
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const handleSearchSubmit = (e: React.FormEvent) => {
+	const handleSearchSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
 		if (searchQuery.trim()) {
 			navigate({ to: "/search", search: { q: searchQuery } });
 		}
 	};
 
-	const handleStoreSelect = (storeId: string) => {
-		navigate({ to: "/search", search: { storeId } });
+	const handleStoreSelect = (newStoreId: string) => {
+		navigate({
+			to: "/",
+			search: { storeId: newStoreId === "all" ? undefined : newStoreId },
+		});
 	};
 
 	return (
@@ -71,15 +82,19 @@ function Home() {
 						<span className="text-sm font-medium">
 							Or browse by your favorite store:
 						</span>
-						<div className="w-64">
-							<Select onValueChange={handleStoreSelect}>
-								<SelectTrigger className="bg-white/10 border-white/20 text-white h-10 hover:bg-white/20 transition-colors">
+						<div className="w-full sm:w-auto">
+							<Select
+								value={storeId || "all"}
+								onValueChange={handleStoreSelect}
+							>
+								<SelectTrigger className="w-full sm:w-[220px] bg-white text-slate-900 border-none h-12 shadow-md hover:bg-slate-50 transition-colors">
 									<div className="flex items-center gap-2">
-										<StoreIcon className="w-4 h-4" />
+										<StoreIcon className="w-4 h-4 text-slate-500" />
 										<SelectValue placeholder="Select Store" />
 									</div>
 								</SelectTrigger>
 								<SelectContent>
+									<SelectItem value="all">All Stores</SelectItem>
 									{stores.map((store) => (
 										<SelectItem key={store.id} value={store.id}>
 											{store.name}
