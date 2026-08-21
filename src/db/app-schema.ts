@@ -66,7 +66,7 @@ export const ingredients = pgTable("ingredients", {
 	hazardLevel: text("hazard_level"),
 });
 
-// ---  (Many-to-Many) ---
+// --- Junction Tables ---
 export const productIngredients = pgTable(
 	"product_ingredients",
 	{
@@ -93,8 +93,7 @@ export const productStores = pgTable(
 	(t) => [primaryKey({ columns: [t.productId, t.storeId] })],
 );
 
-// --- Relații la nivel de Drizzle ORM ---
-// Acestea nu modifică DB-ul, dar te ajută enorm când faci query-uri (ex: db.query.products.findMany({ with: { category: true } }))
+// --- Drizzle ORM Relations ---
 
 export const productsRelations = relations(products, ({ one, many }) => ({
 	category: one(categories, {
