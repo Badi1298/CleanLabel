@@ -120,17 +120,20 @@ function Home() {
 						{popularCategories.map((category) => (
 							<Button
 								key={category.id}
+								variant="outline"
+								className="flex flex-col h-full"
 								onClick={() =>
 									navigate({ to: "/search", search: { q: category.name } })
 								}
-								className="flex flex-col items-center justify-center p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 dark:border-slate-800 gap-3"
 							>
-								{category.iconUrl && (
+								{category.iconUrl ? (
 									<img
 										src={category.iconUrl}
 										alt={category.name}
 										className="w-12 h-12 object-cover rounded-full"
 									/>
+								) : (
+									<StoreIcon className="w-12 h-12 text-slate-500" />
 								)}
 								<span className="font-semibold text-slate-700 dark:text-slate-200 text-center">
 									{category.name}
