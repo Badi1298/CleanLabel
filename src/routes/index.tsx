@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
 	const navigate = useNavigate();
-	const { stores, recentProducts } = Route.useLoaderData();
+	const { stores, recentProducts, popularCategories } = Route.useLoaderData();
 	const { storeId } = Route.useSearch();
 
 	const [searchQuery, setSearchQuery] = useState("");
@@ -109,6 +109,41 @@ function Home() {
 
 			{/* Main Content */}
 			<main className="max-w-6xl mx-auto px-4 py-12 space-y-16">
+				{/* Popular Categories Section */}
+				<section>
+					<div className="flex items-center justify-between mb-8">
+						<h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+							Popular Categories
+						</h2>
+					</div>
+					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+						{popularCategories.map((category) => (
+							<Button
+								key={category.id}
+								onClick={() =>
+									navigate({ to: "/search", search: { q: category.name } })
+								}
+								className="flex flex-col items-center justify-center p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 dark:border-slate-800 gap-3"
+							>
+								{category.iconUrl && (
+									<img
+										src={category.iconUrl}
+										alt={category.name}
+										className="w-12 h-12 object-cover rounded-full"
+									/>
+								)}
+								<span className="font-semibold text-slate-700 dark:text-slate-200 text-center">
+									{category.name}
+								</span>
+								<span className="text-xs text-slate-500 font-medium">
+									{category.productCount}{" "}
+									{category.productCount === 1 ? "product" : "products"}
+								</span>
+							</Button>
+						))}
+					</div>
+				</section>
+
 				{/* Recently Added Section */}
 				<section>
 					<div className="flex items-center justify-between mb-8">
