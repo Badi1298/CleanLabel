@@ -13,7 +13,7 @@ import {
 } from "#/components/ui/select";
 import { getHomeData } from "#/server/home-functions";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_protected/")({
 	validateSearch: (search: Record<string, unknown>): { storeId?: string } => {
 		return {
 			storeId: typeof search.storeId === "string" ? search.storeId : undefined,
