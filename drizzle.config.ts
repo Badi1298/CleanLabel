@@ -1,4 +1,3 @@
-import { getDatabaseUrl, getDatabaseUrlUnpooled } from '#/utils/safe-envs'
 import { config } from 'dotenv'
 import { defineConfig } from 'drizzle-kit'
 
@@ -6,9 +5,9 @@ config({ path: ['.env.local', '.env'] })
 
 export default defineConfig({
   out: './drizzle',
-  schema: ['./src/db/schema.ts', './src/db/auth-schema.ts'],
+  schema: ['./src/db/app-schema.ts', './src/db/auth-schema.ts'],
   dialect: 'postgresql',
   dbCredentials: {
-    url: getDatabaseUrlUnpooled() || getDatabaseUrl(),
+    url: process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL!,
   },
 })

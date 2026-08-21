@@ -1,8 +1,8 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-
+import { getDatabaseUrl } from "#/utils/safe-envs";
+import * as appSchema from "./app-schema";
 import * as authSchema from "./auth-schema";
-import * as appSchema from "./schema";
 
-export const db = drizzle(process.env.DATABASE_URL!, {
+export const db = drizzle(getDatabaseUrl(), {
 	schema: { ...authSchema, ...appSchema },
 });
