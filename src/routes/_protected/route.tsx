@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-rout
 import { useServerFn } from "@tanstack/react-start";
 import { Home, ScanBarcode, Search, Store, User } from "lucide-react";
 import { Button } from "#/components/ui/button";
-import { testFetchOffProduct } from "#/server/off-functions";
+import { processBarcodeScan } from "#/server/off-functions";
 import { ScannerDialog } from "#/components/ScannerDialog";
 import { useState } from "react";
 export const Route = createFileRoute("/_protected")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_protected")({
 });
 
 function RouteComponent() {
-	const fetchProduct = useServerFn(testFetchOffProduct);
+	const processScan = useServerFn(processBarcodeScan);
 	const navigate = useNavigate();
 	const [isScannerOpen, setIsScannerOpen] = useState(false);
 	const [isFetching, setIsFetching] = useState(false);
@@ -19,17 +19,19 @@ function RouteComponent() {
 		setIsScannerOpen(false);
 		setIsFetching(true);
 		try {
-			const data = await fetchProduct({ data: barcode });
-			if (data && data.status === 1) {
-				console.log("OFF API Response for", barcode, ":", data);
-				alert("Product found! Check console for details.");
+			const result = await processScan({ data: barcode });
+			if (result.productId) {
+				navigate({ 
+					to: "/products/$productId", 
+					params: { productId: result.productId } 
+				});
 			} else {
-				console.log("Product not found in OFF API:", data);
-				navigate({ to: "/add-product", search: { barcode } });
+				// We use "as any" for search since we don't know if add-product has validateSearch set up yet
+				navigate({ to: "/add-product", search: { barcode } as any });
 			}
 		} catch (e) {
-			console.error("Error fetching OFF data:", e);
-			navigate({ to: "/add-product", search: { barcode } });
+			console.error("Error processing scan:", e);
+			navigate({ to: "/add-product", search: { barcode } as any });
 		} finally {
 			setIsFetching(false);
 		}
