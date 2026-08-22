@@ -1,24 +1,37 @@
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Home, ScanBarcode, Search, Store, User } from "lucide-react";
 import { Button } from "#/components/ui/button";
 import { testFetchOffProduct } from "#/server/off-functions";
-
+import { ScannerDialog } from "#/components/ScannerDialog";
+import { useState } from "react";
 export const Route = createFileRoute("/_protected")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
 	const fetchProduct = useServerFn(testFetchOffProduct);
+	const navigate = useNavigate();
+	const [isScannerOpen, setIsScannerOpen] = useState(false);
+	const [isFetching, setIsFetching] = useState(false);
 
-	const handleScanBarcode = async () => {
+	const handleScanBarcode = async (barcode: string) => {
+		setIsScannerOpen(false);
+		setIsFetching(true);
 		try {
-			const data = await fetchProduct({ data: "3017624010701" });
-			console.log("OFF API Response:", data);
-			alert("Fetched! Check console.");
+			const data = await fetchProduct({ data: barcode });
+			if (data && data.status === 1) {
+				console.log("OFF API Response for", barcode, ":", data);
+				alert("Product found! Check console for details.");
+			} else {
+				console.log("Product not found in OFF API:", data);
+				navigate({ to: "/add-product", search: { barcode } });
+			}
 		} catch (e) {
-			console.error(e);
-			alert("Error fetching OFF data");
+			console.error("Error fetching OFF data:", e);
+			navigate({ to: "/add-product", search: { barcode } });
+		} finally {
+			setIsFetching(false);
 		}
 	};
 
@@ -50,12 +63,13 @@ function RouteComponent() {
 
 				{/* Elevated Scan Button */}
 				<Button
-					onClick={handleScanBarcode}
+					onClick={() => setIsScannerOpen(true)}
 					size="icon-lg"
 					variant="secondary"
 					className="-translate-y-6"
+					disabled={isFetching}
 				>
-					<ScanBarcode />
+					{isFetching ? <div className="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" /> : <ScanBarcode />}
 				</Button>
 
 				<Link
@@ -78,6 +92,12 @@ function RouteComponent() {
 					<span className="text-[11px] font-medium">Profile</span>
 				</Link>
 			</nav>
+
+			<ScannerDialog
+				isOpen={isScannerOpen}
+				onClose={() => setIsScannerOpen(false)}
+				onResult={handleScanBarcode}
+			/>
 		</div>
 	);
 }
