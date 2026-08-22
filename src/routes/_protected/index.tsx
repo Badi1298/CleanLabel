@@ -1,3 +1,4 @@
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search, Store as StoreIcon } from "lucide-react";
 import { useState } from "react";
@@ -13,6 +14,12 @@ import {
 } from "#/components/ui/select";
 import { getHomeData } from "#/server/home-functions";
 
+const homeQueryOptions = (storeId?: string) =>
+	queryOptions({
+		queryKey: ["homeData", storeId],
+		queryFn: () => getHomeData({ data: { storeId } }),
+	});
+
 export const Route = createFileRoute("/_protected/")({
 	validateSearch: (search: Record<string, unknown>): { storeId?: string } => {
 		return {
@@ -20,15 +27,18 @@ export const Route = createFileRoute("/_protected/")({
 		};
 	},
 	loaderDeps: ({ search: { storeId } }) => ({ storeId }),
-	loader: async ({ deps: { storeId } }) =>
-		await getHomeData({ data: { storeId } }),
+	loader: async ({ context: { queryClient }, deps: { storeId } }) =>
+		await queryClient.ensureQueryData(homeQueryOptions(storeId)),
 	component: Home,
 });
 
 function Home() {
 	const navigate = useNavigate();
-	const { stores, recentProducts, popularCategories } = Route.useLoaderData();
 	const { storeId } = Route.useSearch();
+
+	const { data } = useSuspenseQuery({
+		...homeQueryOptions(storeId),
+	});
 
 	const [searchQuery, setSearchQuery] = useState("");
 
@@ -43,6 +53,8 @@ function Home() {
 		navigate({
 			to: "/",
 			search: { storeId: newStoreId === "all" ? undefined : newStoreId },
+			resetScroll: false,
+			viewTransition: false,
 		});
 	};
 
@@ -95,7 +107,7 @@ function Home() {
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="all">All Stores</SelectItem>
-									{stores.map((store) => (
+									{data?.stores?.map((store) => (
 										<SelectItem key={store.id} value={store.id}>
 											{store.name}
 										</SelectItem>
@@ -117,7 +129,7 @@ function Home() {
 						</h2>
 					</div>
 					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-						{popularCategories.map((category) => (
+						{data?.popularCategories.map((category) => (
 							<Button
 								key={category.id}
 								variant="outline"
@@ -155,7 +167,7 @@ function Home() {
 						</h2>
 					</div>
 					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-						{recentProducts.map((product) => (
+						{data?.recentProducts?.map((product) => (
 							<ProductCard key={product.id} product={product} />
 						))}
 					</div>
