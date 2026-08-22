@@ -1,11 +1,27 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Home, ScanBarcode, Search, Store, User } from "lucide-react";
+import { Button } from "#/components/ui/button";
+import { testFetchOffProduct } from "#/server/off-functions";
 
 export const Route = createFileRoute("/_protected")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
+	const fetchProduct = useServerFn(testFetchOffProduct);
+
+	const handleScanBarcode = async () => {
+		try {
+			const data = await fetchProduct({ data: "3017624010701" });
+			console.log("OFF API Response:", data);
+			alert("Fetched! Check console.");
+		} catch (e) {
+			console.error(e);
+			alert("Error fetching OFF data");
+		}
+	};
+
 	return (
 		<div className="relative min-h-screen pb-24 bg-slate-50 dark:bg-slate-950">
 			<Outlet />
@@ -33,14 +49,14 @@ function RouteComponent() {
 				</Link>
 
 				{/* Elevated Scan Button */}
-				<div className="relative flex flex-col items-center text-slate-600 -translate-y-6">
-					<div className="bg-[#FDFBF7] dark:bg-slate-900 p-4 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.1)] dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] border border-slate-100 dark:border-slate-800 flex items-center justify-center">
-						<ScanBarcode className="w-8 h-8" />
-					</div>
-					<span className="text-[11px] font-medium mt-2 absolute -bottom-6 whitespace-nowrap">
-						Scan Barcode
-					</span>
-				</div>
+				<Button
+					onClick={handleScanBarcode}
+					size="icon-lg"
+					variant="secondary"
+					className="-translate-y-6"
+				>
+					<ScanBarcode />
+				</Button>
 
 				<Link
 					to="/stores"
