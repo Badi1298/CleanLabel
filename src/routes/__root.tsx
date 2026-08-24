@@ -6,6 +6,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { TooltipProvider } from "#/components/ui/tooltip";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import TanstackQueryProvider from "../integrations/tanstack-query/root-provider";
 import appCss from "../styles.css?url";
@@ -65,7 +66,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<TanstackQueryProvider queryClient={queryClient}>
-					{children}
+					<TooltipProvider>{children}</TooltipProvider>
 				</TanstackQueryProvider>
 				{/* <TanStackDevtools
 					config={{

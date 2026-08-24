@@ -20,7 +20,7 @@ const homeQueryOptions = (storeId?: string) =>
 		queryFn: () => getHomeData({ data: { storeId } }),
 	});
 
-export const Route = createFileRoute("/_protected/")({
+export const Route = createFileRoute("/_protected/_public/")({
 	validateSearch: (search: Record<string, unknown>): { storeId?: string } => {
 		return {
 			storeId: typeof search.storeId === "string" ? search.storeId : undefined,

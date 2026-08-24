@@ -13,7 +13,7 @@ import { Button } from "#/components/ui/button";
 import { getSession } from "#/server/auth-functions";
 import { processBarcodeScan } from "#/server/off-functions";
 
-export const Route = createFileRoute("/_protected")({
+export const Route = createFileRoute("/_protected/_public")({
 	beforeLoad: async ({ location }) => {
 		const session = await getSession();
 		if (!session) {

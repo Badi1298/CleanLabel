@@ -7,7 +7,7 @@ const searchSchema = z.object({
 	barcode: z.string().optional(),
 });
 
-export const Route = createFileRoute("/_protected/add-product")({
+export const Route = createFileRoute("/_protected/_public/add-product")({
 	component: AddProductRoute,
 	validateSearch: (search) => searchSchema.parse(search),
 });
