@@ -11,14 +11,17 @@ const config = defineConfig({
 	resolve: { tsconfigPaths: true },
 	plugins: [
 		devtools(),
+		tanstackStart(),
 		nitro({ rollupConfig: { external: [/^@sentry\//] } }),
 		tailwindcss(),
-		tanstackStart(),
 		viteReact(),
 		babel({ presets: [reactCompilerPreset()] }),
 		VitePWA({
 			registerType: "autoUpdate",
 			includeAssets: ["favicon.ico", "logo-192x192.png", "logo-512x512.png"],
+			devOptions: {
+				enabled: true,
+			},
 			manifest: {
 				name: "CleanLabel",
 				short_name: "CleanLabel",
