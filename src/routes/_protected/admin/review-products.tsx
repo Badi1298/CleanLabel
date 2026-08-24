@@ -1,3 +1,4 @@
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	createColumnHelper,
@@ -7,12 +8,16 @@ import {
 } from "@tanstack/react-table";
 import { getPendingProducts } from "#/server/product-functions";
 
+const pendingProductsQueryOptions = () =>
+	queryOptions({
+		queryKey: ["pendingProducts"],
+		queryFn: () => getPendingProducts(),
+	});
+
 export const Route = createFileRoute("/_protected/admin/review-products")({
 	component: RouteComponent,
-	loader: async () => {
-		const products = await getPendingProducts();
-		return { products };
-	},
+	loader: async ({ context: { queryClient } }) =>
+		await queryClient.ensureQueryData(pendingProductsQueryOptions()),
 });
 
 type ProductData = Awaited<ReturnType<typeof getPendingProducts>>[0];
@@ -68,7 +73,9 @@ const columns = [
 ];
 
 function RouteComponent() {
-	const { products } = Route.useLoaderData();
+	const { data: products } = useSuspenseQuery({
+		...pendingProductsQueryOptions(),
+	});
 
 	const table = useTable<typeof features, ProductData>({
 		features,

@@ -1,3 +1,4 @@
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
@@ -13,22 +14,41 @@ const searchSchema = z.object({
 	productId: z.string().optional(),
 });
 
+const categoriesQueryOptions = () =>
+	queryOptions({
+		queryKey: ["categories"],
+		queryFn: () => getCategories(),
+	});
+
+const productQueryOptions = (productId?: string) =>
+	queryOptions({
+		queryKey: ["product", productId],
+		queryFn: () => (productId ? getProductById({ data: productId }) : null),
+	});
+
 export const Route = createFileRoute("/_protected/admin/add-product")({
 	component: RouteComponent,
 	validateSearch: searchSchema,
 	loaderDeps: ({ search: { productId } }) => ({ productId }),
-	loader: async ({ deps: { productId } }) => {
-		const categories = await getCategories();
-		let product;
-		if (productId) {
-			product = await getProductById({ data: productId });
-		}
-		return { categories, product };
+	loader: async ({ context: { queryClient }, deps: { productId } }) => {
+		const categoriesPromise = queryClient.ensureQueryData(
+			categoriesQueryOptions(),
+		);
+		const productPromise = productId
+			? queryClient.ensureQueryData(productQueryOptions(productId))
+			: Promise.resolve(null);
+		await Promise.all([categoriesPromise, productPromise]);
 	},
 });
 
 function RouteComponent() {
-	const { categories, product } = Route.useLoaderData();
+	const { productId } = Route.useSearch();
+	const { data: categories } = useSuspenseQuery({
+		...categoriesQueryOptions(),
+	});
+	const { data: product } = useSuspenseQuery({
+		...productQueryOptions(productId),
+	});
 	const addProductFn = useServerFn(addProduct);
 	const updateProductFn = useServerFn(updateProduct);
 	const router = useRouter();

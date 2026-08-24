@@ -1,3 +1,4 @@
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
@@ -8,18 +9,24 @@ const searchSchema = z.object({
 	barcode: z.string().optional(),
 });
 
+const categoriesQueryOptions = () =>
+	queryOptions({
+		queryKey: ["categories"],
+		queryFn: () => getCategories(),
+	});
+
 export const Route = createFileRoute("/_protected/_public/add-product")({
 	component: AddProductRoute,
 	validateSearch: (search) => searchSchema.parse(search),
-	loader: async () => {
-		const categories = await getCategories();
-		return { categories };
-	},
+	loader: async ({ context: { queryClient } }) =>
+		await queryClient.ensureQueryData(categoriesQueryOptions()),
 });
 
 function AddProductRoute() {
 	const { barcode } = Route.useSearch();
-	const { categories } = Route.useLoaderData();
+	const { data: categories } = useSuspenseQuery({
+		...categoriesQueryOptions(),
+	});
 	const addProductFn = useServerFn(addProduct);
 	const router = useRouter();
 
