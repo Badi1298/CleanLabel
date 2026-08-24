@@ -22,11 +22,15 @@ const config = defineConfig({
 			devOptions: {
 				enabled: true,
 			},
+			manifestFilename: "manifest.json",
 			manifest: {
 				name: "CleanLabel",
 				short_name: "CleanLabel",
 				description: "CleanLabel Application",
 				theme_color: "#ffffff",
+				background_color: "#ffffff",
+				display: "standalone",
+				start_url: "/",
 				icons: [
 					{
 						src: "/logo-192x192.png",
