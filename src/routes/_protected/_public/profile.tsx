@@ -24,6 +24,7 @@ function RouteComponent() {
 					{!isPending && session?.user.role === "admin" ? (
 						<Button
 							asChild
+							variant="outline"
 							className="px-4 py-2 font-medium rounded-md transition-colors"
 						>
 							<Link to="/admin">Admin Panel</Link>
