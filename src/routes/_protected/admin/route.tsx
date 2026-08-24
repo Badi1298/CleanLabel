@@ -1,5 +1,10 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { AppSidebar } from "@/components/app-sidebar";
+import {
+	createFileRoute,
+	Link,
+	Outlet,
+	useLocation,
+} from "@tanstack/react-router";
+import { AppSidebar, appSidebarData } from "@/components/app-sidebar";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -20,6 +25,35 @@ export const Route = createFileRoute("/_protected/admin")({
 });
 
 function RouteComponent() {
+	const location = useLocation();
+
+	let parentTitle = "Admin";
+	let parentUrl = "/admin";
+	let currentPageTitle = "Welcome";
+
+	appSidebarData.navMain.forEach((mainItem) => {
+		if (location.pathname.startsWith(mainItem.url)) {
+			parentTitle = mainItem.title;
+			parentUrl = mainItem.url;
+		}
+
+		if (
+			location.pathname === mainItem.url ||
+			location.pathname === `${mainItem.url}/`
+		) {
+			currentPageTitle = "Welcome";
+		}
+
+		mainItem.items?.forEach((subItem) => {
+			if (
+				location.pathname === subItem.url ||
+				location.pathname === `${subItem.url}/`
+			) {
+				currentPageTitle = subItem.title;
+			}
+		});
+	});
+
 	return (
 		<SidebarProvider
 			style={
@@ -39,11 +73,13 @@ function RouteComponent() {
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem className="hidden md:block">
-								<BreadcrumbLink href="#">Build Your Application</BreadcrumbLink>
+								<BreadcrumbLink asChild>
+									<Link to={parentUrl}>{parentTitle}</Link>
+								</BreadcrumbLink>
 							</BreadcrumbItem>
 							<BreadcrumbSeparator className="hidden md:block" />
 							<BreadcrumbItem>
-								<BreadcrumbPage>Data Fetching</BreadcrumbPage>
+								<BreadcrumbPage>{currentPageTitle}</BreadcrumbPage>
 							</BreadcrumbItem>
 						</BreadcrumbList>
 					</Breadcrumb>
