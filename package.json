@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
-    "@t3-oss/env-core": "^0.13.10",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-form": "latest",

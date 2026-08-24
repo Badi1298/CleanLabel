@@ -1,58 +1,23 @@
-import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
-export const env = createEnv({
-	server: {
-		DATABASE_URL: z.url(),
-		DATABASE_URL_UNPOOLED: z.url(),
-		BETTER_AUTH_URL: z.url(),
-		BETTER_AUTH_SECRET: z.string(),
-		BETTER_AUTH_API_KEY: z.string(),
-		NEON_BRANCH: z.string(),
-		NEON_AUTH_BASE_URL: z.url(),
-		NEON_AUTH_JWKS_URL: z.url(),
-	},
-
-	/**
-	 * The prefix that client-side variables must have. This is enforced both at
-	 * a type-level and at runtime.
-	 */
-	clientPrefix: "VITE_",
-
-	client: {
-		VITE_APP_TITLE: z.string().min(1).optional(),
-		VITE_BETTER_AUTH_URL: z.url(),
-	},
-
-	/**
-	 * What object holds the environment variables at runtime. This is usually
-	 * `process.env` or `import.meta.env`.
-	 */
-	runtimeEnv: {
-		DATABASE_URL: process.env.DATABASE_URL,
-		DATABASE_URL_UNPOOLED: process.env.DATABASE_URL_UNPOOLED,
-		BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
-		BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
-		BETTER_AUTH_API_KEY: process.env.BETTER_AUTH_API_KEY,
-		NEON_BRANCH: process.env.NEON_BRANCH,
-		NEON_AUTH_BASE_URL: process.env.NEON_AUTH_BASE_URL,
-		NEON_AUTH_JWKS_URL: process.env.NEON_AUTH_JWKS_URL,
-		VITE_APP_TITLE: import.meta.env.VITE_APP_TITLE,
-		VITE_BETTER_AUTH_URL: import.meta.env.VITE_BETTER_AUTH_URL,
-	},
-
-	/**
-	 * By default, this library will feed the environment variables directly to
-	 * the Zod validator.
-	 *
-	 * This means that if you have an empty string for a value that is supposed
-	 * to be a number (e.g. `PORT=` in a ".env" file), Zod will incorrectly flag
-	 * it as a type mismatch violation. Additionally, if you have an empty string
-	 * for a value that is supposed to be a string with a default value (e.g.
-	 * `DOMAIN=` in an ".env" file), the default value will never be applied.
-	 *
-	 * In order to solve these issues, we recommend that all new projects
-	 * explicitly specify this option as true.
-	 */
-	emptyStringAsUndefined: true,
+const serverEnvSchema = z.object({
+	DATABASE_URL: z.url(),
+	DATABASE_URL_UNPOOLED: z.url(),
+	BETTER_AUTH_URL: z.url(),
+	BETTER_AUTH_SECRET: z.string(),
+	BETTER_AUTH_API_KEY: z.string(),
+	NEON_BRANCH: z.string(),
+	NEON_AUTH_BASE_URL: z.url(),
+	NEON_AUTH_JWKS_URL: z.url(),
 });
+
+const clientEnvSchema = z.object({
+	VITE_APP_TITLE: z.string().min(1).optional(),
+	VITE_BETTER_AUTH_URL: z.url(),
+});
+
+// Server environment variables are validated at runtime from process.env
+export const getServerEnv = () => serverEnvSchema.parse(process.env);
+
+// Client environment variables are injected at build time and can be validated immediately
+export const clientEnv = clientEnvSchema.parse(import.meta.env);
