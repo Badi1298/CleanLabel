@@ -1,14 +1,9 @@
-import {
-	createFileRoute,
-	Link,
-	Outlet,
-	useLocation,
-} from "@tanstack/react-router";
-import { AppSidebar, appSidebarData } from "@/components/app-sidebar";
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
+import { useMemo } from "react";
+import { AppSidebar } from "@/components/app-sidebar";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
-	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
@@ -27,44 +22,44 @@ export const Route = createFileRoute("/_protected/admin")({
 function RouteComponent() {
 	const location = useLocation();
 
-	let parentTitle = "Admin";
-	let parentUrl = "/admin";
-	let currentPageTitle = "Welcome";
+	const sidebarData = useMemo(
+		() => [
+			{
+				title: "Logistics",
+				items: [
+					{
+						title: "Add Product",
+						url: "/admin/add-product",
+						isActive: location.pathname === "/admin/add-product",
+					},
+					{
+						title: "Review Products",
+						url: "/admin/review-products",
+						isActive: location.pathname === "/admin/review-products",
+					},
+				],
+			},
+		],
+		[location.pathname],
+	);
 
-	appSidebarData.navMain.forEach((mainItem) => {
-		if (location.pathname.startsWith(mainItem.url)) {
-			parentTitle = mainItem.title;
-			parentUrl = mainItem.url;
-		}
+	const { breadcrumbGroup, breadcrumbPage } = useMemo(() => {
+		const activeGroup = sidebarData.find((group) =>
+			group.items.some((item) => item.isActive),
+		);
+		const activeItem = activeGroup?.items.find((item) => item.isActive);
 
-		if (
-			location.pathname === mainItem.url ||
-			location.pathname === `${mainItem.url}/`
-		) {
-			currentPageTitle = "Welcome";
-		}
-
-		mainItem.items?.forEach((subItem) => {
-			if (
-				location.pathname === subItem.url ||
-				location.pathname === `${subItem.url}/`
-			) {
-				currentPageTitle = subItem.title;
-			}
-		});
-	});
+		return {
+			breadcrumbGroup: activeGroup?.title || "Logistics",
+			breadcrumbPage: activeItem?.title || "",
+		};
+	}, [sidebarData]);
 
 	return (
-		<SidebarProvider
-			style={
-				{
-					"--sidebar-width": "19rem",
-				} as React.CSSProperties
-			}
-		>
-			<AppSidebar />
+		<SidebarProvider>
+			<AppSidebar sidebarData={sidebarData} />
 			<SidebarInset>
-				<header className="flex h-16 shrink-0 items-center gap-2 px-4">
+				<header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
 					<SidebarTrigger className="-ml-1" />
 					<Separator
 						orientation="vertical"
@@ -73,13 +68,11 @@ function RouteComponent() {
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem className="hidden md:block">
-								<BreadcrumbLink asChild>
-									<Link to={parentUrl}>{parentTitle}</Link>
-								</BreadcrumbLink>
+								{breadcrumbGroup}
 							</BreadcrumbItem>
 							<BreadcrumbSeparator className="hidden md:block" />
 							<BreadcrumbItem>
-								<BreadcrumbPage>{currentPageTitle}</BreadcrumbPage>
+								<BreadcrumbPage>{breadcrumbPage || "Overview"}</BreadcrumbPage>
 							</BreadcrumbItem>
 						</BreadcrumbList>
 					</Breadcrumb>
