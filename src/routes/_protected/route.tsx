@@ -1,11 +1,27 @@
-import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Link,
+	Outlet,
+	redirect,
+	useNavigate,
+} from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Home, ScanBarcode, Search, Store, User } from "lucide-react";
-import { Button } from "#/components/ui/button";
-import { processBarcodeScan } from "#/server/off-functions";
-import { ScannerDialog } from "#/components/ScannerDialog";
 import { useState } from "react";
+import { ScannerDialog } from "#/components/ScannerDialog";
+import { Button } from "#/components/ui/button";
+import { getSession } from "#/server/auth-functions";
+import { processBarcodeScan } from "#/server/off-functions";
+
 export const Route = createFileRoute("/_protected")({
+	beforeLoad: async () => {
+		const session = await getSession();
+		if (!session) {
+			throw redirect({
+				to: "/login",
+			});
+		}
+	},
 	component: RouteComponent,
 });
 
@@ -21,9 +37,9 @@ function RouteComponent() {
 		try {
 			const result = await processScan({ data: barcode });
 			if (result.productId) {
-				navigate({ 
-					to: "/products/$productId", 
-					params: { productId: result.productId } 
+				navigate({
+					to: "/products/$productId",
+					params: { productId: result.productId },
 				});
 			} else {
 				// We use "as any" for search since we don't know if add-product has validateSearch set up yet
@@ -71,7 +87,11 @@ function RouteComponent() {
 					className="-translate-y-6"
 					disabled={isFetching}
 				>
-					{isFetching ? <div className="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" /> : <ScanBarcode />}
+					{isFetching ? (
+						<div className="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+					) : (
+						<ScanBarcode />
+					)}
 				</Button>
 
 				<Link
