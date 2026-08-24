@@ -79,7 +79,7 @@ function RouteComponent() {
 	});
 
 	return (
-		<div className="p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+		<div className="w-full p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
 			<div className="mb-8 flex items-center justify-between">
 				<h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
 					Review Products
