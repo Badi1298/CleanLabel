@@ -14,11 +14,12 @@ import { getSession } from "#/server/auth-functions";
 import { processBarcodeScan } from "#/server/off-functions";
 
 export const Route = createFileRoute("/_protected")({
-	beforeLoad: async () => {
+	beforeLoad: async ({ location }) => {
 		const session = await getSession();
 		if (!session) {
 			throw redirect({
 				to: "/login",
+				search: { redirect: location.href },
 			});
 		}
 	},
