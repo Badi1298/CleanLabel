@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
 	createColumnHelper,
@@ -6,13 +6,8 @@ import {
 	tableFeatures,
 	useTable,
 } from "@tanstack/react-table";
-import { getPendingProducts } from "#/server/product-functions";
-
-const pendingProductsQueryOptions = () =>
-	queryOptions({
-		queryKey: ["pendingProducts"],
-		queryFn: () => getPendingProducts(),
-	});
+import { pendingProductsQueryOptions } from "#/queries/product-queries";
+import type { getPendingProducts } from "#/server/product-functions";
 
 export const Route = createFileRoute("/_protected/admin/review-products")({
 	component: RouteComponent,

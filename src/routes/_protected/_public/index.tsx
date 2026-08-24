@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Search, Store as StoreIcon } from "lucide-react";
 import { useState } from "react";
@@ -12,13 +12,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "#/components/ui/select";
-import { getHomeData } from "#/server/home-functions";
-
-const homeQueryOptions = (storeId?: string) =>
-	queryOptions({
-		queryKey: ["homeData", storeId],
-		queryFn: () => getHomeData({ data: { storeId } }),
-	});
+import { homeQueryOptions } from "#/queries/home-queries";
 
 export const Route = createFileRoute("/_protected/_public/")({
 	validateSearch: (search: Record<string, unknown>): { storeId?: string } => {

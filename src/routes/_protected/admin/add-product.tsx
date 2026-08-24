@@ -1,30 +1,17 @@
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { ProductForm } from "#/components/ProductForm";
 import {
-	addProduct,
-	getCategories,
-	getProductById,
-	updateProduct,
-} from "#/server/product-functions";
+	categoriesQueryOptions,
+	productQueryOptions,
+} from "#/queries/product-queries";
+import { addProduct, updateProduct } from "#/server/product-functions";
 
 const searchSchema = z.object({
 	productId: z.string().optional(),
 });
-
-const categoriesQueryOptions = () =>
-	queryOptions({
-		queryKey: ["categories"],
-		queryFn: () => getCategories(),
-	});
-
-const productQueryOptions = (productId?: string) =>
-	queryOptions({
-		queryKey: ["product", productId],
-		queryFn: () => (productId ? getProductById({ data: productId }) : null),
-	});
 
 export const Route = createFileRoute("/_protected/admin/add-product")({
 	component: RouteComponent,
