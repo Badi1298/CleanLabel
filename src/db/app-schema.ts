@@ -40,6 +40,7 @@ export const products = pgTable("products", {
 	id: text("id")
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
+	barcode: text("barcode").unique(),
 	name: text("name").notNull(),
 	brand: text("brand").notNull(),
 	categoryId: text("category_id")

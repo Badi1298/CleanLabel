@@ -41,7 +41,7 @@ async function main() {
 			"https://world.openfoodfacts.org/api/v2/search?countries_tags_en=romania&fields=code,product_name,brands,categories,nutriscore_grade,image_front_url,image_ingredients_url,ingredients_text,ingredients&page_size=50",
 			{
 				headers: {
-					"User-Agent": "CleanLabelApp - Web - Version 1.0",
+					"User-Agent": "CleanLabelApp - Web - Version 1.0 (serbandavid83@gmail.com)",
 				},
 			}
 		);
@@ -92,6 +92,7 @@ async function main() {
 		const productName = product.product_name || "Unknown Product";
 		
 		const [productRecord] = await db.insert(appSchema.products).values({
+			barcode: product.code || null,
 			name: productName,
 			brand: brandName,
 			categoryId: categoryRecord.id,

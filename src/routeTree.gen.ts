@@ -13,6 +13,7 @@ import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
+import { Route as ProtectedAddProductRouteImport } from './routes/_protected/add-product'
 import { Route as ProtectedProfileRouteImport } from './routes/_protected/profile'
 import { Route as ProtectedSearchRouteImport } from './routes/_protected/search'
 import { Route as ProtectedStoresRouteImport } from './routes/_protected/stores'
@@ -36,6 +37,11 @@ const SignupRoute = SignupRouteImport.update({
 const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
+const ProtectedAddProductRoute = ProtectedAddProductRouteImport.update({
+  id: '/add-product',
+  path: '/add-product',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
 const ProtectedProfileRoute = ProtectedProfileRouteImport.update({
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/': typeof ProtectedIndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/add-product': typeof ProtectedAddProductRoute
   '/profile': typeof ProtectedProfileRoute
   '/search': typeof ProtectedSearchRoute
   '/stores': typeof ProtectedStoresRoute
@@ -77,6 +84,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/add-product': typeof ProtectedAddProductRoute
   '/profile': typeof ProtectedProfileRoute
   '/search': typeof ProtectedSearchRoute
   '/stores': typeof ProtectedStoresRoute
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/_protected/add-product': typeof ProtectedAddProductRoute
   '/_protected/profile': typeof ProtectedProfileRoute
   '/_protected/search': typeof ProtectedSearchRoute
   '/_protected/stores': typeof ProtectedStoresRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/signup'
+    | '/add-product'
     | '/profile'
     | '/search'
     | '/stores'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
   to:
     | '/login'
     | '/signup'
+    | '/add-product'
     | '/profile'
     | '/search'
     | '/stores'
@@ -122,6 +133,7 @@ export interface FileRouteTypes {
     | '/_protected'
     | '/login'
     | '/signup'
+    | '/_protected/add-product'
     | '/_protected/profile'
     | '/_protected/search'
     | '/_protected/stores'
@@ -168,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedIndexRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
+    '/_protected/add-product': {
+      id: '/_protected/add-product'
+      path: '/add-product'
+      fullPath: '/add-product'
+      preLoaderRoute: typeof ProtectedAddProductRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
     '/_protected/profile': {
       id: '/_protected/profile'
       path: '/profile'
@@ -207,6 +226,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface ProtectedRouteRouteChildren {
+  ProtectedAddProductRoute: typeof ProtectedAddProductRoute
   ProtectedProfileRoute: typeof ProtectedProfileRoute
   ProtectedSearchRoute: typeof ProtectedSearchRoute
   ProtectedStoresRoute: typeof ProtectedStoresRoute
@@ -214,6 +234,7 @@ interface ProtectedRouteRouteChildren {
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedAddProductRoute: ProtectedAddProductRoute,
   ProtectedProfileRoute: ProtectedProfileRoute,
   ProtectedSearchRoute: ProtectedSearchRoute,
   ProtectedStoresRoute: ProtectedStoresRoute,
