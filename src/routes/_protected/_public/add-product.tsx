@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-
 import { ProductForm } from "#/components/ProductForm";
+import { addProduct, getCategories } from "#/server/product-functions";
 
 const searchSchema = z.object({
 	barcode: z.string().optional(),
@@ -10,10 +11,17 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_protected/_public/add-product")({
 	component: AddProductRoute,
 	validateSearch: (search) => searchSchema.parse(search),
+	loader: async () => {
+		const categories = await getCategories();
+		return { categories };
+	},
 });
 
 function AddProductRoute() {
 	const { barcode } = Route.useSearch();
+	const { categories } = Route.useLoaderData();
+	const addProductFn = useServerFn(addProduct);
+	const router = useRouter();
 
 	return (
 		<div className="p-4 pt-12 max-w-md mx-auto mb-12">
@@ -37,10 +45,28 @@ function AddProductRoute() {
 
 			<ProductForm
 				isAdmin={false}
+				categories={categories}
 				defaultValues={{ barcode }}
-				onSubmit={(values) => {
-					console.log("Submit product photos/details:", values);
-					alert("Product submission received!");
+				onSubmit={async (values) => {
+					try {
+						await addProductFn({
+							data: {
+								barcode: values.barcode,
+								name: values.name,
+								brand: values.brand,
+								categoryId: values.categoryId,
+								score: values.score,
+								// TO DO: is this safe? can someone on the client override the status to approved?
+								status: "pending_review",
+								rawIngredientsText: values.rawIngredientsText,
+							},
+						});
+						alert("Product submission received! It will be reviewed shortly.");
+						router.history.back();
+					} catch (e) {
+						console.error(e);
+						alert("Failed to submit product.");
+					}
 				}}
 			/>
 		</div>

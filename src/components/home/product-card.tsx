@@ -55,7 +55,7 @@ export function ProductCard({ product }: ProductCardProps) {
 							<span className="text-sm mt-2 font-medium">No Image</span>
 						</div>
 					)}
-					<div className="absolute top-3 right-3 shadow-sm">
+					<div className="absolute top-3 right-3 shadow-sm rounded-lg">
 						<Badge className={scoreColors[product.score]}>
 							{scoreLabels[product.score]}
 						</Badge>
