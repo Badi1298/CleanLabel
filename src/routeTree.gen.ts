@@ -18,6 +18,7 @@ import { Route as ProtectedProfileRouteImport } from './routes/_protected/profil
 import { Route as ProtectedSearchRouteImport } from './routes/_protected/search'
 import { Route as ProtectedStoresRouteImport } from './routes/_protected/stores'
 import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
+import { Route as ProtectedAdminIndexRouteImport } from './routes/_protected/admin/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
@@ -64,6 +65,11 @@ const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
   path: '/products/$productId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedAdminIndexRoute = ProtectedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/stores': typeof ProtectedStoresRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/': typeof ProtectedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/products/$productId': typeof ProductsProductIdRoute
   '/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin': typeof ProtectedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/products/$productId': typeof ProductsProductIdRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_protected/admin/': typeof ProtectedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/stores'
     | '/products/$productId'
     | '/api/auth/$'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/products/$productId'
     | '/'
     | '/api/auth/$'
+    | '/admin'
   id:
     | '__root__'
     | '/_protected'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/products/$productId'
     | '/_protected/'
     | '/api/auth/$'
+    | '/_protected/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -215,6 +227,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/admin/': {
+      id: '/_protected/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof ProtectedAdminIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -231,6 +250,7 @@ interface ProtectedRouteRouteChildren {
   ProtectedSearchRoute: typeof ProtectedSearchRoute
   ProtectedStoresRoute: typeof ProtectedStoresRoute
   ProtectedIndexRoute: typeof ProtectedIndexRoute
+  ProtectedAdminIndexRoute: typeof ProtectedAdminIndexRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
@@ -239,6 +259,7 @@ const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedSearchRoute: ProtectedSearchRoute,
   ProtectedStoresRoute: ProtectedStoresRoute,
   ProtectedIndexRoute: ProtectedIndexRoute,
+  ProtectedAdminIndexRoute: ProtectedAdminIndexRoute,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(

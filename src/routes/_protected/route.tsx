@@ -43,7 +43,7 @@ function RouteComponent() {
 					params: { productId: result.productId },
 				});
 			} else {
-				// We use "as any" for search since we don't know if add-product has validateSearch set up yet
+				// TODO: We use "as any" for search since we don't know if add-product has validateSearch set up yet
 				navigate({ to: "/add-product", search: { barcode } as any });
 			}
 		} catch (e) {
