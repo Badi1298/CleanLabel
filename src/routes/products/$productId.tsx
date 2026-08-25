@@ -1,5 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Link,
+	notFound,
+	useRouter,
+} from "@tanstack/react-router";
 import {
 	AlertTriangle,
 	ArrowLeft,
@@ -17,8 +22,22 @@ import { productDetailsQueryOptions } from "#/queries/product-queries";
 
 export const Route = createFileRoute("/products/$productId")({
 	loader: async ({ context: { queryClient }, params: { productId } }) => {
-		await queryClient.ensureQueryData(productDetailsQueryOptions(productId));
+		const product = await queryClient.ensureQueryData(
+			productDetailsQueryOptions(productId),
+		);
+		if (!product) {
+			throw notFound();
+		}
 	},
+	notFoundComponent: () => (
+		<div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+			<Package className="w-16 h-16 text-slate-300" />
+			<h2 className="text-xl font-medium text-slate-600">Product not found</h2>
+			<Link to="/" className="text-blue-600 hover:underline">
+				Return to Home
+			</Link>
+		</div>
+	),
 	component: ProductDetails,
 });
 
@@ -49,24 +68,13 @@ function getScoreBadgeProps(score: string) {
 }
 
 function ProductDetails() {
+	const router = useRouter();
 	const { productId } = Route.useParams();
 	const { data: product } = useSuspenseQuery(
 		productDetailsQueryOptions(productId),
 	);
 
-	if (!product) {
-		return (
-			<div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-				<Package className="w-16 h-16 text-slate-300" />
-				<h2 className="text-xl font-medium text-slate-600">
-					Product not found
-				</h2>
-				<Link to="/" className="text-blue-600 hover:underline">
-					Return to Home
-				</Link>
-			</div>
-		);
-	}
+	if (!product) return null;
 
 	const scoreBadge = getScoreBadgeProps(product.score);
 
@@ -78,7 +86,7 @@ function ProductDetails() {
 					size="icon"
 					variant="ghost"
 					className="mr-3 cursor-pointer rounded-full"
-					onClick={() => window.history.back()}
+					onClick={() => router.history.back()}
 				>
 					<ArrowLeft className="w-5 h-5" />
 				</Button>
