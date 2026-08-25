@@ -25,3 +25,18 @@ export const getNeonAuthBaseUrl = createServerOnlyFn(
 export const getNeonAuthJwksUrl = createServerOnlyFn(
 	() => getServerEnv().NEON_AUTH_JWKS_URL,
 );
+export const getR2AccountId = createServerOnlyFn(
+	() => getServerEnv().R2_ACCOUNT_ID,
+);
+export const getR2AccessKeyId = createServerOnlyFn(
+	() => getServerEnv().R2_ACCESS_KEY_ID,
+);
+export const getR2SecretAccessKey = createServerOnlyFn(
+	() => getServerEnv().R2_SECRET_ACCESS_KEY,
+);
+export const getR2BucketName = createServerOnlyFn(
+	() => getServerEnv().R2_BUCKET_NAME,
+);
+export const getR2PublicDomain = createServerOnlyFn(
+	() => getServerEnv().R2_PUBLIC_DOMAIN,
+);
