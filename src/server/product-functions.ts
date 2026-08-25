@@ -19,6 +19,8 @@ const addProductSchema = z.object({
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z.enum(["pending_review", "approved", "rejected"]).default("pending_review"),
 	rawIngredientsText: z.string().optional(),
+	imageFrontUrl: z.string().optional(),
+	imageBackUrl: z.string().optional(),
 });
 
 export const addProduct = createServerFn({
@@ -38,6 +40,8 @@ export const addProduct = createServerFn({
 				score: data.score,
 				status: data.status,
 				rawIngredientsText: data.rawIngredientsText || undefined,
+				imageFrontUrl: data.imageFrontUrl || undefined,
+				imageBackUrl: data.imageBackUrl || undefined,
 				submittedById: session.user.id,
 			})
 			.returning();
@@ -82,6 +86,8 @@ const updateProductSchema = z.object({
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z.enum(["pending_review", "approved", "rejected"]).default("pending_review"),
 	rawIngredientsText: z.string().optional(),
+	imageFrontUrl: z.string().optional(),
+	imageBackUrl: z.string().optional(),
 });
 
 export const updateProduct = createServerFn({
@@ -101,6 +107,8 @@ export const updateProduct = createServerFn({
 				score: data.score,
 				status: data.status,
 				rawIngredientsText: data.rawIngredientsText || undefined,
+				imageFrontUrl: data.imageFrontUrl || undefined,
+				imageBackUrl: data.imageBackUrl || undefined,
 			})
 			.where(eq(products.id, data.id))
 			.returning();

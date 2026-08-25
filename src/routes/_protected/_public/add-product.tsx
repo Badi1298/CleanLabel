@@ -61,6 +61,8 @@ function AddProductRoute() {
 								// TO DO: is this safe? can someone on the client override the status to approved?
 								status: "pending_review",
 								rawIngredientsText: values.rawIngredientsText,
+								imageFrontUrl: typeof values.imageFront === "string" ? values.imageFront : undefined,
+								imageBackUrl: typeof values.imageBack === "string" ? values.imageBack : undefined,
 							},
 						});
 						alert("Product submission received! It will be reviewed shortly.");

@@ -9,6 +9,11 @@ const serverEnvSchema = z.object({
 	NEON_BRANCH: z.string(),
 	NEON_AUTH_BASE_URL: z.url(),
 	NEON_AUTH_JWKS_URL: z.url(),
+	R2_ACCOUNT_ID: z.string(),
+	R2_ACCESS_KEY_ID: z.string(),
+	R2_SECRET_ACCESS_KEY: z.string(),
+	R2_BUCKET_NAME: z.string(),
+	R2_PUBLIC_DOMAIN: z.string(),
 });
 
 const clientEnvSchema = z.object({

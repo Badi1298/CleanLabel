@@ -1,5 +1,7 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
 import { useForm } from "@tanstack/react-form";
+import { useServerFn } from "@tanstack/react-start";
+import imageCompression from "browser-image-compression";
 import { CameraIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "#/components/ui/button";
@@ -13,6 +15,7 @@ import {
 	SelectValue,
 } from "#/components/ui/select";
 import { Textarea } from "#/components/ui/textarea";
+import { getProductUploadUrls } from "#/server/upload-functions";
 
 export type ProductFormValues = {
 	barcode: string;
@@ -54,6 +57,7 @@ export function ProductForm({
 }) {
 	const [showFullForm, setShowFullForm] = useState(isAdmin);
 
+	const getUploadUrlsFn = useServerFn(getProductUploadUrls);
 	const form = useForm({
 		defaultValues: {
 			barcode: defaultValues?.barcode || "",
@@ -67,7 +71,49 @@ export function ProductForm({
 			imageBack: defaultValues?.imageBack,
 		},
 		onSubmit: async ({ value }) => {
-			onSubmit(value);
+			let imageFrontUrl =
+				typeof value.imageFront === "string" ? value.imageFront : undefined;
+			let imageBackUrl =
+				typeof value.imageBack === "string" ? value.imageBack : undefined;
+
+			const uploadFile = async (file: File, type: "front" | "back") => {
+				const options = {
+					maxSizeMB: 0.8,
+					maxWidthOrHeight: 2048,
+					useWebWorker: true,
+					fileType: "image/jpeg",
+				};
+				const compressedBlob = await imageCompression(file, options);
+				const compressedFile = new File([compressedBlob], file.name, {
+					type: "image/jpeg",
+				});
+
+				const { uploadUrl, publicUrl } = await getUploadUrlsFn({
+					data: { fileType: "image/jpeg", type },
+				});
+
+				const response = await fetch(uploadUrl, {
+					method: "PUT",
+					body: compressedFile,
+					headers: { "Content-Type": "image/jpeg" },
+				});
+
+				if (!response.ok) throw new Error(`Failed to upload ${type} image`);
+				return publicUrl;
+			};
+
+			if (value.imageFront instanceof File) {
+				imageFrontUrl = await uploadFile(value.imageFront, "front");
+			}
+			if (value.imageBack instanceof File) {
+				imageBackUrl = await uploadFile(value.imageBack, "back");
+			}
+
+			onSubmit({
+				...value,
+				imageFront: imageFrontUrl,
+				imageBack: imageBackUrl,
+			});
 		},
 	});
 
@@ -88,27 +134,44 @@ export function ProductForm({
 						children={(field) => (
 							<div className="space-y-2">
 								<Label htmlFor="imageFront">Front Photo</Label>
-								<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative">
+								<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
 									<Input
 										id="imageFront"
 										type="file"
 										accept="image/*"
 										capture="environment"
-										className="absolute inset-0 opacity-0 cursor-pointer"
+										className="absolute inset-0 opacity-0 cursor-pointer z-10"
 										onChange={(e) => {
 											if (e.target.files?.[0]) {
 												field.handleChange(e.target.files[0]);
 											}
 										}}
 									/>
-									<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
-									<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-										{field.state.value instanceof File
-											? field.state.value.name
-											: field.state.value
-												? "Photo Selected"
-												: "Take a photo of the front"}
-									</span>
+									{field.state.value ? (
+										<div className="absolute inset-0">
+											<img
+												src={
+													field.state.value instanceof File
+														? URL.createObjectURL(field.state.value)
+														: (field.state.value as string)
+												}
+												alt="Front preview"
+												className="w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity"
+											/>
+											<div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
+												<span className="text-white font-medium drop-shadow-md">
+													Change Photo
+												</span>
+											</div>
+										</div>
+									) : (
+										<>
+											<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
+											<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+												Take a photo of the front
+											</span>
+										</>
+									)}
 								</div>
 								<FieldInfo field={field} />
 							</div>
@@ -122,27 +185,44 @@ export function ProductForm({
 								<Label htmlFor="imageBack">
 									Back Photo (Ingredients & Barcode)
 								</Label>
-								<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative">
+								<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
 									<Input
 										id="imageBack"
 										type="file"
 										accept="image/*"
 										capture="environment"
-										className="absolute inset-0 opacity-0 cursor-pointer"
+										className="absolute inset-0 opacity-0 cursor-pointer z-10"
 										onChange={(e) => {
 											if (e.target.files?.[0]) {
 												field.handleChange(e.target.files[0]);
 											}
 										}}
 									/>
-									<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
-									<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-										{field.state.value instanceof File
-											? field.state.value.name
-											: field.state.value
-												? "Photo Selected"
-												: "Take a photo of the back"}
-									</span>
+									{field.state.value ? (
+										<div className="absolute inset-0">
+											<img
+												src={
+													field.state.value instanceof File
+														? URL.createObjectURL(field.state.value)
+														: (field.state.value as string)
+												}
+												alt="Back preview"
+												className="w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity"
+											/>
+											<div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
+												<span className="text-white font-medium drop-shadow-md">
+													Change Photo
+												</span>
+											</div>
+										</div>
+									) : (
+										<>
+											<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
+											<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+												Take a photo of the back
+											</span>
+										</>
+									)}
 								</div>
 								<FieldInfo field={field} />
 							</div>
