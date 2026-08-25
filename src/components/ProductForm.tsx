@@ -1,7 +1,5 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
 import { useForm } from "@tanstack/react-form";
-import { useServerFn } from "@tanstack/react-start";
-import imageCompression from "browser-image-compression";
 import { CameraIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "#/components/ui/button";
@@ -15,7 +13,7 @@ import {
 	SelectValue,
 } from "#/components/ui/select";
 import { Textarea } from "#/components/ui/textarea";
-import { getProductUploadUrls } from "#/server/upload-functions";
+import { useImageUploadMutation } from "#/hooks/use-image-upload-mutation";
 
 export type ProductFormValues = {
 	barcode: string;
@@ -57,7 +55,7 @@ export function ProductForm({
 }) {
 	const [showFullForm, setShowFullForm] = useState(isAdmin);
 
-	const getUploadUrlsFn = useServerFn(getProductUploadUrls);
+	const imageUploadMutation = useImageUploadMutation();
 	const form = useForm({
 		defaultValues: {
 			barcode: defaultValues?.barcode || "",
@@ -76,37 +74,17 @@ export function ProductForm({
 			let imageBackUrl =
 				typeof value.imageBack === "string" ? value.imageBack : undefined;
 
-			const uploadFile = async (file: File, type: "front" | "back") => {
-				const options = {
-					maxSizeMB: 0.8,
-					maxWidthOrHeight: 2048,
-					useWebWorker: true,
-					fileType: "image/jpeg",
-				};
-				const compressedBlob = await imageCompression(file, options);
-				const compressedFile = new File([compressedBlob], file.name, {
-					type: "image/jpeg",
-				});
-
-				const { uploadUrl, publicUrl } = await getUploadUrlsFn({
-					data: { fileType: "image/jpeg", type },
-				});
-
-				const response = await fetch(uploadUrl, {
-					method: "PUT",
-					body: compressedFile,
-					headers: { "Content-Type": "image/jpeg" },
-				});
-
-				if (!response.ok) throw new Error(`Failed to upload ${type} image`);
-				return publicUrl;
-			};
-
 			if (value.imageFront instanceof File) {
-				imageFrontUrl = await uploadFile(value.imageFront, "front");
+				imageFrontUrl = await imageUploadMutation.mutateAsync({
+					file: value.imageFront,
+					type: "front",
+				});
 			}
 			if (value.imageBack instanceof File) {
-				imageBackUrl = await uploadFile(value.imageBack, "back");
+				imageBackUrl = await imageUploadMutation.mutateAsync({
+					file: value.imageBack,
+					type: "back",
+				});
 			}
 
 			onSubmit({
