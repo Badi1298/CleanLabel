@@ -13,7 +13,7 @@ import type { ColumnFiltersState } from "@tanstack/react-table";
 import { allProductsQueryOptions } from "#/queries/product-queries";
 import type { getAllProducts } from "#/server/product-functions";
 
-export const Route = createFileRoute("/_protected/admin/review-products")({
+export const Route = createFileRoute("/_protected/admin/all-products")({
 	component: RouteComponent,
 	loader: async ({ context: { queryClient } }) =>
 		await queryClient.ensureQueryData(allProductsQueryOptions()),
