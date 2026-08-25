@@ -2,12 +2,14 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { toast } from "sonner";
 import { z } from "zod";
 import { ProductForm } from "#/components/ProductForm";
 import {
 	categoriesQueryOptions,
 	productQueryOptions,
 } from "#/queries/product-queries";
+import { storesQueryOptions } from "#/queries/store-queries";
 import { addProduct, updateProduct } from "#/server/product-functions";
 
 const searchSchema = z.object({
@@ -22,10 +24,11 @@ export const Route = createFileRoute("/_protected/admin/add-product")({
 		const categoriesPromise = queryClient.ensureQueryData(
 			categoriesQueryOptions(),
 		);
+		const storesPromise = queryClient.ensureQueryData(storesQueryOptions());
 		const productPromise = productId
 			? queryClient.ensureQueryData(productQueryOptions(productId))
 			: Promise.resolve(null);
-		await Promise.all([categoriesPromise, productPromise]);
+		await Promise.all([categoriesPromise, storesPromise, productPromise]);
 	},
 });
 
@@ -33,6 +36,9 @@ function RouteComponent() {
 	const { productId } = Route.useSearch();
 	const { data: categories } = useSuspenseQuery({
 		...categoriesQueryOptions(),
+	});
+	const { data: stores } = useSuspenseQuery({
+		...storesQueryOptions(),
 	});
 	const { data: product } = useSuspenseQuery({
 		...productQueryOptions(productId),
@@ -93,6 +99,7 @@ function RouteComponent() {
 					<ProductForm
 						isAdmin={true}
 						categories={categories}
+						stores={stores}
 						defaultValues={
 							product
 								? {
@@ -105,6 +112,8 @@ function RouteComponent() {
 										rawIngredientsText: product.rawIngredientsText || "",
 										imageFront: product.imageFrontUrl || undefined,
 										imageBack: product.imageBackUrl || undefined,
+										storeIds:
+											product.productStores?.map((ps: any) => ps.storeId) || [],
 									}
 								: undefined
 						}
@@ -123,9 +132,10 @@ function RouteComponent() {
 												typeof values.imageBack === "string"
 													? values.imageBack
 													: undefined,
+											storeIds: values.storeIds,
 										},
 									});
-									alert("Product updated successfully!");
+									toast.success("Product updated successfully!");
 								} else {
 									await addProductFn({
 										data: {
@@ -144,14 +154,15 @@ function RouteComponent() {
 												typeof values.imageBack === "string"
 													? values.imageBack
 													: undefined,
+											storeIds: values.storeIds,
 										},
 									});
-									alert("Product created successfully!");
+									toast.success("Product created successfully!");
 								}
 								router.history.back();
 							} catch (e) {
 								console.error(e);
-								alert("Failed to submit product.");
+								toast.error("Failed to submit product.");
 							}
 						}}
 					/>

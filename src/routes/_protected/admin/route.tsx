@@ -49,14 +49,19 @@ function RouteComponent() {
 				title: "Logistics",
 				items: [
 					{
+						title: "All Products",
+						url: "/admin/all-products",
+						isActive: location.pathname === "/admin/all-products",
+					},
+					{
 						title: "Add Product",
 						url: "/admin/add-product",
 						isActive: location.pathname === "/admin/add-product",
 					},
 					{
-						title: "Review Products",
-						url: "/admin/review-products",
-						isActive: location.pathname === "/admin/review-products",
+						title: "Add Store",
+						url: "/admin/add-store",
+						isActive: location.pathname === "/admin/add-store",
 					},
 				],
 			},
