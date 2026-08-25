@@ -49,9 +49,6 @@ function RouteComponent() {
 
 	return (
 		<div className="px-4 mt-4 max-w-7xl mx-auto mb-12">
-			<h1 className="text-2xl font-bold mb-6">
-				{product ? "Review Product" : "Add Product"}
-			</h1>
 			<div
 				className={`grid gap-8 ${product ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1 max-w-2xl mx-auto"}`}
 			>

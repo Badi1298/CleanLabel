@@ -55,7 +55,6 @@ function RouteComponent() {
 
 	return (
 		<div className="px-4 mt-4 max-w-2xl mx-auto mb-12">
-			<h1 className="text-2xl font-bold mb-6">Add Store</h1>
 			<div className="bg-white/50 dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 h-fit">
 				<form
 					onSubmit={(e) => {
