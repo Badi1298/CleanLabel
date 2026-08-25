@@ -3,6 +3,7 @@ import {
 	getAllProducts,
 	getCategories,
 	getProductById,
+	getProductDetailsById,
 } from "#/server/product-functions";
 
 export const categoriesQueryOptions = () =>
@@ -28,4 +29,10 @@ export const allProductsQueryOptions = (args: ProductQueryArgs) =>
 	queryOptions({
 		queryKey: ["allProducts", args],
 		queryFn: () => getAllProducts({ data: args }),
+	});
+
+export const productDetailsQueryOptions = (productId: string) =>
+	queryOptions({
+		queryKey: ["productDetails", productId],
+		queryFn: () => getProductDetailsById({ data: productId }),
 	});
