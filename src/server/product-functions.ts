@@ -115,3 +115,28 @@ export const updateProduct = createServerFn({
 
 		return updatedProduct;
 	});
+
+export const getProductDetailsById = createServerFn({
+	method: "GET",
+})
+	.validator((productId: string) => productId)
+	.handler(async ({ data: productId }) => {
+		const product = await db.query.products.findFirst({
+			where: (products, { eq }) => eq(products.id, productId),
+			with: {
+				category: true,
+				submittedBy: true,
+				productIngredients: {
+					with: {
+						ingredient: true,
+					},
+				},
+				productStores: {
+					with: {
+						store: true,
+					},
+				},
+			},
+		});
+		return product;
+	});
