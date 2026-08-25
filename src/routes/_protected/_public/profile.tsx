@@ -27,7 +27,7 @@ function RouteComponent() {
 							variant="outline"
 							className="px-4 py-2 font-medium rounded-md transition-colors"
 						>
-							<Link to="/admin">Admin Panel</Link>
+							<Link to="/admin/all-products">Admin Panel</Link>
 						</Button>
 					) : (
 						isPending && <Skeleton className="w-24 h-9 rounded-md" />
