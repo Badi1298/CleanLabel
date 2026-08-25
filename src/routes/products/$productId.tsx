@@ -75,10 +75,12 @@ function ProductDetails() {
 			{/* Header / Navigation */}
 			<header className="sticky top-0 z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center">
 				<Button
-					className="mr-3 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
+					size="icon"
+					variant="ghost"
+					className="mr-3 cursor-pointer rounded-full"
 					onClick={() => window.history.back()}
 				>
-					<ArrowLeft className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+					<ArrowLeft className="w-5 h-5" />
 				</Button>
 				<h1 className="font-semibold text-lg truncate flex-1">
 					{product.name}
