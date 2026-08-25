@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { PaginationState } from "@tanstack/react-table";
 import {
@@ -120,7 +120,9 @@ function RouteComponent() {
 	});
 	const [globalFilter, setGlobalFilter] = useState<string>("");
 	const [statusFilter, setStatusFilter] = useState<string>("all");
-	const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>({});
+	const [columnVisibility, setColumnVisibility] = useState<
+		Record<string, boolean>
+	>({});
 
 	const queryArgs = useMemo(
 		() => ({
@@ -132,8 +134,9 @@ function RouteComponent() {
 		[pagination, globalFilter, statusFilter],
 	);
 
-	const { data: result } = useSuspenseQuery({
+	const { data: result } = useQuery({
 		...allProductsQueryOptions(queryArgs),
+		placeholderData: keepPreviousData,
 	});
 
 	const table = useTable<typeof features, ProductData>({
@@ -164,7 +167,10 @@ function RouteComponent() {
 						<Input
 							type="text"
 							value={globalFilter ?? ""}
-							onChange={(e) => setGlobalFilter(e.target.value)}
+							onChange={(e) => {
+								setGlobalFilter(e.target.value);
+								setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+							}}
 							className="pl-9 bg-white dark:bg-slate-900"
 							placeholder="Search products or brands..."
 						/>
@@ -176,7 +182,10 @@ function RouteComponent() {
 								key={status}
 								variant={statusFilter === status ? "default" : "ghost"}
 								size="sm"
-								onClick={() => setStatusFilter(status)}
+								onClick={() => {
+									setStatusFilter(status);
+									setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+								}}
 								className="h-7 text-xs px-3 font-medium transition-all"
 							>
 								{status === "all"
