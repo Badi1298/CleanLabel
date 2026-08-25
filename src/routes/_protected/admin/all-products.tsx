@@ -12,7 +12,7 @@ import {
 	useTable,
 } from "@tanstack/react-table";
 import { ChevronDown, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import {
@@ -22,6 +22,7 @@ import {
 	DropdownMenuTrigger,
 } from "#/components/ui/dropdown-menu";
 import { Input } from "#/components/ui/input";
+import { useDebounce } from "#/hooks/use-debounce";
 import { allProductsQueryOptions } from "#/queries/product-queries";
 import type { getAllProducts } from "#/server/product-functions";
 
@@ -120,7 +121,16 @@ function RouteComponent() {
 		pageIndex: 0,
 		pageSize: 10,
 	});
-	const [globalFilter, setGlobalFilter] = useState<string>("");
+	const [searchInput, setSearchInput] = useState<string>("");
+	const debouncedSearch = useDebounce(searchInput, 1000);
+
+	const [prevSearch, setPrevSearch] = useState(debouncedSearch);
+	if (debouncedSearch !== prevSearch) {
+		setPrevSearch(debouncedSearch);
+		setPagination((prev) =>
+			prev.pageIndex !== 0 ? { ...prev, pageIndex: 0 } : prev,
+		);
+	}
 	const [statusFilter, setStatusFilter] = useState<string>("all");
 	const [columnVisibility, setColumnVisibility] = useState<
 		Record<string, boolean>
@@ -130,10 +140,10 @@ function RouteComponent() {
 		() => ({
 			pageIndex: pagination.pageIndex,
 			pageSize: pagination.pageSize,
-			globalFilter,
+			globalFilter: debouncedSearch,
 			statusFilter,
 		}),
-		[pagination, globalFilter, statusFilter],
+		[pagination, debouncedSearch, statusFilter],
 	);
 
 	const { data: result } = useQuery({
@@ -147,14 +157,13 @@ function RouteComponent() {
 		columns: columns as any,
 		state: {
 			pagination,
-			globalFilter,
+			globalFilter: debouncedSearch,
 			columnVisibility,
 		},
 		rowCount: result?.rowCount ?? 0,
 		manualPagination: true,
 		manualFiltering: true,
 		onPaginationChange: setPagination,
-		onGlobalFilterChange: setGlobalFilter,
 		onColumnVisibilityChange: setColumnVisibility,
 	});
 
@@ -168,11 +177,8 @@ function RouteComponent() {
 						</div>
 						<Input
 							type="text"
-							value={globalFilter ?? ""}
-							onChange={(e) => {
-								setGlobalFilter(e.target.value);
-								setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-							}}
+							value={searchInput}
+							onChange={(e) => setSearchInput(e.target.value)}
 							className="pl-9 bg-white dark:bg-slate-900"
 							placeholder="Search products or brands..."
 						/>
