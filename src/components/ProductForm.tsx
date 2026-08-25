@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
+import { MultiSelect } from "#/components/ui/multi-select";
 import {
 	Select,
 	SelectContent,
@@ -25,6 +26,7 @@ export type ProductFormValues = {
 	rawIngredientsText: string;
 	imageFront: string | File | undefined;
 	imageBack: string | File | undefined;
+	storeIds: string[];
 };
 
 function FieldInfo({ field }: { field: any }) {
@@ -46,11 +48,13 @@ export function ProductForm({
 	isAdmin = false,
 	defaultValues,
 	categories = [],
+	stores = [],
 	onSubmit,
 }: {
 	isAdmin?: boolean;
 	defaultValues?: Partial<ProductFormValues>;
 	categories?: { id: string; name: string }[];
+	stores?: { id: string; name: string }[];
 	onSubmit: (values: ProductFormValues) => void;
 }) {
 	const [showFullForm, setShowFullForm] = useState(isAdmin);
@@ -67,6 +71,7 @@ export function ProductForm({
 			rawIngredientsText: defaultValues?.rawIngredientsText || "",
 			imageFront: defaultValues?.imageFront,
 			imageBack: defaultValues?.imageBack,
+			storeIds: defaultValues?.storeIds || [],
 		},
 		onSubmit: async ({ value }) => {
 			let imageFrontUrl =
@@ -353,6 +358,29 @@ export function ProductForm({
 							</div>
 						)}
 					/>
+
+					{isAdmin && (
+						<form.Field
+							name="storeIds"
+							children={(field) => (
+								<div className="space-y-2">
+									<Label htmlFor={field.name}>Available At (Stores)</Label>
+									<MultiSelect
+										options={
+											stores?.map((s) => ({
+												label: s.name,
+												value: s.id,
+											})) || []
+										}
+										selected={field.state.value}
+										onChange={(values) => field.handleChange(values)}
+										placeholder="Select stores..."
+									/>
+									<FieldInfo field={field} />
+								</div>
+							)}
+						/>
+					)}
 
 					{isAdmin && (
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">

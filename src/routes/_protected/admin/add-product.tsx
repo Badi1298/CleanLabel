@@ -8,6 +8,7 @@ import {
 	categoriesQueryOptions,
 	productQueryOptions,
 } from "#/queries/product-queries";
+import { storesQueryOptions } from "#/queries/store-queries";
 import { addProduct, updateProduct } from "#/server/product-functions";
 
 const searchSchema = z.object({
@@ -22,10 +23,11 @@ export const Route = createFileRoute("/_protected/admin/add-product")({
 		const categoriesPromise = queryClient.ensureQueryData(
 			categoriesQueryOptions(),
 		);
+		const storesPromise = queryClient.ensureQueryData(storesQueryOptions());
 		const productPromise = productId
 			? queryClient.ensureQueryData(productQueryOptions(productId))
 			: Promise.resolve(null);
-		await Promise.all([categoriesPromise, productPromise]);
+		await Promise.all([categoriesPromise, storesPromise, productPromise]);
 	},
 });
 
@@ -33,6 +35,9 @@ function RouteComponent() {
 	const { productId } = Route.useSearch();
 	const { data: categories } = useSuspenseQuery({
 		...categoriesQueryOptions(),
+	});
+	const { data: stores } = useSuspenseQuery({
+		...storesQueryOptions(),
 	});
 	const { data: product } = useSuspenseQuery({
 		...productQueryOptions(productId),
@@ -93,6 +98,7 @@ function RouteComponent() {
 					<ProductForm
 						isAdmin={true}
 						categories={categories}
+						stores={stores}
 						defaultValues={
 							product
 								? {
@@ -105,6 +111,8 @@ function RouteComponent() {
 										rawIngredientsText: product.rawIngredientsText || "",
 										imageFront: product.imageFrontUrl || undefined,
 										imageBack: product.imageBackUrl || undefined,
+										storeIds:
+											product.productStores?.map((ps: any) => ps.storeId) || [],
 									}
 								: undefined
 						}
@@ -123,6 +131,7 @@ function RouteComponent() {
 												typeof values.imageBack === "string"
 													? values.imageBack
 													: undefined,
+											storeIds: values.storeIds,
 										},
 									});
 									alert("Product updated successfully!");
@@ -144,6 +153,7 @@ function RouteComponent() {
 												typeof values.imageBack === "string"
 													? values.imageBack
 													: undefined,
+											storeIds: values.storeIds,
 										},
 									});
 									alert("Product created successfully!");

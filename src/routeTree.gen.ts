@@ -21,6 +21,7 @@ import { Route as ProtectedPublicSearchRouteImport } from './routes/_protected/_
 import { Route as ProtectedPublicStoresRouteImport } from './routes/_protected/_public/stores'
 import { Route as ProtectedAdminIndexRouteImport } from './routes/_protected/admin/index'
 import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protected/admin/add-product'
+import { Route as ProtectedAdminAddStoreRouteImport } from './routes/_protected/admin/add-store'
 import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protected/admin/all-products'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
@@ -85,6 +86,11 @@ const ProtectedAdminAddProductRoute =
     path: '/add-product',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
+const ProtectedAdminAddStoreRoute = ProtectedAdminAddStoreRouteImport.update({
+  id: '/add-store',
+  path: '/add-store',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminAllProductsRoute =
   ProtectedAdminAllProductsRouteImport.update({
     id: '/all-products',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof ProtectedPublicSearchRoute
   '/stores': typeof ProtectedPublicStoresRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
+  '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/admin/': typeof ProtectedAdminIndexRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/search': typeof ProtectedPublicSearchRoute
   '/stores': typeof ProtectedPublicStoresRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
+  '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/': typeof ProtectedPublicIndexRoute
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/_protected/_public/search': typeof ProtectedPublicSearchRoute
   '/_protected/_public/stores': typeof ProtectedPublicStoresRoute
   '/_protected/admin/add-product': typeof ProtectedAdminAddProductRoute
+  '/_protected/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/_protected/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/stores'
     | '/admin/add-product'
+    | '/admin/add-store'
     | '/admin/all-products'
     | '/api/auth/$'
     | '/admin/'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/stores'
     | '/admin/add-product'
+    | '/admin/add-store'
     | '/admin/all-products'
     | '/api/auth/$'
     | '/'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/_protected/_public/search'
     | '/_protected/_public/stores'
     | '/_protected/admin/add-product'
+    | '/_protected/admin/add-store'
     | '/_protected/admin/all-products'
     | '/api/auth/$'
     | '/_protected/_public/'
@@ -286,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminAddProductRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/add-store': {
+      id: '/_protected/admin/add-store'
+      path: '/add-store'
+      fullPath: '/admin/add-store'
+      preLoaderRoute: typeof ProtectedAdminAddStoreRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/all-products': {
       id: '/_protected/admin/all-products'
       path: '/all-products'
@@ -324,12 +343,14 @@ const ProtectedPublicRouteRouteWithChildren =
 
 interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminAddProductRoute: typeof ProtectedAdminAddProductRoute
+  ProtectedAdminAddStoreRoute: typeof ProtectedAdminAddStoreRoute
   ProtectedAdminAllProductsRoute: typeof ProtectedAdminAllProductsRoute
   ProtectedAdminIndexRoute: typeof ProtectedAdminIndexRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminAddProductRoute: ProtectedAdminAddProductRoute,
+  ProtectedAdminAddStoreRoute: ProtectedAdminAddStoreRoute,
   ProtectedAdminAllProductsRoute: ProtectedAdminAllProductsRoute,
   ProtectedAdminIndexRoute: ProtectedAdminIndexRoute,
 }

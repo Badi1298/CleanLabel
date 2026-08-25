@@ -58,6 +58,11 @@ function RouteComponent() {
 						url: "/admin/add-product",
 						isActive: location.pathname === "/admin/add-product",
 					},
+					{
+						title: "Add Store",
+						url: "/admin/add-store",
+						isActive: location.pathname === "/admin/add-store",
+					},
 				],
 			},
 		],

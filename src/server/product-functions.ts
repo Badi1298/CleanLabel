@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { and, count, eq, ilike, or } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
-import { categories, products } from "#/db/app-schema";
+import { categories, productStores, products } from "#/db/app-schema";
 import { ensureSession } from "./auth-functions";
 
 export const getCategories = createServerFn({
@@ -23,6 +23,7 @@ const addProductSchema = z.object({
 	rawIngredientsText: z.string().optional(),
 	imageFrontUrl: z.string().optional(),
 	imageBackUrl: z.string().optional(),
+	storeIds: z.array(z.string()).optional(),
 });
 
 export const addProduct = createServerFn({
@@ -47,6 +48,15 @@ export const addProduct = createServerFn({
 				submittedById: session.user.id,
 			})
 			.returning();
+
+		if (data.storeIds && data.storeIds.length > 0) {
+			await db.insert(productStores).values(
+				data.storeIds.map((storeId) => ({
+					productId: newProduct.id,
+					storeId,
+				})),
+			);
+		}
 
 		return newProduct;
 	});
@@ -117,10 +127,12 @@ export const getProductById = createServerFn({
 	.validator((productId: string) => productId)
 	.handler(async ({ data: productId }) => {
 		await ensureSession();
-		const [product] = await db
-			.select()
-			.from(products)
-			.where(eq(products.id, productId));
+		const product = await db.query.products.findFirst({
+			where: eq(products.id, productId),
+			with: {
+				productStores: true,
+			},
+		});
 		return product;
 	});
 
@@ -137,6 +149,7 @@ const updateProductSchema = z.object({
 	rawIngredientsText: z.string().optional(),
 	imageFrontUrl: z.string().optional(),
 	imageBackUrl: z.string().optional(),
+	storeIds: z.array(z.string()).optional(),
 });
 
 export const updateProduct = createServerFn({
@@ -161,6 +174,20 @@ export const updateProduct = createServerFn({
 			})
 			.where(eq(products.id, data.id))
 			.returning();
+
+		if (data.storeIds !== undefined) {
+			await db
+				.delete(productStores)
+				.where(eq(productStores.productId, data.id));
+			if (data.storeIds.length > 0) {
+				await db.insert(productStores).values(
+					data.storeIds.map((storeId) => ({
+						productId: data.id,
+						storeId,
+					})),
+				);
+			}
+		}
 
 		return updatedProduct;
 	});
