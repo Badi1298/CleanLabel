@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import {
+	getAllProducts,
 	getCategories,
-	getPendingProducts,
 	getProductById,
 } from "#/server/product-functions";
 
@@ -17,8 +17,8 @@ export const productQueryOptions = (productId?: string) =>
 		queryFn: () => (productId ? getProductById({ data: productId }) : null),
 	});
 
-export const pendingProductsQueryOptions = () =>
+export const allProductsQueryOptions = () =>
 	queryOptions({
-		queryKey: ["pendingProducts"],
-		queryFn: () => getPendingProducts(),
+		queryKey: ["allProducts"],
+		queryFn: () => getAllProducts(),
 	});

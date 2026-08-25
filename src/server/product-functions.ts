@@ -17,7 +17,9 @@ const addProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryId: z.string().min(1, "Category is required"),
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
-	status: z.enum(["pending_review", "approved", "rejected"]).default("pending_review"),
+	status: z
+		.enum(["pending_review", "approved", "rejected"])
+		.default("pending_review"),
 	rawIngredientsText: z.string().optional(),
 	imageFrontUrl: z.string().optional(),
 	imageBackUrl: z.string().optional(),
@@ -49,7 +51,7 @@ export const addProduct = createServerFn({
 		return newProduct;
 	});
 
-export const getPendingProducts = createServerFn({
+export const getAllProducts = createServerFn({
 	method: "GET",
 }).handler(async () => {
 	await ensureSession();
@@ -60,7 +62,6 @@ export const getPendingProducts = createServerFn({
 		})
 		.from(products)
 		.leftJoin(categories, eq(products.categoryId, categories.id))
-		.where(eq(products.status, "pending_review"))
 		.orderBy(products.createdAt);
 });
 
@@ -84,7 +85,9 @@ const updateProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryId: z.string().min(1, "Category is required"),
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
-	status: z.enum(["pending_review", "approved", "rejected"]).default("pending_review"),
+	status: z
+		.enum(["pending_review", "approved", "rejected"])
+		.default("pending_review"),
 	rawIngredientsText: z.string().optional(),
 	imageFrontUrl: z.string().optional(),
 	imageBackUrl: z.string().optional(),

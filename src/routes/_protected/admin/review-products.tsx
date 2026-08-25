@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
@@ -5,25 +6,32 @@ import {
 	flexRender,
 	tableFeatures,
 	useTable,
+	columnFilteringFeature,
+	createFilteredRowModel,
 } from "@tanstack/react-table";
-import { pendingProductsQueryOptions } from "#/queries/product-queries";
-import type { getPendingProducts } from "#/server/product-functions";
+import type { ColumnFiltersState } from "@tanstack/react-table";
+import { allProductsQueryOptions } from "#/queries/product-queries";
+import type { getAllProducts } from "#/server/product-functions";
 
 export const Route = createFileRoute("/_protected/admin/review-products")({
 	component: RouteComponent,
 	loader: async ({ context: { queryClient } }) =>
-		await queryClient.ensureQueryData(pendingProductsQueryOptions()),
+		await queryClient.ensureQueryData(allProductsQueryOptions()),
 });
 
-type ProductData = Awaited<ReturnType<typeof getPendingProducts>>[0];
+type ProductData = Awaited<ReturnType<typeof getAllProducts>>[0];
 
-const features = tableFeatures({});
+const features = tableFeatures({
+	columnFilteringFeature,
+	filteredRowModel: createFilteredRowModel(),
+});
 const columnHelper = createColumnHelper<typeof features, ProductData>();
 
 const columns = [
 	columnHelper.accessor((row) => row.product.name, {
 		id: "name",
 		header: "Name",
+		enableColumnFilter: false,
 		cell: (info) => (
 			<span className="font-medium text-slate-900 dark:text-slate-100">
 				{info.getValue()}
@@ -33,20 +41,27 @@ const columns = [
 	columnHelper.accessor((row) => row.category?.name, {
 		id: "category",
 		header: "Category",
+		enableColumnFilter: false,
 		cell: (info) => info.getValue() || "N/A",
 	}),
 	columnHelper.accessor((row) => row.product.status, {
 		id: "status",
 		header: "Status",
+		enableColumnFilter: true,
 		cell: (info) => (
 			<span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800">
 				{info.getValue().replace("_", " ")}
 			</span>
 		),
+		filterFn: (row, columnId, value) => {
+			if (!value || value === "all") return true;
+			return row.getValue(columnId) === value;
+		},
 	}),
 	columnHelper.accessor((row) => row.product.createdAt, {
 		id: "date",
 		header: "Date Added",
+		enableColumnFilter: false,
 		cell: (info) => {
 			const date = new Date(info.getValue());
 			return date.toLocaleDateString();
@@ -55,6 +70,7 @@ const columns = [
 	columnHelper.display({
 		id: "actions",
 		header: "Actions",
+		enableColumnFilter: false,
 		cell: (info) => (
 			<Link
 				to="/admin/add-product"
@@ -69,13 +85,19 @@ const columns = [
 
 function RouteComponent() {
 	const { data: products } = useSuspenseQuery({
-		...pendingProductsQueryOptions(),
+		...allProductsQueryOptions(),
 	});
+
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
 	const table = useTable<typeof features, ProductData>({
 		features,
 		data: products,
 		columns: columns as any,
+		state: {
+			columnFilters,
+		},
+		onColumnFiltersChange: setColumnFilters,
 	});
 
 	return (
@@ -85,7 +107,7 @@ function RouteComponent() {
 					Review Products
 				</h1>
 				<span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-1 px-3 rounded-full text-sm font-medium border border-slate-200 dark:border-slate-700">
-					{products.length} pending
+					{table.getRowModel().rows.length} products
 				</span>
 			</div>
 
@@ -96,13 +118,34 @@ function RouteComponent() {
 							{table.getHeaderGroups().map((headerGroup) => (
 								<tr key={headerGroup.id}>
 									{headerGroup.headers.map((header) => (
-										<th key={header.id} className="px-6 py-4 font-medium">
-											{header.isPlaceholder
-												? null
-												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
+										<th key={header.id} className="px-6 py-4 font-medium align-top">
+											{header.isPlaceholder ? null : (
+												<div className="flex flex-col gap-2">
+													<div>
+														{flexRender(
+															header.column.columnDef.header,
+															header.getContext(),
+														)}
+													</div>
+													{header.column.getCanFilter() ? (
+														<div>
+															<select
+																value={(header.column.getFilterValue() ?? "all") as string}
+																onChange={(e) => {
+																	const val = e.target.value;
+																	header.column.setFilterValue(val === "all" ? undefined : val);
+																}}
+																className="block w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs py-1 px-2"
+															>
+																<option value="all">All</option>
+																<option value="pending_review">Pending Review</option>
+																<option value="approved">Approved</option>
+																<option value="rejected">Rejected</option>
+															</select>
+														</div>
+													) : null}
+												</div>
+											)}
 										</th>
 									))}
 								</tr>
