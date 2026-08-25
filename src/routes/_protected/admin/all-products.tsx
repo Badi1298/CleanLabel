@@ -1,29 +1,52 @@
-import { useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { PaginationState } from "@tanstack/react-table";
 import {
+	columnFilteringFeature,
+	columnVisibilityFeature,
 	createColumnHelper,
 	flexRender,
+	globalFilteringFeature,
+	rowPaginationFeature,
 	tableFeatures,
 	useTable,
-	columnFilteringFeature,
-	createFilteredRowModel,
 } from "@tanstack/react-table";
-import type { ColumnFiltersState } from "@tanstack/react-table";
+import { ChevronDown, Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Badge } from "#/components/ui/badge";
+import { Button } from "#/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuCheckboxItem,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+} from "#/components/ui/dropdown-menu";
+import { Input } from "#/components/ui/input";
 import { allProductsQueryOptions } from "#/queries/product-queries";
 import type { getAllProducts } from "#/server/product-functions";
 
 export const Route = createFileRoute("/_protected/admin/all-products")({
 	component: RouteComponent,
 	loader: async ({ context: { queryClient } }) =>
-		await queryClient.ensureQueryData(allProductsQueryOptions()),
+		await queryClient.ensureQueryData(
+			allProductsQueryOptions({
+				pageIndex: 0,
+				pageSize: 10,
+				globalFilter: "",
+				statusFilter: "all",
+			}),
+		),
 });
 
-type ProductData = Awaited<ReturnType<typeof getAllProducts>>[0];
+type ProductData = NonNullable<
+	Awaited<ReturnType<typeof getAllProducts>>["data"]
+>[0];
 
 const features = tableFeatures({
 	columnFilteringFeature,
-	filteredRowModel: createFilteredRowModel(),
+	globalFilteringFeature,
+	columnVisibilityFeature,
+	rowPaginationFeature,
 });
 const columnHelper = createColumnHelper<typeof features, ProductData>();
 
@@ -47,15 +70,22 @@ const columns = [
 	columnHelper.accessor((row) => row.product.status, {
 		id: "status",
 		header: "Status",
-		enableColumnFilter: true,
-		cell: (info) => (
-			<span className="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800">
-				{info.getValue().replace("_", " ")}
-			</span>
-		),
-		filterFn: (row, columnId, value) => {
-			if (!value || value === "all") return true;
-			return row.getValue(columnId) === value;
+		enableColumnFilter: false,
+		cell: (info) => {
+			const status = info.getValue();
+			return (
+				<Badge
+					variant={
+						status === "rejected"
+							? "destructive"
+							: status === "approved"
+								? "default"
+								: "secondary"
+					}
+				>
+					{status.replace("_", " ")}
+				</Badge>
+			);
 		},
 	}),
 	columnHelper.accessor((row) => row.product.createdAt, {
@@ -84,31 +114,112 @@ const columns = [
 ];
 
 function RouteComponent() {
-	const { data: products } = useSuspenseQuery({
-		...allProductsQueryOptions(),
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 10,
 	});
+	const [globalFilter, setGlobalFilter] = useState<string>("");
+	const [statusFilter, setStatusFilter] = useState<string>("all");
+	const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>({});
 
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const queryArgs = useMemo(
+		() => ({
+			pageIndex: pagination.pageIndex,
+			pageSize: pagination.pageSize,
+			globalFilter,
+			statusFilter,
+		}),
+		[pagination, globalFilter, statusFilter],
+	);
+
+	const { data: result } = useSuspenseQuery({
+		...allProductsQueryOptions(queryArgs),
+	});
 
 	const table = useTable<typeof features, ProductData>({
 		features,
-		data: products,
+		data: result?.data ?? [],
 		columns: columns as any,
 		state: {
-			columnFilters,
+			pagination,
+			globalFilter,
+			columnVisibility,
 		},
-		onColumnFiltersChange: setColumnFilters,
+		rowCount: result?.rowCount ?? 0,
+		manualPagination: true,
+		manualFiltering: true,
+		onPaginationChange: setPagination,
+		onGlobalFilterChange: setGlobalFilter,
+		onColumnVisibilityChange: setColumnVisibility,
 	});
 
 	return (
 		<div className="w-full p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-			<div className="mb-8 flex items-center justify-between">
-				<h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-					Review Products
-				</h1>
-				<span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-1 px-3 rounded-full text-sm font-medium border border-slate-200 dark:border-slate-700">
-					{table.getRowModel().rows.length} products
-				</span>
+			<div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+				<div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+					<div className="relative w-full sm:w-64">
+						<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
+							<Search className="h-4 w-4" />
+						</div>
+						<Input
+							type="text"
+							value={globalFilter ?? ""}
+							onChange={(e) => setGlobalFilter(e.target.value)}
+							className="pl-9 bg-white dark:bg-slate-900"
+							placeholder="Search products or brands..."
+						/>
+					</div>
+
+					<div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg self-start sm:self-auto">
+						{["all", "approved", "pending_review", "rejected"].map((status) => (
+							<Button
+								key={status}
+								variant={statusFilter === status ? "default" : "ghost"}
+								size="sm"
+								onClick={() => setStatusFilter(status)}
+								className="h-7 text-xs px-3 font-medium transition-all"
+							>
+								{status === "all"
+									? "ALL"
+									: status.replace("_", " ").toUpperCase()}
+							</Button>
+						))}
+					</div>
+				</div>
+
+				<div className="flex items-center gap-4">
+					<span className="text-sm font-medium text-slate-500 dark:text-slate-400 tracking-wider">
+						{result?.rowCount ?? 0} ROWS
+					</span>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant="outline"
+								size="sm"
+								className="ml-auto flex items-center gap-2"
+							>
+								Columns
+								<ChevronDown className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							{table.getAllLeafColumns().map((column) => {
+								return (
+									<DropdownMenuCheckboxItem
+										key={column.id}
+										className="capitalize"
+										checked={column.getIsVisible()}
+										onCheckedChange={(value) =>
+											column.toggleVisibility(!!value)
+										}
+									>
+										{column.id}
+									</DropdownMenuCheckboxItem>
+								);
+							})}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			</div>
 
 			<div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
@@ -118,34 +229,13 @@ function RouteComponent() {
 							{table.getHeaderGroups().map((headerGroup) => (
 								<tr key={headerGroup.id}>
 									{headerGroup.headers.map((header) => (
-										<th key={header.id} className="px-6 py-4 font-medium align-top">
-											{header.isPlaceholder ? null : (
-												<div className="flex flex-col gap-2">
-													<div>
-														{flexRender(
-															header.column.columnDef.header,
-															header.getContext(),
-														)}
-													</div>
-													{header.column.getCanFilter() ? (
-														<div>
-															<select
-																value={(header.column.getFilterValue() ?? "all") as string}
-																onChange={(e) => {
-																	const val = e.target.value;
-																	header.column.setFilterValue(val === "all" ? undefined : val);
-																}}
-																className="block w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs py-1 px-2"
-															>
-																<option value="all">All</option>
-																<option value="pending_review">Pending Review</option>
-																<option value="approved">Approved</option>
-																<option value="rejected">Rejected</option>
-															</select>
-														</div>
-													) : null}
-												</div>
-											)}
+										<th key={header.id} className="px-6 py-4 font-medium">
+											{header.isPlaceholder
+												? null
+												: flexRender(
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</th>
 									))}
 								</tr>
@@ -180,6 +270,30 @@ function RouteComponent() {
 							)}
 						</tbody>
 					</table>
+				</div>
+				<div className="p-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between bg-slate-50/50 dark:bg-slate-900/50 gap-4">
+					<div className="flex gap-2">
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => table.previousPage()}
+							disabled={!table.getCanPreviousPage()}
+						>
+							Prev
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => table.nextPage()}
+							disabled={!table.getCanNextPage()}
+						>
+							Next
+						</Button>
+					</div>
+					<span className="text-sm font-medium text-slate-500 dark:text-slate-400 tracking-wider">
+						PAGE {pagination.pageIndex + 1} /{" "}
+						{table.getPageCount().toLocaleString()}
+					</span>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
+import { eq, ilike, count, or, and } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
 import { categories, products } from "#/db/app-schema";
@@ -51,19 +51,65 @@ export const addProduct = createServerFn({
 		return newProduct;
 	});
 
+const getProductsSchema = z.object({
+	pageIndex: z.number().default(0),
+	pageSize: z.number().default(10),
+	globalFilter: z.string().optional(),
+	statusFilter: z.string().optional(),
+});
+
 export const getAllProducts = createServerFn({
 	method: "GET",
-}).handler(async () => {
-	await ensureSession();
-	return await db
-		.select({
-			product: products,
-			category: categories,
-		})
-		.from(products)
-		.leftJoin(categories, eq(products.categoryId, categories.id))
-		.orderBy(products.createdAt);
-});
+})
+	.validator((data: z.infer<typeof getProductsSchema>) => data)
+	.handler(async ({ data }) => {
+		await ensureSession();
+		const { pageIndex, pageSize, globalFilter, statusFilter } = data;
+		const offset = pageIndex * pageSize;
+
+		const whereConditions = [];
+
+		if (statusFilter && statusFilter !== "all") {
+			whereConditions.push(eq(products.status, statusFilter as any));
+		}
+
+		if (globalFilter) {
+			whereConditions.push(
+				or(
+					ilike(products.name, `%${globalFilter}%`),
+					ilike(products.brand, `%${globalFilter}%`),
+					ilike(categories.name, `%${globalFilter}%`),
+				),
+			);
+		}
+
+		const whereClause =
+			whereConditions.length > 0 ? and(...whereConditions) : undefined;
+
+		const [dataRows, [{ totalCount }]] = await Promise.all([
+			db
+				.select({
+					product: products,
+					category: categories,
+				})
+				.from(products)
+				.leftJoin(categories, eq(products.categoryId, categories.id))
+				.where(whereClause)
+				.orderBy(products.createdAt)
+				.limit(pageSize)
+				.offset(offset),
+			db
+				.select({ totalCount: count() })
+				.from(products)
+				.leftJoin(categories, eq(products.categoryId, categories.id))
+				.where(whereClause),
+		]);
+
+		return {
+			data: dataRows,
+			rowCount: totalCount,
+		};
+	});
 
 export const getProductById = createServerFn({
 	method: "GET",

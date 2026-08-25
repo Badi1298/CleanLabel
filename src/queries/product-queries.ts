@@ -17,8 +17,15 @@ export const productQueryOptions = (productId?: string) =>
 		queryFn: () => (productId ? getProductById({ data: productId }) : null),
 	});
 
-export const allProductsQueryOptions = () =>
+type ProductQueryArgs = {
+	pageIndex: number;
+	pageSize: number;
+	globalFilter?: string;
+	statusFilter?: string;
+};
+
+export const allProductsQueryOptions = (args: ProductQueryArgs) =>
 	queryOptions({
-		queryKey: ["allProducts"],
-		queryFn: () => getAllProducts(),
+		queryKey: ["allProducts", args],
+		queryFn: () => getAllProducts({ data: args }),
 	});
