@@ -115,46 +115,53 @@ export function ProductForm({
 					<form.Field
 						name="imageFront"
 						children={(field) => (
-							<div className="space-y-2">
-								<Label htmlFor="imageFront">Front Photo</Label>
-								<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
-									<Input
-										id="imageFront"
-										type="file"
-										accept="image/*"
-										capture="environment"
-										className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-										onChange={(e) => {
-											if (e.target.files?.[0]) {
-												field.handleChange(e.target.files[0]);
-											}
-										}}
-									/>
-									{field.state.value ? (
-										<div className="absolute inset-0">
-											<img
-												src={
-													field.state.value instanceof File
-														? URL.createObjectURL(field.state.value)
-														: (field.state.value as string)
+							<div className="flex flex-col gap-y-2">
+								<Label
+									htmlFor="imageFront"
+									className="flex-col items-start justify-end flex-1"
+								>
+									Front Photo
+								</Label>
+								<div className="flex flex-1 flex-col justify-end">
+									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
+										<Input
+											id="imageFront"
+											type="file"
+											accept="image/*"
+											capture="environment"
+											className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+											onChange={(e) => {
+												if (e.target.files?.[0]) {
+													field.handleChange(e.target.files[0]);
 												}
-												alt="Front preview"
-												className="w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity"
-											/>
-											<div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
-												<span className="text-white font-medium drop-shadow-md">
-													Change Photo
-												</span>
+											}}
+										/>
+										{field.state.value ? (
+											<div className="absolute inset-0">
+												<img
+													src={
+														field.state.value instanceof File
+															? URL.createObjectURL(field.state.value)
+															: (field.state.value as string)
+													}
+													alt="Front preview"
+													className="w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity"
+												/>
+												<div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
+													<span className="text-white font-medium drop-shadow-md">
+														Change Photo
+													</span>
+												</div>
 											</div>
-										</div>
-									) : (
-										<>
-											<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
-											<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-												Take a photo of the front
-											</span>
-										</>
-									)}
+										) : (
+											<>
+												<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
+												<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+													Take a photo of the front
+												</span>
+											</>
+										)}
+									</div>
 								</div>
 								<FieldInfo field={field} />
 							</div>
@@ -164,48 +171,53 @@ export function ProductForm({
 					<form.Field
 						name="imageBack"
 						children={(field) => (
-							<div className="space-y-2">
-								<Label htmlFor="imageBack">
+							<div className="flex flex-col gap-y-2">
+								<Label
+									htmlFor="imageBack"
+									className="flex-col items-start justify-end flex-1"
+								>
 									Back Photo (Ingredients & Barcode)
 								</Label>
-								<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
-									<Input
-										id="imageBack"
-										type="file"
-										accept="image/*"
-										capture="environment"
-										className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-										onChange={(e) => {
-											if (e.target.files?.[0]) {
-												field.handleChange(e.target.files[0]);
-											}
-										}}
-									/>
-									{field.state.value ? (
-										<div className="absolute inset-0">
-											<img
-												src={
-													field.state.value instanceof File
-														? URL.createObjectURL(field.state.value)
-														: (field.state.value as string)
+								<div className="flex flex-1 flex-col justify-end">
+									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
+										<Input
+											id="imageBack"
+											type="file"
+											accept="image/*"
+											capture="environment"
+											className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+											onChange={(e) => {
+												if (e.target.files?.[0]) {
+													field.handleChange(e.target.files[0]);
 												}
-												alt="Back preview"
-												className="w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity"
-											/>
-											<div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
-												<span className="text-white font-medium drop-shadow-md">
-													Change Photo
-												</span>
+											}}
+										/>
+										{field.state.value ? (
+											<div className="absolute inset-0">
+												<img
+													src={
+														field.state.value instanceof File
+															? URL.createObjectURL(field.state.value)
+															: (field.state.value as string)
+													}
+													alt="Back preview"
+													className="w-full h-full object-cover opacity-80 group-hover:opacity-50 transition-opacity"
+												/>
+												<div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
+													<span className="text-white font-medium drop-shadow-md">
+														Change Photo
+													</span>
+												</div>
 											</div>
-										</div>
-									) : (
-										<>
-											<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
-											<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-												Take a photo of the back
-											</span>
-										</>
-									)}
+										) : (
+											<>
+												<CameraIcon className="w-8 h-8 text-slate-400 mb-2" />
+												<span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+													Take a photo of the back
+												</span>
+											</>
+										)}
+									</div>
 								</div>
 								<FieldInfo field={field} />
 							</div>
