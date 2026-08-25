@@ -150,7 +150,7 @@ function ProductDetails() {
 										variant="outline"
 										className={cn("capitalize", scoreBadge.className)}
 									>
-										{product.score}
+										{product.score !== "none" ? product.score : "Score Missing"}
 									</Badge>
 								)}
 								{product.category && (
