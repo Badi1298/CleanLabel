@@ -118,7 +118,7 @@ export function ProductForm({
 										type="file"
 										accept="image/*"
 										capture="environment"
-										className="absolute inset-0 opacity-0 cursor-pointer z-10"
+										className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
 										onChange={(e) => {
 											if (e.target.files?.[0]) {
 												field.handleChange(e.target.files[0]);
@@ -169,7 +169,7 @@ export function ProductForm({
 										type="file"
 										accept="image/*"
 										capture="environment"
-										className="absolute inset-0 opacity-0 cursor-pointer z-10"
+										className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
 										onChange={(e) => {
 											if (e.target.files?.[0]) {
 												field.handleChange(e.target.files[0]);
