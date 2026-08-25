@@ -55,6 +55,7 @@ const columns = [
 		id: "name",
 		header: "Name",
 		enableColumnFilter: false,
+		enableHiding: false,
 		cell: (info) => (
 			<span className="font-medium text-slate-900 dark:text-slate-100">
 				{info.getValue()}
@@ -101,6 +102,7 @@ const columns = [
 		id: "actions",
 		header: "Actions",
 		enableColumnFilter: false,
+		enableHiding: false,
 		cell: (info) => (
 			<Link
 				to="/admin/add-product"
@@ -212,20 +214,23 @@ function RouteComponent() {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							{table.getAllLeafColumns().map((column) => {
-								return (
-									<DropdownMenuCheckboxItem
-										key={column.id}
-										className="capitalize"
-										checked={column.getIsVisible()}
-										onCheckedChange={(value) =>
-											column.toggleVisibility(!!value)
-										}
-									>
-										{column.id}
-									</DropdownMenuCheckboxItem>
-								);
-							})}
+							{table
+								.getAllLeafColumns()
+								.filter((column) => column.getCanHide())
+								.map((column) => {
+									return (
+										<DropdownMenuCheckboxItem
+											key={column.id}
+											className="capitalize"
+											checked={column.getIsVisible()}
+											onCheckedChange={(value) =>
+												column.toggleVisibility(!!value)
+											}
+										>
+											{column.id}
+										</DropdownMenuCheckboxItem>
+									);
+								})}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
@@ -233,20 +238,33 @@ function RouteComponent() {
 
 			<div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
 				<div className="overflow-x-auto">
-					<table className="w-full text-sm text-left">
+					<table className="w-full text-sm text-left table-fixed">
 						<thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
 							{table.getHeaderGroups().map((headerGroup) => (
 								<tr key={headerGroup.id}>
-									{headerGroup.headers.map((header) => (
-										<th key={header.id} className="px-6 py-4 font-medium">
-											{header.isPlaceholder
-												? null
-												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
-										</th>
-									))}
+									{headerGroup.headers.map((header) => {
+										const widthClass =
+											{
+												name: "w-[35%]",
+												category: "w-[20%]",
+												status: "w-[20%]",
+												date: "w-[15%]",
+												actions: "w-[10%]",
+											}[header.id] || "";
+										return (
+											<th
+												key={header.id}
+												className={`px-6 py-4 font-medium ${widthClass}`}
+											>
+												{header.isPlaceholder
+													? null
+													: flexRender(
+															header.column.columnDef.header,
+															header.getContext(),
+														)}
+											</th>
+										);
+									})}
 								</tr>
 							))}
 						</thead>
@@ -257,8 +275,11 @@ function RouteComponent() {
 										key={row.id}
 										className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
 									>
-										{row.getAllCells().map((cell: any) => (
-											<td key={cell.id} className="px-6 py-4 whitespace-nowrap">
+										{row.getVisibleCells().map((cell: any) => (
+											<td
+												key={cell.id}
+												className="px-6 py-4 whitespace-nowrap truncate"
+											>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext(),
@@ -301,7 +322,7 @@ function RouteComponent() {
 					</div>
 					<span className="text-sm font-medium text-slate-500 dark:text-slate-400 tracking-wider">
 						PAGE {pagination.pageIndex + 1} /{" "}
-						{table.getPageCount().toLocaleString()}
+						{Math.max(1, table.getPageCount()).toLocaleString()}
 					</span>
 				</div>
 			</div>
