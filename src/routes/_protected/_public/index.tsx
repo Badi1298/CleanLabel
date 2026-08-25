@@ -1,10 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Search, Store as StoreIcon } from "lucide-react";
-import { useState } from "react";
+import { Store as StoreIcon } from "lucide-react";
+
 import { ProductCard } from "#/components/home/product-card";
+import { SearchBar } from "#/components/search/search-bar";
 import { Button } from "#/components/ui/button";
-import { Input } from "#/components/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -34,15 +34,6 @@ function Home() {
 		...homeQueryOptions(storeId),
 	});
 
-	const [searchQuery, setSearchQuery] = useState("");
-
-	const handleSearchSubmit = (e: React.SubmitEvent) => {
-		e.preventDefault();
-		if (searchQuery.trim()) {
-			navigate({ to: "/search", search: { q: searchQuery } });
-		}
-	};
-
 	const handleStoreSelect = (newStoreId: string) => {
 		navigate({
 			to: "/",
@@ -67,21 +58,7 @@ function Home() {
 					</p>
 
 					<div className="mt-8 max-w-2xl mx-auto bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-xl flex flex-col sm:flex-row gap-4">
-						<form
-							onSubmit={handleSearchSubmit}
-							className="flex-1 flex items-center gap-2 relative"
-						>
-							<Search className="absolute left-3 text-slate-400 w-5 h-5" />
-							<Input
-								placeholder="Search products, brands, or ingredients..."
-								value={searchQuery}
-								onChange={(e) => setSearchQuery(e.target.value)}
-								className="pl-10 h-12 text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 border-none shadow-none text-md"
-							/>
-							<Button type="submit" size="lg" className="h-12 px-8 font-bold">
-								Search
-							</Button>
-						</form>
+						<SearchBar />
 					</div>
 
 					<div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-indigo-100">
