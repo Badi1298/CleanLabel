@@ -3,6 +3,7 @@ import {
 	getCategories,
 	getPendingProducts,
 	getProductById,
+	getProductDetailsById,
 } from "#/server/product-functions";
 
 export const categoriesQueryOptions = () =>
@@ -21,4 +22,10 @@ export const pendingProductsQueryOptions = () =>
 	queryOptions({
 		queryKey: ["pendingProducts"],
 		queryFn: () => getPendingProducts(),
+	});
+
+export const productDetailsQueryOptions = (productId: string) =>
+	queryOptions({
+		queryKey: ["productDetails", productId],
+		queryFn: () => getProductDetailsById({ data: productId }),
 	});
