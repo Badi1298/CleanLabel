@@ -194,7 +194,7 @@ function RouteComponent() {
 									setStatusFilter(status);
 									setPagination((prev) => ({ ...prev, pageIndex: 0 }));
 								}}
-								className="h-7 text-xs px-3 font-medium transition-all"
+								className="h-7 text-xs px-3 font-medium transition-all cursor-pointer"
 							>
 								{status === "all"
 									? "ALL"

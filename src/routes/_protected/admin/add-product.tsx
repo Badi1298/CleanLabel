@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { toast } from "sonner";
 import { z } from "zod";
 import { ProductForm } from "#/components/ProductForm";
 import {
@@ -134,7 +135,7 @@ function RouteComponent() {
 											storeIds: values.storeIds,
 										},
 									});
-									alert("Product updated successfully!");
+									toast.success("Product updated successfully!");
 								} else {
 									await addProductFn({
 										data: {
@@ -156,12 +157,12 @@ function RouteComponent() {
 											storeIds: values.storeIds,
 										},
 									});
-									alert("Product created successfully!");
+									toast.success("Product created successfully!");
 								}
 								router.history.back();
 							} catch (e) {
 								console.error(e);
-								alert("Failed to submit product.");
+								toast.error("Failed to submit product.");
 							}
 						}}
 					/>

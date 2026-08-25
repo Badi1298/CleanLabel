@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 import { z } from "zod";
 import { ProductForm } from "#/components/ProductForm";
 import { categoriesQueryOptions } from "#/queries/product-queries";
@@ -61,15 +62,23 @@ function AddProductRoute() {
 								// TO DO: is this safe? can someone on the client override the status to approved?
 								status: "pending_review",
 								rawIngredientsText: values.rawIngredientsText,
-								imageFrontUrl: typeof values.imageFront === "string" ? values.imageFront : undefined,
-								imageBackUrl: typeof values.imageBack === "string" ? values.imageBack : undefined,
+								imageFrontUrl:
+									typeof values.imageFront === "string"
+										? values.imageFront
+										: undefined,
+								imageBackUrl:
+									typeof values.imageBack === "string"
+										? values.imageBack
+										: undefined,
 							},
 						});
-						alert("Product submission received! It will be reviewed shortly.");
+						toast.success(
+							"Product submission received! It will be reviewed shortly.",
+						);
 						router.history.back();
 					} catch (e) {
 						console.error(e);
-						alert("Failed to submit product.");
+						toast.error("Failed to submit product.");
 					}
 				}}
 			/>

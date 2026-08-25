@@ -1,6 +1,7 @@
 import type { FieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
@@ -40,7 +41,7 @@ function Login() {
 			if (!error) {
 				navigate({ to: "/" });
 			} else {
-				alert(error.message || "Failed to login");
+				toast.error(error.message || "Failed to login");
 			}
 		},
 	});

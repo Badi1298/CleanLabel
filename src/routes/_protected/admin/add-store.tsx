@@ -2,6 +2,7 @@
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
@@ -43,11 +44,11 @@ function RouteComponent() {
 						logoUrl: value.logoUrl || undefined,
 					},
 				});
-				alert("Store added successfully!");
+				toast.success("Store added successfully!");
 				router.history.back();
 			} catch (e) {
 				console.error(e);
-				alert("Failed to add store.");
+				toast.error("Failed to add store.");
 			}
 		},
 	});

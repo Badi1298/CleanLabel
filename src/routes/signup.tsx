@@ -1,6 +1,7 @@
 import type { FieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
@@ -36,7 +37,7 @@ function Signup() {
 		},
 		onSubmit: async ({ value }) => {
 			if (value.password !== value.confirmPassword) {
-				alert("Passwords do not match");
+				toast.error("Passwords do not match");
 				return;
 			}
 
@@ -48,7 +49,7 @@ function Signup() {
 			if (!error) {
 				navigate({ to: "/" });
 			} else {
-				alert(error.message || "Failed to sign up");
+				toast.error(error.message || "Failed to sign up");
 			}
 		},
 	});
