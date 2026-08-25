@@ -40,7 +40,7 @@ export function ProductCard({ product }: ProductCardProps) {
 			params={{ productId: product.id }}
 			className="block h-full"
 		>
-			<Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col group border-slate-200 dark:border-slate-800">
+			<Card className="h-full pt-0 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-col group border-slate-200 dark:border-slate-800">
 				<div className="relative aspect-square w-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center overflow-hidden">
 					{product.imageFrontUrl ? (
 						<img
