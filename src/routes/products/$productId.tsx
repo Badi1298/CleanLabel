@@ -18,6 +18,7 @@ import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
+import { cn } from "#/lib/utils";
 import { productDetailsQueryOptions } from "#/queries/product-queries";
 
 export const Route = createFileRoute("/products/$productId")({
@@ -46,23 +47,19 @@ function getScoreBadgeProps(score: string) {
 		case "gold":
 			return {
 				className: "bg-yellow-400 text-yellow-900 border-yellow-500",
-				label: "Gold Label",
 			};
 		case "silver":
 			return {
 				className: "bg-slate-300 text-slate-800 border-slate-400",
-				label: "Silver Label",
 			};
 		case "bronze":
 			return {
 				className: "bg-amber-600 text-amber-50 border-amber-700",
-				label: "Bronze Label",
 			};
 		default:
 			return {
 				className:
 					"bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400",
-				label: "No Label",
 			};
 	}
 }
@@ -145,12 +142,17 @@ function ProductDetails() {
 					</div>
 
 					{/* Product Info */}
-					<div className="space-y-6 flex flex-col justify-center">
+					<div className="gap-y-6 flex flex-col justify-center">
 						<div>
 							<div className="flex flex-wrap items-center gap-2 mb-3">
-								<Badge variant="outline" className={scoreBadge.className}>
-									{scoreBadge.label}
-								</Badge>
+								{product.score && (
+									<Badge
+										variant="outline"
+										className={cn("capitalize", scoreBadge.className)}
+									>
+										{product.score}
+									</Badge>
+								)}
 								{product.category && (
 									<Badge
 										variant="secondary"
