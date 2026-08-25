@@ -99,9 +99,9 @@ function ProductDetails() {
 				{/* Top Section: Images and Basic Info */}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 					{/* Image Gallery */}
-					<div className="space-y-4">
+					<div className="flex flex-col gap-y-4">
 						{product.imageFrontUrl ? (
-							<div className="bg-white dark:bg-slate-900 rounded-2xl p-2 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden group">
+							<Card className="p-2 overflow-hidden group rounded-2xl">
 								<TransformWrapper>
 									<TransformComponent
 										wrapperStyle={{
@@ -117,14 +117,14 @@ function ProductDetails() {
 										/>
 									</TransformComponent>
 								</TransformWrapper>
-							</div>
+							</Card>
 						) : (
-							<div className="bg-slate-100 dark:bg-slate-900 rounded-2xl aspect-[4/5] flex items-center justify-center border border-slate-200 dark:border-slate-800">
+							<Card className="bg-slate-100 dark:bg-slate-900 rounded-2xl aspect-[4/5] flex items-center justify-center shadow-none">
 								<Package className="w-16 h-16 text-slate-300 dark:text-slate-700" />
-							</div>
+							</Card>
 						)}
 						{product.imageBackUrl && (
-							<div className="bg-white dark:bg-slate-900 rounded-2xl p-2 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden group">
+							<Card className="p-2 overflow-hidden group rounded-2xl">
 								<TransformWrapper>
 									<TransformComponent
 										wrapperStyle={{
@@ -136,11 +136,11 @@ function ProductDetails() {
 										<img
 											src={product.imageBackUrl}
 											alt={`${product.name} Back`}
-											className="w-full aspect-video object-contain"
+											className="w-full aspect-[4/5] object-contain"
 										/>
 									</TransformComponent>
 								</TransformWrapper>
-							</div>
+							</Card>
 						)}
 					</div>
 
@@ -166,14 +166,6 @@ function ProductDetails() {
 										{product.category.name}
 									</Badge>
 								)}
-								{product.status === "pending_review" && (
-									<Badge
-										variant="outline"
-										className="bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/30 dark:text-orange-400"
-									>
-										Pending Review
-									</Badge>
-								)}
 							</div>
 
 							<h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
@@ -185,19 +177,21 @@ function ProductDetails() {
 						</div>
 
 						{product.barcode && (
-							<div className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-100 dark:border-slate-800 flex items-center gap-3 shadow-sm">
-								<div className="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
-									<Info className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-								</div>
-								<div>
-									<p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
-										Barcode / EAN
-									</p>
-									<p className="font-mono text-slate-700 dark:text-slate-300">
-										{product.barcode}
-									</p>
-								</div>
-							</div>
+							<Card className="rounded-xl shadow-sm">
+								<CardContent className="flex items-center gap-3">
+									<div className="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg">
+										<Info className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+									</div>
+									<div>
+										<p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">
+											Barcode / EAN
+										</p>
+										<p className="font-mono text-slate-700 dark:text-slate-300">
+											{product.barcode}
+										</p>
+									</div>
+								</CardContent>
+							</Card>
 						)}
 
 						{product.submittedBy && (
@@ -224,28 +218,27 @@ function ProductDetails() {
 					product.productIngredients.length > 0 ? (
 						<div className="grid gap-3">
 							{product.productIngredients.map(({ ingredient }) => (
-								<div
-									key={ingredient.id}
-									className="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between"
-								>
-									<span className="font-medium text-slate-800 dark:text-slate-200">
-										{ingredient.name}
-									</span>
-									{ingredient.hazardLevel && (
-										<Badge
-											variant={
-												ingredient.hazardLevel === "high"
-													? "destructive"
-													: ingredient.hazardLevel === "medium"
-														? "secondary"
-														: "default"
-											}
-											className="uppercase text-[10px]"
-										>
-											{ingredient.hazardLevel} Hazard
-										</Badge>
-									)}
-								</div>
+								<Card key={ingredient.id} className="rounded-xl shadow-sm">
+									<CardContent className="p-4 flex items-center justify-between">
+										<span className="font-medium text-slate-800 dark:text-slate-200">
+											{ingredient.name}
+										</span>
+										{ingredient.hazardLevel && (
+											<Badge
+												variant={
+													ingredient.hazardLevel === "high"
+														? "destructive"
+														: ingredient.hazardLevel === "medium"
+															? "secondary"
+															: "default"
+												}
+												className="uppercase text-[10px]"
+											>
+												{ingredient.hazardLevel} Hazard
+											</Badge>
+										)}
+									</CardContent>
+								</Card>
 							))}
 						</div>
 					) : (
@@ -262,9 +255,11 @@ function ProductDetails() {
 							<h4 className="font-medium text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider">
 								Raw Label Text
 							</h4>
-							<div className="bg-slate-100 dark:bg-slate-900 p-4 rounded-xl text-sm leading-relaxed text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800">
-								{product.rawIngredientsText}
-							</div>
+							<Card className="bg-slate-50 dark:bg-slate-900/50 shadow-none">
+								<CardContent className="p-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+									{product.rawIngredientsText}
+								</CardContent>
+							</Card>
 						</div>
 					)}
 				</div>

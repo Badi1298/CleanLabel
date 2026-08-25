@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq } from "drizzle-orm";
 import { db } from "#/db";
 import { categories, productStores, products, stores } from "#/db/app-schema";
 
@@ -26,13 +26,16 @@ export const getHomeData = createServerFn({
 			.leftJoin(categories, eq(products.categoryId, categories.id))
 			.$dynamic();
 
+		const filters = [eq(products.status, "approved")];
+
 		if (storeId) {
 			productsQuery = productsQuery
-				.innerJoin(productStores, eq(products.id, productStores.productId))
-				.where(eq(productStores.storeId, storeId));
+				.innerJoin(productStores, eq(products.id, productStores.productId));
+			filters.push(eq(productStores.storeId, storeId));
 		}
 
 		const recentProducts = await productsQuery
+			.where(and(...filters))
 			.orderBy(desc(products.createdAt))
 			.limit(10);
 
@@ -44,7 +47,7 @@ export const getHomeData = createServerFn({
 				productCount: count(products.id),
 			})
 			.from(categories)
-			.leftJoin(products, eq(categories.id, products.categoryId))
+			.leftJoin(products, and(eq(categories.id, products.categoryId), eq(products.status, "approved")))
 			.groupBy(categories.id)
 			.orderBy(desc(count(products.id)))
 			.limit(6);
