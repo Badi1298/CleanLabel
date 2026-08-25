@@ -12,7 +12,7 @@ import {
 	useTable,
 } from "@tanstack/react-table";
 import { ChevronDown, Search } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import {
@@ -168,9 +168,9 @@ function RouteComponent() {
 	});
 
 	return (
-		<div className="w-full p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-			<div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-				<div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+		<div className="min-w-0 w-full p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+			<div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+				<div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
 					<div className="relative w-full sm:w-64">
 						<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
 							<Search className="h-4 w-4" />
@@ -184,7 +184,7 @@ function RouteComponent() {
 						/>
 					</div>
 
-					<div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg self-start sm:self-auto">
+					<div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg self-start">
 						{["all", "approved", "pending_review", "rejected"].map((status) => (
 							<Button
 								key={status}
@@ -244,7 +244,7 @@ function RouteComponent() {
 
 			<div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
 				<div className="overflow-x-auto">
-					<table className="w-full text-sm text-left table-fixed">
+					<table className="w-full min-w-[800px] text-sm text-left">
 						<thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
 							{table.getHeaderGroups().map((headerGroup) => (
 								<tr key={headerGroup.id}>
@@ -282,10 +282,7 @@ function RouteComponent() {
 										className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
 									>
 										{row.getVisibleCells().map((cell: any) => (
-											<td
-												key={cell.id}
-												className="px-6 py-4 whitespace-nowrap truncate"
-											>
+											<td key={cell.id} className="px-6 py-4 whitespace-nowrap">
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext(),
