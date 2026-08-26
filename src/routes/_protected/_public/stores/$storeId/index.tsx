@@ -42,6 +42,7 @@ function StoreCategoriesPage() {
 						<div className="flex items-center gap-2 text-slate-500 text-sm">
 							<Link
 								to="/stores"
+								preload={false}
 								className="font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
 							>
 								Stores

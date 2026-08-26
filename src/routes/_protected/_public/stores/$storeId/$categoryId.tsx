@@ -63,6 +63,7 @@ function StoreCategoryProductsPage() {
 						<div className="flex items-center gap-2 text-slate-500 text-sm">
 							<Link
 								to="/stores"
+								preload={false}
 								className="font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
 							>
 								Stores
@@ -73,6 +74,7 @@ function StoreCategoryProductsPage() {
 								params={{
 									storeId: storeId,
 								}}
+								preload={false}
 								className="font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
 							>
 								{store?.name || "Store"}

@@ -19,10 +19,10 @@ function StoresIndexPage() {
 	const [searchQuery, setSearchQuery] = useState("");
 
 	const filteredStores = stores?.filter((store) =>
-		store.name.toLowerCase().includes(searchQuery.toLowerCase())
+		store.name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
-	const handleSearchSubmit = (e: React.FormEvent) => {
+	const handleSearchSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault();
 	};
 
@@ -42,7 +42,13 @@ function StoresIndexPage() {
 							onChange={(e) => setSearchQuery(e.target.value)}
 							className="pl-10 h-12 text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 border-none shadow-none text-md"
 						/>
-						<Button type="button" onClick={() => setSearchQuery("")} variant="ghost" size="lg" className="h-12 px-4 font-bold text-slate-500">
+						<Button
+							type="button"
+							onClick={() => setSearchQuery("")}
+							variant="ghost"
+							size="lg"
+							className="h-12 px-4 font-bold text-slate-500"
+						>
 							Clear
 						</Button>
 					</form>
