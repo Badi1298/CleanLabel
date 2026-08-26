@@ -10,11 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProtectedPublicRouteRouteImport } from './routes/_protected/_public/route'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
-import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
 import { Route as ProtectedPublicIndexRouteImport } from './routes/_protected/_public/index'
 import { Route as ProtectedPublicAddProductRouteImport } from './routes/_protected/_public/add-product'
 import { Route as ProtectedPublicProfileRouteImport } from './routes/_protected/_public/profile'
@@ -24,9 +24,15 @@ import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protecte
 import { Route as ProtectedAdminAddStoreRouteImport } from './routes/_protected/admin/add-store'
 import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protected/admin/all-products'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ProtectedPublicProductsProductIdRouteImport } from './routes/_protected/_public/products/$productId'
 
 const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
   id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -47,11 +53,6 @@ const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => ProtectedRouteRoute,
-} as any)
-const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
-  id: '/products/$productId',
-  path: '/products/$productId',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const ProtectedPublicIndexRoute = ProtectedPublicIndexRouteImport.update({
   id: '/',
@@ -101,13 +102,19 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedPublicProductsProductIdRoute =
+  ProtectedPublicProductsProductIdRouteImport.update({
+    id: '/products/$productId',
+    path: '/products/$productId',
+    getParentRoute: () => ProtectedPublicRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ProtectedPublicIndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
-  '/products/$productId': typeof ProductsProductIdRoute
   '/add-product': typeof ProtectedPublicAddProductRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
@@ -116,13 +123,14 @@ export interface FileRoutesByFullPath {
   '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof ProtectedPublicIndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
-  '/products/$productId': typeof ProductsProductIdRoute
   '/add-product': typeof ProtectedPublicAddProductRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
@@ -131,15 +139,16 @@ export interface FileRoutesByTo {
   '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_protected/_public': typeof ProtectedPublicRouteRouteWithChildren
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
-  '/products/$productId': typeof ProductsProductIdRoute
   '/_protected/_public/add-product': typeof ProtectedPublicAddProductRoute
   '/_protected/_public/profile': typeof ProtectedPublicProfileRoute
   '/_protected/_public/search': typeof ProtectedPublicSearchRoute
@@ -149,15 +158,16 @@ export interface FileRoutesById {
   '/_protected/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
+  '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/forgot-password'
     | '/login'
     | '/signup'
     | '/admin'
-    | '/products/$productId'
     | '/add-product'
     | '/profile'
     | '/search'
@@ -166,13 +176,14 @@ export interface FileRouteTypes {
     | '/admin/add-store'
     | '/admin/all-products'
     | '/api/auth/$'
+    | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/forgot-password'
     | '/login'
     | '/signup'
     | '/admin'
-    | '/products/$productId'
     | '/add-product'
     | '/profile'
     | '/search'
@@ -181,14 +192,15 @@ export interface FileRouteTypes {
     | '/admin/add-store'
     | '/admin/all-products'
     | '/api/auth/$'
+    | '/products/$productId'
   id:
     | '__root__'
     | '/_protected'
+    | '/forgot-password'
     | '/login'
     | '/signup'
     | '/_protected/_public'
     | '/_protected/admin'
-    | '/products/$productId'
     | '/_protected/_public/add-product'
     | '/_protected/_public/profile'
     | '/_protected/_public/search'
@@ -198,13 +210,14 @@ export interface FileRouteTypes {
     | '/_protected/admin/all-products'
     | '/api/auth/$'
     | '/_protected/_public/'
+    | '/_protected/_public/products/$productId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  ProductsProductIdRoute: typeof ProductsProductIdRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -215,6 +228,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof ProtectedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -244,13 +264,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin'
       preLoaderRoute: typeof ProtectedAdminRouteRouteImport
       parentRoute: typeof ProtectedRouteRoute
-    }
-    '/products/$productId': {
-      id: '/products/$productId'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof ProductsProductIdRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_protected/_public/': {
       id: '/_protected/_public/'
@@ -315,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/_public/products/$productId': {
+      id: '/_protected/_public/products/$productId'
+      path: '/products/$productId'
+      fullPath: '/products/$productId'
+      preLoaderRoute: typeof ProtectedPublicProductsProductIdRouteImport
+      parentRoute: typeof ProtectedPublicRouteRoute
+    }
   }
 }
 
@@ -324,6 +344,7 @@ interface ProtectedPublicRouteRouteChildren {
   ProtectedPublicSearchRoute: typeof ProtectedPublicSearchRoute
   ProtectedPublicStoresRoute: typeof ProtectedPublicStoresRoute
   ProtectedPublicIndexRoute: typeof ProtectedPublicIndexRoute
+  ProtectedPublicProductsProductIdRoute: typeof ProtectedPublicProductsProductIdRoute
 }
 
 const ProtectedPublicRouteRouteChildren: ProtectedPublicRouteRouteChildren = {
@@ -332,6 +353,7 @@ const ProtectedPublicRouteRouteChildren: ProtectedPublicRouteRouteChildren = {
   ProtectedPublicSearchRoute: ProtectedPublicSearchRoute,
   ProtectedPublicStoresRoute: ProtectedPublicStoresRoute,
   ProtectedPublicIndexRoute: ProtectedPublicIndexRoute,
+  ProtectedPublicProductsProductIdRoute: ProtectedPublicProductsProductIdRoute,
 }
 
 const ProtectedPublicRouteRouteWithChildren =
@@ -368,9 +390,9 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-  ProductsProductIdRoute: ProductsProductIdRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

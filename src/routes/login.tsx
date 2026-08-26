@@ -86,7 +86,8 @@ function Login() {
 										? "Invalid email format"
 										: undefined,
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<Label htmlFor={field.name} className="text-white">
 									Email Address
@@ -104,7 +105,7 @@ function Login() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Field
 						name="password"
@@ -116,18 +117,19 @@ function Login() {
 										? "Password must be at least 6 characters"
 										: undefined,
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<div className="flex items-center justify-between">
 									<Label htmlFor={field.name} className="text-white">
 										Password
 									</Label>
-									<a
-										href="#"
+									<Link
+										to="/forgot-password"
 										className="text-sm font-medium text-white/80 hover:text-white hover:underline"
 									>
 										Forgot password?
-									</a>
+									</Link>
 								</div>
 								<Input
 									id={field.name}
@@ -142,11 +144,12 @@ function Login() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Subscribe
 						selector={(state) => [state.canSubmit, state.isSubmitting]}
-						children={([canSubmit, isSubmitting]) => (
+					>
+						{([canSubmit, isSubmitting]) => (
 							<Button
 								type="submit"
 								disabled={!canSubmit || isSubmitting}
@@ -155,7 +158,7 @@ function Login() {
 								{isSubmitting ? "Signing in..." : "Sign In"}
 							</Button>
 						)}
-					/>
+					</form.Subscribe>
 				</form>
 
 				<div className="mt-8 text-center text-sm text-white/80">

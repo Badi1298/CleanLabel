@@ -21,7 +21,7 @@ import { Separator } from "#/components/ui/separator";
 import { cn } from "#/lib/utils";
 import { productDetailsQueryOptions } from "#/queries/product-queries";
 
-export const Route = createFileRoute("/products/$productId")({
+export const Route = createFileRoute("/_protected/_public/products/$productId")({
 	loader: async ({ context: { queryClient }, params: { productId } }) => {
 		const product = await queryClient.ensureQueryData(
 			productDetailsQueryOptions(productId),
