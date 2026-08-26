@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Search, Store as StoreIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "#/components/ui/button";
@@ -18,15 +18,15 @@ export const Route = createFileRoute("/_protected/_public/stores/$storeId/")({
 function StoreCategoriesPage() {
 	const navigate = useNavigate();
 	const { storeId } = Route.useParams();
-	
+
 	const { data: stores } = useSuspenseQuery(storesQueryOptions());
 	const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
-	
-	const store = stores?.find(s => s.id === storeId);
+
+	const store = stores?.find((s) => s.id === storeId);
 	const [searchQuery, setSearchQuery] = useState("");
 
 	const filteredCategories = categories?.filter((category) =>
-		category.name.toLowerCase().includes(searchQuery.toLowerCase())
+		category.name.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
 
 	const handleSearchSubmit = (e: React.FormEvent) => {
@@ -38,17 +38,32 @@ function StoreCategoriesPage() {
 			{/* Top Bar with Search */}
 			<div className="bg-white dark:bg-slate-900 shadow-sm sticky top-0 z-20">
 				<div className="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-2">
-					<div className="flex items-center gap-3 mb-2">
-						{store?.logoUrl ? (
-							<img src={store.logoUrl} alt={store.name} className="w-8 h-8 rounded-full" />
-						) : (
-							<StoreIcon className="w-6 h-6 text-slate-500" />
-						)}
-						<h1 className="text-lg font-bold text-slate-900 dark:text-white">
-							{store?.name || "Store"} Categories
-						</h1>
+					<div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+						<div className="flex items-center gap-2 text-slate-500 text-sm">
+							<Link
+								to="/stores"
+								className="font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
+							>
+								Stores
+							</Link>
+							<span>/</span>
+							<div className="flex items-center gap-2">
+								{store?.logoUrl ? (
+									<img
+										src={store.logoUrl}
+										alt={store.name}
+										className="w-5 h-5 rounded-full"
+									/>
+								) : (
+									<StoreIcon className="w-4 h-4 text-slate-500" />
+								)}
+								<span className="font-medium text-slate-900 dark:text-white">
+									{store?.name || "Store"}
+								</span>
+							</div>
+						</div>
 					</div>
-					
+
 					<form
 						onSubmit={handleSearchSubmit}
 						className="flex-1 flex items-center gap-2 relative"
@@ -60,7 +75,13 @@ function StoreCategoriesPage() {
 							onChange={(e) => setSearchQuery(e.target.value)}
 							className="pl-10 h-12 text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 border-none shadow-none text-md"
 						/>
-						<Button type="button" onClick={() => setSearchQuery("")} variant="ghost" size="lg" className="h-12 px-4 font-bold text-slate-500">
+						<Button
+							type="button"
+							onClick={() => setSearchQuery("")}
+							variant="ghost"
+							size="lg"
+							className="h-12 px-4 font-bold text-slate-500"
+						>
 							Clear
 						</Button>
 					</form>
@@ -75,7 +96,9 @@ function StoreCategoriesPage() {
 								key={category.id}
 								variant="outline"
 								className="flex flex-col h-32 items-center justify-center p-4 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all"
-								onClick={() => navigate({ to: `/stores/${storeId}/${category.id}` })}
+								onClick={() =>
+									navigate({ to: `/stores/${storeId}/${category.id}` })
+								}
 							>
 								{category.iconUrl ? (
 									<img

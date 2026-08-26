@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { ProductCard } from "#/components/home/product-card";
@@ -61,9 +61,22 @@ function StoreCategoryProductsPage() {
 				<div className="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-2">
 					<div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
 						<div className="flex items-center gap-2 text-slate-500 text-sm">
-							<span className="font-medium text-slate-700 dark:text-slate-300">
+							<Link
+								to="/stores"
+								className="font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
+							>
+								Stores
+							</Link>
+							<span>/</span>
+							<Link
+								to={"/stores/$storeId"}
+								params={{
+									storeId: storeId,
+								}}
+								className="font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+							>
 								{store?.name || "Store"}
-							</span>
+							</Link>
 							<span>/</span>
 							<span className="font-medium text-slate-900 dark:text-white">
 								{category?.name || "Category"}
