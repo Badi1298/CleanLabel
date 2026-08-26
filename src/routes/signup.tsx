@@ -1,4 +1,3 @@
-import type { FieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -11,7 +10,7 @@ export const Route = createFileRoute("/signup")({
 	component: Signup,
 });
 
-function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
+function FieldInfo({ field }: { field: any }) {
 	return (
 		<div className="min-h-5 mt-1">
 			{field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -47,7 +46,7 @@ function Signup() {
 				name: value.name,
 			});
 			if (!error) {
-				navigate({ to: "/" });
+				navigate({ to: "/", replace: true });
 			} else {
 				toast.error(error.message || "Failed to sign up");
 			}
@@ -82,7 +81,8 @@ function Signup() {
 										? "Name must be at least 2 characters"
 										: undefined,
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<Label htmlFor={field.name} className="text-white">
 									Full Name
@@ -100,7 +100,7 @@ function Signup() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Field
 						name="email"
@@ -112,7 +112,8 @@ function Signup() {
 										? "Invalid email format"
 										: undefined,
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<Label htmlFor={field.name} className="text-white">
 									Email Address
@@ -130,7 +131,7 @@ function Signup() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Field
 						name="password"
@@ -142,7 +143,8 @@ function Signup() {
 										? "Password must be at least 6 characters"
 										: undefined,
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<Label htmlFor={field.name} className="text-white">
 									Password
@@ -160,7 +162,7 @@ function Signup() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Field
 						name="confirmPassword"
@@ -173,7 +175,8 @@ function Signup() {
 								return undefined;
 							},
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<Label htmlFor={field.name} className="text-white">
 									Confirm Password
@@ -191,11 +194,12 @@ function Signup() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Subscribe
 						selector={(state) => [state.canSubmit, state.isSubmitting]}
-						children={([canSubmit, isSubmitting]) => (
+					>
+						{([canSubmit, isSubmitting]) => (
 							<Button
 								type="submit"
 								disabled={!canSubmit || isSubmitting}
@@ -204,7 +208,7 @@ function Signup() {
 								{isSubmitting ? "Creating account..." : "Create Account"}
 							</Button>
 						)}
-					/>
+					</form.Subscribe>
 				</form>
 
 				<div className="mt-6 text-center text-sm text-white/80">

@@ -46,9 +46,9 @@ function Login() {
 			});
 			if (!error) {
 				if (search.redirect) {
-					navigate({ to: search.redirect as any });
+					navigate({ to: search.redirect as any, replace: true });
 				} else {
-					navigate({ to: "/" });
+					navigate({ to: "/", replace: true });
 				}
 			} else {
 				toast.error(error.message || "Failed to login");
