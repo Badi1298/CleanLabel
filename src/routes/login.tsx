@@ -1,4 +1,4 @@
-import { useForm } from "@tanstack/react-form";
+import { useForm, type AnyFieldApi } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/login")({
 	component: Login,
 });
 
-function FieldInfo({ field }: { field: any }) {
+function FieldInfo({ field }: { field: AnyFieldApi }) {
 	return (
 		<div className="min-h-5 mt-1">
 			{field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -46,7 +46,7 @@ function Login() {
 			});
 			if (!error) {
 				if (search.redirect) {
-					navigate({ to: search.redirect as any, replace: true });
+					navigate({ to: search.redirect, replace: true });
 				} else {
 					navigate({ to: "/", replace: true });
 				}

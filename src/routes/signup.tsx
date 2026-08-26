@@ -1,4 +1,4 @@
-import { useForm } from "@tanstack/react-form";
+import { type AnyFieldApi, useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Button } from "#/components/ui/button";
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/signup")({
 	component: Signup,
 });
 
-function FieldInfo({ field }: { field: any }) {
+function FieldInfo({ field }: { field: AnyFieldApi }) {
 	return (
 		<div className="min-h-5 mt-1">
 			{field.state.meta.isTouched && field.state.meta.errors.length ? (
