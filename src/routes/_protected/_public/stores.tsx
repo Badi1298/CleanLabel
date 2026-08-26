@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_protected/_public/stores")({
-	component: RouteComponent,
+	component: StoresLayout,
 });
 
-function RouteComponent() {
-	return <div>Hello "/stores"!</div>;
+function StoresLayout() {
+	return <Outlet />;
 }
