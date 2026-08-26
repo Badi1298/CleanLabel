@@ -1,5 +1,7 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
+
 import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -31,6 +33,7 @@ function FieldInfo({ field }: { field: any }) {
 function RouteComponent() {
 	const addStoreFn = useServerFn(addStore);
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const form = useForm({
 		defaultValues: {
@@ -45,6 +48,8 @@ function RouteComponent() {
 						logoUrl: value.logoUrl || undefined,
 					},
 				});
+				queryClient.invalidateQueries({ queryKey: ["stores"] });
+				queryClient.invalidateQueries({ queryKey: ["homeData"] });
 				toast.success("Store added successfully!");
 				router.history.back();
 			} catch (e) {

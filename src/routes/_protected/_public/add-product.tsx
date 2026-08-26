@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -25,6 +25,7 @@ function AddProductRoute() {
 	});
 	const addProductFn = useServerFn(addProduct);
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	return (
 		<div className="p-4 pt-12 max-w-md mx-auto mb-12">
@@ -72,6 +73,8 @@ function AddProductRoute() {
 										: undefined,
 							},
 						});
+						queryClient.invalidateQueries({ queryKey: ["homeData"] });
+						queryClient.invalidateQueries({ queryKey: ["allProducts"] });
 						toast.success(
 							"Product submission received! It will be reviewed shortly.",
 						);

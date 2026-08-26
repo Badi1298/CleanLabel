@@ -1,17 +1,22 @@
-import type { FieldApi } from "@tanstack/react-form";
-import { useForm } from "@tanstack/react-form";
+import { useForm, type AnyFieldApi } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { authClient } from "#/lib/auth-client";
 
+const searchSchema = z.object({
+	redirect: z.string().optional(),
+});
+
 export const Route = createFileRoute("/login")({
+	validateSearch: searchSchema,
 	component: Login,
 });
 
-function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
+function FieldInfo({ field }: { field: AnyFieldApi }) {
 	return (
 		<div className="min-h-5 mt-1">
 			{field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -28,6 +33,7 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 
 function Login() {
 	const navigate = useNavigate();
+	const search = Route.useSearch();
 	const form = useForm({
 		defaultValues: {
 			email: "",
@@ -39,7 +45,11 @@ function Login() {
 				password: value.password,
 			});
 			if (!error) {
-				navigate({ to: "/" });
+				if (search.redirect) {
+					navigate({ to: search.redirect, replace: true });
+				} else {
+					navigate({ to: "/", replace: true });
+				}
 			} else {
 				toast.error(error.message || "Failed to login");
 			}
@@ -76,7 +86,8 @@ function Login() {
 										? "Invalid email format"
 										: undefined,
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<Label htmlFor={field.name} className="text-white">
 									Email Address
@@ -94,7 +105,7 @@ function Login() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Field
 						name="password"
@@ -106,18 +117,19 @@ function Login() {
 										? "Password must be at least 6 characters"
 										: undefined,
 						}}
-						children={(field) => (
+					>
+						{(field) => (
 							<div className="space-y-1">
 								<div className="flex items-center justify-between">
 									<Label htmlFor={field.name} className="text-white">
 										Password
 									</Label>
-									<a
-										href="#"
+									<Link
+										to="/forgot-password"
 										className="text-sm font-medium text-white/80 hover:text-white hover:underline"
 									>
 										Forgot password?
-									</a>
+									</Link>
 								</div>
 								<Input
 									id={field.name}
@@ -132,11 +144,12 @@ function Login() {
 								<FieldInfo field={field} />
 							</div>
 						)}
-					/>
+					</form.Field>
 
 					<form.Subscribe
 						selector={(state) => [state.canSubmit, state.isSubmitting]}
-						children={([canSubmit, isSubmitting]) => (
+					>
+						{([canSubmit, isSubmitting]) => (
 							<Button
 								type="submit"
 								disabled={!canSubmit || isSubmitting}
@@ -145,7 +158,7 @@ function Login() {
 								{isSubmitting ? "Signing in..." : "Sign In"}
 							</Button>
 						)}
-					/>
+					</form.Subscribe>
 				</form>
 
 				<div className="mt-8 text-center text-sm text-white/80">

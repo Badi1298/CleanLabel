@@ -5,7 +5,6 @@ import {
 	useLocation,
 } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { getSession } from "#/server/auth-functions";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
 	Breadcrumb,
@@ -22,16 +21,8 @@ import {
 } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/_protected/admin")({
-	beforeLoad: async ({ location }) => {
-		const session = await getSession();
-		if (!session) {
-			throw redirect({
-				to: "/login",
-				search: { redirect: location.href },
-			});
-		}
-
-		if (session.user.role !== "admin") {
+	beforeLoad: ({ context }) => {
+		if (context.session.user.role !== "admin") {
 			throw redirect({
 				to: "/",
 			});
