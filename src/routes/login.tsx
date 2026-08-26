@@ -1,17 +1,22 @@
-import type { FieldApi } from "@tanstack/react-form";
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { authClient } from "#/lib/auth-client";
 
+const searchSchema = z.object({
+	redirect: z.string().optional(),
+});
+
 export const Route = createFileRoute("/login")({
+	validateSearch: searchSchema,
 	component: Login,
 });
 
-function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
+function FieldInfo({ field }: { field: any }) {
 	return (
 		<div className="min-h-5 mt-1">
 			{field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -28,6 +33,7 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 
 function Login() {
 	const navigate = useNavigate();
+	const search = Route.useSearch();
 	const form = useForm({
 		defaultValues: {
 			email: "",
@@ -39,7 +45,11 @@ function Login() {
 				password: value.password,
 			});
 			if (!error) {
-				navigate({ to: "/" });
+				if (search.redirect) {
+					navigate({ to: search.redirect as any });
+				} else {
+					navigate({ to: "/" });
+				}
 			} else {
 				toast.error(error.message || "Failed to login");
 			}
