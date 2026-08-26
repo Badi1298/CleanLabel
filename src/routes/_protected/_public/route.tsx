@@ -2,7 +2,6 @@ import {
 	createFileRoute,
 	Link,
 	Outlet,
-	redirect,
 	useNavigate,
 } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
@@ -10,19 +9,9 @@ import { Home, ScanBarcode, Search, Store, User } from "lucide-react";
 import { useState } from "react";
 import { ScannerDialog } from "#/components/ScannerDialog";
 import { Button } from "#/components/ui/button";
-import { getSession } from "#/server/auth-functions";
 import { processBarcodeScan } from "#/server/off-functions";
 
 export const Route = createFileRoute("/_protected/_public")({
-	beforeLoad: async ({ location }) => {
-		const session = await getSession();
-		if (!session) {
-			throw redirect({
-				to: "/login",
-				search: { redirect: location.href },
-			});
-		}
-	},
 	component: RouteComponent,
 });
 

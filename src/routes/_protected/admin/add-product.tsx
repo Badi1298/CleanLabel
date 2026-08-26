@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
@@ -47,6 +47,7 @@ function RouteComponent() {
 	const addProductFn = useServerFn(addProduct);
 	const updateProductFn = useServerFn(updateProduct);
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	return (
 		<div className="flex justify-center px-4 mt-4 mb-12">
@@ -159,6 +160,18 @@ function RouteComponent() {
 										});
 										toast.success("Product created successfully!");
 									}
+
+									queryClient.invalidateQueries({ queryKey: ["homeData"] });
+									queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+									if (product) {
+										queryClient.invalidateQueries({
+											queryKey: ["productDetails", product.id],
+										});
+										queryClient.invalidateQueries({
+											queryKey: ["product", product.id],
+										});
+									}
+
 									router.history.back();
 								} catch (e) {
 									console.error(e);
