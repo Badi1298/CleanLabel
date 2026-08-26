@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProtectedPublicRouteRouteImport } from './routes/_protected/_public/route'
@@ -24,6 +25,10 @@ import { Route as ProtectedAdminAddStoreRouteImport } from './routes/_protected/
 import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protected/admin/all-products'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -35,13 +40,13 @@ const SignupRoute = SignupRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProtectedPublicRouteRoute = ProtectedPublicRouteRouteImport.update({
-  id: '/_protected/_public',
-  getParentRoute: () => rootRouteImport,
+  id: '/_public',
+  getParentRoute: () => ProtectedRouteRoute,
 } as any)
 const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
-  id: '/_protected/admin',
+  id: '/admin',
   path: '/admin',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ProtectedRouteRoute,
 } as any)
 const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
   id: '/products/$productId',
@@ -98,9 +103,9 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof ProtectedPublicIndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/': typeof ProtectedPublicIndexRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/products/$productId': typeof ProductsProductIdRoute
   '/add-product': typeof ProtectedPublicAddProductRoute
@@ -113,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof ProtectedPublicIndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
@@ -125,10 +131,10 @@ export interface FileRoutesByTo {
   '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/': typeof ProtectedPublicIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_protected': typeof ProtectedRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_protected/_public': typeof ProtectedPublicRouteRouteWithChildren
@@ -147,9 +153,9 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/login'
     | '/signup'
-    | '/'
     | '/admin'
     | '/products/$productId'
     | '/add-product'
@@ -162,6 +168,7 @@ export interface FileRouteTypes {
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/login'
     | '/signup'
     | '/admin'
@@ -174,9 +181,9 @@ export interface FileRouteTypes {
     | '/admin/add-store'
     | '/admin/all-products'
     | '/api/auth/$'
-    | '/'
   id:
     | '__root__'
+    | '/_protected'
     | '/login'
     | '/signup'
     | '/_protected/_public'
@@ -194,16 +201,22 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  ProtectedPublicRouteRoute: typeof ProtectedPublicRouteRouteWithChildren
-  ProtectedAdminRouteRoute: typeof ProtectedAdminRouteRouteWithChildren
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -223,14 +236,14 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof ProtectedPublicRouteRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
     '/_protected/admin': {
       id: '/_protected/admin'
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof ProtectedAdminRouteRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
     '/products/$productId': {
       id: '/products/$productId'
@@ -339,11 +352,24 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
 const ProtectedAdminRouteRouteWithChildren =
   ProtectedAdminRouteRoute._addFileChildren(ProtectedAdminRouteRouteChildren)
 
-const rootRouteChildren: RootRouteChildren = {
-  LoginRoute: LoginRoute,
-  SignupRoute: SignupRoute,
+interface ProtectedRouteRouteChildren {
+  ProtectedPublicRouteRoute: typeof ProtectedPublicRouteRouteWithChildren
+  ProtectedAdminRouteRoute: typeof ProtectedAdminRouteRouteWithChildren
+}
+
+const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedPublicRouteRoute: ProtectedPublicRouteRouteWithChildren,
   ProtectedAdminRouteRoute: ProtectedAdminRouteRouteWithChildren,
+}
+
+const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
+  ProtectedRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
