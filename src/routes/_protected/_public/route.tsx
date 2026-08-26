@@ -48,62 +48,68 @@ function RouteComponent() {
 			<Outlet />
 
 			{/* Sticky Bottom Navigation */}
-			<nav className="fixed bottom-0 left-0 right-0 bg-[#FDFBF7] dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-around items-end px-2 pb-4 pt-2 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-50">
-				<Link
-					to="/"
-					className="flex flex-col items-center gap-1 text-slate-500 group [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400"
-				>
-					<div className="p-2 rounded-full transition-colors group-[.active]:bg-emerald-100 dark:group-[.active]:bg-emerald-900/30">
-						<Home className="w-6 h-6" />
-					</div>
-					<span className="text-[11px] font-medium">Home</span>
-				</Link>
+			{/* Sticky Bottom Navigation */}
+			<div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-[#FDFBF7] dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+				<nav className="flex justify-between items-center w-full max-w-md px-4 py-1 h-[68px]">
+					<Button
+						variant="ghost"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						asChild
+					>
+						<Link to="/">
+							<Home className="w-5 h-5" />
+							<span className="text-[11px] font-medium">Home</span>
+						</Link>
+					</Button>
 
-				<Link
-					to="/search"
-					className="flex flex-col items-center gap-1 text-slate-500 group [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400"
-				>
-					<div className="p-2 rounded-full transition-colors group-[.active]:bg-emerald-100 dark:group-[.active]:bg-emerald-900/30">
-						<Search className="w-6 h-6" />
-					</div>
-					<span className="text-[11px] font-medium">Search</span>
-				</Link>
+					<Button
+						variant="ghost"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						asChild
+					>
+						<Link to="/search">
+							<Search className="w-5 h-5" />
+							<span className="text-[11px] font-medium">Search</span>
+						</Link>
+					</Button>
 
-				{/* Elevated Scan Button */}
-				<Button
-					onClick={() => setIsScannerOpen(true)}
-					size="icon-lg"
-					variant="secondary"
-					className="-translate-y-6"
-					disabled={isFetching}
-				>
-					{isFetching ? (
-						<div className="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
-					) : (
-						<ScanBarcode />
-					)}
-				</Button>
+					<Button
+						variant="ghost"
+						onClick={() => setIsScannerOpen(true)}
+						className="flex flex-col cursor-pointer items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						disabled={isFetching}
+					>
+						{isFetching ? (
+							<div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+						) : (
+							<ScanBarcode className="w-5 h-5" />
+						)}
+						<span className="text-[11px] font-medium">Scan</span>
+					</Button>
 
-				<Link
-					to="/stores"
-					className="flex flex-col items-center gap-1 text-slate-500 group [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400"
-				>
-					<div className="p-2 rounded-full transition-colors group-[.active]:bg-emerald-100 dark:group-[.active]:bg-emerald-900/30">
-						<Store className="w-6 h-6" />
-					</div>
-					<span className="text-[11px] font-medium">Stores</span>
-				</Link>
+					<Button
+						variant="ghost"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						asChild
+					>
+						<Link to="/stores">
+							<Store className="w-5 h-5" />
+							<span className="text-[11px] font-medium">Stores</span>
+						</Link>
+					</Button>
 
-				<Link
-					to="/profile"
-					className="flex flex-col items-center gap-1 text-slate-500 group [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400"
-				>
-					<div className="p-2 rounded-full transition-colors group-[.active]:bg-emerald-100 dark:group-[.active]:bg-emerald-900/30">
-						<User className="w-6 h-6" />
-					</div>
-					<span className="text-[11px] font-medium">Profile</span>
-				</Link>
-			</nav>
+					<Button
+						variant="ghost"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						asChild
+					>
+						<Link to="/profile">
+							<User className="w-5 h-5" />
+							<span className="text-[11px] font-medium">Profile</span>
+						</Link>
+					</Button>
+				</nav>
+			</div>
 
 			<ScannerDialog
 				isOpen={isScannerOpen}
