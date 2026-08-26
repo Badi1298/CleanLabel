@@ -76,7 +76,7 @@ function RouteComponent() {
 					<Button
 						variant="ghost"
 						onClick={() => setIsScannerOpen(true)}
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						className="flex flex-col cursor-pointer items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
 						disabled={isFetching}
 					>
 						{isFetching ? (
