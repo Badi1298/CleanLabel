@@ -1,6 +1,6 @@
 import { type AnyFieldApi, useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Chrome } from "lucide-react";
+import { Globe2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "#/components/ui/button";
@@ -183,7 +183,7 @@ function Login() {
 						});
 					}}
 				>
-					<Chrome className="mr-2 h-5 w-5" />
+					<Globe2Icon className="h-5 w-5" />
 					Google
 				</Button>
 

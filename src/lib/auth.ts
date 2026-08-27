@@ -22,6 +22,12 @@ export const auth = betterAuth({
 			clientSecret: getGoogleClientSecret(),
 		},
 	},
+	account: {
+		accountLinking: {
+			enabled: true,
+			trustedProviders: ["google"],
+		},
+	},
 	user: {
 		additionalFields: {
 			role: {
