@@ -1,5 +1,6 @@
 import { type AnyFieldApi, useForm } from "@tanstack/react-form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Chrome } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
@@ -210,6 +211,31 @@ function Signup() {
 						)}
 					</form.Subscribe>
 				</form>
+
+				<div className="relative mt-8">
+					<div className="absolute inset-0 flex items-center">
+						<span className="w-full border-t border-white/20" />
+					</div>
+					<div className="relative flex justify-center text-xs uppercase">
+						<span className="bg-[#14b8a6] px-2 text-white/80 rounded-md">
+							Or continue with
+						</span>
+					</div>
+				</div>
+
+				<Button
+					variant="outline"
+					type="button"
+					className="w-full mt-6 bg-transparent text-white border-white/30 hover:bg-white/20 hover:text-white font-medium py-6 text-lg rounded-xl transition-all shadow-sm"
+					onClick={async () => {
+						await authClient.signIn.social({
+							provider: "google",
+						});
+					}}
+				>
+					<Chrome className="mr-2 h-5 w-5" />
+					Google
+				</Button>
 
 				<div className="mt-6 text-center text-sm text-white/80">
 					Already have an account?{" "}
