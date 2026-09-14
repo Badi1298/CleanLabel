@@ -117,7 +117,7 @@ const columns = [
 		enableColumnFilter: false,
 		cell: (info) => {
 			const date = new Date(info.getValue());
-			return date.toLocaleDateString();
+			return date.toLocaleDateString("en-US");
 		},
 	}),
 	columnHelper.display({
