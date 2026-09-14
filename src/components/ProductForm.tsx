@@ -123,7 +123,7 @@ export function ProductForm({
 									Front Photo
 								</Label>
 								<div className="flex flex-1 flex-col justify-end">
-									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
+									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-40">
 										<Input
 											id="imageFront"
 											type="file"
@@ -179,7 +179,7 @@ export function ProductForm({
 									Back Photo (Ingredients & Barcode)
 								</Label>
 								<div className="flex flex-1 flex-col justify-end">
-									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
+									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-40">
 										<Input
 											id="imageBack"
 											type="file"
@@ -260,7 +260,7 @@ export function ProductForm({
 					<form.Field
 						name="barcode"
 						children={(field) => (
-							<div className="space-y-2">
+							<div className="flex flex-col gap-y-2">
 								<Label htmlFor={field.name}>Barcode</Label>
 								<Input
 									id={field.name}
@@ -282,7 +282,7 @@ export function ProductForm({
 									!value ? "Name is required" : undefined,
 							}}
 							children={(field) => (
-								<div className="space-y-2">
+								<div className="flex flex-col gap-y-2">
 									<Label htmlFor={field.name}>Product Name</Label>
 									<Input
 										id={field.name}
@@ -303,7 +303,7 @@ export function ProductForm({
 									!value ? "Brand is required" : undefined,
 							}}
 							children={(field) => (
-								<div className="space-y-2">
+								<div className="flex flex-col gap-y-2">
 									<Label htmlFor={field.name}>Brand</Label>
 									<Input
 										id={field.name}
@@ -325,7 +325,7 @@ export function ProductForm({
 								!value ? "Category is required" : undefined,
 						}}
 						children={(field) => (
-							<div className="space-y-2">
+							<div className="flex flex-col gap-y-2">
 								<Label htmlFor={field.name}>Category</Label>
 								<Select
 									value={field.state.value}
@@ -356,7 +356,7 @@ export function ProductForm({
 					<form.Field
 						name="rawIngredientsText"
 						children={(field) => (
-							<div className="space-y-2">
+							<div className="flex flex-col gap-y-2">
 								<Label htmlFor={field.name}>Ingredients List</Label>
 								<Textarea
 									id={field.name}
@@ -375,7 +375,7 @@ export function ProductForm({
 						<form.Field
 							name="storeIds"
 							children={(field) => (
-								<div className="space-y-2">
+								<div className="flex flex-col gap-y-2">
 									<Label htmlFor={field.name}>Available At (Stores)</Label>
 									<MultiSelect
 										options={
@@ -399,7 +399,7 @@ export function ProductForm({
 							<form.Field
 								name="score"
 								children={(field) => (
-									<div className="space-y-2">
+									<div className="flex flex-col gap-y-2">
 										<Label htmlFor={field.name}>Clean Label Score</Label>
 										<Select
 											value={field.state.value}
@@ -425,7 +425,7 @@ export function ProductForm({
 							<form.Field
 								name="status"
 								children={(field) => (
-									<div className="space-y-2">
+									<div className="flex flex-col gap-y-2">
 										<Label htmlFor={field.name}>Status</Label>
 										<Select
 											value={field.state.value}
