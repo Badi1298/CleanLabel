@@ -3,6 +3,17 @@ import { useForm } from "@tanstack/react-form";
 import { CameraIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "#/components/ui/button";
+import {
+	Combobox,
+	ComboboxChip,
+	ComboboxChips,
+	ComboboxChipsInput,
+	ComboboxContent,
+	ComboboxEmpty,
+	ComboboxItem,
+	ComboboxList,
+	ComboboxValue,
+} from "#/components/ui/combobox";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { MultiSelect } from "#/components/ui/multi-select";
@@ -20,7 +31,7 @@ export type ProductFormValues = {
 	barcode: string;
 	name: string;
 	brand: string;
-	categoryId: string;
+	categoryIds: string[];
 	score: "gold" | "silver" | "bronze" | "none";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
@@ -65,7 +76,7 @@ export function ProductForm({
 			barcode: defaultValues?.barcode || "",
 			name: defaultValues?.name || "",
 			brand: defaultValues?.brand || "",
-			categoryId: defaultValues?.categoryId || "",
+			categoryIds: defaultValues?.categoryIds || [],
 			score: defaultValues?.score || "none",
 			status: defaultValues?.status || "pending_review",
 			rawIngredientsText: defaultValues?.rawIngredientsText || "",
@@ -319,38 +330,53 @@ export function ProductForm({
 					</div>
 
 					<form.Field
-						name="categoryId"
+						name="categoryIds"
 						validators={{
 							onChange: ({ value }) =>
-								!value ? "Category is required" : undefined,
+								value.length === 0
+									? "At least one category is required"
+									: undefined,
 						}}
-						children={(field) => (
-							<div className="flex flex-col gap-y-2">
-								<Label htmlFor={field.name}>Category</Label>
-								<Select
-									value={field.state.value}
-									onValueChange={(value) => field.handleChange(value)}
-								>
-									<SelectTrigger>
-										<SelectValue placeholder="Select a category" />
-									</SelectTrigger>
-									<SelectContent>
-										{categories.length > 0 ? (
-											categories.map((c) => (
-												<SelectItem key={c.id} value={c.id}>
-													{c.name}
-												</SelectItem>
-											))
-										) : (
-											<SelectItem value="placeholder-category" disabled>
-												No categories available
-											</SelectItem>
-										)}
-									</SelectContent>
-								</Select>
-								<FieldInfo field={field} />
-							</div>
-						)}
+						children={(field) => {
+							const selectedCategories = field.state.value
+								.map((id) => categories.find((c) => c.id === id))
+								.filter(Boolean) as { id: string; name: string }[];
+
+							return (
+								<div className="flex flex-col gap-y-2">
+									<Label htmlFor={field.name}>Categories</Label>
+									<Combobox
+										items={categories}
+										itemToStringValue={(c) => c.name}
+										multiple
+										value={selectedCategories}
+										onValueChange={(newValues) => {
+											field.handleChange(newValues.map((v) => v.id));
+										}}
+									>
+										<ComboboxChips>
+											<ComboboxValue>
+												{selectedCategories.map((item) => (
+													<ComboboxChip key={item.id}>{item.name}</ComboboxChip>
+												))}
+											</ComboboxValue>
+											<ComboboxChipsInput placeholder="Add category..." />
+										</ComboboxChips>
+										<ComboboxContent>
+											<ComboboxEmpty>No categories found.</ComboboxEmpty>
+											<ComboboxList>
+												{(item) => (
+													<ComboboxItem key={item.id} value={item}>
+														{item.name}
+													</ComboboxItem>
+												)}
+											</ComboboxList>
+										</ComboboxContent>
+									</Combobox>
+									<FieldInfo field={field} />
+								</div>
+							);
+						}}
 					/>
 
 					<form.Field
