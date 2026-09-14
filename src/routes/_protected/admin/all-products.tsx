@@ -63,11 +63,32 @@ const columns = [
 			</span>
 		),
 	}),
-	columnHelper.accessor((row) => row.category?.name, {
-		id: "category",
-		header: "Category",
+	columnHelper.accessor((row) => row.categories, {
+		id: "categories",
+		header: "Categories",
 		enableColumnFilter: false,
-		cell: (info) => info.getValue() || "N/A",
+		cell: (info) => {
+			const categories = info.getValue();
+			if (!categories || categories.length === 0) return <span className="text-slate-500">N/A</span>;
+			
+			const displayCategories = categories.slice(0, 2);
+			const remainingCount = categories.length - 2;
+
+			return (
+				<div className="flex flex-wrap gap-1">
+					{displayCategories.map(c => (
+						<Badge key={c.id} variant="secondary" className="font-normal text-xs whitespace-nowrap">
+							{c.name}
+						</Badge>
+					))}
+					{remainingCount > 0 && (
+						<Badge variant="outline" className="font-normal text-xs whitespace-nowrap text-slate-500">
+							+{remainingCount} more
+						</Badge>
+					)}
+				</div>
+			);
+		},
 	}),
 	columnHelper.accessor((row) => row.product.status, {
 		id: "status",
@@ -244,7 +265,7 @@ function RouteComponent() {
 
 			<div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
 				<div className="overflow-x-auto">
-					<table className="w-full min-w-[800px] text-sm text-left">
+					<table className="w-full min-w-200 text-sm text-left">
 						<thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
 							{table.getHeaderGroups().map((headerGroup) => (
 								<tr key={headerGroup.id}>
@@ -252,7 +273,7 @@ function RouteComponent() {
 										const widthClass =
 											{
 												name: "w-[35%]",
-												category: "w-[20%]",
+												categories: "w-[20%]",
 												status: "w-[20%]",
 												date: "w-[15%]",
 												actions: "w-[10%]",

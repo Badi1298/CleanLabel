@@ -153,7 +153,7 @@ export const getAllProducts = createServerFn({
 		return {
 			data: sortedProducts.map((p) => ({
 				product: p,
-				category: p.productCategories?.[0]?.category || null,
+				categories: p.productCategories?.map(pc => pc.category).filter(Boolean) || [],
 			})),
 			rowCount: totalCount,
 		};
