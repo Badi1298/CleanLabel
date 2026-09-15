@@ -119,7 +119,7 @@ function RouteComponent() {
 									!value ? "Name is required" : undefined,
 							}}
 							children={(field) => (
-								<div className="space-y-2">
+								<div className="flex flex-col gap-y-2">
 									<Label htmlFor={field.name}>Category Name</Label>
 									<Input
 										id={field.name}
@@ -136,7 +136,7 @@ function RouteComponent() {
 						<form.Field
 							name="iconUrl"
 							children={(field) => (
-								<div className="space-y-2">
+								<div className="flex flex-col gap-y-2">
 									<Label htmlFor={field.name}>Icon URL (optional)</Label>
 									<Input
 										id={field.name}
@@ -153,7 +153,7 @@ function RouteComponent() {
 						<form.Field
 							name="subcategories"
 							children={(field) => (
-								<div className="space-y-2 opacity-60">
+								<div className="flex flex-col gap-y-2 opacity-60">
 									<Label htmlFor={field.name}>
 										Subcategories (coming soon)
 									</Label>
@@ -175,7 +175,6 @@ function RouteComponent() {
 							<Button
 								type="button"
 								variant="outline"
-								className="w-full"
 								onClick={() => router.history.back()}
 							>
 								Cancel
@@ -184,11 +183,7 @@ function RouteComponent() {
 							<form.Subscribe
 								selector={(state) => [state.canSubmit, state.isSubmitting]}
 								children={([canSubmit, isSubmitting]) => (
-									<Button
-										type="submit"
-										disabled={!canSubmit || isSubmitting}
-										className="w-full"
-									>
+									<Button type="submit" disabled={!canSubmit || isSubmitting}>
 										{isSubmitting
 											? "Saving..."
 											: categoryId
