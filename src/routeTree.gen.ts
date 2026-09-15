@@ -22,10 +22,12 @@ import { Route as ProtectedPublicSearchRouteImport } from './routes/_protected/_
 import { Route as ProtectedAdminAddCategoryRouteImport } from './routes/_protected/admin/add-category'
 import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protected/admin/add-product'
 import { Route as ProtectedAdminAddStoreRouteImport } from './routes/_protected/admin/add-store'
+import { Route as ProtectedAdminAllCategoriesRouteImport } from './routes/_protected/admin/all-categories'
 import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protected/admin/all-products'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedPublicProductsProductIdRouteImport } from './routes/_protected/_public/products/$productId'
 import { Route as ProtectedPublicStoresIndexRouteImport } from './routes/_protected/_public/stores/index'
+import { Route as ProtectedAdminEditCategoryCategoryIdRouteImport } from './routes/_protected/admin/edit-category.$categoryId'
 import { Route as ProtectedPublicStoresStoreIdIndexRouteImport } from './routes/_protected/_public/stores/$storeId/index'
 import { Route as ProtectedPublicStoresStoreIdCategoryIdRouteImport } from './routes/_protected/_public/stores/$storeId/$categoryId'
 
@@ -95,6 +97,12 @@ const ProtectedAdminAddStoreRoute = ProtectedAdminAddStoreRouteImport.update({
   path: '/add-store',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
+const ProtectedAdminAllCategoriesRoute =
+  ProtectedAdminAllCategoriesRouteImport.update({
+    id: '/all-categories',
+    path: '/all-categories',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
 const ProtectedAdminAllProductsRoute =
   ProtectedAdminAllProductsRouteImport.update({
     id: '/all-products',
@@ -117,6 +125,12 @@ const ProtectedPublicStoresIndexRoute =
     id: '/stores/',
     path: '/stores/',
     getParentRoute: () => ProtectedPublicRouteRoute,
+  } as any)
+const ProtectedAdminEditCategoryCategoryIdRoute =
+  ProtectedAdminEditCategoryCategoryIdRouteImport.update({
+    id: '/edit-category/$categoryId',
+    path: '/edit-category/$categoryId',
+    getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
 const ProtectedPublicStoresStoreIdIndexRoute =
   ProtectedPublicStoresStoreIdIndexRouteImport.update({
@@ -143,9 +157,11 @@ export interface FileRoutesByFullPath {
   '/admin/add-category': typeof ProtectedAdminAddCategoryRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
   '/admin/add-store': typeof ProtectedAdminAddStoreRoute
+  '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
+  '/admin/edit-category/$categoryId': typeof ProtectedAdminEditCategoryCategoryIdRoute
   '/stores/': typeof ProtectedPublicStoresIndexRoute
   '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
@@ -162,9 +178,11 @@ export interface FileRoutesByTo {
   '/admin/add-category': typeof ProtectedAdminAddCategoryRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
   '/admin/add-store': typeof ProtectedAdminAddStoreRoute
+  '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
+  '/admin/edit-category/$categoryId': typeof ProtectedAdminEditCategoryCategoryIdRoute
   '/stores': typeof ProtectedPublicStoresIndexRoute
   '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/stores/$storeId': typeof ProtectedPublicStoresStoreIdIndexRoute
@@ -183,10 +201,12 @@ export interface FileRoutesById {
   '/_protected/admin/add-category': typeof ProtectedAdminAddCategoryRoute
   '/_protected/admin/add-product': typeof ProtectedAdminAddProductRoute
   '/_protected/admin/add-store': typeof ProtectedAdminAddStoreRoute
+  '/_protected/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/_protected/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
   '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
+  '/_protected/admin/edit-category/$categoryId': typeof ProtectedAdminEditCategoryCategoryIdRoute
   '/_protected/_public/stores/': typeof ProtectedPublicStoresIndexRoute
   '/_protected/_public/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/_protected/_public/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
@@ -205,9 +225,11 @@ export interface FileRouteTypes {
     | '/admin/add-category'
     | '/admin/add-product'
     | '/admin/add-store'
+    | '/admin/all-categories'
     | '/admin/all-products'
     | '/api/auth/$'
     | '/products/$productId'
+    | '/admin/edit-category/$categoryId'
     | '/stores/'
     | '/stores/$storeId/$categoryId'
     | '/stores/$storeId/'
@@ -224,9 +246,11 @@ export interface FileRouteTypes {
     | '/admin/add-category'
     | '/admin/add-product'
     | '/admin/add-store'
+    | '/admin/all-categories'
     | '/admin/all-products'
     | '/api/auth/$'
     | '/products/$productId'
+    | '/admin/edit-category/$categoryId'
     | '/stores'
     | '/stores/$storeId/$categoryId'
     | '/stores/$storeId'
@@ -244,10 +268,12 @@ export interface FileRouteTypes {
     | '/_protected/admin/add-category'
     | '/_protected/admin/add-product'
     | '/_protected/admin/add-store'
+    | '/_protected/admin/all-categories'
     | '/_protected/admin/all-products'
     | '/api/auth/$'
     | '/_protected/_public/'
     | '/_protected/_public/products/$productId'
+    | '/_protected/admin/edit-category/$categoryId'
     | '/_protected/_public/stores/'
     | '/_protected/_public/stores/$storeId/$categoryId'
     | '/_protected/_public/stores/$storeId/'
@@ -354,6 +380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminAddStoreRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/all-categories': {
+      id: '/_protected/admin/all-categories'
+      path: '/all-categories'
+      fullPath: '/admin/all-categories'
+      preLoaderRoute: typeof ProtectedAdminAllCategoriesRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/all-products': {
       id: '/_protected/admin/all-products'
       path: '/all-products'
@@ -381,6 +414,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/stores/'
       preLoaderRoute: typeof ProtectedPublicStoresIndexRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
+    }
+    '/_protected/admin/edit-category/$categoryId': {
+      id: '/_protected/admin/edit-category/$categoryId'
+      path: '/edit-category/$categoryId'
+      fullPath: '/admin/edit-category/$categoryId'
+      preLoaderRoute: typeof ProtectedAdminEditCategoryCategoryIdRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/_public/stores/$storeId/': {
       id: '/_protected/_public/stores/$storeId/'
@@ -430,14 +470,19 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminAddCategoryRoute: typeof ProtectedAdminAddCategoryRoute
   ProtectedAdminAddProductRoute: typeof ProtectedAdminAddProductRoute
   ProtectedAdminAddStoreRoute: typeof ProtectedAdminAddStoreRoute
+  ProtectedAdminAllCategoriesRoute: typeof ProtectedAdminAllCategoriesRoute
   ProtectedAdminAllProductsRoute: typeof ProtectedAdminAllProductsRoute
+  ProtectedAdminEditCategoryCategoryIdRoute: typeof ProtectedAdminEditCategoryCategoryIdRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminAddCategoryRoute: ProtectedAdminAddCategoryRoute,
   ProtectedAdminAddProductRoute: ProtectedAdminAddProductRoute,
   ProtectedAdminAddStoreRoute: ProtectedAdminAddStoreRoute,
+  ProtectedAdminAllCategoriesRoute: ProtectedAdminAllCategoriesRoute,
   ProtectedAdminAllProductsRoute: ProtectedAdminAllProductsRoute,
+  ProtectedAdminEditCategoryCategoryIdRoute:
+    ProtectedAdminEditCategoryCategoryIdRoute,
 }
 
 const ProtectedAdminRouteRouteWithChildren =
