@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "#/db";
 import * as appSchema from "#/db/app-schema";
 
@@ -13,6 +13,52 @@ const mapNutriscore = (
 	if (lower === "d" || lower === "e") return "bronze";
 	return "none";
 };
+
+async function resolveOffCategory(
+	categoriesHierarchy: string[],
+): Promise<string> {
+	if (!categoriesHierarchy || categoriesHierarchy.length === 0) {
+		return getOrCreateUncategorized();
+	}
+
+	for (let i = categoriesHierarchy.length - 1; i >= 0; i--) {
+		const tag = categoriesHierarchy[i];
+		const mapping = await db.query.offCategoryMappings.findFirst({
+			where: eq(appSchema.offCategoryMappings.offTag, tag),
+		});
+		if (mapping) {
+			return mapping.categoryId;
+		}
+	}
+
+	for (const tag of categoriesHierarchy) {
+		await db
+			.insert(appSchema.unmappedOffTags)
+			.values({ tag, occurrences: 1 })
+			.onConflictDoUpdate({
+				target: appSchema.unmappedOffTags.tag,
+				set: { occurrences: sql`${appSchema.unmappedOffTags.occurrences} + 1` },
+			});
+	}
+
+	return getOrCreateUncategorized();
+}
+
+async function getOrCreateUncategorized(): Promise<string> {
+	let uncategorized = await db.query.categories.findFirst({
+		where: eq(appSchema.categories.name, "Uncategorized"),
+	});
+
+	if (!uncategorized) {
+		const [newCat] = await db
+			.insert(appSchema.categories)
+			.values({ name: "Uncategorized" })
+			.returning();
+		uncategorized = newCat;
+	}
+
+	return uncategorized.id;
+}
 
 export const processBarcodeScan = createServerFn({
 	method: "POST",
@@ -30,7 +76,7 @@ export const processBarcodeScan = createServerFn({
 		}
 
 		// 2. Fetch from OFF
-		const url = `https://world.openfoodfacts.org/api/v2/product/${barcode}?fields=code,product_name,brands,categories,nutriscore_grade,image_front_url,image_ingredients_url,ingredients_text,ingredients`;
+		const url = `https://world.openfoodfacts.net/api/v2/product/${barcode}?fields=code,product_name,product_name_ro,brands,categories_tags,categories_hierarchy,ingredients_text_ro,ingredients_text,image_front_url,image_ingredients_url,stores_tags,nutriscore_grade,nova_group,additives_tags,ingredients&lc=ro&cc=ro`;
 		console.log("Fetching from OFF:", url);
 
 		try {
@@ -48,33 +94,28 @@ export const processBarcodeScan = createServerFn({
 			const data = await response.json();
 			const product = data.product;
 
-			if (!product || !product.product_name) {
+			if (!product || (!product.product_name && !product.product_name_ro)) {
 				return { productId: null, source: "not_found" };
 			}
 
 			// 3. Map and insert into local DB
-			const rawCategories =
-				product.categories?.split(",").map((c: string) => c.trim()) || [];
-			let categoryName =
-				rawCategories.length > 0 ? rawCategories[0] : "Unknown";
-			if (categoryName.startsWith("ro:"))
-				categoryName = categoryName.substring(3);
-
-			let categoryRecord = await db.query.categories.findFirst({
-				where: eq(appSchema.categories.name, categoryName),
-			});
-
-			if (!categoryRecord) {
-				const [newCat] = await db
-					.insert(appSchema.categories)
-					.values({ name: categoryName })
-					.returning();
-				categoryRecord = newCat;
+			let categoriesHierarchy: string[] = [];
+			if (Array.isArray(product.categories_hierarchy)) {
+				categoriesHierarchy = product.categories_hierarchy;
+			} else if (typeof product.categories_hierarchy === "string") {
+				categoriesHierarchy = product.categories_hierarchy
+					.split(",")
+					.map((c: string) => c.trim());
 			}
+
+			const categoryId = await resolveOffCategory(categoriesHierarchy);
 
 			const brandName =
 				product.brands?.split(",")[0]?.trim() || "Unknown Brand";
-			const productName = product.product_name;
+			const productName =
+				product.product_name_ro || product.product_name || "Unknown Product";
+			const ingredientsText =
+				product.ingredients_text_ro || product.ingredients_text || null;
 
 			const [productRecord] = await db
 				.insert(appSchema.products)
@@ -85,14 +126,16 @@ export const processBarcodeScan = createServerFn({
 					score: mapNutriscore(product.nutriscore_grade),
 					imageFrontUrl: product.image_front_url || null,
 					imageBackUrl: product.image_ingredients_url || null,
-					rawIngredientsText: product.ingredients_text || null,
+					rawIngredientsText: ingredientsText,
 					status: "approved",
+					offTags: categoriesHierarchy,
+					isReviewed: false,
 				})
 				.returning();
 
 			await db.insert(appSchema.productCategories).values({
 				productId: productRecord.id,
-				categoryId: categoryRecord.id,
+				categoryId: categoryId,
 			});
 
 			// Handle Ingredients
@@ -123,7 +166,7 @@ export const processBarcodeScan = createServerFn({
 							ingredientId: ingredientRecord.id,
 						});
 					} catch (e: any) {
-						if (e.code !== "23505")
+						if (e.code !== "23505" && e.cause?.code !== "23505")
 							console.error(`Error linking ingredient:`, e);
 					}
 				}

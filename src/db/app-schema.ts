@@ -1,5 +1,8 @@
 import { relations } from "drizzle-orm";
 import {
+	boolean,
+	integer,
+	jsonb,
 	pgEnum,
 	pgTable,
 	primaryKey,
@@ -48,6 +51,8 @@ export const products = pgTable("products", {
 	imageBackUrl: text("image_back_url"),
 	rawIngredientsText: text("raw_ingredients_text"),
 	status: productStatusEnum("status").default("approved").notNull(),
+	offTags: jsonb("off_tags"),
+	isReviewed: boolean("is_reviewed").default(false).notNull(),
 	submittedById: text("submitted_by_id").references(() => user.id),
 	createdAt: timestamp("created_at").defaultNow().notNull(),
 	updatedAt: timestamp("updated_at")
@@ -62,6 +67,18 @@ export const ingredients = pgTable("ingredients", {
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text("name").notNull(),
 	hazardLevel: text("hazard_level"),
+});
+
+export const offCategoryMappings = pgTable("off_category_mappings", {
+	offTag: text("off_tag").primaryKey(),
+	categoryId: text("category_id")
+		.notNull()
+		.references(() => categories.id, { onDelete: "cascade" }),
+});
+
+export const unmappedOffTags = pgTable("unmapped_off_tags", {
+	tag: text("tag").primaryKey(),
+	occurrences: integer("occurrences").default(1).notNull(),
 });
 
 // --- Junction Tables ---
@@ -118,7 +135,18 @@ export const productsRelations = relations(products, ({ one, many }) => ({
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
 	productCategories: many(productCategories),
+	offCategoryMappings: many(offCategoryMappings),
 }));
+
+export const offCategoryMappingsRelations = relations(
+	offCategoryMappings,
+	({ one }) => ({
+		category: one(categories, {
+			fields: [offCategoryMappings.categoryId],
+			references: [categories.id],
+		}),
+	}),
+);
 
 export const storesRelations = relations(stores, ({ many }) => ({
 	productStores: many(productStores),

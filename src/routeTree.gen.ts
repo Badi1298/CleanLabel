@@ -24,6 +24,7 @@ import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protecte
 import { Route as ProtectedAdminAddStoreRouteImport } from './routes/_protected/admin/add-store'
 import { Route as ProtectedAdminAllCategoriesRouteImport } from './routes/_protected/admin/all-categories'
 import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protected/admin/all-products'
+import { Route as ProtectedAdminCategoryMappingsRouteImport } from './routes/_protected/admin/category-mappings'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedPublicProductsProductIdRouteImport } from './routes/_protected/_public/products/$productId'
 import { Route as ProtectedPublicStoresIndexRouteImport } from './routes/_protected/_public/stores/index'
@@ -108,6 +109,12 @@ const ProtectedAdminAllProductsRoute =
     path: '/all-products',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
+const ProtectedAdminCategoryMappingsRoute =
+  ProtectedAdminCategoryMappingsRouteImport.update({
+    id: '/category-mappings',
+    path: '/category-mappings',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -152,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
+  '/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/stores/': typeof ProtectedPublicStoresIndexRoute
@@ -172,6 +180,7 @@ export interface FileRoutesByTo {
   '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
+  '/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/stores': typeof ProtectedPublicStoresIndexRoute
@@ -194,6 +203,7 @@ export interface FileRoutesById {
   '/_protected/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/_protected/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/_protected/admin/all-products': typeof ProtectedAdminAllProductsRoute
+  '/_protected/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
   '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/admin/add-store'
     | '/admin/all-categories'
     | '/admin/all-products'
+    | '/admin/category-mappings'
     | '/api/auth/$'
     | '/products/$productId'
     | '/stores/'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/admin/add-store'
     | '/admin/all-categories'
     | '/admin/all-products'
+    | '/admin/category-mappings'
     | '/api/auth/$'
     | '/products/$productId'
     | '/stores'
@@ -258,6 +270,7 @@ export interface FileRouteTypes {
     | '/_protected/admin/add-store'
     | '/_protected/admin/all-categories'
     | '/_protected/admin/all-products'
+    | '/_protected/admin/category-mappings'
     | '/api/auth/$'
     | '/_protected/_public/'
     | '/_protected/_public/products/$productId'
@@ -381,6 +394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminAllProductsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/category-mappings': {
+      id: '/_protected/admin/category-mappings'
+      path: '/category-mappings'
+      fullPath: '/admin/category-mappings'
+      preLoaderRoute: typeof ProtectedAdminCategoryMappingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -452,6 +472,7 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminAddStoreRoute: typeof ProtectedAdminAddStoreRoute
   ProtectedAdminAllCategoriesRoute: typeof ProtectedAdminAllCategoriesRoute
   ProtectedAdminAllProductsRoute: typeof ProtectedAdminAllProductsRoute
+  ProtectedAdminCategoryMappingsRoute: typeof ProtectedAdminCategoryMappingsRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
@@ -460,6 +481,7 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminAddStoreRoute: ProtectedAdminAddStoreRoute,
   ProtectedAdminAllCategoriesRoute: ProtectedAdminAllCategoriesRoute,
   ProtectedAdminAllProductsRoute: ProtectedAdminAllProductsRoute,
+  ProtectedAdminCategoryMappingsRoute: ProtectedAdminCategoryMappingsRoute,
 }
 
 const ProtectedAdminRouteRouteWithChildren =
