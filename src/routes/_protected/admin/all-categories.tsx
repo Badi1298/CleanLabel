@@ -82,8 +82,8 @@ const columns = [
 		enableHiding: false,
 		cell: (info) => (
 			<Link
-				to="/admin/edit-category/$categoryId"
-				params={{ categoryId: info.row.original.id }}
+				to="/admin/add-category"
+				search={{ categoryId: info.row.original.id }}
 				className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm transition-colors"
 			>
 				Edit

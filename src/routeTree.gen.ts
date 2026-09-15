@@ -27,7 +27,6 @@ import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protect
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedPublicProductsProductIdRouteImport } from './routes/_protected/_public/products/$productId'
 import { Route as ProtectedPublicStoresIndexRouteImport } from './routes/_protected/_public/stores/index'
-import { Route as ProtectedAdminEditCategoryCategoryIdRouteImport } from './routes/_protected/admin/edit-category.$categoryId'
 import { Route as ProtectedPublicStoresStoreIdIndexRouteImport } from './routes/_protected/_public/stores/$storeId/index'
 import { Route as ProtectedPublicStoresStoreIdCategoryIdRouteImport } from './routes/_protected/_public/stores/$storeId/$categoryId'
 
@@ -126,12 +125,6 @@ const ProtectedPublicStoresIndexRoute =
     path: '/stores/',
     getParentRoute: () => ProtectedPublicRouteRoute,
   } as any)
-const ProtectedAdminEditCategoryCategoryIdRoute =
-  ProtectedAdminEditCategoryCategoryIdRouteImport.update({
-    id: '/edit-category/$categoryId',
-    path: '/edit-category/$categoryId',
-    getParentRoute: () => ProtectedAdminRouteRoute,
-  } as any)
 const ProtectedPublicStoresStoreIdIndexRoute =
   ProtectedPublicStoresStoreIdIndexRouteImport.update({
     id: '/stores/$storeId/',
@@ -161,7 +154,6 @@ export interface FileRoutesByFullPath {
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
-  '/admin/edit-category/$categoryId': typeof ProtectedAdminEditCategoryCategoryIdRoute
   '/stores/': typeof ProtectedPublicStoresIndexRoute
   '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
@@ -182,7 +174,6 @@ export interface FileRoutesByTo {
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
-  '/admin/edit-category/$categoryId': typeof ProtectedAdminEditCategoryCategoryIdRoute
   '/stores': typeof ProtectedPublicStoresIndexRoute
   '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/stores/$storeId': typeof ProtectedPublicStoresStoreIdIndexRoute
@@ -206,7 +197,6 @@ export interface FileRoutesById {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
   '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
-  '/_protected/admin/edit-category/$categoryId': typeof ProtectedAdminEditCategoryCategoryIdRoute
   '/_protected/_public/stores/': typeof ProtectedPublicStoresIndexRoute
   '/_protected/_public/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/_protected/_public/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
@@ -229,7 +219,6 @@ export interface FileRouteTypes {
     | '/admin/all-products'
     | '/api/auth/$'
     | '/products/$productId'
-    | '/admin/edit-category/$categoryId'
     | '/stores/'
     | '/stores/$storeId/$categoryId'
     | '/stores/$storeId/'
@@ -250,7 +239,6 @@ export interface FileRouteTypes {
     | '/admin/all-products'
     | '/api/auth/$'
     | '/products/$productId'
-    | '/admin/edit-category/$categoryId'
     | '/stores'
     | '/stores/$storeId/$categoryId'
     | '/stores/$storeId'
@@ -273,7 +261,6 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/_protected/_public/'
     | '/_protected/_public/products/$productId'
-    | '/_protected/admin/edit-category/$categoryId'
     | '/_protected/_public/stores/'
     | '/_protected/_public/stores/$storeId/$categoryId'
     | '/_protected/_public/stores/$storeId/'
@@ -415,13 +402,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedPublicStoresIndexRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
-    '/_protected/admin/edit-category/$categoryId': {
-      id: '/_protected/admin/edit-category/$categoryId'
-      path: '/edit-category/$categoryId'
-      fullPath: '/admin/edit-category/$categoryId'
-      preLoaderRoute: typeof ProtectedAdminEditCategoryCategoryIdRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
     '/_protected/_public/stores/$storeId/': {
       id: '/_protected/_public/stores/$storeId/'
       path: '/stores/$storeId'
@@ -472,7 +452,6 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminAddStoreRoute: typeof ProtectedAdminAddStoreRoute
   ProtectedAdminAllCategoriesRoute: typeof ProtectedAdminAllCategoriesRoute
   ProtectedAdminAllProductsRoute: typeof ProtectedAdminAllProductsRoute
-  ProtectedAdminEditCategoryCategoryIdRoute: typeof ProtectedAdminEditCategoryCategoryIdRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
@@ -481,8 +460,6 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminAddStoreRoute: ProtectedAdminAddStoreRoute,
   ProtectedAdminAllCategoriesRoute: ProtectedAdminAllCategoriesRoute,
   ProtectedAdminAllProductsRoute: ProtectedAdminAllProductsRoute,
-  ProtectedAdminEditCategoryCategoryIdRoute:
-    ProtectedAdminEditCategoryCategoryIdRoute,
 }
 
 const ProtectedAdminRouteRouteWithChildren =

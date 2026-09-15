@@ -1,18 +1,31 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
 
 import { useForm } from "@tanstack/react-form";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
+import { z } from "zod";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent } from "#/components/ui/card";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import { addCategory } from "#/server/category-functions";
+import { categoryQueryOptions } from "#/queries/category-queries";
+import { addCategory, updateCategory } from "#/server/category-functions";
+
+const searchSchema = z.object({
+	categoryId: z.string().optional(),
+});
 
 export const Route = createFileRoute("/_protected/admin/add-category")({
 	component: RouteComponent,
+	validateSearch: searchSchema,
+	loaderDeps: ({ search: { categoryId } }) => ({ categoryId }),
+	loader: async ({ context: { queryClient }, deps: { categoryId } }) => {
+		if (categoryId) {
+			await queryClient.ensureQueryData(categoryQueryOptions(categoryId));
+		}
+	},
 });
 
 function FieldInfo({ field }: { field: any }) {
@@ -31,39 +44,66 @@ function FieldInfo({ field }: { field: any }) {
 }
 
 function RouteComponent() {
+	const { categoryId } = Route.useSearch();
+	const { data: category } = useQuery({
+		...categoryQueryOptions(categoryId ?? ""),
+		enabled: !!categoryId,
+	});
 	const addCategoryFn = useServerFn(addCategory);
+	const updateCategoryFn = useServerFn(updateCategory);
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
 	const form = useForm({
 		defaultValues: {
-			name: "",
-			iconUrl: "",
+			name: category?.name || "",
+			iconUrl: category?.iconUrl || "",
 			subcategories: "",
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				await addCategoryFn({
-					data: {
-						name: value.name,
-						iconUrl: value.iconUrl || undefined,
-					},
-				});
+				if (categoryId) {
+					await updateCategoryFn({
+						data: {
+							id: categoryId,
+							name: value.name,
+							iconUrl: value.iconUrl || undefined,
+						},
+					});
+					toast.success("Category updated successfully!");
+				} else {
+					await addCategoryFn({
+						data: {
+							name: value.name,
+							iconUrl: value.iconUrl || undefined,
+						},
+					});
+					toast.success("Category added successfully!");
+				}
 				queryClient.invalidateQueries({ queryKey: ["categories"] });
 				queryClient.invalidateQueries({ queryKey: ["homeData"] });
-				toast.success("Category added successfully!");
 				router.history.back();
 			} catch (e) {
 				console.error(e);
-				toast.error("Failed to add category.");
+				toast.error(
+					categoryId ? "Failed to update category." : "Failed to add category.",
+				);
 			}
 		},
 	});
+
+	if (categoryId && !category) return null;
 
 	return (
 		<div className="flex justify-center px-4 mt-4 mb-12">
 			<Card className="max-w-7xl w-full">
 				<CardContent className="pt-6">
+					<div className="mb-6 flex justify-between items-center">
+						<h1 className="text-2xl font-bold">
+							{categoryId ? "Edit Category" : "Add Category"}
+						</h1>
+					</div>
+
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
@@ -131,7 +171,16 @@ function RouteComponent() {
 							)}
 						/>
 
-						<div className="pt-4">
+						<div className="pt-4 flex gap-4">
+							<Button
+								type="button"
+								variant="outline"
+								className="w-full"
+								onClick={() => router.history.back()}
+							>
+								Cancel
+							</Button>
+
 							<form.Subscribe
 								selector={(state) => [state.canSubmit, state.isSubmitting]}
 								children={([canSubmit, isSubmitting]) => (
@@ -140,7 +189,11 @@ function RouteComponent() {
 										disabled={!canSubmit || isSubmitting}
 										className="w-full"
 									>
-										{isSubmitting ? "Saving..." : "Save Category"}
+										{isSubmitting
+											? "Saving..."
+											: categoryId
+												? "Save Changes"
+												: "Save Category"}
 									</Button>
 								)}
 							/>
