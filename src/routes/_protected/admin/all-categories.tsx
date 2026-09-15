@@ -69,7 +69,7 @@ const columns = [
 			const url = info.getValue();
 			if (!url) return <span className="text-slate-500">None</span>;
 			return (
-				<span className="truncate max-w-[200px] inline-block text-slate-500">
+				<span className="truncate max-w-50 inline-block text-slate-500">
 					{url}
 				</span>
 			);
