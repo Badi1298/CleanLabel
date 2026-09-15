@@ -2,7 +2,12 @@ import { createServerFn } from "@tanstack/react-start";
 import { and, count, eq, ilike, or } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
-import { categories, productStores, products } from "#/db/app-schema";
+import {
+	categories,
+	productCategories,
+	productStores,
+	products,
+} from "#/db/app-schema";
 import { ensureSession } from "./auth-functions";
 
 export const getCategories = createServerFn({
@@ -15,7 +20,7 @@ const addProductSchema = z.object({
 	barcode: z.string().optional(),
 	name: z.string().min(1, "Name is required"),
 	brand: z.string().min(1, "Brand is required"),
-	categoryId: z.string().min(1, "Category is required"),
+	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
@@ -39,7 +44,6 @@ export const addProduct = createServerFn({
 				barcode: data.barcode || undefined,
 				name: data.name,
 				brand: data.brand,
-				categoryId: data.categoryId,
 				score: data.score,
 				status: data.status,
 				rawIngredientsText: data.rawIngredientsText || undefined,
@@ -54,6 +58,15 @@ export const addProduct = createServerFn({
 				data.storeIds.map((storeId) => ({
 					productId: newProduct.id,
 					storeId,
+				})),
+			);
+		}
+
+		if (data.categoryIds && data.categoryIds.length > 0) {
+			await db.insert(productCategories).values(
+				data.categoryIds.map((categoryId) => ({
+					productId: newProduct.id,
+					categoryId,
 				})),
 			);
 		}
@@ -96,27 +109,52 @@ export const getAllProducts = createServerFn({
 		const whereClause =
 			whereConditions.length > 0 ? and(...whereConditions) : undefined;
 
-		const [dataRows, [{ totalCount }]] = await Promise.all([
+		const [productRows, [{ totalCount }]] = await Promise.all([
 			db
-				.select({
-					product: products,
-					category: categories,
+				.selectDistinct({
+					id: products.id,
+					createdAt: products.createdAt,
 				})
 				.from(products)
-				.leftJoin(categories, eq(products.categoryId, categories.id))
+				.leftJoin(
+					productCategories,
+					eq(products.id, productCategories.productId),
+				)
+				.leftJoin(categories, eq(productCategories.categoryId, categories.id))
 				.where(whereClause)
 				.orderBy(products.createdAt)
 				.limit(pageSize)
 				.offset(offset),
 			db
-				.select({ totalCount: count() })
+				.select({ totalCount: count(products.id) })
 				.from(products)
-				.leftJoin(categories, eq(products.categoryId, categories.id))
+				.leftJoin(
+					productCategories,
+					eq(products.id, productCategories.productId),
+				)
+				.leftJoin(categories, eq(productCategories.categoryId, categories.id))
 				.where(whereClause),
 		]);
 
+		const fullProducts = await db.query.products.findMany({
+			where: or(...productRows.map((p) => eq(products.id, p.id))),
+			with: {
+				productCategories: {
+					with: { category: true },
+				},
+			},
+			orderBy: (products, { asc }) => [asc(products.createdAt)],
+		});
+
+		const sortedProducts = productRows
+			.map((pr) => fullProducts.find((fp) => fp.id === pr.id)!)
+			.filter(Boolean);
+
 		return {
-			data: dataRows,
+			data: sortedProducts.map((p) => ({
+				product: p,
+				categories: p.productCategories?.map(pc => pc.category).filter(Boolean) || [],
+			})),
 			rowCount: totalCount,
 		};
 	});
@@ -131,6 +169,7 @@ export const getProductById = createServerFn({
 			where: eq(products.id, productId),
 			with: {
 				productStores: true,
+				productCategories: true,
 			},
 		});
 		return product;
@@ -141,7 +180,7 @@ const updateProductSchema = z.object({
 	barcode: z.string().optional(),
 	name: z.string().min(1, "Name is required"),
 	brand: z.string().min(1, "Brand is required"),
-	categoryId: z.string().min(1, "Category is required"),
+	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
@@ -165,7 +204,6 @@ export const updateProduct = createServerFn({
 				barcode: data.barcode || undefined,
 				name: data.name,
 				brand: data.brand,
-				categoryId: data.categoryId,
 				score: data.score,
 				status: data.status,
 				rawIngredientsText: data.rawIngredientsText || undefined,
@@ -189,6 +227,20 @@ export const updateProduct = createServerFn({
 			}
 		}
 
+		if (data.categoryIds !== undefined) {
+			await db
+				.delete(productCategories)
+				.where(eq(productCategories.productId, data.id));
+			if (data.categoryIds.length > 0) {
+				await db.insert(productCategories).values(
+					data.categoryIds.map((categoryId) => ({
+						productId: data.id,
+						categoryId,
+					})),
+				);
+			}
+		}
+
 		return updatedProduct;
 	});
 
@@ -200,7 +252,9 @@ export const getProductDetailsById = createServerFn({
 		const product = await db.query.products.findFirst({
 			where: (products, { eq }) => eq(products.id, productId),
 			with: {
-				category: true,
+				productCategories: {
+					with: { category: true },
+				},
 				submittedBy: true,
 				productIngredients: {
 					with: {

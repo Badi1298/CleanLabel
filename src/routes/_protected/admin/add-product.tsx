@@ -106,7 +106,10 @@ function RouteComponent() {
 											barcode: product.barcode || "",
 											name: product.name,
 											brand: product.brand,
-											categoryId: product.categoryId,
+											categoryIds:
+												product.productCategories?.map(
+													(pc: any) => pc.categoryId,
+												) || [],
 											score: product.score,
 											status: product.status,
 											rawIngredientsText: product.rawIngredientsText || "",
@@ -125,6 +128,7 @@ function RouteComponent() {
 											data: {
 												id: product.id,
 												...values,
+												categoryIds: values.categoryIds,
 												imageFrontUrl:
 													typeof values.imageFront === "string"
 														? values.imageFront
@@ -143,7 +147,7 @@ function RouteComponent() {
 												barcode: values.barcode,
 												name: values.name,
 												brand: values.brand,
-												categoryId: values.categoryId,
+												categoryIds: values.categoryIds,
 												score: values.score,
 												status: values.status || "approved",
 												rawIngredientsText: values.rawIngredientsText,

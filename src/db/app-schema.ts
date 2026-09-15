@@ -43,9 +43,6 @@ export const products = pgTable("products", {
 	barcode: text("barcode").unique(),
 	name: text("name").notNull(),
 	brand: text("brand").notNull(),
-	categoryId: text("category_id")
-		.notNull()
-		.references(() => categories.id),
 	score: productScoreEnum("score").default("none").notNull(),
 	imageFrontUrl: text("image_front_url"),
 	imageBackUrl: text("image_back_url"),
@@ -94,23 +91,33 @@ export const productStores = pgTable(
 	(t) => [primaryKey({ columns: [t.productId, t.storeId] })],
 );
 
+export const productCategories = pgTable(
+	"product_categories",
+	{
+		productId: text("product_id")
+			.notNull()
+			.references(() => products.id, { onDelete: "cascade" }),
+		categoryId: text("category_id")
+			.notNull()
+			.references(() => categories.id, { onDelete: "cascade" }),
+	},
+	(t) => [primaryKey({ columns: [t.productId, t.categoryId] })],
+);
+
 // --- Drizzle ORM Relations ---
 
 export const productsRelations = relations(products, ({ one, many }) => ({
-	category: one(categories, {
-		fields: [products.categoryId],
-		references: [categories.id],
-	}),
 	submittedBy: one(user, {
 		fields: [products.submittedById],
 		references: [user.id],
 	}),
 	productIngredients: many(productIngredients),
 	productStores: many(productStores),
+	productCategories: many(productCategories),
 }));
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
-	products: many(products),
+	productCategories: many(productCategories),
 }));
 
 export const storesRelations = relations(stores, ({ many }) => ({
@@ -145,3 +152,17 @@ export const productStoresRelations = relations(productStores, ({ one }) => ({
 		references: [stores.id],
 	}),
 }));
+
+export const productCategoriesRelations = relations(
+	productCategories,
+	({ one }) => ({
+		product: one(products, {
+			fields: [productCategories.productId],
+			references: [products.id],
+		}),
+		category: one(categories, {
+			fields: [productCategories.categoryId],
+			references: [categories.id],
+		}),
+	}),
+);

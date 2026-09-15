@@ -82,7 +82,6 @@ export const processBarcodeScan = createServerFn({
 					barcode: barcode,
 					name: productName,
 					brand: brandName,
-					categoryId: categoryRecord.id,
 					score: mapNutriscore(product.nutriscore_grade),
 					imageFrontUrl: product.image_front_url || null,
 					imageBackUrl: product.image_ingredients_url || null,
@@ -90,6 +89,11 @@ export const processBarcodeScan = createServerFn({
 					status: "approved",
 				})
 				.returning();
+
+			await db.insert(appSchema.productCategories).values({
+				productId: productRecord.id,
+				categoryId: categoryRecord.id,
+			});
 
 			// Handle Ingredients
 			if (

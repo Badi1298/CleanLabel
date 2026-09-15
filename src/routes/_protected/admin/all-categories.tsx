@@ -13,7 +13,6 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown, Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import {
 	DropdownMenu,
@@ -23,24 +22,23 @@ import {
 } from "#/components/ui/dropdown-menu";
 import { Input } from "#/components/ui/input";
 import { useDebounce } from "#/hooks/use-debounce";
-import { allProductsQueryOptions } from "#/queries/product-queries";
-import type { getAllProducts } from "#/server/product-functions";
+import { categoriesQueryOptions } from "#/queries/category-queries";
+import type { getCategories } from "#/server/category-functions";
 
-export const Route = createFileRoute("/_protected/admin/all-products")({
+export const Route = createFileRoute("/_protected/admin/all-categories")({
 	component: RouteComponent,
 	loader: async ({ context: { queryClient } }) =>
 		await queryClient.ensureQueryData(
-			allProductsQueryOptions({
+			categoriesQueryOptions({
 				pageIndex: 0,
 				pageSize: 10,
 				globalFilter: "",
-				statusFilter: "all",
 			}),
 		),
 });
 
-type ProductData = NonNullable<
-	Awaited<ReturnType<typeof getAllProducts>>["data"]
+type CategoryData = NonNullable<
+	Awaited<ReturnType<typeof getCategories>>["data"]
 >[0];
 
 const features = tableFeatures({
@@ -49,10 +47,10 @@ const features = tableFeatures({
 	columnVisibilityFeature,
 	rowPaginationFeature,
 });
-const columnHelper = createColumnHelper<typeof features, ProductData>();
+const columnHelper = createColumnHelper<typeof features, CategoryData>();
 
 const columns = [
-	columnHelper.accessor((row) => row.product.name, {
+	columnHelper.accessor("name", {
 		id: "name",
 		header: "Name",
 		enableColumnFilter: false,
@@ -63,61 +61,18 @@ const columns = [
 			</span>
 		),
 	}),
-	columnHelper.accessor((row) => row.categories, {
-		id: "categories",
-		header: "Categories",
+	columnHelper.accessor("iconUrl", {
+		id: "iconUrl",
+		header: "Icon URL",
 		enableColumnFilter: false,
 		cell: (info) => {
-			const categories = info.getValue();
-			if (!categories || categories.length === 0) return <span className="text-slate-500">N/A</span>;
-			
-			const displayCategories = categories.slice(0, 2);
-			const remainingCount = categories.length - 2;
-
+			const url = info.getValue();
+			if (!url) return <span className="text-slate-500">None</span>;
 			return (
-				<div className="flex flex-wrap gap-1">
-					{displayCategories.map(c => (
-						<Badge key={c.id} variant="secondary" className="font-normal text-xs whitespace-nowrap">
-							{c.name}
-						</Badge>
-					))}
-					{remainingCount > 0 && (
-						<Badge variant="outline" className="font-normal text-xs whitespace-nowrap text-slate-500">
-							+{remainingCount} more
-						</Badge>
-					)}
-				</div>
+				<span className="truncate max-w-50 inline-block text-slate-500">
+					{url}
+				</span>
 			);
-		},
-	}),
-	columnHelper.accessor((row) => row.product.status, {
-		id: "status",
-		header: "Status",
-		enableColumnFilter: false,
-		cell: (info) => {
-			const status = info.getValue();
-			return (
-				<Badge
-					variant={
-						status === "rejected"
-							? "destructive"
-							: status === "approved"
-								? "default"
-								: "secondary"
-					}
-				>
-					{status.replace("_", " ")}
-				</Badge>
-			);
-		},
-	}),
-	columnHelper.accessor((row) => row.product.createdAt, {
-		id: "date",
-		header: "Date Added",
-		enableColumnFilter: false,
-		cell: (info) => {
-			const date = new Date(info.getValue());
-			return date.toLocaleDateString("en-US");
 		},
 	}),
 	columnHelper.display({
@@ -127,11 +82,11 @@ const columns = [
 		enableHiding: false,
 		cell: (info) => (
 			<Link
-				to="/admin/add-product"
-				search={{ productId: info.row.original.product.id }}
+				to="/admin/add-category"
+				search={{ categoryId: info.row.original.id }}
 				className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm transition-colors"
 			>
-				Review
+				Edit
 			</Link>
 		),
 	}),
@@ -152,7 +107,6 @@ function RouteComponent() {
 			prev.pageIndex !== 0 ? { ...prev, pageIndex: 0 } : prev,
 		);
 	}
-	const [statusFilter, setStatusFilter] = useState<string>("all");
 	const [columnVisibility, setColumnVisibility] = useState<
 		Record<string, boolean>
 	>({});
@@ -162,17 +116,16 @@ function RouteComponent() {
 			pageIndex: pagination.pageIndex,
 			pageSize: pagination.pageSize,
 			globalFilter: debouncedSearch,
-			statusFilter,
 		}),
-		[pagination, debouncedSearch, statusFilter],
+		[pagination, debouncedSearch],
 	);
 
 	const { data: result } = useQuery({
-		...allProductsQueryOptions(queryArgs),
+		...categoriesQueryOptions(queryArgs),
 		placeholderData: keepPreviousData,
 	});
 
-	const table = useTable<typeof features, ProductData>({
+	const table = useTable<typeof features, CategoryData>({
 		features,
 		data: result?.data ?? [],
 		columns: columns as any,
@@ -201,27 +154,8 @@ function RouteComponent() {
 							value={searchInput}
 							onChange={(e) => setSearchInput(e.target.value)}
 							className="pl-9 bg-white dark:bg-slate-900"
-							placeholder="Search products or brands..."
+							placeholder="Search categories..."
 						/>
-					</div>
-
-					<div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg self-start">
-						{["all", "approved", "pending_review", "rejected"].map((status) => (
-							<Button
-								key={status}
-								variant={statusFilter === status ? "default" : "ghost"}
-								size="sm"
-								onClick={() => {
-									setStatusFilter(status);
-									setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-								}}
-								className="h-7 text-xs px-3 font-medium transition-all cursor-pointer"
-							>
-								{status === "all"
-									? "ALL"
-									: status.replace("_", " ").toUpperCase()}
-							</Button>
-						))}
 					</div>
 				</div>
 
@@ -260,6 +194,10 @@ function RouteComponent() {
 								})}
 						</DropdownMenuContent>
 					</DropdownMenu>
+
+					<Button asChild variant="outline">
+						<Link to="/admin/add-category">Add Category</Link>
+					</Button>
 				</div>
 			</div>
 
@@ -272,11 +210,9 @@ function RouteComponent() {
 									{headerGroup.headers.map((header) => {
 										const widthClass =
 											{
-												name: "w-[35%]",
-												categories: "w-[20%]",
-												status: "w-[20%]",
-												date: "w-[15%]",
-												actions: "w-[10%]",
+												name: "w-[50%]",
+												iconUrl: "w-[35%]",
+												actions: "w-[15%]",
 											}[header.id] || "";
 										return (
 											<th
@@ -318,7 +254,7 @@ function RouteComponent() {
 										colSpan={columns.length}
 										className="px-6 py-12 text-center text-slate-500 dark:text-slate-400"
 									>
-										No products waiting for review.
+										No categories found.
 									</td>
 								</tr>
 							)}

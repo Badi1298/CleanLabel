@@ -95,13 +95,17 @@ async function main() {
 			barcode: product.code || null,
 			name: productName,
 			brand: brandName,
-			categoryId: categoryRecord.id,
 			score: mapNutriscore(product.nutriscore_grade),
 			imageFrontUrl: product.image_front_url || null,
 			imageBackUrl: product.image_ingredients_url || null,
 			rawIngredientsText: product.ingredients_text || null,
 			status: "approved",
 		}).returning();
+
+		await db.insert(appSchema.productCategories).values({
+			productId: productRecord.id,
+			categoryId: categoryRecord.id,
+		});
 
 		console.log(`Inserted product: ${productName} (${brandName})`);
 
