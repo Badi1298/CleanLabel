@@ -55,8 +55,8 @@ function RouteComponent() {
 				title: "Stores",
 				items: [
 					{
-						title: "Add Store",
-						url: "/admin/add-store",
+						title: "All Stores",
+						url: "/admin/all-stores",
 						isActive: location.pathname === "/admin/add-store",
 					},
 				],
@@ -70,14 +70,24 @@ function RouteComponent() {
 						isActive: location.pathname === "/admin/all-categories",
 					},
 					{
-						title: "Add Category",
-						url: "/admin/add-category",
-						isActive: location.pathname === "/admin/add-category",
-					},
-					{
 						title: "Category Mappings",
 						url: "/admin/category-mappings",
 						isActive: location.pathname === "/admin/category-mappings",
+					},
+				],
+			},
+			{
+				title: "Ingredients",
+				items: [
+					{
+						title: "All Ingredients",
+						url: "/admin/ingredients",
+						isActive: location.pathname === "/admin/all-ingredients",
+					},
+					{
+						title: "Ingredient Mappings",
+						url: "/admin/ingredient-mappings",
+						isActive: location.pathname === "/admin/add-ingredient",
 					},
 				],
 			},

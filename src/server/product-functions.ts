@@ -5,6 +5,7 @@ import { db } from "#/db";
 import {
 	categories,
 	productCategories,
+	productIngredients,
 	productStores,
 	products,
 } from "#/db/app-schema";
@@ -21,6 +22,7 @@ const addProductSchema = z.object({
 	name: z.string().min(1, "Name is required"),
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
+	ingredientIds: z.array(z.string()).optional(),
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
@@ -67,6 +69,15 @@ export const addProduct = createServerFn({
 				data.categoryIds.map((categoryId) => ({
 					productId: newProduct.id,
 					categoryId,
+				})),
+			);
+		}
+
+		if (data.ingredientIds && data.ingredientIds.length > 0) {
+			await db.insert(productIngredients).values(
+				data.ingredientIds.map((ingredientId) => ({
+					productId: newProduct.id,
+					ingredientId,
 				})),
 			);
 		}
@@ -170,6 +181,7 @@ export const getProductById = createServerFn({
 			with: {
 				productStores: true,
 				productCategories: true,
+				productIngredients: true,
 			},
 		});
 		return product;
@@ -181,6 +193,7 @@ const updateProductSchema = z.object({
 	name: z.string().min(1, "Name is required"),
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
+	ingredientIds: z.array(z.string()).optional(),
 	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
@@ -236,6 +249,20 @@ export const updateProduct = createServerFn({
 					data.categoryIds.map((categoryId) => ({
 						productId: data.id,
 						categoryId,
+					})),
+				);
+			}
+		}
+
+		if (data.ingredientIds !== undefined) {
+			await db
+				.delete(productIngredients)
+				.where(eq(productIngredients.productId, data.id));
+			if (data.ingredientIds.length > 0) {
+				await db.insert(productIngredients).values(
+					data.ingredientIds.map((ingredientId) => ({
+						productId: data.id,
+						ingredientId,
 					})),
 				);
 			}

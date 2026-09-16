@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	Link,
@@ -6,6 +6,7 @@ import {
 	useRouter,
 } from "@tanstack/react-router";
 import {
+	AlertCircle,
 	AlertTriangle,
 	ArrowLeft,
 	Info,
@@ -18,29 +19,41 @@ import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "#/components/ui/tooltip";
+import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
 import { productDetailsQueryOptions } from "#/queries/product-queries";
+import { userExcludedIngredientsQueryOptions } from "#/queries/profile-queries";
 
-export const Route = createFileRoute("/_protected/_public/products/$productId")({
-	loader: async ({ context: { queryClient }, params: { productId } }) => {
-		const product = await queryClient.ensureQueryData(
-			productDetailsQueryOptions(productId),
-		);
-		if (!product) {
-			throw notFound();
-		}
+export const Route = createFileRoute("/_protected/_public/products/$productId")(
+	{
+		loader: async ({ context: { queryClient }, params: { productId } }) => {
+			const product = await queryClient.ensureQueryData(
+				productDetailsQueryOptions(productId),
+			);
+			if (!product) {
+				throw notFound();
+			}
+		},
+		notFoundComponent: () => (
+			<div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+				<Package className="w-16 h-16 text-slate-300" />
+				<h2 className="text-xl font-medium text-slate-600">
+					Product not found
+				</h2>
+				<Link to="/" className="text-blue-600 hover:underline">
+					Return to Home
+				</Link>
+			</div>
+		),
+		component: ProductDetails,
 	},
-	notFoundComponent: () => (
-		<div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-			<Package className="w-16 h-16 text-slate-300" />
-			<h2 className="text-xl font-medium text-slate-600">Product not found</h2>
-			<Link to="/" className="text-blue-600 hover:underline">
-				Return to Home
-			</Link>
-		</div>
-	),
-	component: ProductDetails,
-});
+);
 
 function getScoreBadgeProps(score: string) {
 	switch (score) {
@@ -70,6 +83,12 @@ function ProductDetails() {
 	const { data: product } = useSuspenseQuery(
 		productDetailsQueryOptions(productId),
 	);
+
+	const { data: session } = authClient.useSession();
+	const { data: excludedIngredients } = useQuery({
+		...userExcludedIngredientsQueryOptions(),
+		enabled: !!session?.user,
+	});
 
 	if (!product) return null;
 
@@ -153,21 +172,22 @@ function ProductDetails() {
 										{product.score !== "none" ? product.score : "Score Missing"}
 									</Badge>
 								)}
-								{product.category && (
+								{product.productCategories?.map((pc) => (
 									<Badge
+										key={pc.category.id}
 										variant="secondary"
 										className="font-normal flex items-center gap-1.5"
 									>
-										{product.category.iconUrl && (
+										{pc.category.iconUrl && (
 											<img
-												src={product.category.iconUrl}
+												src={pc.category.iconUrl}
 												alt=""
 												className="w-3.5 h-3.5 opacity-80 object-contain"
 											/>
 										)}
-										{product.category.name}
+										{pc.category.name}
 									</Badge>
-								)}
+								))}
 							</div>
 
 							<h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
@@ -219,29 +239,72 @@ function ProductDetails() {
 					{product.productIngredients &&
 					product.productIngredients.length > 0 ? (
 						<div className="grid gap-3">
-							{product.productIngredients.map(({ ingredient }) => (
-								<Card key={ingredient.id} className="rounded-xl shadow-sm">
-									<CardContent className="p-4 flex items-center justify-between">
-										<span className="font-medium text-slate-800 dark:text-slate-200">
-											{ingredient.name}
-										</span>
-										{ingredient.hazardLevel && (
-											<Badge
-												variant={
-													ingredient.hazardLevel === "high"
-														? "destructive"
-														: ingredient.hazardLevel === "medium"
-															? "secondary"
-															: "default"
-												}
-												className="uppercase text-[10px]"
-											>
-												{ingredient.hazardLevel} Hazard
-											</Badge>
+							{product.productIngredients.map(({ ingredient }) => {
+								const isExcluded = excludedIngredients?.some(
+									(ex) => ex.id === ingredient.id,
+								);
+								return (
+									<Card
+										key={ingredient.id}
+										className={cn(
+											"rounded-xl shadow-sm transition-colors",
+											isExcluded &&
+												"border-red-500 bg-red-50/50 dark:bg-red-950/20",
 										)}
-									</CardContent>
-								</Card>
-							))}
+									>
+										<CardContent className="p-4 flex items-center justify-between">
+											<div className="flex items-center gap-2">
+												{isExcluded && (
+													<AlertTriangle className="w-5 h-5 text-red-500 mr-1" />
+												)}
+												<span
+													className={cn(
+														"font-medium",
+														isExcluded
+															? "text-red-700 dark:text-red-400"
+															: "text-slate-800 dark:text-slate-200",
+													)}
+												>
+													{ingredient.name}
+												</span>
+												{ingredient.description && (
+													<TooltipProvider>
+														<Tooltip>
+															<TooltipTrigger asChild>
+																<Info
+																	className={cn(
+																		"w-4 h-4 transition-colors cursor-help",
+																		isExcluded
+																			? "text-red-400 hover:text-red-600"
+																			: "text-slate-400 hover:text-slate-600",
+																	)}
+																/>
+															</TooltipTrigger>
+															<TooltipContent className="max-w-xs">
+																<p>{ingredient.description}</p>
+															</TooltipContent>
+														</Tooltip>
+													</TooltipProvider>
+												)}
+											</div>
+											{ingredient.hazardLevel && (
+												<Badge
+													variant={
+														ingredient.hazardLevel === "high"
+															? "destructive"
+															: ingredient.hazardLevel === "medium"
+																? "secondary"
+																: "default"
+													}
+													className="uppercase text-[10px]"
+												>
+													{ingredient.hazardLevel} Hazard
+												</Badge>
+											)}
+										</CardContent>
+									</Card>
+								);
+							})}
 						</div>
 					) : (
 						<Card className="bg-slate-50/50 dark:bg-slate-900/50 border-dashed shadow-none">

@@ -139,6 +139,8 @@ export const processBarcodeScan = createServerFn({
 			});
 
 			// Handle Ingredients
+			const offIngredientsToStore: string[] = [];
+
 			if (
 				Array.isArray(product.ingredients) &&
 				product.ingredients.length > 0
@@ -148,28 +150,44 @@ export const processBarcodeScan = createServerFn({
 					const ingName = ing.text.trim().toLowerCase();
 					if (!ingName) continue;
 
-					let ingredientRecord = await db.query.ingredients.findFirst({
-						where: eq(appSchema.ingredients.name, ingName),
+					// 1. Check if it's already mapped
+					const mapping = await db.query.offIngredientMappings.findFirst({
+						where: eq(appSchema.offIngredientMappings.offTag, ingName),
 					});
 
-					if (!ingredientRecord) {
-						const [newIng] = await db
-							.insert(appSchema.ingredients)
-							.values({ name: ingName })
-							.returning();
-						ingredientRecord = newIng;
-					}
+					if (mapping) {
+						// Link directly
+						try {
+							await db.insert(appSchema.productIngredients).values({
+								productId: productRecord.id,
+								ingredientId: mapping.ingredientId,
+							});
+						} catch (e: any) {
+							if (e.code !== "23505" && e.cause?.code !== "23505")
+								console.error(`Error linking ingredient:`, e);
+						}
+					} else {
+						// Store in unmapped and push to product's offIngredients array
+						offIngredientsToStore.push(ingName);
 
-					try {
-						await db.insert(appSchema.productIngredients).values({
-							productId: productRecord.id,
-							ingredientId: ingredientRecord.id,
-						});
-					} catch (e: any) {
-						if (e.code !== "23505" && e.cause?.code !== "23505")
-							console.error(`Error linking ingredient:`, e);
+						await db
+							.insert(appSchema.unmappedOffIngredients)
+							.values({ tag: ingName, occurrences: 1 })
+							.onConflictDoUpdate({
+								target: appSchema.unmappedOffIngredients.tag,
+								set: {
+									occurrences: sql`${appSchema.unmappedOffIngredients.occurrences} + 1`,
+								},
+							});
 					}
 				}
+			}
+
+			if (offIngredientsToStore.length > 0) {
+				await db
+					.update(appSchema.products)
+					.set({ offIngredients: offIngredientsToStore })
+					.where(eq(appSchema.products.id, productRecord.id));
 			}
 
 			return { productId: productRecord.id, source: "off_cached" };

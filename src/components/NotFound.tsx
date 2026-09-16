@@ -33,7 +33,7 @@ export function NotFound({ children }: { children?: React.ReactNode }) {
 						Go Back
 					</Button>
 
-					<Button asChild className="gap-2">
+					<Button asChild className="gap-2" variant="outline">
 						<Link to="/">
 							<Home className="h-4 w-4" />
 							Back to Home

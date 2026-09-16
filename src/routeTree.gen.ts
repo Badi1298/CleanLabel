@@ -19,12 +19,13 @@ import { Route as ProtectedPublicIndexRouteImport } from './routes/_protected/_p
 import { Route as ProtectedPublicAddProductRouteImport } from './routes/_protected/_public/add-product'
 import { Route as ProtectedPublicProfileRouteImport } from './routes/_protected/_public/profile'
 import { Route as ProtectedPublicSearchRouteImport } from './routes/_protected/_public/search'
-import { Route as ProtectedAdminAddCategoryRouteImport } from './routes/_protected/admin/add-category'
 import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protected/admin/add-product'
-import { Route as ProtectedAdminAddStoreRouteImport } from './routes/_protected/admin/add-store'
 import { Route as ProtectedAdminAllCategoriesRouteImport } from './routes/_protected/admin/all-categories'
 import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protected/admin/all-products'
+import { Route as ProtectedAdminAllStoresRouteImport } from './routes/_protected/admin/all-stores'
 import { Route as ProtectedAdminCategoryMappingsRouteImport } from './routes/_protected/admin/category-mappings'
+import { Route as ProtectedAdminIngredientMappingsRouteImport } from './routes/_protected/admin/ingredient-mappings'
+import { Route as ProtectedAdminIngredientsRouteImport } from './routes/_protected/admin/ingredients'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedPublicProductsProductIdRouteImport } from './routes/_protected/_public/products/$productId'
 import { Route as ProtectedPublicStoresIndexRouteImport } from './routes/_protected/_public/stores/index'
@@ -80,23 +81,12 @@ const ProtectedPublicSearchRoute = ProtectedPublicSearchRouteImport.update({
   path: '/search',
   getParentRoute: () => ProtectedPublicRouteRoute,
 } as any)
-const ProtectedAdminAddCategoryRoute =
-  ProtectedAdminAddCategoryRouteImport.update({
-    id: '/add-category',
-    path: '/add-category',
-    getParentRoute: () => ProtectedAdminRouteRoute,
-  } as any)
 const ProtectedAdminAddProductRoute =
   ProtectedAdminAddProductRouteImport.update({
     id: '/add-product',
     path: '/add-product',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
-const ProtectedAdminAddStoreRoute = ProtectedAdminAddStoreRouteImport.update({
-  id: '/add-store',
-  path: '/add-store',
-  getParentRoute: () => ProtectedAdminRouteRoute,
-} as any)
 const ProtectedAdminAllCategoriesRoute =
   ProtectedAdminAllCategoriesRouteImport.update({
     id: '/all-categories',
@@ -109,10 +99,27 @@ const ProtectedAdminAllProductsRoute =
     path: '/all-products',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
+const ProtectedAdminAllStoresRoute = ProtectedAdminAllStoresRouteImport.update({
+  id: '/all-stores',
+  path: '/all-stores',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminCategoryMappingsRoute =
   ProtectedAdminCategoryMappingsRouteImport.update({
     id: '/category-mappings',
     path: '/category-mappings',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminIngredientMappingsRoute =
+  ProtectedAdminIngredientMappingsRouteImport.update({
+    id: '/ingredient-mappings',
+    path: '/ingredient-mappings',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminIngredientsRoute =
+  ProtectedAdminIngredientsRouteImport.update({
+    id: '/ingredients',
+    path: '/ingredients',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -154,12 +161,13 @@ export interface FileRoutesByFullPath {
   '/add-product': typeof ProtectedPublicAddProductRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
-  '/admin/add-category': typeof ProtectedAdminAddCategoryRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
-  '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
+  '/admin/all-stores': typeof ProtectedAdminAllStoresRoute
   '/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
+  '/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
+  '/admin/ingredients': typeof ProtectedAdminIngredientsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/stores/': typeof ProtectedPublicStoresIndexRoute
@@ -175,12 +183,13 @@ export interface FileRoutesByTo {
   '/add-product': typeof ProtectedPublicAddProductRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
-  '/admin/add-category': typeof ProtectedAdminAddCategoryRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
-  '/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-products': typeof ProtectedAdminAllProductsRoute
+  '/admin/all-stores': typeof ProtectedAdminAllStoresRoute
   '/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
+  '/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
+  '/admin/ingredients': typeof ProtectedAdminIngredientsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/stores': typeof ProtectedPublicStoresIndexRoute
@@ -198,12 +207,13 @@ export interface FileRoutesById {
   '/_protected/_public/add-product': typeof ProtectedPublicAddProductRoute
   '/_protected/_public/profile': typeof ProtectedPublicProfileRoute
   '/_protected/_public/search': typeof ProtectedPublicSearchRoute
-  '/_protected/admin/add-category': typeof ProtectedAdminAddCategoryRoute
   '/_protected/admin/add-product': typeof ProtectedAdminAddProductRoute
-  '/_protected/admin/add-store': typeof ProtectedAdminAddStoreRoute
   '/_protected/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/_protected/admin/all-products': typeof ProtectedAdminAllProductsRoute
+  '/_protected/admin/all-stores': typeof ProtectedAdminAllStoresRoute
   '/_protected/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
+  '/_protected/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
+  '/_protected/admin/ingredients': typeof ProtectedAdminIngredientsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
   '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
@@ -222,12 +232,13 @@ export interface FileRouteTypes {
     | '/add-product'
     | '/profile'
     | '/search'
-    | '/admin/add-category'
     | '/admin/add-product'
-    | '/admin/add-store'
     | '/admin/all-categories'
     | '/admin/all-products'
+    | '/admin/all-stores'
     | '/admin/category-mappings'
+    | '/admin/ingredient-mappings'
+    | '/admin/ingredients'
     | '/api/auth/$'
     | '/products/$productId'
     | '/stores/'
@@ -243,12 +254,13 @@ export interface FileRouteTypes {
     | '/add-product'
     | '/profile'
     | '/search'
-    | '/admin/add-category'
     | '/admin/add-product'
-    | '/admin/add-store'
     | '/admin/all-categories'
     | '/admin/all-products'
+    | '/admin/all-stores'
     | '/admin/category-mappings'
+    | '/admin/ingredient-mappings'
+    | '/admin/ingredients'
     | '/api/auth/$'
     | '/products/$productId'
     | '/stores'
@@ -265,12 +277,13 @@ export interface FileRouteTypes {
     | '/_protected/_public/add-product'
     | '/_protected/_public/profile'
     | '/_protected/_public/search'
-    | '/_protected/admin/add-category'
     | '/_protected/admin/add-product'
-    | '/_protected/admin/add-store'
     | '/_protected/admin/all-categories'
     | '/_protected/admin/all-products'
+    | '/_protected/admin/all-stores'
     | '/_protected/admin/category-mappings'
+    | '/_protected/admin/ingredient-mappings'
+    | '/_protected/admin/ingredients'
     | '/api/auth/$'
     | '/_protected/_public/'
     | '/_protected/_public/products/$productId'
@@ -359,25 +372,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedPublicSearchRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
-    '/_protected/admin/add-category': {
-      id: '/_protected/admin/add-category'
-      path: '/add-category'
-      fullPath: '/admin/add-category'
-      preLoaderRoute: typeof ProtectedAdminAddCategoryRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
     '/_protected/admin/add-product': {
       id: '/_protected/admin/add-product'
       path: '/add-product'
       fullPath: '/admin/add-product'
       preLoaderRoute: typeof ProtectedAdminAddProductRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
-    '/_protected/admin/add-store': {
-      id: '/_protected/admin/add-store'
-      path: '/add-store'
-      fullPath: '/admin/add-store'
-      preLoaderRoute: typeof ProtectedAdminAddStoreRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/all-categories': {
@@ -394,11 +393,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminAllProductsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/all-stores': {
+      id: '/_protected/admin/all-stores'
+      path: '/all-stores'
+      fullPath: '/admin/all-stores'
+      preLoaderRoute: typeof ProtectedAdminAllStoresRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/category-mappings': {
       id: '/_protected/admin/category-mappings'
       path: '/category-mappings'
       fullPath: '/admin/category-mappings'
       preLoaderRoute: typeof ProtectedAdminCategoryMappingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/ingredient-mappings': {
+      id: '/_protected/admin/ingredient-mappings'
+      path: '/ingredient-mappings'
+      fullPath: '/admin/ingredient-mappings'
+      preLoaderRoute: typeof ProtectedAdminIngredientMappingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/ingredients': {
+      id: '/_protected/admin/ingredients'
+      path: '/ingredients'
+      fullPath: '/admin/ingredients'
+      preLoaderRoute: typeof ProtectedAdminIngredientsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/api/auth/$': {
@@ -467,21 +487,23 @@ const ProtectedPublicRouteRouteWithChildren =
   ProtectedPublicRouteRoute._addFileChildren(ProtectedPublicRouteRouteChildren)
 
 interface ProtectedAdminRouteRouteChildren {
-  ProtectedAdminAddCategoryRoute: typeof ProtectedAdminAddCategoryRoute
   ProtectedAdminAddProductRoute: typeof ProtectedAdminAddProductRoute
-  ProtectedAdminAddStoreRoute: typeof ProtectedAdminAddStoreRoute
   ProtectedAdminAllCategoriesRoute: typeof ProtectedAdminAllCategoriesRoute
   ProtectedAdminAllProductsRoute: typeof ProtectedAdminAllProductsRoute
+  ProtectedAdminAllStoresRoute: typeof ProtectedAdminAllStoresRoute
   ProtectedAdminCategoryMappingsRoute: typeof ProtectedAdminCategoryMappingsRoute
+  ProtectedAdminIngredientMappingsRoute: typeof ProtectedAdminIngredientMappingsRoute
+  ProtectedAdminIngredientsRoute: typeof ProtectedAdminIngredientsRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
-  ProtectedAdminAddCategoryRoute: ProtectedAdminAddCategoryRoute,
   ProtectedAdminAddProductRoute: ProtectedAdminAddProductRoute,
-  ProtectedAdminAddStoreRoute: ProtectedAdminAddStoreRoute,
   ProtectedAdminAllCategoriesRoute: ProtectedAdminAllCategoriesRoute,
   ProtectedAdminAllProductsRoute: ProtectedAdminAllProductsRoute,
+  ProtectedAdminAllStoresRoute: ProtectedAdminAllStoresRoute,
   ProtectedAdminCategoryMappingsRoute: ProtectedAdminCategoryMappingsRoute,
+  ProtectedAdminIngredientMappingsRoute: ProtectedAdminIngredientMappingsRoute,
+  ProtectedAdminIngredientsRoute: ProtectedAdminIngredientsRoute,
 }
 
 const ProtectedAdminRouteRouteWithChildren =

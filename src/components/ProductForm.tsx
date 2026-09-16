@@ -1,7 +1,10 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
 import { useForm } from "@tanstack/react-form";
-import { CameraIcon } from "lucide-react";
+import { CameraIcon, Plus } from "lucide-react";
 import { useState } from "react";
+import { AddCategoryDialog } from "#/components/AddCategoryDialog";
+import { AddIngredientDialog } from "#/components/AddIngredientDialog";
+import { AddStoreDialog } from "#/components/AddStoreDialog";
 import { Button } from "#/components/ui/button";
 import {
 	Combobox,
@@ -16,7 +19,6 @@ import {
 } from "#/components/ui/combobox";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import { MultiSelect } from "#/components/ui/multi-select";
 import {
 	Select,
 	SelectContent,
@@ -32,6 +34,7 @@ export type ProductFormValues = {
 	name: string;
 	brand: string;
 	categoryIds: string[];
+	ingredientIds: string[];
 	score: "gold" | "silver" | "bronze" | "none";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
@@ -59,12 +62,14 @@ export function ProductForm({
 	isAdmin = false,
 	defaultValues,
 	categories = [],
+	ingredients = [],
 	stores = [],
 	onSubmit,
 }: {
 	isAdmin?: boolean;
 	defaultValues?: Partial<ProductFormValues>;
 	categories?: { id: string; name: string }[];
+	ingredients?: { id: string; name: string }[];
 	stores?: { id: string; name: string }[];
 	onSubmit: (values: ProductFormValues) => void;
 }) {
@@ -77,6 +82,7 @@ export function ProductForm({
 			name: defaultValues?.name || "",
 			brand: defaultValues?.brand || "",
 			categoryIds: defaultValues?.categoryIds || [],
+			ingredientIds: defaultValues?.ingredientIds || [],
 			score: defaultValues?.score || "none",
 			status: defaultValues?.status || "pending_review",
 			rawIngredientsText: defaultValues?.rawIngredientsText || "",
@@ -344,7 +350,21 @@ export function ProductForm({
 
 							return (
 								<div className="flex flex-col gap-y-2">
-									<Label htmlFor={field.name}>Categories</Label>
+									<div className="flex items-center justify-between">
+										<Label htmlFor={field.name}>Categories</Label>
+										<AddCategoryDialog
+											trigger={
+												<Button
+													type="button"
+													variant="ghost"
+													size="sm"
+													className="h-6 px-2 text-xs"
+												>
+													<Plus className="w-3 h-3 mr-1" /> Add New
+												</Button>
+											}
+										/>
+									</div>
 									<Combobox
 										items={categories}
 										itemToStringValue={(c) => c.name}
@@ -379,11 +399,75 @@ export function ProductForm({
 						}}
 					/>
 
+					{isAdmin && (
+						<form.Field
+							name="ingredientIds"
+							children={(field) => {
+								const selectedIngredients = field.state.value
+									.map((id) => ingredients?.find((i) => i.id === id))
+									.filter(Boolean) as { id: string; name: string }[];
+
+								return (
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center justify-between">
+											<Label htmlFor={field.name}>Ingredients</Label>
+											<AddIngredientDialog
+												trigger={
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="h-6 px-2 text-xs"
+													>
+														<Plus className="w-3 h-3 mr-1" /> Add New
+													</Button>
+												}
+											/>
+										</div>
+										<Combobox
+											items={ingredients || []}
+											itemToStringValue={(i) => i.name}
+											multiple
+											value={selectedIngredients}
+											onValueChange={(newValues) => {
+												field.handleChange(newValues.map((v) => v.id));
+											}}
+										>
+											<ComboboxChips>
+												<ComboboxValue>
+													{selectedIngredients.map((item) => (
+														<ComboboxChip key={item.id}>
+															{item.name}
+														</ComboboxChip>
+													))}
+												</ComboboxValue>
+												<ComboboxChipsInput placeholder="Add mapped ingredient..." />
+											</ComboboxChips>
+											<ComboboxContent>
+												<ComboboxEmpty>No ingredients found.</ComboboxEmpty>
+												<ComboboxList>
+													{(item) => (
+														<ComboboxItem key={item.id} value={item}>
+															{item.name}
+														</ComboboxItem>
+													)}
+												</ComboboxList>
+											</ComboboxContent>
+										</Combobox>
+										<FieldInfo field={field} />
+									</div>
+								);
+							}}
+						/>
+					)}
+
 					<form.Field
 						name="rawIngredientsText"
 						children={(field) => (
 							<div className="flex flex-col gap-y-2">
-								<Label htmlFor={field.name}>Ingredients List</Label>
+								<Label htmlFor={field.name}>
+									Raw Ingredients List (from label)
+								</Label>
 								<Textarea
 									id={field.name}
 									value={field.state.value}
@@ -400,23 +484,62 @@ export function ProductForm({
 					{isAdmin && (
 						<form.Field
 							name="storeIds"
-							children={(field) => (
-								<div className="flex flex-col gap-y-2">
-									<Label htmlFor={field.name}>Available At (Stores)</Label>
-									<MultiSelect
-										options={
-											stores?.map((s) => ({
-												label: s.name,
-												value: s.id,
-											})) || []
-										}
-										selected={field.state.value}
-										onChange={(values) => field.handleChange(values)}
-										placeholder="Select stores..."
-									/>
-									<FieldInfo field={field} />
-								</div>
-							)}
+							children={(field) => {
+								const selectedStores = field.state.value
+									.map((id) => stores?.find((s) => s.id === id))
+									.filter(Boolean) as { id: string; name: string }[];
+
+								return (
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center justify-between">
+											<Label htmlFor={field.name}>Available At (Stores)</Label>
+											<AddStoreDialog
+												trigger={
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="h-6 px-2 text-xs"
+													>
+														<Plus className="w-3 h-3 mr-1" /> Add New
+													</Button>
+												}
+											/>
+										</div>
+										<Combobox
+											items={stores || []}
+											itemToStringValue={(s) => s.name}
+											multiple
+											value={selectedStores}
+											onValueChange={(newValues) => {
+												field.handleChange(newValues.map((v) => v.id));
+											}}
+										>
+											<ComboboxChips>
+												<ComboboxValue>
+													{selectedStores.map((item) => (
+														<ComboboxChip key={item.id}>
+															{item.name}
+														</ComboboxChip>
+													))}
+												</ComboboxValue>
+												<ComboboxChipsInput placeholder="Add store..." />
+											</ComboboxChips>
+											<ComboboxContent>
+												<ComboboxEmpty>No stores found.</ComboboxEmpty>
+												<ComboboxList>
+													{(item) => (
+														<ComboboxItem key={item.id} value={item}>
+															{item.name}
+														</ComboboxItem>
+													)}
+												</ComboboxList>
+											</ComboboxContent>
+										</Combobox>
+										<FieldInfo field={field} />
+									</div>
+								);
+							}}
 						/>
 					)}
 

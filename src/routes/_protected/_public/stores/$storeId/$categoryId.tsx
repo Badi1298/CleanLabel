@@ -123,7 +123,7 @@ function StoreCategoryProductsPage() {
 									key={result.product.id}
 									product={{
 										...result.product,
-										categoryName: result.category?.name || null,
+										storeName: result.storeName,
 									}}
 								/>
 							))}
