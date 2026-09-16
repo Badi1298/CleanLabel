@@ -83,6 +83,9 @@ export const getSearchResults = createServerFn({
 				productCategories: {
 					with: { category: true },
 				},
+				productStores: {
+					with: { store: true },
+				},
 			},
 			orderBy: (products, { asc }) => [asc(products.createdAt)],
 		});
@@ -94,5 +97,6 @@ export const getSearchResults = createServerFn({
 		return sortedProducts.map((p) => ({
 			product: p,
 			category: p.productCategories?.[0]?.category || null,
+			storeName: p.productStores?.[0]?.store?.name || null,
 		}));
 	});

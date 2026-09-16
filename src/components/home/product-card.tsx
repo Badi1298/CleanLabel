@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Badge } from "#/components/ui/badge";
+
 import {
 	Card,
 	CardContent,
-	CardDescription,
+
 	CardHeader,
 	CardTitle,
 } from "#/components/ui/card";
@@ -12,27 +12,14 @@ type ProductCardProps = {
 	product: {
 		id: string;
 		name: string;
-		brand: string;
-		score: "gold" | "silver" | "bronze" | "none";
 		imageFrontUrl: string | null;
-		categoryName: string | null;
+		storeName: string | null;
 	};
 };
 
 export function ProductCard({ product }: ProductCardProps) {
-	const scoreColors = {
-		gold: "bg-yellow-400 text-yellow-950 hover:bg-yellow-500",
-		silver: "bg-slate-300 text-slate-900 hover:bg-slate-400",
-		bronze: "bg-amber-600 text-white hover:bg-amber-700",
-		none: "bg-slate-100 text-slate-500 hover:bg-slate-200",
-	};
 
-	const scoreLabels = {
-		gold: "Gold",
-		silver: "Silver",
-		bronze: "Bronze",
-		none: "Unrated",
-	};
+
 
 	return (
 		<Link
@@ -55,27 +42,25 @@ export function ProductCard({ product }: ProductCardProps) {
 							<span className="text-sm mt-2 font-medium">No Image</span>
 						</div>
 					)}
-					<div className="absolute top-3 right-3 shadow-sm rounded-lg">
-						<Badge className={scoreColors[product.score]}>
-							{scoreLabels[product.score]}
-						</Badge>
-					</div>
+					{/* Removed score badge per request */}
 				</div>
 				<CardHeader className="p-4 pb-2">
-					<CardDescription className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">
-						{product.brand}
-					</CardDescription>
 					<CardTitle className="text-lg line-clamp-2 leading-tight">
 						{product.name}
 					</CardTitle>
 				</CardHeader>
-				<CardContent className="p-4 pt-0 mt-auto">
-					<div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-						{product.categoryName && (
-							<span className="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md text-xs font-medium">
-								{product.categoryName}
+				<CardContent className="p-4 pt-0 mt-auto flex flex-col gap-2">
+					{product.storeName && (
+						<div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+							<span className="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1">
+								📍 {product.storeName}
 							</span>
-						)}
+						</div>
+					)}
+					<div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+						<span className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 border border-red-200 dark:border-red-800/30">
+							⚠️ Fara alergeni (WIP)
+						</span>
 					</div>
 				</CardContent>
 			</Card>

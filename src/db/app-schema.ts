@@ -51,7 +51,7 @@ export const products = pgTable("products", {
 	imageBackUrl: text("image_back_url"),
 	rawIngredientsText: text("raw_ingredients_text"),
 	status: productStatusEnum("status").default("approved").notNull(),
-	offTags: jsonb("off_tags"),
+	offTags: jsonb("off_tags").$type<string[]>(),
 	isReviewed: boolean("is_reviewed").default(false).notNull(),
 	submittedById: text("submitted_by_id").references(() => user.id),
 	createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -59,6 +59,7 @@ export const products = pgTable("products", {
 		.defaultNow()
 		.$onUpdate(() => new Date())
 		.notNull(),
+	offIngredients: jsonb("off_ingredients").$type<string[]>(),
 });
 
 export const ingredients = pgTable("ingredients", {
@@ -67,6 +68,7 @@ export const ingredients = pgTable("ingredients", {
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text("name").notNull(),
 	hazardLevel: text("hazard_level"),
+	description: text("description"),
 });
 
 export const offCategoryMappings = pgTable("off_category_mappings", {
@@ -77,6 +79,18 @@ export const offCategoryMappings = pgTable("off_category_mappings", {
 });
 
 export const unmappedOffTags = pgTable("unmapped_off_tags", {
+	tag: text("tag").primaryKey(),
+	occurrences: integer("occurrences").default(1).notNull(),
+});
+
+export const offIngredientMappings = pgTable("off_ingredient_mappings", {
+	offTag: text("off_tag").primaryKey(),
+	ingredientId: text("ingredient_id")
+		.notNull()
+		.references(() => ingredients.id, { onDelete: "cascade" }),
+});
+
+export const unmappedOffIngredients = pgTable("unmapped_off_ingredients", {
 	tag: text("tag").primaryKey(),
 	occurrences: integer("occurrences").default(1).notNull(),
 });
@@ -154,7 +168,18 @@ export const storesRelations = relations(stores, ({ many }) => ({
 
 export const ingredientsRelations = relations(ingredients, ({ many }) => ({
 	productIngredients: many(productIngredients),
+	offIngredientMappings: many(offIngredientMappings),
 }));
+
+export const offIngredientMappingsRelations = relations(
+	offIngredientMappings,
+	({ one }) => ({
+		ingredient: one(ingredients, {
+			fields: [offIngredientMappings.ingredientId],
+			references: [ingredients.id],
+		}),
+	}),
+);
 
 export const productIngredientsRelations = relations(
 	productIngredients,

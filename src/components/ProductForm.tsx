@@ -32,6 +32,7 @@ export type ProductFormValues = {
 	name: string;
 	brand: string;
 	categoryIds: string[];
+	ingredientIds: string[];
 	score: "gold" | "silver" | "bronze" | "none";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
@@ -59,12 +60,14 @@ export function ProductForm({
 	isAdmin = false,
 	defaultValues,
 	categories = [],
+	ingredients = [],
 	stores = [],
 	onSubmit,
 }: {
 	isAdmin?: boolean;
 	defaultValues?: Partial<ProductFormValues>;
 	categories?: { id: string; name: string }[];
+	ingredients?: { id: string; name: string }[];
 	stores?: { id: string; name: string }[];
 	onSubmit: (values: ProductFormValues) => void;
 }) {
@@ -77,6 +80,7 @@ export function ProductForm({
 			name: defaultValues?.name || "",
 			brand: defaultValues?.brand || "",
 			categoryIds: defaultValues?.categoryIds || [],
+			ingredientIds: defaultValues?.ingredientIds || [],
 			score: defaultValues?.score || "none",
 			status: defaultValues?.status || "pending_review",
 			rawIngredientsText: defaultValues?.rawIngredientsText || "",
@@ -383,7 +387,7 @@ export function ProductForm({
 						name="rawIngredientsText"
 						children={(field) => (
 							<div className="flex flex-col gap-y-2">
-								<Label htmlFor={field.name}>Ingredients List</Label>
+								<Label htmlFor={field.name}>Raw Ingredients List (from label)</Label>
 								<Textarea
 									id={field.name}
 									value={field.state.value}
@@ -396,6 +400,52 @@ export function ProductForm({
 							</div>
 						)}
 					/>
+
+					{isAdmin && (
+						<form.Field
+							name="ingredientIds"
+							children={(field) => {
+								const selectedIngredients = field.state.value
+									.map((id) => ingredients?.find((i) => i.id === id))
+									.filter(Boolean) as { id: string; name: string }[];
+
+								return (
+									<div className="flex flex-col gap-y-2">
+										<Label htmlFor={field.name}>Mapped Ingredients</Label>
+										<Combobox
+											items={ingredients || []}
+											itemToStringValue={(i) => i.name}
+											multiple
+											value={selectedIngredients}
+											onValueChange={(newValues) => {
+												field.handleChange(newValues.map((v) => v.id));
+											}}
+										>
+											<ComboboxChips>
+												<ComboboxValue>
+													{selectedIngredients.map((item) => (
+														<ComboboxChip key={item.id}>{item.name}</ComboboxChip>
+													))}
+												</ComboboxValue>
+												<ComboboxChipsInput placeholder="Add mapped ingredient..." />
+											</ComboboxChips>
+											<ComboboxContent>
+												<ComboboxEmpty>No ingredients found.</ComboboxEmpty>
+												<ComboboxList>
+													{(item) => (
+														<ComboboxItem key={item.id} value={item}>
+															{item.name}
+														</ComboboxItem>
+													)}
+												</ComboboxList>
+											</ComboboxContent>
+										</Combobox>
+										<FieldInfo field={field} />
+									</div>
+								);
+							}}
+						/>
+					)}
 
 					{isAdmin && (
 						<form.Field

@@ -6,6 +6,7 @@ import {
 	useRouter,
 } from "@tanstack/react-router";
 import {
+	AlertCircle,
 	AlertTriangle,
 	ArrowLeft,
 	Info,
@@ -16,6 +17,12 @@ import {
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "#/components/ui/tooltip";
 import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
 import { cn } from "#/lib/utils";
@@ -153,21 +160,22 @@ function ProductDetails() {
 										{product.score !== "none" ? product.score : "Score Missing"}
 									</Badge>
 								)}
-								{product.category && (
+								{product.productCategories?.map((pc) => (
 									<Badge
+										key={pc.category.id}
 										variant="secondary"
 										className="font-normal flex items-center gap-1.5"
 									>
-										{product.category.iconUrl && (
+										{pc.category.iconUrl && (
 											<img
-												src={product.category.iconUrl}
+												src={pc.category.iconUrl}
 												alt=""
 												className="w-3.5 h-3.5 opacity-80 object-contain"
 											/>
 										)}
-										{product.category.name}
+										{pc.category.name}
 									</Badge>
-								)}
+								))}
 							</div>
 
 							<h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
@@ -222,9 +230,23 @@ function ProductDetails() {
 							{product.productIngredients.map(({ ingredient }) => (
 								<Card key={ingredient.id} className="rounded-xl shadow-sm">
 									<CardContent className="p-4 flex items-center justify-between">
-										<span className="font-medium text-slate-800 dark:text-slate-200">
-											{ingredient.name}
-										</span>
+										<div className="flex items-center gap-2">
+											<span className="font-medium text-slate-800 dark:text-slate-200">
+												{ingredient.name}
+											</span>
+											{ingredient.description && (
+												<TooltipProvider>
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<Info className="w-4 h-4 text-slate-400 hover:text-slate-600 transition-colors cursor-help" />
+														</TooltipTrigger>
+														<TooltipContent className="max-w-xs">
+															<p>{ingredient.description}</p>
+														</TooltipContent>
+													</Tooltip>
+												</TooltipProvider>
+											)}
+										</div>
 										{ingredient.hazardLevel && (
 											<Badge
 												variant={

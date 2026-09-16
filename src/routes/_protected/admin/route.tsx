@@ -81,6 +81,21 @@ function RouteComponent() {
 					},
 				],
 			},
+			{
+				title: "Ingredients",
+				items: [
+					{
+						title: "All Ingredients",
+						url: "/admin/ingredients",
+						isActive: location.pathname === "/admin/all-ingredients",
+					},
+					{
+						title: "Ingredient Mappings",
+						url: "/admin/ingredient-mappings",
+						isActive: location.pathname === "/admin/add-ingredient",
+					},
+				],
+			},
 		],
 		[location.pathname],
 	);
