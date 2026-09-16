@@ -1,12 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-
-import {
-	Card,
-	CardContent,
-
-	CardHeader,
-	CardTitle,
-} from "#/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
+import { authClient } from "#/lib/auth-client";
+import { userExcludedIngredientsQueryOptions } from "#/queries/profile-queries";
 
 type ProductCardProps = {
 	product: {
@@ -14,13 +10,24 @@ type ProductCardProps = {
 		name: string;
 		imageFrontUrl: string | null;
 		storeName: string | null;
+		ingredientIds?: string[];
 	};
 };
 
 export function ProductCard({ product }: ProductCardProps) {
+	const { data: session } = authClient.useSession();
 
+	const { data: excludedIngredients } = useQuery({
+		...userExcludedIngredientsQueryOptions(),
+		enabled: !!session?.user,
+	});
 
-
+	const hasExcludedIngredient =
+		excludedIngredients &&
+		product.ingredientIds &&
+		product.ingredientIds.some((id) =>
+			excludedIngredients.some((ex) => ex.id === id),
+		);
 	return (
 		<Link
 			to="/products/$productId"
@@ -57,11 +64,13 @@ export function ProductCard({ product }: ProductCardProps) {
 							</span>
 						</div>
 					)}
-					<div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-						<span className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 border border-red-200 dark:border-red-800/30">
-							⚠️ Fara alergeni (WIP)
-						</span>
-					</div>
+					{hasExcludedIngredient && (
+						<div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+							<span className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 border border-red-200 dark:border-red-800/30">
+								⚠️ Warning: Contains excluded ingredients
+							</span>
+						</div>
+					)}
 				</CardContent>
 			</Card>
 		</Link>

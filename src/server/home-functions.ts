@@ -51,6 +51,7 @@ export const getHomeData = createServerFn({
 					productStores: {
 						with: { store: true },
 					},
+					productIngredients: true,
 				},
 			});
 
@@ -66,8 +67,9 @@ export const getHomeData = createServerFn({
 						imageFrontUrl: p.imageFrontUrl,
 						categoryName:
 							p.productCategories?.[0]?.category?.name || "Uncategorized",
-						storeName:
-							p.productStores?.[0]?.store?.name || null,
+						storeName: p.productStores?.[0]?.store?.name || null,
+						ingredientIds:
+							p.productIngredients?.map((pi) => pi.ingredientId) || [],
 						status: p.status,
 						createdAt: p.createdAt,
 					};

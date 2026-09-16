@@ -82,7 +82,7 @@ async function main() {
 	let retries = 3;
 	while (retries > 0) {
 		response = await fetch(
-			"https://world.openfoodfacts.net/api/v2/search?countries_tags_en=romania&fields=code,product_name,product_name_ro,brands,categories_tags,categories_hierarchy,ingredients_text_ro,ingredients_text,image_front_url,image_ingredients_url,stores_tags,nutriscore_grade,nova_group,additives_tags,ingredients&page_size=50&lc=ro&cc=ro",
+			"https://world.openfoodfacts.net/api/v2/search?countries_tags_en=romania&fields=code,product_name,product_name_ro,brands,categories_tags,categories_hierarchy,ingredients_text_ro,ingredients_text,image_front_url,image_ingredients_url,stores_tags,nutriscore_grade,nova_group,additives_tags,ingredients&page=2&page_size=50&lc=ro&cc=ro",
 			{
 				headers: {
 					"User-Agent": "CleanLabelApp - Web - Version 1.0 (serbandavid83@gmail.com)",
@@ -106,9 +106,9 @@ async function main() {
 	}
 
 	const data = await response.json();
-	const products = data.products || [];
+	const products = (data.products || []).slice(0, 20);
 
-	console.log(`Fetched ${products.length} products. Seeding database...`);
+	console.log(`Fetched ${data.products?.length || 0} products. Seeding next 20 to database...`);
 
 	for (const product of products) {
 		// 1. Handle Category
@@ -137,6 +137,17 @@ async function main() {
 			status: "approved",
 			offTags: categoriesHierarchy,
 			isReviewed: false,
+		}).onConflictDoUpdate({
+			target: appSchema.products.barcode,
+			set: {
+				name: productName,
+				brand: brandName,
+				score: mapNutriscore(product.nutriscore_grade),
+				imageFrontUrl: product.image_front_url || null,
+				imageBackUrl: product.image_ingredients_url || null,
+				rawIngredientsText: ingredientsText,
+				offTags: categoriesHierarchy,
+			}
 		}).returning();
 
 		await db.insert(appSchema.productCategories).values({
@@ -147,6 +158,8 @@ async function main() {
 		console.log(`Inserted product: ${productName} (${brandName})`);
 
 		// 3. Handle Ingredients
+		const offIngredientsToStore: string[] = [];
+
 		if (Array.isArray(product.ingredients) && product.ingredients.length > 0) {
 			for (const ing of product.ingredients) {
 				if (!ing.text) continue;
@@ -154,30 +167,44 @@ async function main() {
 				const ingName = ing.text.trim().toLowerCase();
 				if (!ingName) continue;
 
-				let ingredientRecord = await db.query.ingredients.findFirst({
-					where: eq(appSchema.ingredients.name, ingName),
+				// 1. Check if it's already mapped
+				const mapping = await db.query.offIngredientMappings.findFirst({
+					where: eq(appSchema.offIngredientMappings.offTag, ingName),
 				});
 
-				if (!ingredientRecord) {
-					const [newIng] = await db.insert(appSchema.ingredients).values({
-						name: ingName,
-					}).returning();
-					ingredientRecord = newIng;
-				}
-
-				// Create junction record
-				try {
-					await db.insert(appSchema.productIngredients).values({
-						productId: productRecord.id,
-						ingredientId: ingredientRecord.id,
-					});
-				} catch (e: any) {
-					// Ignore duplicate key errors if the same ingredient is listed twice for a product
-					if (e.code !== '23505' && e.cause?.code !== '23505') { 
-						console.error(`Error linking ingredient ${ingName} to product ${productName}:`, e);
+				if (mapping) {
+					// Link directly
+					try {
+						await db.insert(appSchema.productIngredients).values({
+							productId: productRecord.id,
+							ingredientId: mapping.ingredientId,
+						});
+					} catch (e: any) {
+						if (e.code !== "23505" && e.cause?.code !== "23505")
+							console.error(`Error linking ingredient:`, e);
 					}
+				} else {
+					// Store in unmapped and push to product's offIngredients array
+					offIngredientsToStore.push(ingName);
+
+					await db
+						.insert(appSchema.unmappedOffIngredients)
+						.values({ tag: ingName, occurrences: 1 })
+						.onConflictDoUpdate({
+							target: appSchema.unmappedOffIngredients.tag,
+							set: {
+								occurrences: sql`${appSchema.unmappedOffIngredients.occurrences} + 1`,
+							},
+						});
 				}
 			}
+		}
+
+		if (offIngredientsToStore.length > 0) {
+			await db
+				.update(appSchema.products)
+				.set({ offIngredients: offIngredientsToStore })
+				.where(eq(appSchema.products.id, productRecord.id));
 		}
 	}
 

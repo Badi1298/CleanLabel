@@ -96,6 +96,19 @@ export const unmappedOffIngredients = pgTable("unmapped_off_ingredients", {
 });
 
 // --- Junction Tables ---
+export const userExcludedIngredients = pgTable(
+	"user_excluded_ingredients",
+	{
+		userId: text("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		ingredientId: text("ingredient_id")
+			.notNull()
+			.references(() => ingredients.id, { onDelete: "cascade" }),
+	},
+	(t) => [primaryKey({ columns: [t.userId, t.ingredientId] })],
+);
+
 export const productIngredients = pgTable(
 	"product_ingredients",
 	{
@@ -169,6 +182,7 @@ export const storesRelations = relations(stores, ({ many }) => ({
 export const ingredientsRelations = relations(ingredients, ({ many }) => ({
 	productIngredients: many(productIngredients),
 	offIngredientMappings: many(offIngredientMappings),
+	userExcludedIngredients: many(userExcludedIngredients),
 }));
 
 export const offIngredientMappingsRelations = relations(
@@ -205,6 +219,20 @@ export const productStoresRelations = relations(productStores, ({ one }) => ({
 		references: [stores.id],
 	}),
 }));
+
+export const userExcludedIngredientsRelations = relations(
+	userExcludedIngredients,
+	({ one }) => ({
+		user: one(user, {
+			fields: [userExcludedIngredients.userId],
+			references: [user.id],
+		}),
+		ingredient: one(ingredients, {
+			fields: [userExcludedIngredients.ingredientId],
+			references: [ingredients.id],
+		}),
+	}),
+);
 
 export const productCategoriesRelations = relations(
 	productCategories,

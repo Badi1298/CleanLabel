@@ -6,12 +6,12 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { ProductForm } from "#/components/ProductForm";
 import { Card, CardContent } from "#/components/ui/card";
+import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
 import {
 	categoriesQueryOptions,
 	productQueryOptions,
 } from "#/queries/product-queries";
 import { storesQueryOptions } from "#/queries/store-queries";
-import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
 import { addProduct, updateProduct } from "#/server/product-functions";
 
 const searchSchema = z.object({
@@ -27,11 +27,18 @@ export const Route = createFileRoute("/_protected/admin/add-product")({
 			categoriesQueryOptions(),
 		);
 		const storesPromise = queryClient.ensureQueryData(storesQueryOptions());
-		const ingredientsPromise = queryClient.ensureQueryData(ingredientsQueryOptions());
+		const ingredientsPromise = queryClient.ensureQueryData(
+			ingredientsQueryOptions(),
+		);
 		const productPromise = productId
 			? queryClient.ensureQueryData(productQueryOptions(productId))
 			: Promise.resolve(null);
-		await Promise.all([categoriesPromise, storesPromise, ingredientsPromise, productPromise]);
+		await Promise.all([
+			categoriesPromise,
+			storesPromise,
+			ingredientsPromise,
+			productPromise,
+		]);
 	},
 });
 
