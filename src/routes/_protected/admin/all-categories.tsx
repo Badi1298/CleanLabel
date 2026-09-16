@@ -154,8 +154,8 @@ function RouteComponent() {
 	return (
 		<div className="min-w-0 w-full p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
 			<div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-				<div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
-					<div className="relative w-full sm:w-64">
+				<div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
+					<div className="relative w-full md:w-64">
 						<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
 							<Search className="h-4 w-4" />
 						</div>
@@ -169,44 +169,46 @@ function RouteComponent() {
 					</div>
 				</div>
 
-				<div className="flex items-center gap-4">
-					<span className="text-sm font-medium text-slate-500 dark:text-slate-400 tracking-wider">
-						{result?.rowCount ?? 0} ROWS
-					</span>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="outline"
-								size="sm"
-								className="ml-auto flex items-center gap-2"
-							>
-								Columns
-								<ChevronDown className="h-4 w-4" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							{table
-								.getAllLeafColumns()
-								.filter((column) => column.getCanHide())
-								.map((column) => {
-									return (
-										<DropdownMenuCheckboxItem
-											key={column.id}
-											className="capitalize"
-											checked={column.getIsVisible()}
-											onCheckedChange={(value) =>
-												column.toggleVisibility(!!value)
-											}
-										>
-											{column.id}
-										</DropdownMenuCheckboxItem>
-									);
-								})}
-						</DropdownMenuContent>
-					</DropdownMenu>
+				<div className="flex items-center w-full justify-between gap-4 md:w-auto md:justify-normal">
+					<div className="flex items-center gap-4">
+						<span className="text-sm font-medium text-slate-500 dark:text-slate-400 tracking-wider">
+							{result?.rowCount ?? 0} ROWS
+						</span>
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button
+									variant="outline"
+									size="sm"
+									className="ml-auto flex items-center gap-2"
+								>
+									Columns
+									<ChevronDown className="h-4 w-4" />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								{table
+									.getAllLeafColumns()
+									.filter((column) => column.getCanHide())
+									.map((column) => {
+										return (
+											<DropdownMenuCheckboxItem
+												key={column.id}
+												className="capitalize"
+												checked={column.getIsVisible()}
+												onCheckedChange={(value) =>
+													column.toggleVisibility(!!value)
+												}
+											>
+												{column.id}
+											</DropdownMenuCheckboxItem>
+										);
+									})}
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</div>
 
 					<AddCategoryDialog
-						trigger={<Button variant="outline">Add Category</Button>}
+						trigger={<Button>Add Category</Button>}
 						categoryToEdit={editingCategory}
 						isOpen={isDialogOpen}
 						onOpenChange={(open) => {
