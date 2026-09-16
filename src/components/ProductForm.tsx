@@ -4,6 +4,7 @@ import { CameraIcon, Plus } from "lucide-react";
 import { useState } from "react";
 import { AddCategoryDialog } from "#/components/AddCategoryDialog";
 import { AddIngredientDialog } from "#/components/AddIngredientDialog";
+import { AddStoreDialog } from "#/components/AddStoreDialog";
 import { Button } from "#/components/ui/button";
 import {
 	Combobox,
@@ -18,7 +19,6 @@ import {
 } from "#/components/ui/combobox";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import { MultiSelect } from "#/components/ui/multi-select";
 import {
 	Select,
 	SelectContent,
@@ -484,23 +484,62 @@ export function ProductForm({
 					{isAdmin && (
 						<form.Field
 							name="storeIds"
-							children={(field) => (
-								<div className="flex flex-col gap-y-2">
-									<Label htmlFor={field.name}>Available At (Stores)</Label>
-									<MultiSelect
-										options={
-											stores?.map((s) => ({
-												label: s.name,
-												value: s.id,
-											})) || []
-										}
-										selected={field.state.value}
-										onChange={(values) => field.handleChange(values)}
-										placeholder="Select stores..."
-									/>
-									<FieldInfo field={field} />
-								</div>
-							)}
+							children={(field) => {
+								const selectedStores = field.state.value
+									.map((id) => stores?.find((s) => s.id === id))
+									.filter(Boolean) as { id: string; name: string }[];
+
+								return (
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center justify-between">
+											<Label htmlFor={field.name}>Available At (Stores)</Label>
+											<AddStoreDialog
+												trigger={
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="h-6 px-2 text-xs"
+													>
+														<Plus className="w-3 h-3 mr-1" /> Add New
+													</Button>
+												}
+											/>
+										</div>
+										<Combobox
+											items={stores || []}
+											itemToStringValue={(s) => s.name}
+											multiple
+											value={selectedStores}
+											onValueChange={(newValues) => {
+												field.handleChange(newValues.map((v) => v.id));
+											}}
+										>
+											<ComboboxChips>
+												<ComboboxValue>
+													{selectedStores.map((item) => (
+														<ComboboxChip key={item.id}>
+															{item.name}
+														</ComboboxChip>
+													))}
+												</ComboboxValue>
+												<ComboboxChipsInput placeholder="Add store..." />
+											</ComboboxChips>
+											<ComboboxContent>
+												<ComboboxEmpty>No stores found.</ComboboxEmpty>
+												<ComboboxList>
+													{(item) => (
+														<ComboboxItem key={item.id} value={item}>
+															{item.name}
+														</ComboboxItem>
+													)}
+												</ComboboxList>
+											</ComboboxContent>
+										</Combobox>
+										<FieldInfo field={field} />
+									</div>
+								);
+							}}
 						/>
 					)}
 

@@ -1,28 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { toast } from "sonner";
-import { Button } from "#/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "#/components/ui/dialog";
-import { Input } from "#/components/ui/input";
-import { Label } from "#/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "#/components/ui/select";
-import { Textarea } from "#/components/ui/textarea";
-import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
 import { AddIngredientDialog } from "#/components/AddIngredientDialog";
+import { Button } from "#/components/ui/button";
+import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
 
 export const Route = createFileRoute("/_protected/admin/ingredients")({
 	component: RouteComponent,
@@ -53,8 +34,12 @@ function RouteComponent() {
 		<div className="p-4 md:p-8 max-w-6xl mx-auto">
 			<div className="flex justify-between items-center mb-6">
 				<h1 className="text-2xl font-bold">Ingredients</h1>
-				<AddIngredientDialog 
-					trigger={<Button onClick={() => setEditingIngredient(null)}>Add Ingredient</Button>}
+				<AddIngredientDialog
+					trigger={
+						<Button onClick={() => setEditingIngredient(null)}>
+							Add Ingredient
+						</Button>
+					}
 					isOpen={isOpen}
 					onOpenChange={(open) => {
 						setIsOpen(open);
@@ -80,12 +65,20 @@ function RouteComponent() {
 							<tr key={ingredient.id}>
 								<td className="px-6 py-4">{ingredient.name}</td>
 								<td className="px-6 py-4">{ingredient.hazardLevel || "-"}</td>
-								<td className="px-6 py-4 truncate max-w-[200px]">{ingredient.description || "-"}</td>
+								<td className="px-6 py-4 truncate max-w-50">
+									{ingredient.description || "-"}
+								</td>
 								<td className="px-6 py-4 text-right">
-									<Button variant="ghost" size="sm" onClick={() => {
-										setEditingIngredient(ingredient);
-										setIsOpen(true);
-									}}>Edit</Button>
+									<Button
+										variant="ghost"
+										size="sm"
+										onClick={() => {
+											setEditingIngredient(ingredient);
+											setIsOpen(true);
+										}}
+									>
+										Edit
+									</Button>
 								</td>
 							</tr>
 						))}

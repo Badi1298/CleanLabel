@@ -55,8 +55,8 @@ function RouteComponent() {
 				title: "Stores",
 				items: [
 					{
-						title: "Add Store",
-						url: "/admin/add-store",
+						title: "All Stores",
+						url: "/admin/all-stores",
 						isActive: location.pathname === "/admin/add-store",
 					},
 				],
