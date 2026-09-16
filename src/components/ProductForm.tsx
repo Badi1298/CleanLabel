@@ -1,7 +1,9 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
 import { useForm } from "@tanstack/react-form";
-import { CameraIcon } from "lucide-react";
+import { CameraIcon, Plus } from "lucide-react";
 import { useState } from "react";
+import { AddCategoryDialog } from "#/components/AddCategoryDialog";
+import { AddIngredientDialog } from "#/components/AddIngredientDialog";
 import { Button } from "#/components/ui/button";
 import {
 	Combobox,
@@ -348,7 +350,21 @@ export function ProductForm({
 
 							return (
 								<div className="flex flex-col gap-y-2">
-									<Label htmlFor={field.name}>Categories</Label>
+									<div className="flex items-center justify-between">
+										<Label htmlFor={field.name}>Categories</Label>
+										<AddCategoryDialog
+											trigger={
+												<Button
+													type="button"
+													variant="ghost"
+													size="sm"
+													className="h-6 px-2 text-xs"
+												>
+													<Plus className="w-3 h-3 mr-1" /> Add New
+												</Button>
+											}
+										/>
+									</div>
 									<Combobox
 										items={categories}
 										itemToStringValue={(c) => c.name}
@@ -383,24 +399,6 @@ export function ProductForm({
 						}}
 					/>
 
-					<form.Field
-						name="rawIngredientsText"
-						children={(field) => (
-							<div className="flex flex-col gap-y-2">
-								<Label htmlFor={field.name}>Raw Ingredients List (from label)</Label>
-								<Textarea
-									id={field.name}
-									value={field.state.value}
-									onBlur={field.handleBlur}
-									onChange={(e) => field.handleChange(e.target.value)}
-									placeholder="e.g. Water, Almonds (2%), Calcium, Sea Salt..."
-									className="min-h-24"
-								/>
-								<FieldInfo field={field} />
-							</div>
-						)}
-					/>
-
 					{isAdmin && (
 						<form.Field
 							name="ingredientIds"
@@ -411,7 +409,21 @@ export function ProductForm({
 
 								return (
 									<div className="flex flex-col gap-y-2">
-										<Label htmlFor={field.name}>Mapped Ingredients</Label>
+										<div className="flex items-center justify-between">
+											<Label htmlFor={field.name}>Ingredients</Label>
+											<AddIngredientDialog
+												trigger={
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="h-6 px-2 text-xs"
+													>
+														<Plus className="w-3 h-3 mr-1" /> Add New
+													</Button>
+												}
+											/>
+										</div>
 										<Combobox
 											items={ingredients || []}
 											itemToStringValue={(i) => i.name}
@@ -424,7 +436,9 @@ export function ProductForm({
 											<ComboboxChips>
 												<ComboboxValue>
 													{selectedIngredients.map((item) => (
-														<ComboboxChip key={item.id}>{item.name}</ComboboxChip>
+														<ComboboxChip key={item.id}>
+															{item.name}
+														</ComboboxChip>
 													))}
 												</ComboboxValue>
 												<ComboboxChipsInput placeholder="Add mapped ingredient..." />
@@ -446,6 +460,26 @@ export function ProductForm({
 							}}
 						/>
 					)}
+
+					<form.Field
+						name="rawIngredientsText"
+						children={(field) => (
+							<div className="flex flex-col gap-y-2">
+								<Label htmlFor={field.name}>
+									Raw Ingredients List (from label)
+								</Label>
+								<Textarea
+									id={field.name}
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+									placeholder="e.g. Water, Almonds (2%), Calcium, Sea Salt..."
+									className="min-h-24"
+								/>
+								<FieldInfo field={field} />
+							</div>
+						)}
+					/>
 
 					{isAdmin && (
 						<form.Field

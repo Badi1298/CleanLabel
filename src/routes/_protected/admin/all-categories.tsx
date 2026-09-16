@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import type { PaginationState } from "@tanstack/react-table";
 import {
 	columnFilteringFeature,
@@ -24,6 +24,7 @@ import { Input } from "#/components/ui/input";
 import { useDebounce } from "#/hooks/use-debounce";
 import { categoriesQueryOptions } from "#/queries/category-queries";
 import type { getCategories } from "#/server/category-functions";
+import { AddCategoryDialog } from "#/components/AddCategoryDialog";
 
 export const Route = createFileRoute("/_protected/admin/all-categories")({
 	component: RouteComponent,
@@ -49,50 +50,57 @@ const features = tableFeatures({
 });
 const columnHelper = createColumnHelper<typeof features, CategoryData>();
 
-const columns = [
-	columnHelper.accessor("name", {
-		id: "name",
-		header: "Name",
-		enableColumnFilter: false,
-		enableHiding: false,
-		cell: (info) => (
-			<span className="font-medium text-slate-900 dark:text-slate-100">
-				{info.getValue()}
-			</span>
-		),
-	}),
-	columnHelper.accessor("iconUrl", {
-		id: "iconUrl",
-		header: "Icon URL",
-		enableColumnFilter: false,
-		cell: (info) => {
-			const url = info.getValue();
-			if (!url) return <span className="text-slate-500">None</span>;
-			return (
-				<span className="truncate max-w-50 inline-block text-slate-500">
-					{url}
-				</span>
-			);
-		},
-	}),
-	columnHelper.display({
-		id: "actions",
-		header: "Actions",
-		enableColumnFilter: false,
-		enableHiding: false,
-		cell: (info) => (
-			<Link
-				to="/admin/add-category"
-				search={{ categoryId: info.row.original.id }}
-				className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm transition-colors"
-			>
-				Edit
-			</Link>
-		),
-	}),
-];
-
 function RouteComponent() {
+	const [editingCategory, setEditingCategory] = useState<any>(null);
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+	const columns = useMemo(() => [
+		columnHelper.accessor("name", {
+			id: "name",
+			header: "Name",
+			enableColumnFilter: false,
+			enableHiding: false,
+			cell: (info) => (
+				<span className="font-medium text-slate-900 dark:text-slate-100">
+					{info.getValue()}
+				</span>
+			),
+		}),
+		columnHelper.accessor("iconUrl", {
+			id: "iconUrl",
+			header: "Icon URL",
+			enableColumnFilter: false,
+			cell: (info) => {
+				const url = info.getValue();
+				if (!url) return <span className="text-slate-500">None</span>;
+				return (
+					<span className="truncate max-w-50 inline-block text-slate-500">
+						{url}
+					</span>
+				);
+			},
+		}),
+		columnHelper.display({
+			id: "actions",
+			header: "Actions",
+			enableColumnFilter: false,
+			enableHiding: false,
+			cell: (info) => (
+				<Button
+					variant="ghost"
+					size="sm"
+					className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm transition-colors"
+					onClick={() => {
+						setEditingCategory(info.row.original);
+						setIsDialogOpen(true);
+					}}
+				>
+					Edit
+				</Button>
+			),
+		}),
+	], []);
+
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
@@ -195,9 +203,15 @@ function RouteComponent() {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					<Button asChild variant="outline">
-						<Link to="/admin/add-category">Add Category</Link>
-					</Button>
+					<AddCategoryDialog 
+						trigger={<Button variant="outline">Add Category</Button>}
+						categoryToEdit={editingCategory}
+						isOpen={isDialogOpen}
+						onOpenChange={(open) => {
+							setIsDialogOpen(open);
+							if (!open) setEditingCategory(null);
+						}}
+					/>
 				</div>
 			</div>
 
