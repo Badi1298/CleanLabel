@@ -1,9 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AddStoreDialog } from "#/components/AddStoreDialog";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "#/components/ui/alert-dialog";
 import { Button } from "#/components/ui/button";
 import { storesQueryOptions } from "#/queries/store-queries";
 import { deleteStore } from "#/server/store-functions";
@@ -22,18 +33,17 @@ function RouteComponent() {
 
 	const { data: storesData, refetch } = useQuery(storesQueryOptions());
 
-	const handleDelete = async (id: string) => {
-		if (!confirm("Are you sure you want to delete this store?")) return;
-		
-		try {
-			await deleteStoreFn({ data: { id } });
+	const deleteMutation = useMutation({
+		mutationFn: (id: string) => deleteStoreFn({ data: { id } }),
+		onSuccess: () => {
 			toast.success("Store deleted successfully!");
 			refetch();
-		} catch (error) {
+		},
+		onError: (error) => {
 			console.error(error);
 			toast.error("Failed to delete store.");
-		}
-	};
+		},
+	});
 
 	return (
 		<div className="p-4 md:p-8 max-w-6xl mx-auto">
@@ -88,20 +98,45 @@ function RouteComponent() {
 									>
 										Edit
 									</Button>
-									<Button
-										variant="ghost"
-										size="sm"
-										className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
-										onClick={() => handleDelete(store.id)}
-									>
-										Delete
-									</Button>
+									<AlertDialog>
+										<AlertDialogTrigger asChild>
+											<Button
+												variant="ghost"
+												size="sm"
+												className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
+											>
+												Delete
+											</Button>
+										</AlertDialogTrigger>
+										<AlertDialogContent>
+											<AlertDialogHeader>
+												<AlertDialogTitle>
+													Are you absolutely sure?
+												</AlertDialogTitle>
+												<AlertDialogDescription>
+													This action cannot be undone. This will permanently
+													delete the store.
+												</AlertDialogDescription>
+											</AlertDialogHeader>
+											<AlertDialogFooter>
+												<AlertDialogCancel>Cancel</AlertDialogCancel>
+												<AlertDialogAction
+													onClick={() => deleteMutation.mutate(store.id)}
+												>
+													Delete
+												</AlertDialogAction>
+											</AlertDialogFooter>
+										</AlertDialogContent>
+									</AlertDialog>
 								</td>
 							</tr>
 						))}
 						{(!storesData || storesData.length === 0) && (
 							<tr>
-								<td colSpan={3} className="px-6 py-12 text-center text-slate-500">
+								<td
+									colSpan={3}
+									className="px-6 py-12 text-center text-slate-500"
+								>
 									No stores found.
 								</td>
 							</tr>

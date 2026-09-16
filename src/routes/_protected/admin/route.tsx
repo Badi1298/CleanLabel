@@ -81,7 +81,7 @@ function RouteComponent() {
 				items: [
 					{
 						title: "All Ingredients",
-						url: "/admin/ingredients",
+						url: "/admin/all-ingredients",
 						isActive: location.pathname === "/admin/all-ingredients",
 					},
 					{
