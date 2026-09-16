@@ -69,20 +69,28 @@ const columns = [
 		enableColumnFilter: false,
 		cell: (info) => {
 			const categories = info.getValue();
-			if (!categories || categories.length === 0) return <span className="text-slate-500">N/A</span>;
-			
+			if (!categories || categories.length === 0)
+				return <span className="text-slate-500">N/A</span>;
+
 			const displayCategories = categories.slice(0, 2);
 			const remainingCount = categories.length - 2;
 
 			return (
 				<div className="flex flex-wrap gap-1">
-					{displayCategories.map(c => (
-						<Badge key={c.id} variant="secondary" className="font-normal text-xs whitespace-nowrap">
+					{displayCategories.map((c) => (
+						<Badge
+							key={c.id}
+							variant="secondary"
+							className="font-normal text-xs whitespace-nowrap"
+						>
 							{c.name}
 						</Badge>
 					))}
 					{remainingCount > 0 && (
-						<Badge variant="outline" className="font-normal text-xs whitespace-nowrap text-slate-500">
+						<Badge
+							variant="outline"
+							className="font-normal text-xs whitespace-nowrap text-slate-500"
+						>
 							+{remainingCount} more
 						</Badge>
 					)}
@@ -129,7 +137,6 @@ const columns = [
 			<Link
 				to="/admin/add-product"
 				search={{ productId: info.row.original.product.id }}
-				className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm transition-colors"
 			>
 				Review
 			</Link>

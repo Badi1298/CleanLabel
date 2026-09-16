@@ -13,6 +13,7 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown, Search } from "lucide-react";
 import { useMemo, useState } from "react";
+import { AddCategoryDialog } from "#/components/AddCategoryDialog";
 import { Button } from "#/components/ui/button";
 import {
 	DropdownMenu,
@@ -24,7 +25,6 @@ import { Input } from "#/components/ui/input";
 import { useDebounce } from "#/hooks/use-debounce";
 import { categoriesQueryOptions } from "#/queries/category-queries";
 import type { getCategories } from "#/server/category-functions";
-import { AddCategoryDialog } from "#/components/AddCategoryDialog";
 
 export const Route = createFileRoute("/_protected/admin/all-categories")({
 	component: RouteComponent,
@@ -54,52 +54,54 @@ function RouteComponent() {
 	const [editingCategory, setEditingCategory] = useState<any>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-	const columns = useMemo(() => [
-		columnHelper.accessor("name", {
-			id: "name",
-			header: "Name",
-			enableColumnFilter: false,
-			enableHiding: false,
-			cell: (info) => (
-				<span className="font-medium text-slate-900 dark:text-slate-100">
-					{info.getValue()}
-				</span>
-			),
-		}),
-		columnHelper.accessor("iconUrl", {
-			id: "iconUrl",
-			header: "Icon URL",
-			enableColumnFilter: false,
-			cell: (info) => {
-				const url = info.getValue();
-				if (!url) return <span className="text-slate-500">None</span>;
-				return (
-					<span className="truncate max-w-50 inline-block text-slate-500">
-						{url}
+	const columns = useMemo(
+		() => [
+			columnHelper.accessor("name", {
+				id: "name",
+				header: "Name",
+				enableColumnFilter: false,
+				enableHiding: false,
+				cell: (info) => (
+					<span className="font-medium text-slate-900 dark:text-slate-100">
+						{info.getValue()}
 					</span>
-				);
-			},
-		}),
-		columnHelper.display({
-			id: "actions",
-			header: "Actions",
-			enableColumnFilter: false,
-			enableHiding: false,
-			cell: (info) => (
-				<Button
-					variant="ghost"
-					size="sm"
-					className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium text-sm transition-colors"
-					onClick={() => {
-						setEditingCategory(info.row.original);
-						setIsDialogOpen(true);
-					}}
-				>
-					Edit
-				</Button>
-			),
-		}),
-	], []);
+				),
+			}),
+			columnHelper.accessor("iconUrl", {
+				id: "iconUrl",
+				header: "Icon URL",
+				enableColumnFilter: false,
+				cell: (info) => {
+					const url = info.getValue();
+					if (!url) return <span className="text-slate-500">None</span>;
+					return (
+						<span className="truncate max-w-50 inline-block text-slate-500">
+							{url}
+						</span>
+					);
+				},
+			}),
+			columnHelper.display({
+				id: "actions",
+				header: "Actions",
+				enableColumnFilter: false,
+				enableHiding: false,
+				cell: (info) => (
+					<Button
+						variant="ghost"
+						size="sm"
+						onClick={() => {
+							setEditingCategory(info.row.original);
+							setIsDialogOpen(true);
+						}}
+					>
+						Edit
+					</Button>
+				),
+			}),
+		],
+		[],
+	);
 
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
@@ -203,7 +205,7 @@ function RouteComponent() {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					<AddCategoryDialog 
+					<AddCategoryDialog
 						trigger={<Button variant="outline">Add Category</Button>}
 						categoryToEdit={editingCategory}
 						isOpen={isDialogOpen}

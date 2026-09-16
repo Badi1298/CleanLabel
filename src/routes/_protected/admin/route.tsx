@@ -70,11 +70,6 @@ function RouteComponent() {
 						isActive: location.pathname === "/admin/all-categories",
 					},
 					{
-						title: "Add Category",
-						url: "/admin/add-category",
-						isActive: location.pathname === "/admin/add-category",
-					},
-					{
 						title: "Category Mappings",
 						url: "/admin/category-mappings",
 						isActive: location.pathname === "/admin/category-mappings",
