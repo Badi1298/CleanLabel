@@ -25,9 +25,16 @@ function StoreCategoriesPage() {
 	const store = stores?.find((s) => s.id === storeId);
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const filteredCategories = categories?.filter((category) =>
-		category.name.toLowerCase().includes(searchQuery.toLowerCase()),
-	);
+	const q = searchQuery.toLowerCase();
+
+	const topLevelCategories = categories?.filter((c) => !c.parentId) || [];
+	const visibleTopLevelCategories = topLevelCategories.filter((parentCat) => {
+		const parentMatches = parentCat.name.toLowerCase().includes(q);
+		const hasMatchingSubcat = categories?.some(
+			(c) => c.parentId === parentCat.id && c.name.toLowerCase().includes(q),
+		);
+		return parentMatches || hasMatchingSubcat;
+	});
 
 	const handleSearchSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -90,32 +97,78 @@ function StoreCategoriesPage() {
 
 			<main className="max-w-6xl mx-auto px-4 py-8">
 				<section>
-					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-						{filteredCategories?.map((category) => (
-							<Button
-								key={category.id}
-								variant="outline"
-								className="flex flex-col h-32 items-center justify-center p-4 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all"
-								onClick={() =>
-									navigate({ to: `/stores/${storeId}/${category.id}` })
-								}
-							>
-								{category.iconUrl ? (
-									<img
-										src={category.iconUrl}
-										alt={category.name}
-										className="w-12 h-12 object-cover rounded-full mb-3"
-									/>
-								) : (
-									<StoreIcon className="w-12 h-12 text-slate-500 mb-3" />
-								)}
-								<span className="font-semibold text-slate-700 dark:text-slate-200 text-center whitespace-normal">
-									{category.name}
-								</span>
-							</Button>
-						))}
-						{filteredCategories?.length === 0 && (
-							<div className="col-span-full text-center py-10 text-slate-500">
+					<div className="space-y-6">
+						{visibleTopLevelCategories.map((parentCat) => {
+							const subcats =
+								categories?.filter((c) => c.parentId === parentCat.id) || [];
+							const visibleSubcats = subcats.filter(
+								(c) =>
+									parentCat.name.toLowerCase().includes(q) ||
+									c.name.toLowerCase().includes(q),
+							);
+
+							return (
+								<div
+									key={parentCat.id}
+									className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden"
+								>
+									{/* Parent Category Header */}
+									<Button
+										variant="ghost"
+										className="w-full h-auto rounded-none p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors font-normal"
+										onClick={() =>
+											navigate({ to: `/stores/${storeId}/${parentCat.id}` })
+										}
+									>
+										<div className="flex items-center gap-4">
+											{parentCat.iconUrl ? (
+												<img
+													src={parentCat.iconUrl}
+													alt={parentCat.name}
+													className="w-12 h-12 object-cover rounded-full bg-slate-100 dark:bg-slate-800"
+												/>
+											) : (
+												<div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+													<StoreIcon className="w-6 h-6 text-slate-500" />
+												</div>
+											)}
+											<h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+												{parentCat.name}
+											</h3>
+										</div>
+										<div className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50 h-9 px-3">
+											View All {parentCat.name}
+										</div>
+									</Button>
+
+									{/* Subcategories */}
+									{visibleSubcats.length > 0 && (
+										<div className="p-4 bg-slate-50/50 dark:bg-slate-950/50">
+											<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+												{visibleSubcats.map((subcat) => (
+													<Button
+														key={subcat.id}
+														variant="outline"
+														className="justify-start h-auto py-3 px-4 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all bg-white dark:bg-slate-900"
+														onClick={(e) => {
+															e.stopPropagation();
+															navigate({
+																to: `/stores/${storeId}/${subcat.id}`,
+															});
+														}}
+													>
+														<span className="truncate">{subcat.name}</span>
+													</Button>
+												))}
+											</div>
+										</div>
+									)}
+								</div>
+							);
+						})}
+
+						{visibleTopLevelCategories.length === 0 && (
+							<div className="text-center py-10 text-slate-500">
 								No categories found matching "{searchQuery}"
 							</div>
 						)}
