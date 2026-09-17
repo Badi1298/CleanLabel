@@ -104,7 +104,7 @@ function MappingRowActions({ tag }: { tag: string }) {
 				<SelectContent>
 					{categoriesResult?.data.map((cat) => (
 						<SelectItem key={cat.id} value={cat.id}>
-							{cat.name}
+							{cat.parentName ? `${cat.parentName} > ${cat.name}` : cat.name}
 						</SelectItem>
 					))}
 				</SelectContent>

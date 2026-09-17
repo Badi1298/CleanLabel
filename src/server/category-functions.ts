@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { count, desc, eq, ilike, sql } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { z } from "zod";
 import { db } from "#/db";
 import {
@@ -29,10 +30,19 @@ export const getCategories = createServerFn({
 			? ilike(categories.name, `%${globalFilter}%`)
 			: undefined;
 
+		const parentCategories = alias(categories, "parent_categories");
+
 		const [categoryRows, [{ totalCount }]] = await Promise.all([
 			db
-				.select()
+				.select({
+					id: categories.id,
+					name: categories.name,
+					iconUrl: categories.iconUrl,
+					parentId: categories.parentId,
+					parentName: parentCategories.name,
+				})
 				.from(categories)
+				.leftJoin(parentCategories, eq(categories.parentId, parentCategories.id))
 				.where(whereClause)
 				.orderBy(categories.name)
 				.limit(pageSize)
@@ -52,6 +62,7 @@ export const getCategories = createServerFn({
 const addCategorySchema = z.object({
 	name: z.string().min(1, "Name is required"),
 	iconUrl: z.string().optional(),
+	parentId: z.string().optional(),
 });
 
 export const addCategory = createServerFn({
@@ -66,6 +77,7 @@ export const addCategory = createServerFn({
 			.values({
 				name: data.name,
 				iconUrl: data.iconUrl || undefined,
+				parentId: data.parentId || undefined,
 			})
 			.returning();
 
@@ -94,6 +106,7 @@ const updateCategorySchema = z.object({
 	id: z.string(),
 	name: z.string().min(1, "Name is required"),
 	iconUrl: z.string().optional(),
+	parentId: z.string().optional().nullable(),
 });
 
 export const updateCategory = createServerFn({
@@ -108,6 +121,7 @@ export const updateCategory = createServerFn({
 			.set({
 				name: data.name,
 				iconUrl: data.iconUrl || undefined,
+				parentId: data.parentId === null ? null : data.parentId || undefined,
 			})
 			.where(eq(categories.id, data.id))
 			.returning();

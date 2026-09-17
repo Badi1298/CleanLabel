@@ -29,6 +29,7 @@ export const categories = pgTable("categories", {
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text("name").notNull(),
 	iconUrl: text("icon_url"),
+	parentId: text("parent_id").references((): any => categories.id, { onDelete: "cascade" }),
 });
 
 export const stores = pgTable("stores", {
@@ -160,9 +161,17 @@ export const productsRelations = relations(products, ({ one, many }) => ({
 	productCategories: many(productCategories),
 }));
 
-export const categoriesRelations = relations(categories, ({ many }) => ({
+export const categoriesRelations = relations(categories, ({ one, many }) => ({
 	productCategories: many(productCategories),
 	offCategoryMappings: many(offCategoryMappings),
+	parent: one(categories, {
+		fields: [categories.parentId],
+		references: [categories.id],
+		relationName: "category_parent",
+	}),
+	subcategories: many(categories, {
+		relationName: "category_parent",
+	}),
 }));
 
 export const offCategoryMappingsRelations = relations(

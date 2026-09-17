@@ -68,7 +68,7 @@ export function ProductForm({
 }: {
 	isAdmin?: boolean;
 	defaultValues?: Partial<ProductFormValues>;
-	categories?: { id: string; name: string }[];
+	categories?: { id: string; name: string; parentName?: string | null }[];
 	ingredients?: { id: string; name: string }[];
 	stores?: { id: string; name: string }[];
 	onSubmit: (values: ProductFormValues) => void;
@@ -346,7 +346,7 @@ export function ProductForm({
 						children={(field) => {
 							const selectedCategories = field.state.value
 								.map((id) => categories.find((c) => c.id === id))
-								.filter(Boolean) as { id: string; name: string }[];
+								.filter(Boolean) as { id: string; name: string; parentName?: string | null }[];
 
 							return (
 								<div className="flex flex-col gap-y-2">
@@ -367,7 +367,7 @@ export function ProductForm({
 									</div>
 									<Combobox
 										items={categories}
-										itemToStringValue={(c) => c.name}
+										itemToStringValue={(c) => c.parentName ? `${c.parentName} > ${c.name}` : c.name}
 										multiple
 										value={selectedCategories}
 										onValueChange={(newValues) => {
@@ -377,7 +377,7 @@ export function ProductForm({
 										<ComboboxChips>
 											<ComboboxValue>
 												{selectedCategories.map((item) => (
-													<ComboboxChip key={item.id}>{item.name}</ComboboxChip>
+													<ComboboxChip key={item.id}>{item.parentName ? `${item.parentName} > ${item.name}` : item.name}</ComboboxChip>
 												))}
 											</ComboboxValue>
 											<ComboboxChipsInput placeholder="Add category..." />
@@ -387,7 +387,7 @@ export function ProductForm({
 											<ComboboxList>
 												{(item) => (
 													<ComboboxItem key={item.id} value={item}>
-														{item.name}
+														{item.parentName ? `${item.parentName} > ${item.name}` : item.name}
 													</ComboboxItem>
 												)}
 											</ComboboxList>

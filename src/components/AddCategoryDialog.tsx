@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -12,6 +12,14 @@ import {
 } from "#/components/ui/dialog";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "#/components/ui/select";
+import { categoriesQueryOptions } from "#/queries/category-queries";
 import { addCategory, updateCategory } from "#/server/category-functions";
 
 export function AddCategoryDialog({
@@ -35,17 +43,26 @@ export function AddCategoryDialog({
 	const [formData, setFormData] = useState({
 		name: "",
 		iconUrl: "",
+		parentId: "",
 	});
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const { data: categoriesResult } = useQuery({
+		...categoriesQueryOptions({ pageIndex: 0, pageSize: 1000, globalFilter: "" }),
+		enabled: open,
+	});
+	const topLevelCategories =
+		categoriesResult?.data.filter((c) => !c.parentId && c.id !== categoryToEdit?.id) || [];
 
 	useEffect(() => {
 		if (categoryToEdit && open) {
 			setFormData({
 				name: categoryToEdit.name || "",
 				iconUrl: categoryToEdit.iconUrl || "",
+				parentId: categoryToEdit.parentId || "",
 			});
 		} else if (!open && !categoryToEdit) {
-			setFormData({ name: "", iconUrl: "" });
+			setFormData({ name: "", iconUrl: "", parentId: "" });
 		}
 	}, [categoryToEdit, open]);
 
@@ -68,6 +85,7 @@ export function AddCategoryDialog({
 						id: categoryToEdit.id,
 						name: formData.name,
 						iconUrl: formData.iconUrl || undefined,
+						parentId: formData.parentId || null,
 					},
 				});
 				toast.success("Category updated successfully!");
@@ -76,12 +94,13 @@ export function AddCategoryDialog({
 					data: {
 						name: formData.name,
 						iconUrl: formData.iconUrl || undefined,
+						parentId: formData.parentId || undefined,
 					},
 				});
 				toast.success("Category added successfully!");
 			}
 			setOpen(false);
-			setFormData({ name: "", iconUrl: "" });
+			setFormData({ name: "", iconUrl: "", parentId: "" });
 			queryClient.invalidateQueries({ queryKey: ["categories"] });
 			queryClient.invalidateQueries({ queryKey: ["homeData"] });
 			if (onSuccess) onSuccess();
@@ -126,12 +145,24 @@ export function AddCategoryDialog({
 							placeholder="https://..."
 						/>
 					</div>
-					<div className="space-y-2 opacity-60">
-						<Label>Subcategories (coming soon)</Label>
-						<Input disabled={true} placeholder="e.g. Chips, Chocolate..." />
-						<p className="text-xs text-muted-foreground">
-							Subcategories will be available in a future update.
-						</p>
+					<div className="space-y-2">
+						<Label>Parent Category</Label>
+						<Select
+							value={formData.parentId || "none"}
+							onValueChange={(val) => setFormData({ ...formData, parentId: val === "none" ? "" : val })}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Select parent category" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="none">None (Top-Level Category)</SelectItem>
+								{topLevelCategories.map((c) => (
+									<SelectItem key={c.id} value={c.id}>
+										{c.name}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 					</div>
 					<Button type="submit" className="w-full" disabled={isSubmitting}>
 						{isSubmitting ? "Saving..." : "Save Category"}
