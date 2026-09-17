@@ -6,7 +6,6 @@ import {
 	useRouter,
 } from "@tanstack/react-router";
 import {
-	AlertCircle,
 	AlertTriangle,
 	ArrowLeft,
 	Info,
@@ -129,13 +128,13 @@ function ProductDetails() {
 										<img
 											src={product.imageFrontUrl}
 											alt={`${product.name} Front`}
-											className="w-full aspect-[4/5] object-contain transition-transform group-hover:scale-[1.02]"
+											className="w-full aspect-4/5 object-contain transition-transform group-hover:scale-[1.02]"
 										/>
 									</TransformComponent>
 								</TransformWrapper>
 							</Card>
 						) : (
-							<Card className="bg-slate-100 dark:bg-slate-900 rounded-2xl aspect-[4/5] flex items-center justify-center shadow-none">
+							<Card className="bg-slate-100 dark:bg-slate-900 rounded-2xl aspect-4/5 flex items-center justify-center shadow-none">
 								<Package className="w-16 h-16 text-slate-300 dark:text-slate-700" />
 							</Card>
 						)}
@@ -152,7 +151,7 @@ function ProductDetails() {
 										<img
 											src={product.imageBackUrl}
 											alt={`${product.name} Back`}
-											className="w-full aspect-[4/5] object-contain"
+											className="w-full aspect-4/5 object-contain"
 										/>
 									</TransformComponent>
 								</TransformWrapper>
