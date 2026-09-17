@@ -67,6 +67,20 @@ function RouteComponent() {
 					</span>
 				),
 			}),
+			columnHelper.accessor("parentName", {
+				id: "parentName",
+				header: "Parent Category",
+				enableColumnFilter: false,
+				cell: (info) => {
+					const val = info.getValue();
+					if (!val) return <span className="text-slate-500">None</span>;
+					return (
+						<span className="font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md text-xs">
+							{val}
+						</span>
+					);
+				},
+			}),
 			columnHelper.accessor("iconUrl", {
 				id: "iconUrl",
 				header: "Icon URL",
@@ -228,8 +242,9 @@ function RouteComponent() {
 									{headerGroup.headers.map((header) => {
 										const widthClass =
 											{
-												name: "w-[50%]",
-												iconUrl: "w-[35%]",
+												name: "w-[40%]",
+												parentName: "w-[20%]",
+												iconUrl: "w-[25%]",
 												actions: "w-[15%]",
 											}[header.id] || "";
 										return (

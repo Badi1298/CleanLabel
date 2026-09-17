@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, eq, ilike, or } from "drizzle-orm";
+import { and, eq, ilike, inArray, or } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
 import {
@@ -33,7 +33,12 @@ export const getSearchResults = createServerFn({
 		}
 
 		if (categoryId) {
-			whereConditions.push(eq(productCategories.categoryId, categoryId));
+			const subcats = await db
+				.select({ id: categories.id })
+				.from(categories)
+				.where(eq(categories.parentId, categoryId));
+			const catIds = [categoryId, ...subcats.map((c) => c.id)];
+			whereConditions.push(inArray(productCategories.categoryId, catIds));
 		}
 
 		if (q) {
