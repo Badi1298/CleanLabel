@@ -125,28 +125,72 @@ function SearchPage() {
 							</SelectContent>
 						</Select>
 
-						{searchParams.categoryId && (
-							<Select
-								value={searchParams.categoryId}
-								onValueChange={(val) =>
-									updateFilter("categoryId", val === "all" ? undefined : val)
-								}
-							>
-								<SelectTrigger className="w-35 h-9 text-sm">
-									<SelectValue placeholder="Category" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="all">All Categories</SelectItem>
-									{categories
-										?.filter((c) => !c.parentId)
-										.map((cat) => (
-											<SelectItem key={cat.id} value={cat.id}>
-												{cat.name}
-											</SelectItem>
-										))}
-								</SelectContent>
-							</Select>
-						)}
+						{searchParams.categoryId &&
+							(() => {
+								const selectedCat = categories?.find(
+									(c) => c.id === searchParams.categoryId,
+								);
+								const parentId =
+									selectedCat?.parentId || searchParams.categoryId;
+								const subcats =
+									categories?.filter((c) => c.parentId === parentId) || [];
+
+								return (
+									<>
+										<Select
+											value={parentId}
+											onValueChange={(val) =>
+												updateFilter(
+													"categoryId",
+													val === "all" ? undefined : val,
+												)
+											}
+										>
+											<SelectTrigger className="w-35 h-9 text-sm">
+												<SelectValue placeholder="Category" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectItem value="all">All Categories</SelectItem>
+												{categories
+													?.filter((c) => !c.parentId)
+													.map((cat) => (
+														<SelectItem key={cat.id} value={cat.id}>
+															{cat.name}
+														</SelectItem>
+													))}
+											</SelectContent>
+										</Select>
+
+										{subcats.length > 0 && (
+											<Select
+												value={
+													selectedCat?.parentId
+														? searchParams.categoryId
+														: "all"
+												}
+												onValueChange={(val) =>
+													updateFilter(
+														"categoryId",
+														val === "all" ? parentId : val,
+													)
+												}
+											>
+												<SelectTrigger className="w-35 h-9 text-sm">
+													<SelectValue placeholder="Subcategory" />
+												</SelectTrigger>
+												<SelectContent>
+													<SelectItem value="all">All Subcategories</SelectItem>
+													{subcats.map((subcat) => (
+														<SelectItem key={subcat.id} value={subcat.id}>
+															{subcat.name}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+										)}
+									</>
+								);
+							})()}
 
 						{hasActiveFilters && (
 							<Button
