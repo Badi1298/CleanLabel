@@ -174,12 +174,16 @@ export const mapOffIngredientToIngredient = createServerFn({
 				set: { ingredientId: data.ingredientId },
 			});
 
-		await db.delete(unmappedOffIngredients).where(eq(unmappedOffIngredients.tag, data.tag));
+		await db
+			.delete(unmappedOffIngredients)
+			.where(eq(unmappedOffIngredients.tag, data.tag));
 
 		const productsToUpdate = await db
 			.select({ id: products.id })
 			.from(products)
-			.where(sql`${products.offIngredients} @> ${JSON.stringify([data.tag])}::jsonb`);
+			.where(
+				sql`${products.offIngredients} @> ${JSON.stringify([data.tag])}::jsonb`,
+			);
 
 		for (const p of productsToUpdate) {
 			try {
@@ -195,4 +199,20 @@ export const mapOffIngredientToIngredient = createServerFn({
 		}
 
 		return { success: true, updatedCount: productsToUpdate.length };
+	});
+
+const deleteIngredientSchema = z.object({
+	id: z.string(),
+});
+
+export const deleteIngredient = createServerFn({
+	method: "POST",
+})
+	.validator((data: z.infer<typeof deleteIngredientSchema>) => data)
+	.handler(async ({ data }) => {
+		await ensureSession();
+
+		await db.delete(ingredients).where(eq(ingredients.id, data.id));
+
+		return { success: true };
 	});

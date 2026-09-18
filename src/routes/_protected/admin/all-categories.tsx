@@ -1,5 +1,6 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import type { PaginationState } from "@tanstack/react-table";
 import {
 	columnFilteringFeature,
@@ -13,7 +14,19 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown, Search } from "lucide-react";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import { AddCategoryDialog } from "#/components/AddCategoryDialog";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "#/components/ui/alert-dialog";
 import { Button } from "#/components/ui/button";
 import {
 	DropdownMenu,
@@ -24,7 +37,10 @@ import {
 import { Input } from "#/components/ui/input";
 import { useDebounce } from "#/hooks/use-debounce";
 import { categoriesQueryOptions } from "#/queries/category-queries";
-import type { getCategories } from "#/server/category-functions";
+import {
+	deleteCategory,
+	type getCategories,
+} from "#/server/category-functions";
 
 export const Route = createFileRoute("/_protected/admin/all-categories")({
 	component: RouteComponent,
@@ -53,6 +69,52 @@ const columnHelper = createColumnHelper<typeof features, CategoryData>();
 function RouteComponent() {
 	const [editingCategory, setEditingCategory] = useState<any>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 10,
+	});
+	const [searchInput, setSearchInput] = useState<string>("");
+	const debouncedSearch = useDebounce(searchInput, 1000);
+
+	const [prevSearch, setPrevSearch] = useState(debouncedSearch);
+	if (debouncedSearch !== prevSearch) {
+		setPrevSearch(debouncedSearch);
+		setPagination((prev) =>
+			prev.pageIndex !== 0 ? { ...prev, pageIndex: 0 } : prev,
+		);
+	}
+	const [columnVisibility, setColumnVisibility] = useState<
+		Record<string, boolean>
+	>({});
+
+	const queryArgs = useMemo(
+		() => ({
+			pageIndex: pagination.pageIndex,
+			pageSize: pagination.pageSize,
+			globalFilter: debouncedSearch,
+		}),
+		[pagination, debouncedSearch],
+	);
+
+	const deleteCategoryFn = useServerFn(deleteCategory);
+
+	const { data: result, refetch } = useQuery({
+		...categoriesQueryOptions(queryArgs),
+		placeholderData: keepPreviousData,
+	});
+
+	const deleteMutation = useMutation({
+		mutationFn: (id: string) => deleteCategoryFn({ data: { id } }),
+		onSuccess: () => {
+			toast.success("Category deleted successfully!");
+			refetch();
+		},
+		onError: (error) => {
+			console.error(error);
+			toast.error("Failed to delete category.");
+		},
+	});
 
 	const columns = useMemo(
 		() => [
@@ -97,57 +159,55 @@ function RouteComponent() {
 			}),
 			columnHelper.display({
 				id: "actions",
-				header: "Actions",
+				header: () => <div className="text-right">Actions</div>,
 				enableColumnFilter: false,
 				enableHiding: false,
 				cell: (info) => (
-					<Button
-						variant="ghost"
-						size="sm"
-						onClick={() => {
-							setEditingCategory(info.row.original);
-							setIsDialogOpen(true);
-						}}
-					>
-						Edit
-					</Button>
+					<div className="flex justify-end items-center gap-2">
+						<Button
+							variant="ghost"
+							size="sm"
+							onClick={() => {
+								setEditingCategory(info.row.original);
+								setIsDialogOpen(true);
+							}}
+						>
+							Edit
+						</Button>
+						<AlertDialog>
+							<AlertDialogTrigger asChild>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
+								>
+									Delete
+								</Button>
+							</AlertDialogTrigger>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+									<AlertDialogDescription>
+										This action cannot be undone. This will permanently delete
+										the category.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>Cancel</AlertDialogCancel>
+									<AlertDialogAction
+										onClick={() => deleteMutation.mutate(info.row.original.id)}
+									>
+										Delete
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
+					</div>
 				),
 			}),
 		],
-		[],
+		[deleteMutation.mutate],
 	);
-
-	const [pagination, setPagination] = useState<PaginationState>({
-		pageIndex: 0,
-		pageSize: 10,
-	});
-	const [searchInput, setSearchInput] = useState<string>("");
-	const debouncedSearch = useDebounce(searchInput, 1000);
-
-	const [prevSearch, setPrevSearch] = useState(debouncedSearch);
-	if (debouncedSearch !== prevSearch) {
-		setPrevSearch(debouncedSearch);
-		setPagination((prev) =>
-			prev.pageIndex !== 0 ? { ...prev, pageIndex: 0 } : prev,
-		);
-	}
-	const [columnVisibility, setColumnVisibility] = useState<
-		Record<string, boolean>
-	>({});
-
-	const queryArgs = useMemo(
-		() => ({
-			pageIndex: pagination.pageIndex,
-			pageSize: pagination.pageSize,
-			globalFilter: debouncedSearch,
-		}),
-		[pagination, debouncedSearch],
-	);
-
-	const { data: result } = useQuery({
-		...categoriesQueryOptions(queryArgs),
-		placeholderData: keepPreviousData,
-	});
 
 	const table = useTable<typeof features, CategoryData>({
 		features,

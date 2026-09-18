@@ -1,5 +1,6 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import type { PaginationState } from "@tanstack/react-table";
 import {
 	columnFilteringFeature,
@@ -13,6 +14,18 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown, Search } from "lucide-react";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "#/components/ui/alert-dialog";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import {
@@ -24,7 +37,7 @@ import {
 import { Input } from "#/components/ui/input";
 import { useDebounce } from "#/hooks/use-debounce";
 import { allProductsQueryOptions } from "#/queries/product-queries";
-import type { getAllProducts } from "#/server/product-functions";
+import { deleteProduct, type getAllProducts } from "#/server/product-functions";
 
 export const Route = createFileRoute("/_protected/admin/all-products")({
 	component: RouteComponent,
@@ -51,100 +64,9 @@ const features = tableFeatures({
 });
 const columnHelper = createColumnHelper<typeof features, ProductData>();
 
-const columns = [
-	columnHelper.accessor((row) => row.product.name, {
-		id: "name",
-		header: "Name",
-		enableColumnFilter: false,
-		enableHiding: false,
-		cell: (info) => (
-			<span className="font-medium text-slate-900 dark:text-slate-100">
-				{info.getValue()}
-			</span>
-		),
-	}),
-	columnHelper.accessor((row) => row.categories, {
-		id: "categories",
-		header: "Categories",
-		enableColumnFilter: false,
-		cell: (info) => {
-			const categories = info.getValue();
-			if (!categories || categories.length === 0)
-				return <span className="text-slate-500">N/A</span>;
-
-			const displayCategories = categories.slice(0, 2);
-			const remainingCount = categories.length - 2;
-
-			return (
-				<div className="flex flex-wrap gap-1">
-					{displayCategories.map((c) => (
-						<Badge
-							key={c.id}
-							variant="secondary"
-							className="font-normal text-xs whitespace-nowrap"
-						>
-							{c.name}
-						</Badge>
-					))}
-					{remainingCount > 0 && (
-						<Badge
-							variant="outline"
-							className="font-normal text-xs whitespace-nowrap text-slate-500"
-						>
-							+{remainingCount} more
-						</Badge>
-					)}
-				</div>
-			);
-		},
-	}),
-	columnHelper.accessor((row) => row.product.status, {
-		id: "status",
-		header: "Status",
-		enableColumnFilter: false,
-		cell: (info) => {
-			const status = info.getValue();
-			return (
-				<Badge
-					variant={
-						status === "rejected"
-							? "destructive"
-							: status === "approved"
-								? "default"
-								: "secondary"
-					}
-				>
-					{status.replace("_", " ")}
-				</Badge>
-			);
-		},
-	}),
-	columnHelper.accessor((row) => row.product.createdAt, {
-		id: "date",
-		header: "Date Added",
-		enableColumnFilter: false,
-		cell: (info) => {
-			const date = new Date(info.getValue());
-			return date.toLocaleDateString("en-US");
-		},
-	}),
-	columnHelper.display({
-		id: "actions",
-		header: "Actions",
-		enableColumnFilter: false,
-		enableHiding: false,
-		cell: (info) => (
-			<Link
-				to="/admin/add-product"
-				search={{ productId: info.row.original.product.id }}
-			>
-				Review
-			</Link>
-		),
-	}),
-];
-
 function RouteComponent() {
+	const deleteProductFn = useServerFn(deleteProduct);
+
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
@@ -174,10 +96,151 @@ function RouteComponent() {
 		[pagination, debouncedSearch, statusFilter],
 	);
 
-	const { data: result } = useQuery({
+	const { data: result, refetch } = useQuery({
 		...allProductsQueryOptions(queryArgs),
 		placeholderData: keepPreviousData,
 	});
+
+	const deleteMutation = useMutation({
+		mutationFn: (id: string) => deleteProductFn({ data: { id } }),
+		onSuccess: () => {
+			toast.success("Product deleted successfully!");
+			refetch();
+		},
+		onError: (error) => {
+			console.error(error);
+			toast.error("Failed to delete product.");
+		},
+	});
+
+	const columns = useMemo(
+		() => [
+			columnHelper.accessor((row) => row.product.name, {
+				id: "name",
+				header: "Name",
+				enableColumnFilter: false,
+				enableHiding: false,
+				cell: (info) => (
+					<span className="font-medium text-slate-900 dark:text-slate-100">
+						{info.getValue()}
+					</span>
+				),
+			}),
+			columnHelper.accessor((row) => row.categories, {
+				id: "categories",
+				header: "Categories",
+				enableColumnFilter: false,
+				cell: (info) => {
+					const categories = info.getValue();
+					if (!categories || categories.length === 0)
+						return <span className="text-slate-500">N/A</span>;
+
+					const displayCategories = categories.slice(0, 2);
+					const remainingCount = categories.length - 2;
+
+					return (
+						<div className="flex flex-wrap gap-1">
+							{displayCategories.map((c) => (
+								<Badge
+									key={c.id}
+									variant="secondary"
+									className="font-normal text-xs whitespace-nowrap"
+								>
+									{c.name}
+								</Badge>
+							))}
+							{remainingCount > 0 && (
+								<Badge
+									variant="outline"
+									className="font-normal text-xs whitespace-nowrap text-slate-500"
+								>
+									+{remainingCount} more
+								</Badge>
+							)}
+						</div>
+					);
+				},
+			}),
+			columnHelper.accessor((row) => row.product.status, {
+				id: "status",
+				header: "Status",
+				enableColumnFilter: false,
+				cell: (info) => {
+					const status = info.getValue();
+					return (
+						<Badge
+							variant={
+								status === "rejected"
+									? "destructive"
+									: status === "approved"
+										? "default"
+										: "secondary"
+							}
+						>
+							{status.replace("_", " ")}
+						</Badge>
+					);
+				},
+			}),
+			columnHelper.accessor((row) => row.product.createdAt, {
+				id: "date",
+				header: "Date Added",
+				enableColumnFilter: false,
+				cell: (info) => {
+					const date = new Date(info.getValue());
+					return date.toLocaleDateString("en-US");
+				},
+			}),
+			columnHelper.display({
+				id: "actions",
+				header: () => <div className="text-right">Actions</div>,
+				enableColumnFilter: false,
+				enableHiding: false,
+				cell: (info) => (
+					<div className="flex justify-end items-center gap-2">
+						<Link
+							to="/admin/add-product"
+							search={{ productId: info.row.original.product.id }}
+							className="text-sm font-medium hover:underline flex items-center justify-center h-8 px-3"
+						>
+							Review
+						</Link>
+						<AlertDialog>
+							<AlertDialogTrigger asChild>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
+								>
+									Delete
+								</Button>
+							</AlertDialogTrigger>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+									<AlertDialogDescription>
+										This action cannot be undone. This will permanently delete
+										the product.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>Cancel</AlertDialogCancel>
+									<AlertDialogAction
+										onClick={() =>
+											deleteMutation.mutate(info.row.original.product.id)
+										}
+									>
+										Delete
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
+					</div>
+				),
+			}),
+		],
+		[deleteMutation.mutate],
+	);
 
 	const table = useTable<typeof features, ProductData>({
 		features,
