@@ -46,7 +46,7 @@ function RouteComponent() {
 	});
 
 	return (
-		<div className="p-4 md:p-8 max-w-6xl mx-auto">
+		<div className="min-w-0 w-full p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
 			<div className="flex justify-between items-center mb-6">
 				<h1 className="text-2xl font-bold">Stores</h1>
 				<AddStoreDialog
@@ -63,9 +63,10 @@ function RouteComponent() {
 				/>
 			</div>
 
-			<div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-				<table className="w-full text-sm text-left">
-					<thead className="bg-slate-50 dark:bg-slate-800">
+			<div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden w-full">
+				<div className="overflow-x-auto w-full">
+					<table className="w-full text-sm text-left">
+						<thead className="bg-slate-50 dark:bg-slate-800">
 						<tr>
 							<th className="px-6 py-4 font-medium">Name</th>
 							<th className="px-6 py-4 font-medium">Logo</th>
@@ -142,7 +143,8 @@ function RouteComponent() {
 							</tr>
 						)}
 					</tbody>
-				</table>
+					</table>
+				</div>
 			</div>
 		</div>
 	);

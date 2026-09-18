@@ -42,7 +42,10 @@ export const getCategories = createServerFn({
 					parentName: parentCategories.name,
 				})
 				.from(categories)
-				.leftJoin(parentCategories, eq(categories.parentId, parentCategories.id))
+				.leftJoin(
+					parentCategories,
+					eq(categories.parentId, parentCategories.id),
+				)
 				.where(whereClause)
 				.orderBy(categories.name)
 				.limit(pageSize)
@@ -199,4 +202,20 @@ export const mapOffTagToCategory = createServerFn({
 		}
 
 		return { success: true, updatedCount: productsToUpdate.length };
+	});
+
+const deleteCategorySchema = z.object({
+	id: z.string(),
+});
+
+export const deleteCategory = createServerFn({
+	method: "POST",
+})
+	.validator((data: z.infer<typeof deleteCategorySchema>) => data)
+	.handler(async ({ data }) => {
+		await ensureSession();
+
+		await db.delete(categories).where(eq(categories.id, data.id));
+
+		return { success: true };
 	});

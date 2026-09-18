@@ -164,7 +164,8 @@ export const getAllProducts = createServerFn({
 		return {
 			data: sortedProducts.map((p) => ({
 				product: p,
-				categories: p.productCategories?.map(pc => pc.category).filter(Boolean) || [],
+				categories:
+					p.productCategories?.map((pc) => pc.category).filter(Boolean) || [],
 			})),
 			rowCount: totalCount,
 		};
@@ -296,4 +297,20 @@ export const getProductDetailsById = createServerFn({
 			},
 		});
 		return product;
+	});
+
+const deleteProductSchema = z.object({
+	id: z.string(),
+});
+
+export const deleteProduct = createServerFn({
+	method: "POST",
+})
+	.validator((data: z.infer<typeof deleteProductSchema>) => data)
+	.handler(async ({ data }) => {
+		await ensureSession();
+
+		await db.delete(products).where(eq(products.id, data.id));
+
+		return { success: true };
 	});
