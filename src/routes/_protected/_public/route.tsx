@@ -3,15 +3,15 @@ import {
 	Link,
 	Outlet,
 	useNavigate,
+	useRouteContext,
 } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Home, ScanBarcode, Search, Store, User } from "lucide-react";
 import { useState } from "react";
+import { Onboarding } from "#/components/Onboarding";
 import { ScannerDialog } from "#/components/ScannerDialog";
 import { Button } from "#/components/ui/button";
 import { processBarcodeScan } from "#/server/off-functions";
-import { useRouteContext } from "@tanstack/react-router";
-import { Onboarding } from "#/components/Onboarding";
 
 export const Route = createFileRoute("/_protected/_public")({
 	component: RouteComponent,
@@ -54,10 +54,10 @@ function RouteComponent() {
 			{/* Sticky Bottom Navigation */}
 			{/* Sticky Bottom Navigation */}
 			<div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-[#FDFBF7] dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-				<nav className="flex justify-between items-center w-full max-w-md px-4 py-1 h-[68px]">
+				<nav className="flex justify-between items-center w-full max-w-md px-4 py-1 h-17">
 					<Button
 						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
 						asChild
 					>
 						<Link to="/">
@@ -68,7 +68,7 @@ function RouteComponent() {
 
 					<Button
 						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
 						asChild
 					>
 						<Link to="/search">
@@ -80,7 +80,7 @@ function RouteComponent() {
 					<Button
 						variant="ghost"
 						onClick={() => setIsScannerOpen(true)}
-						className="flex flex-col cursor-pointer items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						className="flex flex-col cursor-pointer items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
 						disabled={isFetching}
 					>
 						{isFetching ? (
@@ -93,7 +93,7 @@ function RouteComponent() {
 
 					<Button
 						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
 						asChild
 					>
 						<Link to="/stores">
@@ -104,7 +104,7 @@ function RouteComponent() {
 
 					<Button
 						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-[72px] py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
 						asChild
 					>
 						<Link to="/profile">
