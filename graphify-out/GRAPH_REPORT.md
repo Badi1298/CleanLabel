@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-10-02)
 
 ## Corpus Check
-- 131 files · ~55,050 words
+- 131 files · ~55,184 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cb52a491`
+- Built from commit: `5f0814a5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -87,15 +87,15 @@
 10. `storesQueryOptions()` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `AddProductRoute()` --calls--> `categoriesQueryOptions()`  [EXTRACTED]
-  src/routes/_protected/_public/add-product.tsx → src/queries/product-queries.ts
-- `DialogOverlay()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/dialog.tsx → src/lib/utils.ts
 - `BreadcrumbEllipsis()` --calls--> `cn()`  [EXTRACTED]
   src/components/ui/breadcrumb.tsx → src/lib/utils.ts
 - `BreadcrumbLink()` --calls--> `cn()`  [EXTRACTED]
   src/components/ui/breadcrumb.tsx → src/lib/utils.ts
 - `CardAction()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/card.tsx → src/lib/utils.ts
+- `CardDescription()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/card.tsx → src/lib/utils.ts
+- `CardFooter()` --calls--> `cn()`  [EXTRACTED]
   src/components/ui/card.tsx → src/lib/utils.ts
 
 ## Import Cycles
@@ -308,7 +308,7 @@ Cohesion: 0.33
 Nodes (4): Onboarding(), ScannerDialog(), TODO: We use "as any" for search since we don't know if add-product has…, Route
 
 ## Knowledge Gaps
-- **416 isolated node(s):** `ProductQueryArgs`, `searchSchema`, `getCategoriesSchema`, `addCategorySchema`, `updateCategorySchema` (+411 more)
+- **416 isolated node(s):** `searchSchema`, `getCategoriesSchema`, `addCategorySchema`, `updateCategorySchema`, `mapOffTagSchema` (+411 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 487 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -316,12 +316,12 @@ Nodes (4): Onboarding(), ScannerDialog(), TODO: We use "as any" for search since
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `cn()` connect `cn` to `react`, `sidebar.tsx`, `sheet.tsx`, `dropdown-menu.tsx`, `$productId.tsx`, `dialog.tsx`, `admin/route.tsx`, `utils.ts`?**
+  _High betweenness centrality (0.073) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `sidebar.tsx`, `sheet.tsx`, `dropdown-menu.tsx`, `package.json`, `cn`, `combobox.tsx`, `$productId.tsx`, `dialog.tsx`, `admin/route.tsx`, `_public/route.tsx`, `utils.ts`, `router.tsx`?**
   _High betweenness centrality (0.060) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.058) - this node is a cross-community bridge._
 - **Why does `@tanstack/react-start` connect `react` to `safe-envs.ts`, `category-functions.ts`, `admin/add-product.tsx`, `product-functions.ts`, `routeTree.gen.ts`, `package.json`, `zod`, `ingredient-functions.ts`, `$productId.tsx`, `index.ts`, `_public/add-product.tsx`, `_public/route.tsx`, `app-schema.ts`?**
-  _High betweenness centrality (0.052) - this node is a cross-community bridge._
-- **What connects `ProductQueryArgs`, `searchSchema`, `getCategoriesSchema` to the rest of the system?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **What connects `searchSchema`, `getCategoriesSchema`, `addCategorySchema` to the rest of the system?**
   _416 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `react` be split into smaller, more focused modules?**
   _Cohesion score 0.07271062271062272 - nodes in this community are weakly interconnected._

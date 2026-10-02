@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
-    "mtime": 1790933702.1207092,
-    "seen": 1790934285.070799,
-    "ast_hash": "29b15360b5ebd89677fa5d0cf2971bed",
+    "mtime": 1790934377.240554,
+    "seen": 1790934563.473043,
+    "ast_hash": "b4d9b368eb02c2c2f7a91af6942258da",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores/$storeId/$categoryId.tsx": {
@@ -390,9 +390,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores/$storeId/index.tsx": {
-    "mtime": 1790933711.9315033,
-    "seen": 1790934285.0707998,
-    "ast_hash": "31ea6e4521bcf859a7d87c1135fa377b",
+    "mtime": 1790934478.2093947,
+    "seen": 1790934563.473044,
+    "ast_hash": "e6a2bffa4b92d52a6965bf64f167c1fd",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores/index.tsx": {
@@ -726,9 +726,9 @@
     "semantic_hash": ""
   },
   "src/server/category-functions.ts": {
-    "mtime": 1790933894.0682108,
-    "seen": 1790934285.0708108,
-    "ast_hash": "e746b3a93da004753ab0d073bbd52c0d",
+    "mtime": 1790934334.8339849,
+    "seen": 1790934563.473055,
+    "ast_hash": "638bd03769672e723b7c5732588925ca",
     "semantic_hash": ""
   },
   "src/server/ingredient-functions.ts": {

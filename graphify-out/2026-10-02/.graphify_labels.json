@@ -12,7 +12,7 @@
   "10": "cn",
   "11": "two-factor-authentication-best-practices/SKILL.md",
   "12": "biome.json",
-  "13": "all-categories.tsx",
+  "13": "combobox.tsx",
   "14": "Create Auth Skill",
   "15": "Building For Production",
   "16": "Better Auth Integration Guide",
@@ -35,12 +35,12 @@
   "33": "category-functions.ts",
   "34": "0001_nice_rockslide.sql",
   "35": "ingredientsQueryOptions",
-  "36": "@tanstack/react-query",
+  "36": "storesQueryOptions",
   "37": "sheet.tsx",
   "38": "AGENTS.md",
   "39": "dropdown-menu.tsx",
   "40": "registerSW.js",
-  "41": "profile-functions.ts",
+  "41": "zod",
   "42": "auth-schema.ts",
   "43": "FileRoutesByPath",
   "44": "drizzle-orm",
@@ -55,5 +55,7 @@
   "53": "0000_next_ben_urich.sql",
   "54": "pnpm",
   "55": "0005_stale_stick.sql",
-  "56": "auth-functions.ts"
+  "56": "dialog.tsx",
+  "57": "_public/add-product.tsx",
+  "58": "_public/route.tsx"
 }
