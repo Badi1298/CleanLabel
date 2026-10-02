@@ -19304,19 +19304,7 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "src_components_scannerdialog_scannerdialog",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/routes/_protected/_public/route.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_routes_protected_public_route",
-      "target": "src_components_ui_button_button",
+      "target": "src_components_onboarding_onboarding",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -19328,7 +19316,7 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "src_server_off_functions_processbarcodescan",
+      "target": "src_components_scannerdialog_scannerdialog",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -19340,7 +19328,19 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "src_components_onboarding_onboarding",
+      "target": "src_components_ui_button_button",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/routes/_protected/_public/route.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_routes_protected_public_route",
+      "target": "src_server_off_functions_processbarcodescan",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25276,7 +25276,19 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "src_components_scannerdialog",
+      "target": "ref_tanstack_react_router",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/routes/_protected/_public/route.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_routes_protected_public_route",
+      "target": "ref_react",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25288,7 +25300,7 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "src_components_ui_button",
+      "target": "src_components_onboarding",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25300,7 +25312,7 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "src_server_off_functions",
+      "target": "src_components_scannerdialog",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25312,7 +25324,7 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "ref_tanstack_react_router",
+      "target": "src_components_ui_button",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25324,7 +25336,7 @@
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "src_components_onboarding",
+      "target": "src_server_off_functions",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -25343,24 +25355,12 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/routes/_protected/_public/route.tsx",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "src_routes_protected_public_route",
-      "target": "ref_lucide_react",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/routes/_protected/_public/route.tsx",
       "source_location": "L8",
       "weight": 1.0
     },
     {
       "source": "src_routes_protected_public_route",
-      "target": "ref_react",
+      "target": "ref_lucide_react",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -36147,5 +36147,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a4b055ad666b2ab8462837cbe96ca4de9ba49adc"
+  "built_at_commit": "b31adff0f0b53eb12b851be6a2e395fee91a86cf"
 }
