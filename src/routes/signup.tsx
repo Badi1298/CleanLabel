@@ -30,7 +30,6 @@ function Signup() {
 	const navigate = useNavigate();
 	const form = useForm({
 		defaultValues: {
-			name: "",
 			email: "",
 			password: "",
 			confirmPassword: "",
@@ -44,10 +43,10 @@ function Signup() {
 			const { error } = await authClient.signUp.email({
 				email: value.email,
 				password: value.password,
-				name: value.name,
+				name: value.email.split("@")[0],
 			});
 			if (!error) {
-				navigate({ to: "/", replace: true });
+				window.location.href = "/";
 			} else {
 				toast.error(error.message || "Failed to sign up");
 			}
@@ -72,36 +71,7 @@ function Signup() {
 					}}
 					className="space-y-2"
 				>
-					<form.Field
-						name="name"
-						validators={{
-							onChange: ({ value }) =>
-								!value
-									? "Name is required"
-									: value.length < 2
-										? "Name must be at least 2 characters"
-										: undefined,
-						}}
-					>
-						{(field) => (
-							<div className="space-y-1">
-								<Label htmlFor={field.name} className="text-white">
-									Full Name
-								</Label>
-								<Input
-									id={field.name}
-									name={field.name}
-									type="text"
-									value={field.state.value}
-									onBlur={field.handleBlur}
-									onChange={(e) => field.handleChange(e.target.value)}
-									className="bg-white/20 border-white/30 text-white placeholder:text-white/50 focus-visible:ring-white/50"
-									placeholder="John Doe"
-								/>
-								<FieldInfo field={field} />
-							</div>
-						)}
-					</form.Field>
+					{/* Name field removed, handled in onboarding */}
 
 					<form.Field
 						name="email"

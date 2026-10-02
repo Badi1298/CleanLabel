@@ -36,6 +36,19 @@ export const auth = betterAuth({
 				defaultValue: "client",
 				input: false,
 			},
+			firstName: {
+				type: "string",
+				required: false,
+			},
+			lastName: {
+				type: "string",
+				required: false,
+			},
+			hasCompletedOnboarding: {
+				type: "boolean",
+				required: false,
+				defaultValue: false,
+			},
 		},
 	},
 	plugins: [tanstackStartCookies()],

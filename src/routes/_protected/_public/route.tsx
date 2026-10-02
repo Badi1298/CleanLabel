@@ -10,6 +10,8 @@ import { useState } from "react";
 import { ScannerDialog } from "#/components/ScannerDialog";
 import { Button } from "#/components/ui/button";
 import { processBarcodeScan } from "#/server/off-functions";
+import { useRouteContext } from "@tanstack/react-router";
+import { Onboarding } from "#/components/Onboarding";
 
 export const Route = createFileRoute("/_protected/_public")({
 	component: RouteComponent,
@@ -18,6 +20,7 @@ export const Route = createFileRoute("/_protected/_public")({
 function RouteComponent() {
 	const processScan = useServerFn(processBarcodeScan);
 	const navigate = useNavigate();
+	const { session } = useRouteContext({ from: "/_protected" });
 	const [isScannerOpen, setIsScannerOpen] = useState(false);
 	const [isFetching, setIsFetching] = useState(false);
 
@@ -45,6 +48,7 @@ function RouteComponent() {
 
 	return (
 		<div className="relative min-h-screen pb-24 bg-slate-50 dark:bg-slate-950">
+			<Onboarding user={session.user} />
 			<Outlet />
 
 			{/* Sticky Bottom Navigation */}
