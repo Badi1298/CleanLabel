@@ -16,6 +16,7 @@ import {
 	Store,
 } from "lucide-react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { ProductCard } from "#/components/home/product-card";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent } from "#/components/ui/card";
@@ -28,7 +29,10 @@ import {
 } from "#/components/ui/tooltip";
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
-import { productDetailsQueryOptions } from "#/queries/product-queries";
+import {
+	productAlternativesQueryOptions,
+	productDetailsQueryOptions,
+} from "#/queries/product-queries";
 import {
 	userExcludedIngredientsQueryOptions,
 	userFavoriteProductsQueryOptions,
@@ -38,9 +42,10 @@ import { toggleFavoriteProduct } from "#/server/profile-functions";
 export const Route = createFileRoute("/_protected/_public/products/$productId")(
 	{
 		loader: async ({ context: { queryClient }, params: { productId } }) => {
-			const product = await queryClient.ensureQueryData(
-				productDetailsQueryOptions(productId),
-			);
+			const [product] = await Promise.all([
+				queryClient.ensureQueryData(productDetailsQueryOptions(productId)),
+				queryClient.ensureQueryData(productAlternativesQueryOptions(productId)),
+			]);
 			if (!product) {
 				throw notFound();
 			}
@@ -87,6 +92,9 @@ function ProductDetails() {
 	const { productId } = Route.useParams();
 	const { data: product } = useSuspenseQuery(
 		productDetailsQueryOptions(productId),
+	);
+	const { data: alternatives } = useSuspenseQuery(
+		productAlternativesQueryOptions(productId),
 	);
 
 	const { data: session } = authClient.useSession();
@@ -393,6 +401,24 @@ function ProductDetails() {
 										)}
 										<span className="font-medium text-sm">{store.name}</span>
 									</div>
+								))}
+							</div>
+						</div>
+					</>
+				)}
+
+				{/* Alternatives Section */}
+				{alternatives && alternatives.length > 0 && (
+					<>
+						<Separator className="my-8 opacity-50" />
+						<div className="space-y-4">
+							<h3 className="text-xl font-semibold flex items-center gap-2">
+								<Package className="w-5 h-5 text-indigo-500" />
+								Alternatives
+							</h3>
+							<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+								{alternatives.map((alt) => (
+									<ProductCard key={alt.id} product={alt} />
 								))}
 							</div>
 						</div>

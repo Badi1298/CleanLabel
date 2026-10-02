@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, count, eq, ilike, or } from "drizzle-orm";
+import { and, count, eq, ilike, or, inArray, ne, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
 import {
@@ -313,4 +313,77 @@ export const deleteProduct = createServerFn({
 		await db.delete(products).where(eq(products.id, data.id));
 
 		return { success: true };
+	});
+
+export const getProductAlternatives = createServerFn({
+	method: "GET",
+})
+	.validator((productId: string) => productId)
+	.handler(async ({ data: productId }) => {
+		const product = await db.query.products.findFirst({
+			where: eq(products.id, productId),
+			with: {
+				productCategories: true,
+			},
+		});
+
+		if (
+			!product ||
+			!product.productCategories ||
+			product.productCategories.length === 0
+		) {
+			return [];
+		}
+
+		const categoryIds = product.productCategories.map((pc) => pc.categoryId);
+
+		const alternativesRows = await db
+			.select({
+				id: products.id,
+				score: products.score,
+			})
+			.from(products)
+			.innerJoin(
+				productCategories,
+				eq(products.id, productCategories.productId),
+			)
+			.where(
+				and(
+					inArray(productCategories.categoryId, categoryIds),
+					ne(products.id, productId),
+				),
+			)
+			.groupBy(products.id, products.score)
+			.orderBy(products.score, sql`RANDOM()`)
+			.limit(5);
+
+		if (alternativesRows.length === 0) return [];
+
+		const fullAlternatives = await db.query.products.findMany({
+			where: inArray(
+				products.id,
+				alternativesRows.map((r) => r.id),
+			),
+			with: {
+				productStores: {
+					with: {
+						store: true,
+					},
+				},
+				productIngredients: true,
+			},
+		});
+
+		const sortedAlternatives = alternativesRows
+			.map((row) => fullAlternatives.find((fa) => fa.id === row.id)!)
+			.filter(Boolean);
+
+		return sortedAlternatives.map((alt) => ({
+			id: alt.id,
+			name: alt.name,
+			imageFrontUrl: alt.imageFrontUrl,
+			storeName: alt.productStores?.[0]?.store?.name || null,
+			ingredientIds:
+				alt.productIngredients?.map((pi) => pi.ingredientId) || [],
+		}));
 	});
