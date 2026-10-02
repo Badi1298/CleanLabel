@@ -5,9 +5,11 @@ import {
 	notFound,
 	useRouter,
 } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import {
 	AlertTriangle,
 	ArrowLeft,
+	Heart,
 	Info,
 	Package,
 	ShieldAlert,
@@ -27,7 +29,11 @@ import {
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
 import { productDetailsQueryOptions } from "#/queries/product-queries";
-import { userExcludedIngredientsQueryOptions } from "#/queries/profile-queries";
+import {
+	userExcludedIngredientsQueryOptions,
+	userFavoriteProductsQueryOptions,
+} from "#/queries/profile-queries";
+import { toggleFavoriteProduct } from "#/server/profile-functions";
 
 export const Route = createFileRoute("/_protected/_public/products/$productId")(
 	{
@@ -89,6 +95,25 @@ function ProductDetails() {
 		enabled: !!session?.user,
 	});
 
+	const { data: favoriteProducts, refetch: refetchFavorites } = useQuery({
+		...userFavoriteProductsQueryOptions(),
+		enabled: !!session?.user,
+	});
+
+	const toggleFavoriteFn = useServerFn(toggleFavoriteProduct);
+
+	const isFavorited = favoriteProducts?.some((fav) => fav.id === product?.id);
+
+	const handleFavoriteClick = async () => {
+		if (!session?.user || !product) return;
+		try {
+			await toggleFavoriteFn({ data: { productId: product.id } });
+			refetchFavorites();
+		} catch (error) {
+			console.error("Failed to toggle favorite", error);
+		}
+	};
+
 	if (!product) return null;
 
 	const scoreBadge = getScoreBadgeProps(product.score);
@@ -108,6 +133,18 @@ function ProductDetails() {
 				<h1 className="font-semibold text-lg truncate flex-1">
 					{product.name}
 				</h1>
+				{session?.user && (
+					<Button
+						size="icon"
+						variant="ghost"
+						className="ml-3 rounded-full cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
+						onClick={handleFavoriteClick}
+					>
+						<Heart
+							className={`w-5 h-5 ${isFavorited ? "fill-red-500 text-red-500" : "text-slate-500"}`}
+						/>
+					</Button>
+				)}
 			</header>
 
 			<main className="max-w-4xl mx-auto px-4 py-6 md:py-8 space-y-6 md:space-y-8">

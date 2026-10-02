@@ -17,6 +17,7 @@ import { Route as ProtectedPublicRouteRouteImport } from './routes/_protected/_p
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
 import { Route as ProtectedPublicIndexRouteImport } from './routes/_protected/_public/index'
 import { Route as ProtectedPublicAddProductRouteImport } from './routes/_protected/_public/add-product'
+import { Route as ProtectedPublicFavoritesRouteImport } from './routes/_protected/_public/favorites'
 import { Route as ProtectedPublicProfileRouteImport } from './routes/_protected/_public/profile'
 import { Route as ProtectedPublicSearchRouteImport } from './routes/_protected/_public/search'
 import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protected/admin/add-product'
@@ -69,6 +70,12 @@ const ProtectedPublicAddProductRoute =
   ProtectedPublicAddProductRouteImport.update({
     id: '/add-product',
     path: '/add-product',
+    getParentRoute: () => ProtectedPublicRouteRoute,
+  } as any)
+const ProtectedPublicFavoritesRoute =
+  ProtectedPublicFavoritesRouteImport.update({
+    id: '/favorites',
+    path: '/favorites',
     getParentRoute: () => ProtectedPublicRouteRoute,
   } as any)
 const ProtectedPublicProfileRoute = ProtectedPublicProfileRouteImport.update({
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/add-product': typeof ProtectedPublicAddProductRoute
+  '/favorites': typeof ProtectedPublicFavoritesRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
@@ -181,6 +189,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/add-product': typeof ProtectedPublicAddProductRoute
+  '/favorites': typeof ProtectedPublicFavoritesRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
@@ -205,6 +214,7 @@ export interface FileRoutesById {
   '/_protected/_public': typeof ProtectedPublicRouteRouteWithChildren
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/_protected/_public/add-product': typeof ProtectedPublicAddProductRoute
+  '/_protected/_public/favorites': typeof ProtectedPublicFavoritesRoute
   '/_protected/_public/profile': typeof ProtectedPublicProfileRoute
   '/_protected/_public/search': typeof ProtectedPublicSearchRoute
   '/_protected/admin/add-product': typeof ProtectedAdminAddProductRoute
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin'
     | '/add-product'
+    | '/favorites'
     | '/profile'
     | '/search'
     | '/admin/add-product'
@@ -252,6 +263,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin'
     | '/add-product'
+    | '/favorites'
     | '/profile'
     | '/search'
     | '/admin/add-product'
@@ -275,6 +287,7 @@ export interface FileRouteTypes {
     | '/_protected/_public'
     | '/_protected/admin'
     | '/_protected/_public/add-product'
+    | '/_protected/_public/favorites'
     | '/_protected/_public/profile'
     | '/_protected/_public/search'
     | '/_protected/admin/add-product'
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       path: '/add-product'
       fullPath: '/add-product'
       preLoaderRoute: typeof ProtectedPublicAddProductRouteImport
+      parentRoute: typeof ProtectedPublicRouteRoute
+    }
+    '/_protected/_public/favorites': {
+      id: '/_protected/_public/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof ProtectedPublicFavoritesRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
     '/_protected/_public/profile': {
@@ -461,6 +481,7 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedPublicRouteRouteChildren {
   ProtectedPublicAddProductRoute: typeof ProtectedPublicAddProductRoute
+  ProtectedPublicFavoritesRoute: typeof ProtectedPublicFavoritesRoute
   ProtectedPublicProfileRoute: typeof ProtectedPublicProfileRoute
   ProtectedPublicSearchRoute: typeof ProtectedPublicSearchRoute
   ProtectedPublicIndexRoute: typeof ProtectedPublicIndexRoute
@@ -472,6 +493,7 @@ interface ProtectedPublicRouteRouteChildren {
 
 const ProtectedPublicRouteRouteChildren: ProtectedPublicRouteRouteChildren = {
   ProtectedPublicAddProductRoute: ProtectedPublicAddProductRoute,
+  ProtectedPublicFavoritesRoute: ProtectedPublicFavoritesRoute,
   ProtectedPublicProfileRoute: ProtectedPublicProfileRoute,
   ProtectedPublicSearchRoute: ProtectedPublicSearchRoute,
   ProtectedPublicIndexRoute: ProtectedPublicIndexRoute,
