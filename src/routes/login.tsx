@@ -1,5 +1,5 @@
 import { type AnyFieldApi, useForm } from "@tanstack/react-form";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Globe2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -33,7 +33,6 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 }
 
 function Login() {
-	const navigate = useNavigate();
 	const search = Route.useSearch();
 	const form = useForm({
 		defaultValues: {
@@ -47,9 +46,9 @@ function Login() {
 			});
 			if (!error) {
 				if (search.redirect) {
-					navigate({ to: search.redirect, replace: true });
+					window.location.href = search.redirect;
 				} else {
-					navigate({ to: "/", replace: true });
+					window.location.href = "/";
 				}
 			} else {
 				toast.error(error.message || "Failed to login");
