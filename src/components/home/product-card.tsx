@@ -1,8 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { Heart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
 import { authClient } from "#/lib/auth-client";
-import { userExcludedIngredientsQueryOptions } from "#/queries/profile-queries";
+import {
+	userExcludedIngredientsQueryOptions,
+	userFavoriteProductsQueryOptions,
+} from "#/queries/profile-queries";
+import { toggleFavoriteProduct } from "#/server/profile-functions";
 
 type ProductCardProps = {
 	product: {
@@ -21,6 +27,26 @@ export function ProductCard({ product }: ProductCardProps) {
 		...userExcludedIngredientsQueryOptions(),
 		enabled: !!session?.user,
 	});
+
+	const { data: favoriteProducts, refetch: refetchFavorites } = useQuery({
+		...userFavoriteProductsQueryOptions(),
+		enabled: !!session?.user,
+	});
+
+	const toggleFavoriteFn = useServerFn(toggleFavoriteProduct);
+
+	const isFavorited = favoriteProducts?.some((fav) => fav.id === product.id);
+
+	const handleFavoriteClick = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		if (!session?.user) return;
+		try {
+			await toggleFavoriteFn({ data: { productId: product.id } });
+			refetchFavorites();
+		} catch (error) {
+			console.error("Failed to toggle favorite", error);
+		}
+	};
 
 	const hasExcludedIngredient =
 		excludedIngredients &&
@@ -49,7 +75,17 @@ export function ProductCard({ product }: ProductCardProps) {
 							<span className="text-sm mt-2 font-medium">No Image</span>
 						</div>
 					)}
-					{/* Removed score badge per request */}
+					{session?.user && (
+						<button
+							type="button"
+							onClick={handleFavoriteClick}
+							className="absolute top-2 right-2 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full shadow-sm hover:scale-110 transition-transform"
+						>
+							<Heart
+								className={`w-5 h-5 ${isFavorited ? "fill-red-500 text-red-500" : "text-slate-400 dark:text-slate-500"}`}
+							/>
+						</button>
+					)}
 				</div>
 				<CardHeader className="p-4 pb-2">
 					<CardTitle className="text-lg line-clamp-2 leading-tight">

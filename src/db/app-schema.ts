@@ -29,7 +29,9 @@ export const categories = pgTable("categories", {
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text("name").notNull(),
 	iconUrl: text("icon_url"),
-	parentId: text("parent_id").references((): any => categories.id, { onDelete: "cascade" }),
+	parentId: text("parent_id").references((): any => categories.id, {
+		onDelete: "cascade",
+	}),
 });
 
 export const stores = pgTable("stores", {
@@ -108,6 +110,19 @@ export const userExcludedIngredients = pgTable(
 			.references(() => ingredients.id, { onDelete: "cascade" }),
 	},
 	(t) => [primaryKey({ columns: [t.userId, t.ingredientId] })],
+);
+
+export const userFavoriteProducts = pgTable(
+	"user_favorite_products",
+	{
+		userId: text("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		productId: text("product_id")
+			.notNull()
+			.references(() => products.id, { onDelete: "cascade" }),
+	},
+	(t) => [primaryKey({ columns: [t.userId, t.productId] })],
 );
 
 export const productIngredients = pgTable(
@@ -253,6 +268,20 @@ export const productCategoriesRelations = relations(
 		category: one(categories, {
 			fields: [productCategories.categoryId],
 			references: [categories.id],
+		}),
+	}),
+);
+
+export const userFavoriteProductsRelations = relations(
+	userFavoriteProducts,
+	({ one }) => ({
+		user: one(user, {
+			fields: [userFavoriteProducts.userId],
+			references: [user.id],
+		}),
+		product: one(products, {
+			fields: [userFavoriteProducts.productId],
+			references: [products.id],
 		}),
 	}),
 );
