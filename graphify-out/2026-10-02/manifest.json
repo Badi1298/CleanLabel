@@ -72,9 +72,9 @@
     "semantic_hash": ""
   },
   "src/components/ProductForm.tsx": {
-    "mtime": 1790925948.4572833,
-    "seen": 1790926057.651692,
-    "ast_hash": "bf0225b3c385dc9bd74c1cfa1684548c",
+    "mtime": 1790931375.7798095,
+    "seen": 1790931670.408611,
+    "ast_hash": "7e3b7fbf15e7df1b86ea38ab77498178",
     "semantic_hash": ""
   },
   "src/components/ScannerDialog.tsx": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "src/db/auth-schema.ts": {
-    "mtime": 1790928543.8905632,
-    "seen": 1790929923.24627,
+    "mtime": 1790930932.855987,
+    "seen": 1790931670.408631,
     "ast_hash": "8e624347cf0ba618b9f3cc78d0126311",
     "semantic_hash": ""
   },
@@ -294,8 +294,8 @@
     "semantic_hash": ""
   },
   "src/lib/auth.ts": {
-    "mtime": 1790928552.8034475,
-    "seen": 1790929923.2462761,
+    "mtime": 1790930932.8563144,
+    "seen": 1790931670.408637,
     "ast_hash": "5eeceb165964697ce1587fecc7dbe373",
     "semantic_hash": ""
   },
@@ -366,14 +366,14 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1790930714.1731856,
-    "seen": 1790930735.526888,
+    "mtime": 1790930932.8572364,
+    "seen": 1790931670.4086468,
     "ast_hash": "487466a52d36ecb61d6e99afb4c211d3",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
-    "mtime": 1790929978.554098,
-    "seen": 1790929987.008034,
+    "mtime": 1790930932.8575974,
+    "seen": 1790931670.408648,
     "ast_hash": "438e68cb3a25c89e78fe9a11e15c397c",
     "semantic_hash": ""
   },
@@ -438,14 +438,14 @@
     "semantic_hash": ""
   },
   "src/routes/login.tsx": {
-    "mtime": 1790929726.0098965,
-    "seen": 1790929923.246298,
+    "mtime": 1790930932.857954,
+    "seen": 1790931670.408658,
     "ast_hash": "e42b678c197e8a50789b4ed54d61fe7c",
     "semantic_hash": ""
   },
   "src/routes/signup.tsx": {
-    "mtime": 1790929713.3381438,
-    "seen": 1790929923.2462988,
+    "mtime": 1790930932.8582556,
+    "seen": 1790931670.408659,
     "ast_hash": "e11c0349fe559b77a2a4f72d060ead8a",
     "semantic_hash": ""
   },
@@ -798,8 +798,8 @@
     "semantic_hash": ""
   },
   "src/components/Onboarding.tsx": {
-    "mtime": 1790930457.4115937,
-    "seen": 1790930516.122595,
+    "mtime": 1790930932.8556685,
+    "seen": 1790931670.408611,
     "ast_hash": "fd2103825e41cc6bd42f9e0d90576636",
     "semantic_hash": ""
   }

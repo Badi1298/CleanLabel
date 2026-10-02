@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-10-02)
 
 ## Corpus Check
-- 131 files · ~54,459 words
+- 131 files · ~54,591 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `aa9d1df0`
+- Built from commit: `f318ac77`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -293,7 +293,7 @@ Cohesion: 0.50
 Nodes (3): "public"."ingredients", "public"."user", "user_excluded_ingredients"
 
 ## Knowledge Gaps
-- **415 isolated node(s):** `ScannerDialogProps`, `SearchBarProps`, `CategoryQueryArgs`, `CategoryData`, `ProductData` (+410 more)
+- **415 isolated node(s):** `ProductFormValues`, `ScannerDialogProps`, `SearchBarProps`, `CategoryQueryArgs`, `CategoryData` (+410 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 486 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -306,7 +306,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.050) - this node is a cross-community bridge._
 - **Why does `cn()` connect `cn` to `react`, `sidebar.tsx`, `sheet.tsx`, `popover.tsx`, `product-card.tsx`, `admin/route.tsx`, `$productId.tsx`?**
   _High betweenness centrality (0.049) - this node is a cross-community bridge._
-- **What connects `ScannerDialogProps`, `SearchBarProps`, `CategoryQueryArgs` to the rest of the system?**
+- **What connects `ProductFormValues`, `ScannerDialogProps`, `SearchBarProps` to the rest of the system?**
   _415 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `react` be split into smaller, more focused modules?**
   _Cohesion score 0.05977961432506887 - nodes in this community are weakly interconnected._
