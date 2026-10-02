@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-10-02)
 
 ## Corpus Check
-- 131 files · ~54,452 words
+- 131 files · ~54,459 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b31adff0`
+- Built from commit: `aa9d1df0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

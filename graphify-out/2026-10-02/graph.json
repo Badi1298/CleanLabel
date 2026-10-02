@@ -411,7 +411,7 @@
       "file_type": "code",
       "norm_label": "onboarding()",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L10"
+      "source_location": "L17"
     },
     {
       "id": "src_components_scannerdialog_scannerdialog",
@@ -15932,90 +15932,6 @@
     },
     {
       "source": "src_components_onboarding",
-      "target": "src_components_ui_dialog_dialog",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
-      "target": "src_components_ui_dialog_dialogcontent",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
-      "target": "src_components_ui_dialog_dialogdescription",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
-      "target": "src_components_ui_dialog_dialogfooter",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
-      "target": "src_components_ui_dialog_dialogheader",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
-      "target": "src_components_ui_dialog_dialogtitle",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
-      "target": "src_components_ui_button_button",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
       "target": "src_components_ui_input_input",
       "relation": "imports",
       "_origin": "ast",
@@ -16023,7 +15939,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L4",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -16035,7 +15951,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L5",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -16047,7 +15963,91 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L6",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_button_button",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_dialog_dialog",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_dialog_dialogcontent",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_dialog_dialogdescription",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_dialog_dialogfooter",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_dialog_dialogheader",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_dialog_dialogtitle",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -21321,7 +21321,7 @@
     },
     {
       "source": "src_components_onboarding",
-      "target": "ref_react",
+      "target": "ref_lucide_react",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -21333,30 +21333,6 @@
     },
     {
       "source": "src_components_onboarding",
-      "target": "src_components_ui_dialog",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
-      "target": "src_components_ui_button",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_onboarding",
       "target": "src_components_ui_input",
       "relation": "imports_from",
       "_origin": "ast",
@@ -21364,7 +21340,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L4",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -21376,7 +21352,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L5",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -21388,7 +21364,19 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L6",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -21400,19 +21388,31 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L7",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
       "source": "src_components_onboarding",
-      "target": "ref_lucide_react",
+      "target": "src_components_ui_button",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L8",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_onboarding",
+      "target": "src_components_ui_dialog",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Onboarding.tsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -31136,7 +31136,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/Onboarding.tsx",
-      "source_location": "L10",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -36147,5 +36147,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b31adff0f0b53eb12b851be6a2e395fee91a86cf"
+  "built_at_commit": "aa9d1df0e91c82079f7e1a9f93dc1c778a5f890b"
 }
