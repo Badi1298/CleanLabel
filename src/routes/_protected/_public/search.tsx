@@ -58,8 +58,13 @@ function SearchPage() {
 		!!searchParams.score;
 
 	const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
-	const { data: activeCategoryIds } = useSuspenseQuery(
+	const { data: activeCategoriesData } = useSuspenseQuery(
 		activeCategoriesQueryOptions(searchParams.storeId),
+	);
+	
+	const activeCategoryIds = activeCategoriesData?.map((c) => c.id);
+	const categoryCounts = new Map(
+		activeCategoriesData?.map((c) => [c.id, c.count]),
 	);
 	
 	const categories = allCategories?.filter((c) =>
@@ -169,7 +174,7 @@ function SearchPage() {
 													?.filter((c) => !c.parentId)
 													.map((cat) => (
 														<SelectItem key={cat.id} value={cat.id}>
-															{cat.name}
+															{cat.name} ({categoryCounts.get(cat.id) || 0})
 														</SelectItem>
 													))}
 											</SelectContent>
@@ -196,7 +201,7 @@ function SearchPage() {
 													<SelectItem value="all">All Subcategories</SelectItem>
 													{subcats.map((subcat) => (
 														<SelectItem key={subcat.id} value={subcat.id}>
-															{subcat.name}
+															{subcat.name} ({categoryCounts.get(subcat.id) || 0})
 														</SelectItem>
 													))}
 												</SelectContent>
@@ -262,6 +267,9 @@ function SearchPage() {
 													<h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
 														{parentCat.name}
 													</h3>
+													<span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold px-2 py-1 rounded-full">
+														{categoryCounts.get(parentCat.id) || 0}
+													</span>
 												</div>
 												<div className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50 h-9 px-3">
 													View All {parentCat.name}
@@ -283,6 +291,9 @@ function SearchPage() {
 																}}
 															>
 																<span className="truncate">{subcat.name}</span>
+																<span className="ml-auto bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold px-2 py-0.5 rounded-full">
+																	{categoryCounts.get(subcat.id) || 0}
+																</span>
 															</Button>
 														))}
 													</div>

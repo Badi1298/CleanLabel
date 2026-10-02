@@ -233,8 +233,9 @@ export const getActiveCategories = createServerFn({
 		const { storeId } = data;
 
 		let query = db
-			.selectDistinct({
+			.select({
 				categoryId: productCategories.categoryId,
+				productCount: count(products.id),
 			})
 			.from(productCategories)
 			.innerJoin(products, eq(productCategories.productId, products.id)) as any;
@@ -249,25 +250,41 @@ export const getActiveCategories = createServerFn({
 			whereConditions.push(eq(productStores.storeId, storeId));
 		}
 
-		const activeCategoryIdsRows = await query.where(and(...whereConditions));
-		const activeCategoryIds = activeCategoryIdsRows.map((r) => r.categoryId);
+		const categoryCountsRows = await query
+			.where(and(...whereConditions))
+			.groupBy(productCategories.categoryId);
+			
+		const activeCategoryIds = categoryCountsRows.map((r: any) => r.categoryId);
 
 		if (activeCategoryIds.length === 0) return [];
+		
+		const categoryCountsMap = new Map<string, number>();
+		categoryCountsRows.forEach((row: any) => {
+			categoryCountsMap.set(row.categoryId, Number(row.productCount));
+		});
 
 		const activeCategories = await db
 			.select()
 			.from(categories)
 			.where(inArray(categories.id, activeCategoryIds));
 
-		const parentIds = new Set(
-			activeCategories
-				.map((c) => c.parentId)
-				.filter((id): id is string => id !== null),
-		);
+		const parentIds = new Set<string>();
+		
+		activeCategories.forEach((c) => {
+			if (c.parentId) {
+				parentIds.add(c.parentId);
+				const currentParentCount = categoryCountsMap.get(c.parentId) || 0;
+				const subCount = categoryCountsMap.get(c.id) || 0;
+				categoryCountsMap.set(c.parentId, currentParentCount + subCount);
+			}
+		});
 
 		const allNeededCategoryIds = Array.from(
 			new Set([...activeCategoryIds, ...parentIds]),
 		);
 
-		return allNeededCategoryIds;
+		return allNeededCategoryIds.map(id => ({
+			id,
+			count: categoryCountsMap.get(id) || 0
+		}));
 	});
