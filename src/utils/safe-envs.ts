@@ -40,3 +40,9 @@ export const getR2BucketName = createServerOnlyFn(
 export const getR2PublicDomain = createServerOnlyFn(
 	() => getServerEnv().R2_PUBLIC_DOMAIN,
 );
+export const getGoogleClientId = createServerOnlyFn(
+	() => getServerEnv().GOOGLE_CLIENT_ID,
+);
+export const getGoogleClientSecret = createServerOnlyFn(
+	() => getServerEnv().GOOGLE_CLIENT_SECRET,
+);

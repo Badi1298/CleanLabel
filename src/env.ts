@@ -14,6 +14,8 @@ const serverEnvSchema = z.object({
 	R2_SECRET_ACCESS_KEY: z.string(),
 	R2_BUCKET_NAME: z.string(),
 	R2_PUBLIC_DOMAIN: z.string(),
+	GOOGLE_CLIENT_ID: z.string(),
+	GOOGLE_CLIENT_SECRET: z.string(),
 });
 
 const clientEnvSchema = z.object({
