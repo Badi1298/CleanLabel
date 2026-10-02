@@ -468,9 +468,9 @@
     "semantic_hash": ""
   },
   "src/server/product-functions.ts": {
-    "mtime": 1790932560.3514175,
-    "seen": 1790932714.6364238,
-    "ast_hash": "5b5102e22a04dcdc4457e942eed3265b",
+    "mtime": 1790933098.5408947,
+    "seen": 1790933210.131912,
+    "ast_hash": "3b59922c8640ea1e844e685972a9c316",
     "semantic_hash": ""
   },
   "src/server/search-functions.ts": {
