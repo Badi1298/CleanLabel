@@ -4,12 +4,16 @@ import { Search, Store as StoreIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
-import { categoriesQueryOptions } from "#/queries/product-queries";
+import {
+	activeCategoriesQueryOptions,
+	categoriesQueryOptions,
+} from "#/queries/product-queries";
 import { storesQueryOptions } from "#/queries/store-queries";
 
 export const Route = createFileRoute("/_protected/_public/stores/$storeId/")({
-	loader: async ({ context: { queryClient } }) => {
+	loader: async ({ context: { queryClient }, params: { storeId } }) => {
 		await queryClient.ensureQueryData(categoriesQueryOptions());
+		await queryClient.ensureQueryData(activeCategoriesQueryOptions(storeId));
 		await queryClient.ensureQueryData(storesQueryOptions());
 	},
 	component: StoreCategoriesPage,
@@ -20,7 +24,14 @@ function StoreCategoriesPage() {
 	const { storeId } = Route.useParams();
 
 	const { data: stores } = useSuspenseQuery(storesQueryOptions());
-	const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
+	const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
+	const { data: activeCategoryIds } = useSuspenseQuery(
+		activeCategoriesQueryOptions(storeId),
+	);
+	
+	const categories = allCategories?.filter((c) =>
+		activeCategoryIds?.includes(c.id),
+	);
 
 	const store = stores?.find((s) => s.id === storeId);
 	const [searchQuery, setSearchQuery] = useState("");

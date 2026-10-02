@@ -12,7 +12,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "#/components/ui/select";
-import { categoriesQueryOptions } from "#/queries/product-queries";
+import {
+	activeCategoriesQueryOptions,
+	categoriesQueryOptions,
+} from "#/queries/product-queries";
 import { searchQueryOptions } from "#/queries/search-queries";
 import { storesQueryOptions } from "#/queries/store-queries";
 
@@ -33,6 +36,9 @@ export const Route = createFileRoute("/_protected/_public/search")({
 	}),
 	loader: async ({ context: { queryClient }, deps }) => {
 		await queryClient.ensureQueryData(categoriesQueryOptions());
+		await queryClient.ensureQueryData(
+			activeCategoriesQueryOptions(deps.storeId),
+		);
 		await queryClient.ensureQueryData(storesQueryOptions());
 		// Only fetch products if a filter is active
 		if (deps.q || deps.storeId || deps.categoryId || deps.score) {
@@ -51,7 +57,15 @@ function SearchPage() {
 		!!searchParams.categoryId ||
 		!!searchParams.score;
 
-	const { data: categories } = useSuspenseQuery(categoriesQueryOptions());
+	const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
+	const { data: activeCategoryIds } = useSuspenseQuery(
+		activeCategoriesQueryOptions(searchParams.storeId),
+	);
+	
+	const categories = allCategories?.filter((c) =>
+		activeCategoryIds?.includes(c.id),
+	);
+
 	const { data: stores } = useSuspenseQuery(storesQueryOptions());
 
 	const { data: searchResults } = useQuery({

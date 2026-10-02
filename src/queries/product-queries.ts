@@ -6,11 +6,18 @@ import {
 	getProductById,
 	getProductDetailsById,
 } from "#/server/product-functions";
+import { getActiveCategories } from "#/server/category-functions";
 
 export const categoriesQueryOptions = () =>
 	queryOptions({
 		queryKey: ["categories"],
 		queryFn: () => getCategories(),
+	});
+
+export const activeCategoriesQueryOptions = (storeId?: string) =>
+	queryOptions({
+		queryKey: ["activeCategories", storeId],
+		queryFn: () => getActiveCategories({ data: { storeId } }),
 	});
 
 export const productQueryOptions = (productId?: string) =>

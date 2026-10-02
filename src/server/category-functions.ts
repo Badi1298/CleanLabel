@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { count, desc, eq, ilike, sql } from "drizzle-orm";
+import { and, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { z } from "zod";
 import { db } from "#/db";
@@ -7,6 +7,7 @@ import {
 	categories,
 	offCategoryMappings,
 	productCategories,
+	productStores,
 	products,
 	unmappedOffTags,
 } from "#/db/app-schema";
@@ -218,4 +219,55 @@ export const deleteCategory = createServerFn({
 		await db.delete(categories).where(eq(categories.id, data.id));
 
 		return { success: true };
+	});
+
+const getActiveCategoriesSchema = z.object({
+	storeId: z.string().optional(),
+});
+
+export const getActiveCategories = createServerFn({
+	method: "GET",
+})
+	.validator((data: z.infer<typeof getActiveCategoriesSchema>) => data)
+	.handler(async ({ data }) => {
+		const { storeId } = data;
+
+		let query = db
+			.selectDistinct({
+				categoryId: productCategories.categoryId,
+			})
+			.from(productCategories)
+			.innerJoin(products, eq(productCategories.productId, products.id)) as any;
+
+		const whereConditions = [eq(products.status, "approved")];
+
+		if (storeId) {
+			query = query.innerJoin(
+				productStores,
+				eq(products.id, productStores.productId),
+			);
+			whereConditions.push(eq(productStores.storeId, storeId));
+		}
+
+		const activeCategoryIdsRows = await query.where(and(...whereConditions));
+		const activeCategoryIds = activeCategoryIdsRows.map((r) => r.categoryId);
+
+		if (activeCategoryIds.length === 0) return [];
+
+		const activeCategories = await db
+			.select()
+			.from(categories)
+			.where(inArray(categories.id, activeCategoryIds));
+
+		const parentIds = new Set(
+			activeCategories
+				.map((c) => c.parentId)
+				.filter((id): id is string => id !== null),
+		);
+
+		const allNeededCategoryIds = Array.from(
+			new Set([...activeCategoryIds, ...parentIds]),
+		);
+
+		return allNeededCategoryIds;
 	});
