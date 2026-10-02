@@ -323,7 +323,11 @@ export const getProductAlternatives = createServerFn({
 		const product = await db.query.products.findFirst({
 			where: eq(products.id, productId),
 			with: {
-				productCategories: true,
+				productCategories: {
+					with: {
+						category: true,
+					},
+				},
 			},
 		});
 
@@ -335,7 +339,14 @@ export const getProductAlternatives = createServerFn({
 			return [];
 		}
 
-		const categoryIds = product.productCategories.map((pc) => pc.categoryId);
+		const subcategories = product.productCategories.filter(
+			(pc) => pc.category && pc.category.parentId !== null,
+		);
+
+		const targetCategories =
+			subcategories.length > 0 ? subcategories : product.productCategories;
+
+		const categoryIds = targetCategories.map((pc) => pc.categoryId);
 
 		const alternativesRows = await db
 			.select({
