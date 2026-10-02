@@ -68,7 +68,12 @@ export function ProductForm({
 }: {
 	isAdmin?: boolean;
 	defaultValues?: Partial<ProductFormValues>;
-	categories?: { id: string; name: string; parentName?: string | null }[];
+	categories?: {
+		id: string;
+		name: string;
+		parentId?: string | null;
+		parentName?: string | null;
+	}[];
 	ingredients?: { id: string; name: string }[];
 	stores?: { id: string; name: string }[];
 	onSubmit: (values: ProductFormValues) => void;
@@ -344,55 +349,120 @@ export function ProductForm({
 									: undefined,
 						}}
 						children={(field) => {
-							const selectedCategories = field.state.value
+							const mainCategories = categories.filter((c) => !c.parentId);
+							const selectedMainCategoryId =
+								field.state.value.find((id) =>
+									mainCategories.some((mc) => mc.id === id),
+								) || "";
+
+							const availableSubCategories = selectedMainCategoryId
+								? categories.filter((c) => c.parentId === selectedMainCategoryId)
+								: [];
+
+							const selectedSubCategories = field.state.value
+								.filter((id) =>
+									availableSubCategories.some((sc) => sc.id === id),
+								)
 								.map((id) => categories.find((c) => c.id === id))
-								.filter(Boolean) as { id: string; name: string; parentName?: string | null }[];
+								.filter(Boolean) as {
+								id: string;
+								name: string;
+								parentId?: string | null;
+								parentName?: string | null;
+							}[];
+
+							const handleMainCategoryChange = (newMainCategoryId: string) => {
+								field.handleChange([newMainCategoryId]);
+							};
+
+							const handleSubCategoriesChange = (
+								newSubCategoryIds: string[],
+							) => {
+								if (selectedMainCategoryId) {
+									field.handleChange([
+										selectedMainCategoryId,
+										...newSubCategoryIds,
+									]);
+								} else {
+									field.handleChange(newSubCategoryIds);
+								}
+							};
 
 							return (
-								<div className="flex flex-col gap-y-2">
-									<div className="flex items-center justify-between">
-										<Label htmlFor={field.name}>Categories</Label>
-										<AddCategoryDialog
-											trigger={
-												<Button
-													type="button"
-													variant="ghost"
-													size="sm"
-													className="h-6 px-2 text-xs"
-												>
-													<Plus className="w-3 h-3 mr-1" /> Add New
-												</Button>
-											}
-										/>
-									</div>
-									<Combobox
-										items={categories}
-										itemToStringValue={(c) => c.parentName ? `${c.parentName} > ${c.name}` : c.name}
-										multiple
-										value={selectedCategories}
-										onValueChange={(newValues) => {
-											field.handleChange(newValues.map((v) => v.id));
-										}}
-									>
-										<ComboboxChips>
-											<ComboboxValue>
-												{selectedCategories.map((item) => (
-													<ComboboxChip key={item.id}>{item.parentName ? `${item.parentName} > ${item.name}` : item.name}</ComboboxChip>
+								<div className="flex flex-col gap-y-4">
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center justify-between">
+											<Label htmlFor="main-category">Category</Label>
+											<AddCategoryDialog
+												trigger={
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="h-6 px-2 text-xs"
+													>
+														<Plus className="w-3 h-3 mr-1" /> Add New
+													</Button>
+												}
+											/>
+										</div>
+										<Select
+											value={selectedMainCategoryId}
+											onValueChange={handleMainCategoryChange}
+										>
+											<SelectTrigger id="main-category">
+												<SelectValue placeholder="Select a category" />
+											</SelectTrigger>
+											<SelectContent>
+												{mainCategories.map((c) => (
+													<SelectItem key={c.id} value={c.id}>
+														{c.name}
+													</SelectItem>
 												))}
-											</ComboboxValue>
-											<ComboboxChipsInput placeholder="Add category..." />
-										</ComboboxChips>
-										<ComboboxContent>
-											<ComboboxEmpty>No categories found.</ComboboxEmpty>
-											<ComboboxList>
-												{(item) => (
-													<ComboboxItem key={item.id} value={item}>
-														{item.parentName ? `${item.parentName} > ${item.name}` : item.name}
-													</ComboboxItem>
-												)}
-											</ComboboxList>
-										</ComboboxContent>
-									</Combobox>
+											</SelectContent>
+										</Select>
+									</div>
+
+									{selectedMainCategoryId &&
+										availableSubCategories.length > 0 && (
+											<div className="flex flex-col gap-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
+												<Label>Subcategories</Label>
+												<Combobox
+													items={availableSubCategories}
+													itemToStringValue={(c) => c.name}
+													multiple
+													value={selectedSubCategories}
+													onValueChange={(newValues) => {
+														handleSubCategoriesChange(
+															newValues.map((v) => v.id),
+														);
+													}}
+												>
+													<ComboboxChips>
+														<ComboboxValue>
+															{selectedSubCategories.map((item) => (
+																<ComboboxChip key={item.id}>
+																	{item.name}
+																</ComboboxChip>
+															))}
+														</ComboboxValue>
+														<ComboboxChipsInput placeholder="Add subcategory..." />
+													</ComboboxChips>
+													<ComboboxContent>
+														<ComboboxEmpty>
+															No subcategories found.
+														</ComboboxEmpty>
+														<ComboboxList>
+															{(item) => (
+																<ComboboxItem key={item.id} value={item}>
+																	{item.name}
+																</ComboboxItem>
+															)}
+														</ComboboxList>
+													</ComboboxContent>
+												</Combobox>
+											</div>
+										)}
 									<FieldInfo field={field} />
 								</div>
 							);
