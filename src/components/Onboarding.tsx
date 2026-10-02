@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "#/components/ui/dialog";
+import { AlertCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "#/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "#/components/ui/dialog";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { authClient } from "#/lib/auth-client";
-import { toast } from "sonner";
-import { AlertCircle } from "lucide-react";
 
 export function Onboarding({ user }: { user: any }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -17,10 +24,12 @@ export function Onboarding({ user }: { user: any }) {
 	useEffect(() => {
 		if (user && !user.hasCompletedOnboarding) {
 			const createdAt = new Date(user.createdAt).getTime();
-			const now = new Date().getTime();
+			const now = Date.now();
 			const isRecent = now - createdAt < 1000 * 60 * 5;
-			const hasDismissed = sessionStorage.getItem("onboarding_dismissed");
-			
+			const hasDismissed = sessionStorage.getItem(
+				`onboarding_dismissed_${user.id}`,
+			);
+
 			if (isRecent && !hasDismissed) {
 				setIsOpen(true);
 			}
@@ -51,26 +60,29 @@ export function Onboarding({ user }: { user: any }) {
 			toast.success("Profile updated successfully!");
 			setIsOpen(false);
 			// Force refresh session to remove banner/dialog
-			window.location.reload(); 
+			window.location.reload();
 		}
 	};
 
 	const handleDismiss = () => {
 		setIsOpen(false);
-		sessionStorage.setItem("onboarding_dismissed", "true");
+		sessionStorage.setItem(`onboarding_dismissed_${user.id}`, "true");
 	};
 
 	return (
 		<>
 			{/* Non-intrusive warning banner */}
+
 			<div className="bg-emerald-500 text-white px-4 py-2 flex items-center justify-between text-sm shadow-sm z-40 relative">
 				<div className="flex items-center gap-2">
 					<AlertCircle className="w-4 h-4" />
-					<span>Please complete your profile to get the most out of our app.</span>
+					<span>
+						Please complete your profile to get the most out of our app.
+					</span>
 				</div>
-				<Button 
-					variant="secondary" 
-					size="sm" 
+				<Button
+					variant="secondary"
+					size="sm"
 					onClick={() => setIsOpen(true)}
 					className="h-7 text-xs bg-white text-emerald-700 hover:bg-white/90"
 				>
@@ -81,36 +93,49 @@ export function Onboarding({ user }: { user: any }) {
 			<Dialog open={isOpen} onOpenChange={handleDismiss}>
 				<DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
 					<DialogHeader>
-						<DialogTitle className="text-xl">Welcome to CleanLabel! 🎉</DialogTitle>
+						<DialogTitle className="text-xl">
+							Welcome to CleanLabel! 🎉
+						</DialogTitle>
 						<DialogDescription className="text-slate-500 dark:text-slate-400">
-							Let's get to know you better. Please provide your first and last name to complete your profile.
+							Let's get to know you better. Please provide your first and last
+							name to complete your profile.
 						</DialogDescription>
 					</DialogHeader>
 					<div className="space-y-4 py-4">
 						<div className="space-y-2">
 							<Label htmlFor="firstName">First Name</Label>
-							<Input 
-								id="firstName" 
-								placeholder="John" 
+							<Input
+								id="firstName"
+								placeholder="John"
 								value={firstName}
 								onChange={(e) => setFirstName(e.target.value)}
 							/>
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="lastName">Last Name</Label>
-							<Input 
-								id="lastName" 
-								placeholder="Doe" 
+							<Input
+								id="lastName"
+								placeholder="Doe"
 								value={lastName}
 								onChange={(e) => setLastName(e.target.value)}
 							/>
 						</div>
 					</div>
 					<DialogFooter className="flex justify-end gap-2 sm:justify-end mt-4">
-						<Button type="button" variant="ghost" onClick={handleDismiss} className="text-slate-500">
+						<Button
+							type="button"
+							variant="ghost"
+							onClick={handleDismiss}
+							className="text-slate-500"
+						>
 							I'll do this later
 						</Button>
-						<Button type="button" onClick={handleSave} disabled={isSubmitting} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+						<Button
+							type="button"
+							onClick={handleSave}
+							disabled={isSubmitting}
+							className="bg-emerald-600 hover:bg-emerald-700 text-white"
+						>
 							{isSubmitting ? "Saving..." : "Save Profile"}
 						</Button>
 					</DialogFooter>
