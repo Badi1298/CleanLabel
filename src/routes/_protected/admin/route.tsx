@@ -37,7 +37,7 @@ function RouteComponent() {
 	const sidebarData = useMemo(
 		() => [
 			{
-				title: "Logistics",
+				title: "Products",
 				items: [
 					{
 						title: "All Products",
@@ -49,10 +49,45 @@ function RouteComponent() {
 						url: "/admin/add-product",
 						isActive: location.pathname === "/admin/add-product",
 					},
+				],
+			},
+			{
+				title: "Stores",
+				items: [
 					{
-						title: "Add Store",
-						url: "/admin/add-store",
+						title: "All Stores",
+						url: "/admin/all-stores",
 						isActive: location.pathname === "/admin/add-store",
+					},
+				],
+			},
+			{
+				title: "Categories",
+				items: [
+					{
+						title: "All Categories",
+						url: "/admin/all-categories",
+						isActive: location.pathname === "/admin/all-categories",
+					},
+					{
+						title: "Category Mappings",
+						url: "/admin/category-mappings",
+						isActive: location.pathname === "/admin/category-mappings",
+					},
+				],
+			},
+			{
+				title: "Ingredients",
+				items: [
+					{
+						title: "All Ingredients",
+						url: "/admin/all-ingredients",
+						isActive: location.pathname === "/admin/all-ingredients",
+					},
+					{
+						title: "Ingredient Mappings",
+						url: "/admin/ingredient-mappings",
+						isActive: location.pathname === "/admin/add-ingredient",
 					},
 				],
 			},

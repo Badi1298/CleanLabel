@@ -1,11 +1,24 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
 import { useForm } from "@tanstack/react-form";
-import { CameraIcon } from "lucide-react";
+import { CameraIcon, Plus } from "lucide-react";
 import { useState } from "react";
+import { AddCategoryDialog } from "#/components/AddCategoryDialog";
+import { AddIngredientDialog } from "#/components/AddIngredientDialog";
+import { AddStoreDialog } from "#/components/AddStoreDialog";
 import { Button } from "#/components/ui/button";
+import {
+	Combobox,
+	ComboboxChip,
+	ComboboxChips,
+	ComboboxChipsInput,
+	ComboboxContent,
+	ComboboxEmpty,
+	ComboboxItem,
+	ComboboxList,
+	ComboboxValue,
+} from "#/components/ui/combobox";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import { MultiSelect } from "#/components/ui/multi-select";
 import {
 	Select,
 	SelectContent,
@@ -20,7 +33,8 @@ export type ProductFormValues = {
 	barcode: string;
 	name: string;
 	brand: string;
-	categoryId: string;
+	categoryIds: string[];
+	ingredientIds: string[];
 	score: "gold" | "silver" | "bronze" | "none";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
@@ -48,12 +62,14 @@ export function ProductForm({
 	isAdmin = false,
 	defaultValues,
 	categories = [],
+	ingredients = [],
 	stores = [],
 	onSubmit,
 }: {
 	isAdmin?: boolean;
 	defaultValues?: Partial<ProductFormValues>;
-	categories?: { id: string; name: string }[];
+	categories?: { id: string; name: string; parentName?: string | null }[];
+	ingredients?: { id: string; name: string }[];
 	stores?: { id: string; name: string }[];
 	onSubmit: (values: ProductFormValues) => void;
 }) {
@@ -65,7 +81,8 @@ export function ProductForm({
 			barcode: defaultValues?.barcode || "",
 			name: defaultValues?.name || "",
 			brand: defaultValues?.brand || "",
-			categoryId: defaultValues?.categoryId || "",
+			categoryIds: defaultValues?.categoryIds || [],
+			ingredientIds: defaultValues?.ingredientIds || [],
 			score: defaultValues?.score || "none",
 			status: defaultValues?.status || "pending_review",
 			rawIngredientsText: defaultValues?.rawIngredientsText || "",
@@ -123,7 +140,7 @@ export function ProductForm({
 									Front Photo
 								</Label>
 								<div className="flex flex-1 flex-col justify-end">
-									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
+									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-40">
 										<Input
 											id="imageFront"
 											type="file"
@@ -179,7 +196,7 @@ export function ProductForm({
 									Back Photo (Ingredients & Barcode)
 								</Label>
 								<div className="flex flex-1 flex-col justify-end">
-									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-[160px]">
+									<div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative overflow-hidden group min-h-40">
 										<Input
 											id="imageBack"
 											type="file"
@@ -260,7 +277,7 @@ export function ProductForm({
 					<form.Field
 						name="barcode"
 						children={(field) => (
-							<div className="space-y-2">
+							<div className="flex flex-col gap-y-2">
 								<Label htmlFor={field.name}>Barcode</Label>
 								<Input
 									id={field.name}
@@ -282,7 +299,7 @@ export function ProductForm({
 									!value ? "Name is required" : undefined,
 							}}
 							children={(field) => (
-								<div className="space-y-2">
+								<div className="flex flex-col gap-y-2">
 									<Label htmlFor={field.name}>Product Name</Label>
 									<Input
 										id={field.name}
@@ -303,7 +320,7 @@ export function ProductForm({
 									!value ? "Brand is required" : undefined,
 							}}
 							children={(field) => (
-								<div className="space-y-2">
+								<div className="flex flex-col gap-y-2">
 									<Label htmlFor={field.name}>Brand</Label>
 									<Input
 										id={field.name}
@@ -319,45 +336,138 @@ export function ProductForm({
 					</div>
 
 					<form.Field
-						name="categoryId"
+						name="categoryIds"
 						validators={{
 							onChange: ({ value }) =>
-								!value ? "Category is required" : undefined,
+								value.length === 0
+									? "At least one category is required"
+									: undefined,
 						}}
-						children={(field) => (
-							<div className="space-y-2">
-								<Label htmlFor={field.name}>Category</Label>
-								<Select
-									value={field.state.value}
-									onValueChange={(value) => field.handleChange(value)}
-								>
-									<SelectTrigger>
-										<SelectValue placeholder="Select a category" />
-									</SelectTrigger>
-									<SelectContent>
-										{categories.length > 0 ? (
-											categories.map((c) => (
-												<SelectItem key={c.id} value={c.id}>
-													{c.name}
-												</SelectItem>
-											))
-										) : (
-											<SelectItem value="placeholder-category" disabled>
-												No categories available
-											</SelectItem>
-										)}
-									</SelectContent>
-								</Select>
-								<FieldInfo field={field} />
-							</div>
-						)}
+						children={(field) => {
+							const selectedCategories = field.state.value
+								.map((id) => categories.find((c) => c.id === id))
+								.filter(Boolean) as { id: string; name: string; parentName?: string | null }[];
+
+							return (
+								<div className="flex flex-col gap-y-2">
+									<div className="flex items-center justify-between">
+										<Label htmlFor={field.name}>Categories</Label>
+										<AddCategoryDialog
+											trigger={
+												<Button
+													type="button"
+													variant="ghost"
+													size="sm"
+													className="h-6 px-2 text-xs"
+												>
+													<Plus className="w-3 h-3 mr-1" /> Add New
+												</Button>
+											}
+										/>
+									</div>
+									<Combobox
+										items={categories}
+										itemToStringValue={(c) => c.parentName ? `${c.parentName} > ${c.name}` : c.name}
+										multiple
+										value={selectedCategories}
+										onValueChange={(newValues) => {
+											field.handleChange(newValues.map((v) => v.id));
+										}}
+									>
+										<ComboboxChips>
+											<ComboboxValue>
+												{selectedCategories.map((item) => (
+													<ComboboxChip key={item.id}>{item.parentName ? `${item.parentName} > ${item.name}` : item.name}</ComboboxChip>
+												))}
+											</ComboboxValue>
+											<ComboboxChipsInput placeholder="Add category..." />
+										</ComboboxChips>
+										<ComboboxContent>
+											<ComboboxEmpty>No categories found.</ComboboxEmpty>
+											<ComboboxList>
+												{(item) => (
+													<ComboboxItem key={item.id} value={item}>
+														{item.parentName ? `${item.parentName} > ${item.name}` : item.name}
+													</ComboboxItem>
+												)}
+											</ComboboxList>
+										</ComboboxContent>
+									</Combobox>
+									<FieldInfo field={field} />
+								</div>
+							);
+						}}
 					/>
+
+					{isAdmin && (
+						<form.Field
+							name="ingredientIds"
+							children={(field) => {
+								const selectedIngredients = field.state.value
+									.map((id) => ingredients?.find((i) => i.id === id))
+									.filter(Boolean) as { id: string; name: string }[];
+
+								return (
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center justify-between">
+											<Label htmlFor={field.name}>Ingredients</Label>
+											<AddIngredientDialog
+												trigger={
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="h-6 px-2 text-xs"
+													>
+														<Plus className="w-3 h-3 mr-1" /> Add New
+													</Button>
+												}
+											/>
+										</div>
+										<Combobox
+											items={ingredients || []}
+											itemToStringValue={(i) => i.name}
+											multiple
+											value={selectedIngredients}
+											onValueChange={(newValues) => {
+												field.handleChange(newValues.map((v) => v.id));
+											}}
+										>
+											<ComboboxChips>
+												<ComboboxValue>
+													{selectedIngredients.map((item) => (
+														<ComboboxChip key={item.id}>
+															{item.name}
+														</ComboboxChip>
+													))}
+												</ComboboxValue>
+												<ComboboxChipsInput placeholder="Add mapped ingredient..." />
+											</ComboboxChips>
+											<ComboboxContent>
+												<ComboboxEmpty>No ingredients found.</ComboboxEmpty>
+												<ComboboxList>
+													{(item) => (
+														<ComboboxItem key={item.id} value={item}>
+															{item.name}
+														</ComboboxItem>
+													)}
+												</ComboboxList>
+											</ComboboxContent>
+										</Combobox>
+										<FieldInfo field={field} />
+									</div>
+								);
+							}}
+						/>
+					)}
 
 					<form.Field
 						name="rawIngredientsText"
 						children={(field) => (
-							<div className="space-y-2">
-								<Label htmlFor={field.name}>Ingredients List</Label>
+							<div className="flex flex-col gap-y-2">
+								<Label htmlFor={field.name}>
+									Raw Ingredients List (from label)
+								</Label>
 								<Textarea
 									id={field.name}
 									value={field.state.value}
@@ -374,23 +484,62 @@ export function ProductForm({
 					{isAdmin && (
 						<form.Field
 							name="storeIds"
-							children={(field) => (
-								<div className="space-y-2">
-									<Label htmlFor={field.name}>Available At (Stores)</Label>
-									<MultiSelect
-										options={
-											stores?.map((s) => ({
-												label: s.name,
-												value: s.id,
-											})) || []
-										}
-										selected={field.state.value}
-										onChange={(values) => field.handleChange(values)}
-										placeholder="Select stores..."
-									/>
-									<FieldInfo field={field} />
-								</div>
-							)}
+							children={(field) => {
+								const selectedStores = field.state.value
+									.map((id) => stores?.find((s) => s.id === id))
+									.filter(Boolean) as { id: string; name: string }[];
+
+								return (
+									<div className="flex flex-col gap-y-2">
+										<div className="flex items-center justify-between">
+											<Label htmlFor={field.name}>Available At (Stores)</Label>
+											<AddStoreDialog
+												trigger={
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="h-6 px-2 text-xs"
+													>
+														<Plus className="w-3 h-3 mr-1" /> Add New
+													</Button>
+												}
+											/>
+										</div>
+										<Combobox
+											items={stores || []}
+											itemToStringValue={(s) => s.name}
+											multiple
+											value={selectedStores}
+											onValueChange={(newValues) => {
+												field.handleChange(newValues.map((v) => v.id));
+											}}
+										>
+											<ComboboxChips>
+												<ComboboxValue>
+													{selectedStores.map((item) => (
+														<ComboboxChip key={item.id}>
+															{item.name}
+														</ComboboxChip>
+													))}
+												</ComboboxValue>
+												<ComboboxChipsInput placeholder="Add store..." />
+											</ComboboxChips>
+											<ComboboxContent>
+												<ComboboxEmpty>No stores found.</ComboboxEmpty>
+												<ComboboxList>
+													{(item) => (
+														<ComboboxItem key={item.id} value={item}>
+															{item.name}
+														</ComboboxItem>
+													)}
+												</ComboboxList>
+											</ComboboxContent>
+										</Combobox>
+										<FieldInfo field={field} />
+									</div>
+								);
+							}}
 						/>
 					)}
 
@@ -399,7 +548,7 @@ export function ProductForm({
 							<form.Field
 								name="score"
 								children={(field) => (
-									<div className="space-y-2">
+									<div className="flex flex-col gap-y-2">
 										<Label htmlFor={field.name}>Clean Label Score</Label>
 										<Select
 											value={field.state.value}
@@ -425,7 +574,7 @@ export function ProductForm({
 							<form.Field
 								name="status"
 								children={(field) => (
-									<div className="space-y-2">
+									<div className="flex flex-col gap-y-2">
 										<Label htmlFor={field.name}>Status</Label>
 										<Select
 											value={field.state.value}

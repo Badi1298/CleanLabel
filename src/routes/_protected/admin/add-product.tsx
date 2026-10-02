@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { ProductForm } from "#/components/ProductForm";
 import { Card, CardContent } from "#/components/ui/card";
+import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
 import {
 	categoriesQueryOptions,
 	productQueryOptions,
@@ -26,10 +27,18 @@ export const Route = createFileRoute("/_protected/admin/add-product")({
 			categoriesQueryOptions(),
 		);
 		const storesPromise = queryClient.ensureQueryData(storesQueryOptions());
+		const ingredientsPromise = queryClient.ensureQueryData(
+			ingredientsQueryOptions(),
+		);
 		const productPromise = productId
 			? queryClient.ensureQueryData(productQueryOptions(productId))
 			: Promise.resolve(null);
-		await Promise.all([categoriesPromise, storesPromise, productPromise]);
+		await Promise.all([
+			categoriesPromise,
+			storesPromise,
+			ingredientsPromise,
+			productPromise,
+		]);
 	},
 });
 
@@ -40,6 +49,9 @@ function RouteComponent() {
 	});
 	const { data: stores } = useSuspenseQuery({
 		...storesQueryOptions(),
+	});
+	const { data: ingredientsData } = useSuspenseQuery({
+		...ingredientsQueryOptions(),
 	});
 	const { data: product } = useSuspenseQuery({
 		...productQueryOptions(productId),
@@ -100,13 +112,21 @@ function RouteComponent() {
 							isAdmin={true}
 							categories={categories}
 							stores={stores}
+							ingredients={ingredientsData?.data || []}
 							defaultValues={
 								product
 									? {
 											barcode: product.barcode || "",
 											name: product.name,
 											brand: product.brand,
-											categoryId: product.categoryId,
+											categoryIds:
+												product.productCategories?.map(
+													(pc: any) => pc.categoryId,
+												) || [],
+											ingredientIds:
+												product.productIngredients?.map(
+													(pi: any) => pi.ingredientId,
+												) || [],
 											score: product.score,
 											status: product.status,
 											rawIngredientsText: product.rawIngredientsText || "",
@@ -125,6 +145,7 @@ function RouteComponent() {
 											data: {
 												id: product.id,
 												...values,
+												categoryIds: values.categoryIds,
 												imageFrontUrl:
 													typeof values.imageFront === "string"
 														? values.imageFront
@@ -134,6 +155,7 @@ function RouteComponent() {
 														? values.imageBack
 														: undefined,
 												storeIds: values.storeIds,
+												ingredientIds: values.ingredientIds,
 											},
 										});
 										toast.success("Product updated successfully!");
@@ -143,7 +165,7 @@ function RouteComponent() {
 												barcode: values.barcode,
 												name: values.name,
 												brand: values.brand,
-												categoryId: values.categoryId,
+												categoryIds: values.categoryIds,
 												score: values.score,
 												status: values.status || "approved",
 												rawIngredientsText: values.rawIngredientsText,
@@ -156,6 +178,7 @@ function RouteComponent() {
 														? values.imageBack
 														: undefined,
 												storeIds: values.storeIds,
+												ingredientIds: values.ingredientIds,
 											},
 										});
 										toast.success("Product created successfully!");

@@ -58,7 +58,8 @@ function AddProductRoute() {
 								barcode: values.barcode,
 								name: values.name,
 								brand: values.brand,
-								categoryId: values.categoryId,
+								categoryIds: values.categoryIds,
+								ingredientIds: values.ingredientIds,
 								score: values.score,
 								// TO DO: is this safe? can someone on the client override the status to approved?
 								status: "pending_review",
