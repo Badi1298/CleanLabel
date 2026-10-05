@@ -76,6 +76,9 @@ function AddProductRoute() {
 						});
 						queryClient.invalidateQueries({ queryKey: ["homeData"] });
 						queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+						queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+						queryClient.invalidateQueries({ queryKey: ["categories"] });
+						queryClient.invalidateQueries({ queryKey: ["activeCategories"] });
 						toast.success(
 							"Product submission received! It will be reviewed shortly.",
 						);

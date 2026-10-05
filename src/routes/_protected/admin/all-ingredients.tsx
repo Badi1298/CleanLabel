@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -45,10 +45,16 @@ function RouteComponent() {
 		}),
 	);
 
+	const queryClient = useQueryClient();
+
 	const deleteMutation = useMutation({
 		mutationFn: (id: string) => deleteIngredientFn({ data: { id } }),
 		onSuccess: () => {
 			toast.success("Ingredient deleted successfully!");
+			queryClient.invalidateQueries({ queryKey: ["ingredients"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+			queryClient.invalidateQueries({ queryKey: ["homeData"] });
 			refetch();
 		},
 		onError: (error) => {

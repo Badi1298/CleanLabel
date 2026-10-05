@@ -186,6 +186,13 @@ function RouteComponent() {
 
 									queryClient.invalidateQueries({ queryKey: ["homeData"] });
 									queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+									queryClient.invalidateQueries({
+										queryKey: ["searchResults"],
+									});
+									queryClient.invalidateQueries({ queryKey: ["categories"] });
+									queryClient.invalidateQueries({
+										queryKey: ["activeCategories"],
+									});
 									if (product) {
 										queryClient.invalidateQueries({
 											queryKey: ["productDetails", product.id],

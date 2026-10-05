@@ -20,10 +20,7 @@ import {
 	SelectValue,
 } from "#/components/ui/select";
 import { Textarea } from "#/components/ui/textarea";
-import {
-	addIngredient,
-	updateIngredient,
-} from "#/server/ingredient-functions";
+import { addIngredient, updateIngredient } from "#/server/ingredient-functions";
 
 export function AddIngredientDialog({
 	trigger,
@@ -97,6 +94,9 @@ export function AddIngredientDialog({
 			setOpen(false);
 			setFormData({ name: "", hazardLevel: "none", description: "" });
 			queryClient.invalidateQueries({ queryKey: ["ingredients"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+			queryClient.invalidateQueries({ queryKey: ["homeData"] });
 			if (onSuccess) onSuccess();
 		} catch (error) {
 			toast.error("An error occurred");

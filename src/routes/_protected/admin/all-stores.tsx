@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -33,10 +33,17 @@ function RouteComponent() {
 
 	const { data: storesData, refetch } = useQuery(storesQueryOptions());
 
+	const queryClient = useQueryClient();
+
 	const deleteMutation = useMutation({
 		mutationFn: (id: string) => deleteStoreFn({ data: { id } }),
 		onSuccess: () => {
 			toast.success("Store deleted successfully!");
+			queryClient.invalidateQueries({ queryKey: ["stores"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["homeData"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+			queryClient.invalidateQueries({ queryKey: ["activeCategories"] });
 			refetch();
 		},
 		onError: (error) => {
@@ -67,82 +74,82 @@ function RouteComponent() {
 				<div className="overflow-x-auto w-full">
 					<table className="w-full text-sm text-left">
 						<thead className="bg-slate-50 dark:bg-slate-800">
-						<tr>
-							<th className="px-6 py-4 font-medium">Name</th>
-							<th className="px-6 py-4 font-medium">Logo</th>
-							<th className="px-6 py-4 font-medium text-right">Actions</th>
-						</tr>
-					</thead>
-					<tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-						{storesData?.map((store) => (
-							<tr key={store.id}>
-								<td className="px-6 py-4">{store.name}</td>
-								<td className="px-6 py-4">
-									{store.logoUrl ? (
-										<img
-											src={store.logoUrl}
-											alt={`${store.name} logo`}
-											className="h-8 w-auto object-contain"
-										/>
-									) : (
-										"-"
-									)}
-								</td>
-								<td className="px-6 py-4 text-right">
-									<Button
-										variant="ghost"
-										size="sm"
-										onClick={() => {
-											setEditingStore(store);
-											setIsOpen(true);
-										}}
-									>
-										Edit
-									</Button>
-									<AlertDialog>
-										<AlertDialogTrigger asChild>
-											<Button
-												variant="ghost"
-												size="sm"
-												className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
-											>
-												Delete
-											</Button>
-										</AlertDialogTrigger>
-										<AlertDialogContent>
-											<AlertDialogHeader>
-												<AlertDialogTitle>
-													Are you absolutely sure?
-												</AlertDialogTitle>
-												<AlertDialogDescription>
-													This action cannot be undone. This will permanently
-													delete the store.
-												</AlertDialogDescription>
-											</AlertDialogHeader>
-											<AlertDialogFooter>
-												<AlertDialogCancel>Cancel</AlertDialogCancel>
-												<AlertDialogAction
-													onClick={() => deleteMutation.mutate(store.id)}
+							<tr>
+								<th className="px-6 py-4 font-medium">Name</th>
+								<th className="px-6 py-4 font-medium">Logo</th>
+								<th className="px-6 py-4 font-medium text-right">Actions</th>
+							</tr>
+						</thead>
+						<tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+							{storesData?.map((store) => (
+								<tr key={store.id}>
+									<td className="px-6 py-4">{store.name}</td>
+									<td className="px-6 py-4">
+										{store.logoUrl ? (
+											<img
+												src={store.logoUrl}
+												alt={`${store.name} logo`}
+												className="h-8 w-auto object-contain"
+											/>
+										) : (
+											"-"
+										)}
+									</td>
+									<td className="px-6 py-4 text-right">
+										<Button
+											variant="ghost"
+											size="sm"
+											onClick={() => {
+												setEditingStore(store);
+												setIsOpen(true);
+											}}
+										>
+											Edit
+										</Button>
+										<AlertDialog>
+											<AlertDialogTrigger asChild>
+												<Button
+													variant="ghost"
+													size="sm"
+													className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50"
 												>
 													Delete
-												</AlertDialogAction>
-											</AlertDialogFooter>
-										</AlertDialogContent>
-									</AlertDialog>
-								</td>
-							</tr>
-						))}
-						{(!storesData || storesData.length === 0) && (
-							<tr>
-								<td
-									colSpan={3}
-									className="px-6 py-12 text-center text-slate-500"
-								>
-									No stores found.
-								</td>
-							</tr>
-						)}
-					</tbody>
+												</Button>
+											</AlertDialogTrigger>
+											<AlertDialogContent>
+												<AlertDialogHeader>
+													<AlertDialogTitle>
+														Are you absolutely sure?
+													</AlertDialogTitle>
+													<AlertDialogDescription>
+														This action cannot be undone. This will permanently
+														delete the store.
+													</AlertDialogDescription>
+												</AlertDialogHeader>
+												<AlertDialogFooter>
+													<AlertDialogCancel>Cancel</AlertDialogCancel>
+													<AlertDialogAction
+														onClick={() => deleteMutation.mutate(store.id)}
+													>
+														Delete
+													</AlertDialogAction>
+												</AlertDialogFooter>
+											</AlertDialogContent>
+										</AlertDialog>
+									</td>
+								</tr>
+							))}
+							{(!storesData || storesData.length === 0) && (
+								<tr>
+									<td
+										colSpan={3}
+										className="px-6 py-12 text-center text-slate-500"
+									>
+										No stores found.
+									</td>
+								</tr>
+							)}
+						</tbody>
 					</table>
 				</div>
 			</div>
