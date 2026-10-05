@@ -260,14 +260,28 @@ function ProductDetails() {
 							</Card>
 						)}
 
-						{product.submittedBy && (
-							<p className="text-sm text-slate-500 dark:text-slate-400">
-								Added by{" "}
-								<span className="font-medium text-slate-700 dark:text-slate-300">
-									{product.submittedBy.name || "Unknown"}
-								</span>
-							</p>
-						)}
+						<div className="flex flex-col gap-1">
+							{product.submittedBy && (
+								<p className="text-sm text-slate-500 dark:text-slate-400">
+									Added by{" "}
+									<span className="font-medium text-slate-700 dark:text-slate-300">
+										{product.submittedBy.name || "Unknown"}
+									</span>
+								</p>
+							)}
+							{product.updatedAt && (
+								<p className="text-sm text-slate-500 dark:text-slate-400">
+									Last updated on{" "}
+									<span className="font-medium text-slate-700 dark:text-slate-300">
+										{new Date(product.updatedAt).toLocaleDateString(undefined, {
+											year: "numeric",
+											month: "long",
+											day: "numeric",
+										})}
+									</span>
+								</p>
+							)}
+						</div>
 					</div>
 				</div>
 
