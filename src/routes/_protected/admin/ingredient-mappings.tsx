@@ -90,6 +90,9 @@ function MappingRowActions({ tag }: { tag: string }) {
 			toast.success(`Mapped ingredient. Updated ${res.updatedCount} products.`);
 			setSelectedIngredientId("");
 			queryClient.invalidateQueries({ queryKey: ["unmappedIngredients"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+			queryClient.invalidateQueries({ queryKey: ["homeData"] });
 		} catch (e) {
 			toast.error("Failed to map ingredient");
 		}
@@ -97,7 +100,10 @@ function MappingRowActions({ tag }: { tag: string }) {
 
 	return (
 		<div className="flex items-center gap-2">
-			<Select value={selectedIngredientId} onValueChange={setSelectedIngredientId}>
+			<Select
+				value={selectedIngredientId}
+				onValueChange={setSelectedIngredientId}
+			>
 				<SelectTrigger className="w-full">
 					<SelectValue placeholder="Select ingredient..." />
 				</SelectTrigger>
@@ -165,7 +171,12 @@ function RouteComponent() {
 			columnHelper.display({
 				id: "actions",
 				header: "Map to Ingredient",
-				cell: (info) => <MappingRowActions key={info.row.original.tag} tag={info.row.original.tag} />,
+				cell: (info) => (
+					<MappingRowActions
+						key={info.row.original.tag}
+						tag={info.row.original.tag}
+					/>
+				),
 			}),
 		],
 		[],
@@ -189,7 +200,9 @@ function RouteComponent() {
 	return (
 		<div className="min-w-0 w-full p-4 md:p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
 			<div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-				<h1 className="text-2xl font-bold">Ingredient Mappings (Admin Queue)</h1>
+				<h1 className="text-2xl font-bold">
+					Ingredient Mappings (Admin Queue)
+				</h1>
 				<div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
 					<div className="relative w-full sm:w-64">
 						<Input

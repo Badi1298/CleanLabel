@@ -1,4 +1,9 @@
-import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
+import {
+	keepPreviousData,
+	useMutation,
+	useQuery,
+	useQueryClient,
+} from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import type { PaginationState } from "@tanstack/react-table";
@@ -104,10 +109,17 @@ function RouteComponent() {
 		placeholderData: keepPreviousData,
 	});
 
+	const queryClient = useQueryClient();
+
 	const deleteMutation = useMutation({
 		mutationFn: (id: string) => deleteCategoryFn({ data: { id } }),
 		onSuccess: () => {
 			toast.success("Category deleted successfully!");
+			queryClient.invalidateQueries({ queryKey: ["categories"] });
+			queryClient.invalidateQueries({ queryKey: ["activeCategories"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["homeData"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
 			refetch();
 		},
 		onError: (error) => {

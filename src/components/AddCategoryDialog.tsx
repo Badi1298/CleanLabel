@@ -48,11 +48,17 @@ export function AddCategoryDialog({
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const { data: categoriesResult } = useQuery({
-		...categoriesQueryOptions({ pageIndex: 0, pageSize: 1000, globalFilter: "" }),
+		...categoriesQueryOptions({
+			pageIndex: 0,
+			pageSize: 1000,
+			globalFilter: "",
+		}),
 		enabled: open,
 	});
 	const topLevelCategories =
-		categoriesResult?.data.filter((c) => !c.parentId && c.id !== categoryToEdit?.id) || [];
+		categoriesResult?.data.filter(
+			(c) => !c.parentId && c.id !== categoryToEdit?.id,
+		) || [];
 
 	useEffect(() => {
 		if (categoryToEdit && open) {
@@ -103,6 +109,9 @@ export function AddCategoryDialog({
 			setFormData({ name: "", iconUrl: "", parentId: "" });
 			queryClient.invalidateQueries({ queryKey: ["categories"] });
 			queryClient.invalidateQueries({ queryKey: ["homeData"] });
+			queryClient.invalidateQueries({ queryKey: ["activeCategories"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
 			if (onSuccess) onSuccess();
 		} catch (error) {
 			console.error(error);
@@ -149,7 +158,12 @@ export function AddCategoryDialog({
 						<Label>Parent Category</Label>
 						<Select
 							value={formData.parentId || "none"}
-							onValueChange={(val) => setFormData({ ...formData, parentId: val === "none" ? "" : val })}
+							onValueChange={(val) =>
+								setFormData({
+									...formData,
+									parentId: val === "none" ? "" : val,
+								})
+							}
 						>
 							<SelectTrigger>
 								<SelectValue placeholder="Select parent category" />

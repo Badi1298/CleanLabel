@@ -90,6 +90,11 @@ function MappingRowActions({ tag }: { tag: string }) {
 			toast.success(`Mapped tag. Updated ${res.updatedCount} products.`);
 			setSelectedCategoryId("");
 			queryClient.invalidateQueries({ queryKey: ["unmappedTags"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+			queryClient.invalidateQueries({ queryKey: ["homeData"] });
+			queryClient.invalidateQueries({ queryKey: ["activeCategories"] });
+			queryClient.invalidateQueries({ queryKey: ["categories"] });
 		} catch (e) {
 			toast.error("Failed to map tag");
 		}
@@ -165,7 +170,12 @@ function RouteComponent() {
 			columnHelper.display({
 				id: "actions",
 				header: "Map to Category",
-				cell: (info) => <MappingRowActions key={info.row.original.tag} tag={info.row.original.tag} />,
+				cell: (info) => (
+					<MappingRowActions
+						key={info.row.original.tag}
+						tag={info.row.original.tag}
+					/>
+				),
 			}),
 		],
 		[],

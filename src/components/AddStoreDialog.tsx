@@ -84,6 +84,9 @@ export function AddStoreDialog({
 			setFormData({ name: "", logoUrl: "" });
 			queryClient.invalidateQueries({ queryKey: ["stores"] });
 			queryClient.invalidateQueries({ queryKey: ["homeData"] });
+			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
+			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+			queryClient.invalidateQueries({ queryKey: ["activeCategories"] });
 			if (onSuccess) onSuccess();
 		} catch (error) {
 			console.error(error);
