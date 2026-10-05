@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
-    "mtime": 1791178092.5217936,
-    "seen": 1791178474.799541,
-    "ast_hash": "7f2607ce1f4118059d7be4698baeca0b",
+    "mtime": 1791179084.492386,
+    "seen": 1791179101.454565,
+    "ast_hash": "04c324dba0266d78cbbb8fa7a8d29000",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
