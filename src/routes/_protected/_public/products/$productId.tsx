@@ -79,6 +79,10 @@ function getScoreBadgeProps(score: string) {
 			return {
 				className: "bg-amber-600 text-amber-50 border-amber-700",
 			};
+		case "rejected":
+			return {
+				className: "bg-red-600 text-red-50 border-red-700",
+			};
 		default:
 			return {
 				className:

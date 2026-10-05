@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, count, eq, ilike, or, inArray, ne, sql } from "drizzle-orm";
+import { and, count, eq, ilike, inArray, ne, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
 import {
@@ -23,7 +23,9 @@ const addProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	ingredientIds: z.array(z.string()).optional(),
-	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
+	score: z
+		.enum(["gold", "silver", "bronze", "none", "rejected"])
+		.default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),
@@ -195,7 +197,9 @@ const updateProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	ingredientIds: z.array(z.string()).optional(),
-	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
+	score: z
+		.enum(["gold", "silver", "bronze", "none", "rejected"])
+		.default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),
@@ -394,7 +398,6 @@ export const getProductAlternatives = createServerFn({
 			name: alt.name,
 			imageFrontUrl: alt.imageFrontUrl,
 			storeName: alt.productStores?.[0]?.store?.name || null,
-			ingredientIds:
-				alt.productIngredients?.map((pi) => pi.ingredientId) || [],
+			ingredientIds: alt.productIngredients?.map((pi) => pi.ingredientId) || [],
 		}));
 	});

@@ -5,7 +5,7 @@ import * as appSchema from "#/db/app-schema";
 
 const mapNutriscore = (
 	score?: string,
-): "gold" | "silver" | "bronze" | "none" => {
+): "gold" | "silver" | "bronze" | "none" | "rejected" => {
 	if (!score) return "none";
 	const lower = score.toLowerCase();
 	if (lower === "a" || lower === "b") return "gold";

@@ -14,7 +14,7 @@ const searchOptionsSchema = z.object({
 	storeId: z.string().optional(),
 	categoryId: z.string().optional(),
 	subCategoryIds: z.array(z.string()).optional(),
-	score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
+	score: z.enum(["gold", "silver", "bronze", "none", "rejected"]).optional(),
 });
 
 export const getSearchResults = createServerFn({

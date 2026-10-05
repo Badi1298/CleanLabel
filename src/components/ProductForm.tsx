@@ -35,7 +35,7 @@ export type ProductFormValues = {
 	brand: string;
 	categoryIds: string[];
 	ingredientIds: string[];
-	score: "gold" | "silver" | "bronze" | "none";
+	score: "gold" | "silver" | "bronze" | "none" | "rejected";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
 	imageFront: string | File | undefined;
@@ -356,7 +356,9 @@ export function ProductForm({
 								) || "";
 
 							const availableSubCategories = selectedMainCategoryId
-								? categories.filter((c) => c.parentId === selectedMainCategoryId)
+								? categories.filter(
+										(c) => c.parentId === selectedMainCategoryId,
+									)
 								: [];
 
 							const selectedSubCategories = field.state.value
@@ -623,7 +625,12 @@ export function ProductForm({
 										<Select
 											value={field.state.value}
 											onValueChange={(
-												value: "gold" | "silver" | "bronze" | "none",
+												value:
+													| "gold"
+													| "silver"
+													| "bronze"
+													| "none"
+													| "rejected",
 											) => field.handleChange(value)}
 										>
 											<SelectTrigger>
@@ -634,6 +641,7 @@ export function ProductForm({
 												<SelectItem value="gold">Gold</SelectItem>
 												<SelectItem value="silver">Silver</SelectItem>
 												<SelectItem value="bronze">Bronze</SelectItem>
+												<SelectItem value="rejected">Rejected</SelectItem>
 											</SelectContent>
 										</Select>
 										<FieldInfo field={field} />
