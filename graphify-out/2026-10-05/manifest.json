@@ -72,9 +72,9 @@
     "semantic_hash": ""
   },
   "src/components/ProductForm.tsx": {
-    "mtime": 1790934651.1814244,
-    "seen": 1791178474.799506,
-    "ast_hash": "7e3b7fbf15e7df1b86ea38ab77498178",
+    "mtime": 1791179638.7132096,
+    "seen": 1791179655.857871,
+    "ast_hash": "b0f678ceae7065228f251244ba3db82c",
     "semantic_hash": ""
   },
   "src/components/ScannerDialog.tsx": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "src/db/app-schema.ts": {
-    "mtime": 1790927800.9223113,
-    "seen": 1790928015.414052,
-    "ast_hash": "ae145a5d33f4db60de56ce95c9db604f",
+    "mtime": 1791179640.1167564,
+    "seen": 1791179655.8578901,
+    "ast_hash": "febecd85802d5540feb36371ca9139ef",
     "semantic_hash": ""
   },
   "src/db/auth-schema.ts": {
@@ -318,9 +318,9 @@
     "semantic_hash": ""
   },
   "src/queries/search-queries.ts": {
-    "mtime": 1791177996.4461262,
-    "seen": 1791178474.7995362,
-    "ast_hash": "0d9d550c166c35d26c6f4b79e49c8d65",
+    "mtime": 1791179641.2609751,
+    "seen": 1791179655.857901,
+    "ast_hash": "43982941a8880b9a75b57840def80f0c",
     "semantic_hash": ""
   },
   "src/queries/store-queries.ts": {
@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
-    "mtime": 1791179084.492386,
-    "seen": 1791179101.454565,
-    "ast_hash": "04c324dba0266d78cbbb8fa7a8d29000",
+    "mtime": 1791179644.0962615,
+    "seen": 1791179655.8579059,
+    "ast_hash": "884db9f22c3ecf97bbc4a70ca79c7445",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
-    "mtime": 1791178367.152769,
-    "seen": 1791178474.7995431,
-    "ast_hash": "0ec8faf5e24b63baa4044d5e487f759d",
+    "mtime": 1791179642.1673086,
+    "seen": 1791179655.857907,
+    "ast_hash": "a71602c6198ca53ffd441ffccc67d9f6",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores/$storeId/$categoryId.tsx": {
@@ -462,21 +462,21 @@
     "semantic_hash": ""
   },
   "src/server/off-functions.ts": {
-    "mtime": 1790925948.470521,
-    "seen": 1790926057.65294,
-    "ast_hash": "0a8b2340626b7f70ba23fe6938d1c236",
+    "mtime": 1791179646.048862,
+    "seen": 1791179655.8579211,
+    "ast_hash": "15f9c361865d278d9a2244b70696e663",
     "semantic_hash": ""
   },
   "src/server/product-functions.ts": {
-    "mtime": 1790934651.1831834,
-    "seen": 1791178474.799558,
-    "ast_hash": "3b59922c8640ea1e844e685972a9c316",
+    "mtime": 1791179647.4791665,
+    "seen": 1791179655.857922,
+    "ast_hash": "c8cf1d448681f828e85416d61ca59e7b",
     "semantic_hash": ""
   },
   "src/server/search-functions.ts": {
-    "mtime": 1791177998.2547793,
-    "seen": 1791178474.7995589,
-    "ast_hash": "aef30d61b8aae8f35da4e9d48d470262",
+    "mtime": 1791179648.9275358,
+    "seen": 1791179655.857923,
+    "ast_hash": "4b9bfc13fb375d64679c91ed4de5a392",
     "semantic_hash": ""
   },
   "src/server/store-functions.ts": {
