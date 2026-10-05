@@ -1,17 +1,17 @@
-# Graph Report - CleanLabel  (2026-10-02)
+# Graph Report - CleanLabel  (2026-10-05)
 
 ## Corpus Check
-- 131 files · ~55,184 words
+- 131 files · ~55,450 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
 ## Summary
-- 1003 nodes · 2138 edges · 59 communities (51 shown, 8 thin omitted)
+- 1003 nodes · 2148 edges · 58 communities (50 shown, 8 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 23 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5f0814a5`
+- Built from commit: `2424789e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -29,7 +29,6 @@
 - cn
 - two-factor-authentication-best-practices/SKILL.md
 - biome.json
-- combobox.tsx
 - Create Auth Skill
 - Building For Production
 - Better Auth Integration Guide
@@ -101,15 +100,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (59 total, 8 thin omitted)
+## Communities (58 total, 8 thin omitted)
 
 ### Community 0 - "safe-envs.ts"
 Cohesion: 0.17
 Nodes (22): @aws-sdk/client-s3, @aws-sdk/s3-request-presigner, ref_better_auth_adapters_drizzle, ref_better_auth_tanstack_start, getServerEnv(), generatePresignedUploadUrl(), s3, getBetterAuthApiKey (+14 more)
 
 ### Community 1 - "react"
-Cohesion: 0.07
-Nodes (67): lucide-react, react, sonner, @tanstack/react-form, @tanstack/react-query, @tanstack/react-router, @tanstack/react-start, @tanstack/react-table (+59 more)
+Cohesion: 0.05
+Nodes (83): cn, lucide-react, react, sonner, @tanstack/react-form, @tanstack/react-query, @tanstack/react-router, @tanstack/react-start (+75 more)
 
 ### Community 2 - "admin/add-product.tsx"
 Cohesion: 0.18
@@ -136,8 +135,8 @@ Cohesion: 0.05
 Nodes (37): Route, ApiAuthSplatRoute, FileRoutesByFullPath, FileRoutesById, FileRoutesByTo, FileRouteTypes, ForgotPasswordRoute, LoginRoute (+29 more)
 
 ### Community 8 - "package.json"
-Cohesion: 0.08
-Nodes (25): imports, name, private, type, babel-plugin-react-compiler, better-auth, @biomejs/biome, cmdk (+17 more)
+Cohesion: 0.07
+Nodes (26): imports, name, private, type, babel-plugin-react-compiler, @base-ui/react, better-auth, @biomejs/biome (+18 more)
 
 ### Community 9 - "Neon"
 Cohesion: 0.07
@@ -154,10 +153,6 @@ Nodes (25): Backup Code Configuration, Backup Codes, Client-Side Setup, Complete
 ### Community 12 - "biome.json"
 Cohesion: 0.09
 Nodes (22): source, assist, actions, files, ignoreUnknown, includes, formatter, enabled (+14 more)
-
-### Community 13 - "combobox.tsx"
-Cohesion: 0.09
-Nodes (16): @base-ui/react, cn, ComboboxChip(), ComboboxChips(), ComboboxChipsInput(), ComboboxContent(), ComboboxEmpty(), ComboboxItem() (+8 more)
 
 ### Community 14 - "Create Auth Skill"
 Cohesion: 0.10
@@ -257,7 +252,7 @@ Nodes (7): Sheet(), SheetContent(), SheetDescription(), SheetFooter(), SheetHead
 
 ### Community 39 - "dropdown-menu.tsx"
 Cohesion: 0.13
-Nodes (10): DropdownMenuContent(), DropdownMenuItem(), DropdownMenuLabel(), DropdownMenuRadioItem(), DropdownMenuSeparator(), DropdownMenuShortcut(), DropdownMenuSubContent(), DropdownMenuSubTrigger() (+2 more)
+Nodes (9): DropdownMenuItem(), DropdownMenuLabel(), DropdownMenuRadioItem(), DropdownMenuSeparator(), DropdownMenuShortcut(), DropdownMenuSubContent(), DropdownMenuSubTrigger(), SidebarMenu() (+1 more)
 
 ### Community 41 - "zod"
 Cohesion: 0.22
@@ -308,23 +303,23 @@ Cohesion: 0.33
 Nodes (4): Onboarding(), ScannerDialog(), TODO: We use "as any" for search since we don't know if add-product has…, Route
 
 ## Knowledge Gaps
-- **416 isolated node(s):** `searchSchema`, `getCategoriesSchema`, `addCategorySchema`, `updateCategorySchema`, `mapOffTagSchema` (+411 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 487 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **416 isolated node(s):** `SearchOptionsArgs`, `searchSchema`, `searchOptionsSchema`, `ProductFormValues`, `SearchBarProps` (+411 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 486 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `cn()` connect `cn` to `react`, `sidebar.tsx`, `sheet.tsx`, `dropdown-menu.tsx`, `$productId.tsx`, `dialog.tsx`, `admin/route.tsx`, `utils.ts`?**
-  _High betweenness centrality (0.073) - this node is a cross-community bridge._
-- **Why does `react` connect `react` to `sidebar.tsx`, `sheet.tsx`, `dropdown-menu.tsx`, `package.json`, `cn`, `combobox.tsx`, `$productId.tsx`, `dialog.tsx`, `admin/route.tsx`, `_public/route.tsx`, `utils.ts`, `router.tsx`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
-- **Why does `@tanstack/react-start` connect `react` to `safe-envs.ts`, `category-functions.ts`, `admin/add-product.tsx`, `product-functions.ts`, `routeTree.gen.ts`, `package.json`, `zod`, `ingredient-functions.ts`, `$productId.tsx`, `index.ts`, `_public/add-product.tsx`, `_public/route.tsx`, `app-schema.ts`?**
-  _High betweenness centrality (0.059) - this node is a cross-community bridge._
-- **What connects `searchSchema`, `getCategoriesSchema`, `addCategorySchema` to the rest of the system?**
+  _High betweenness centrality (0.065) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `sidebar.tsx`, `sheet.tsx`, `dropdown-menu.tsx`, `package.json`, `cn`, `$productId.tsx`, `dialog.tsx`, `admin/route.tsx`, `_public/route.tsx`, `utils.ts`, `router.tsx`?**
+  _High betweenness centrality (0.057) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `package.json`?**
+  _High betweenness centrality (0.051) - this node is a cross-community bridge._
+- **What connects `SearchOptionsArgs`, `searchSchema`, `searchOptionsSchema` to the rest of the system?**
   _416 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `react` be split into smaller, more focused modules?**
-  _Cohesion score 0.07271062271062272 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.052745500113921165 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
 - **Should `sidebar.tsx` be split into smaller, more focused modules?**
