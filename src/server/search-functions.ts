@@ -13,6 +13,7 @@ const searchOptionsSchema = z.object({
 	q: z.string().optional(),
 	storeId: z.string().optional(),
 	categoryId: z.string().optional(),
+	subCategoryIds: z.array(z.string()).optional(),
 	score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
 });
 
@@ -21,7 +22,7 @@ export const getSearchResults = createServerFn({
 })
 	.validator((data: z.infer<typeof searchOptionsSchema>) => data)
 	.handler(async ({ data }) => {
-		const { q, storeId, categoryId, score } = data;
+		const { q, storeId, categoryId, subCategoryIds, score } = data;
 
 		const whereConditions = [];
 
@@ -32,7 +33,11 @@ export const getSearchResults = createServerFn({
 			whereConditions.push(eq(products.score, score));
 		}
 
-		if (categoryId) {
+		if (subCategoryIds && subCategoryIds.length > 0) {
+			whereConditions.push(
+				inArray(productCategories.categoryId, subCategoryIds),
+			);
+		} else if (categoryId) {
 			const subcats = await db
 				.select({ id: categories.id })
 				.from(categories)
@@ -60,21 +65,15 @@ export const getSearchResults = createServerFn({
 		const whereClause =
 			whereConditions.length > 0 ? and(...whereConditions) : undefined;
 
-		let query = db
+		const query = db
 			.selectDistinct({
 				id: products.id,
 				createdAt: products.createdAt,
 			})
 			.from(products)
 			.leftJoin(productCategories, eq(products.id, productCategories.productId))
-			.leftJoin(categories, eq(productCategories.categoryId, categories.id));
-
-		if (storeId) {
-			query = query.innerJoin(
-				productStores,
-				eq(products.id, productStores.productId),
-			) as any;
-		}
+			.leftJoin(categories, eq(productCategories.categoryId, categories.id))
+			.leftJoin(productStores, eq(products.id, productStores.productId));
 
 		const productRows = await query
 			.where(whereClause)
@@ -96,9 +95,10 @@ export const getSearchResults = createServerFn({
 			orderBy: (products, { asc }) => [asc(products.createdAt)],
 		});
 
-		const sortedProducts = productRows
-			.map((pr) => fullProducts.find((fp) => fp.id === pr.id)!)
-			.filter(Boolean);
+		const sortedProducts = productRows.flatMap((pr) => {
+			const fp = fullProducts.find((f) => f.id === pr.id);
+			return fp ? [fp] : [];
+		});
 
 		return sortedProducts.map((p) => ({
 			product: {

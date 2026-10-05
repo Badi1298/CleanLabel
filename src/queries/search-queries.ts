@@ -5,6 +5,7 @@ type SearchOptionsArgs = {
 	q?: string;
 	storeId?: string;
 	categoryId?: string;
+	subCategoryIds?: string[];
 	score?: "gold" | "silver" | "bronze" | "none";
 };
 

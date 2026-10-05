@@ -412,15 +412,86 @@ function ProductDetails() {
 					<>
 						<Separator className="my-8 opacity-50" />
 						<div className="space-y-4">
-							<h3 className="text-xl font-semibold flex items-center gap-2">
-								<Package className="w-5 h-5 text-indigo-500" />
-								Alternatives
-							</h3>
+							<div className="flex items-center justify-between">
+								<h3 className="text-xl font-semibold flex items-center gap-2">
+									<Package className="w-5 h-5 text-indigo-500" />
+									Alternatives
+								</h3>
+								{(() => {
+									const parentCategory = product.productCategories?.find(
+										(pc) => !pc.category.parentId,
+									)?.category;
+									const subCategories =
+										product.productCategories
+											?.filter((pc) => pc.category.parentId)
+											?.map((pc) => pc.category) || [];
+									const mainCategoryId =
+										parentCategory?.id || subCategories[0]?.parentId;
+									const subCategoryIds = subCategories.map((sc) => sc.id);
+
+									if (!mainCategoryId) return null;
+
+									return (
+										<Link
+											to="/search"
+											search={{
+												categoryId: mainCategoryId,
+												subCategoryIds:
+													subCategoryIds.length > 0
+														? subCategoryIds
+														: undefined,
+											}}
+										>
+											<Button
+												variant="outline"
+												size="sm"
+												className="hidden sm:flex"
+											>
+												See all
+											</Button>
+										</Link>
+									);
+								})()}
+							</div>
 							<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 								{alternatives.map((alt) => (
 									<ProductCard key={alt.id} product={alt} />
 								))}
 							</div>
+							{(() => {
+								const parentCategory = product.productCategories?.find(
+									(pc) => !pc.category.parentId,
+								)?.category;
+								const subCategories =
+									product.productCategories
+										?.filter((pc) => pc.category.parentId)
+										?.map((pc) => pc.category) || [];
+								const mainCategoryId =
+									parentCategory?.id || subCategories[0]?.parentId;
+								const subCategoryIds = subCategories.map((sc) => sc.id);
+
+								if (!mainCategoryId) return null;
+
+								return (
+									<div className="mt-4 sm:hidden">
+										<Link
+											to="/search"
+											search={{
+												categoryId: mainCategoryId,
+												subCategoryIds:
+													subCategoryIds.length > 0
+														? subCategoryIds
+														: undefined,
+											}}
+											className="block w-full"
+										>
+											<Button variant="outline" className="w-full">
+												See all Alternatives
+											</Button>
+										</Link>
+									</div>
+								);
+							})()}
 						</div>
 					</>
 				)}

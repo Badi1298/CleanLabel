@@ -6,6 +6,17 @@ import { ProductCard } from "#/components/home/product-card";
 import { SearchBar } from "#/components/search/search-bar";
 import { Button } from "#/components/ui/button";
 import {
+	Combobox,
+	ComboboxChip,
+	ComboboxChips,
+	ComboboxChipsInput,
+	ComboboxContent,
+	ComboboxEmpty,
+	ComboboxItem,
+	ComboboxList,
+	ComboboxValue,
+} from "#/components/ui/combobox";
+import {
 	Select,
 	SelectContent,
 	SelectItem,
@@ -23,15 +34,19 @@ const searchSchema = z.object({
 	q: z.string().optional(),
 	storeId: z.string().optional(),
 	categoryId: z.string().optional(),
+	subCategoryIds: z.array(z.string()).optional(),
 	score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
 });
 
 export const Route = createFileRoute("/_protected/_public/search")({
 	validateSearch: searchSchema,
-	loaderDeps: ({ search: { q, storeId, categoryId, score } }) => ({
+	loaderDeps: ({
+		search: { q, storeId, categoryId, subCategoryIds, score },
+	}) => ({
 		q,
 		storeId,
 		categoryId,
+		subCategoryIds,
 		score,
 	}),
 	loader: async ({ context: { queryClient }, deps }) => {
@@ -41,7 +56,13 @@ export const Route = createFileRoute("/_protected/_public/search")({
 		);
 		await queryClient.ensureQueryData(storesQueryOptions());
 		// Only fetch products if a filter is active
-		if (deps.q || deps.storeId || deps.categoryId || deps.score) {
+		if (
+			deps.q ||
+			deps.storeId ||
+			deps.categoryId ||
+			deps.subCategoryIds ||
+			deps.score
+		) {
 			await queryClient.ensureQueryData(searchQueryOptions(deps));
 		}
 	},
@@ -55,18 +76,19 @@ function SearchPage() {
 		!!searchParams.q ||
 		!!searchParams.storeId ||
 		!!searchParams.categoryId ||
+		(!!searchParams.subCategoryIds && searchParams.subCategoryIds.length > 0) ||
 		!!searchParams.score;
 
 	const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
 	const { data: activeCategoriesData } = useSuspenseQuery(
 		activeCategoriesQueryOptions(searchParams.storeId),
 	);
-	
+
 	const activeCategoryIds = activeCategoriesData?.map((c) => c.id);
 	const categoryCounts = new Map(
 		activeCategoriesData?.map((c) => [c.id, c.count]),
 	);
-	
+
 	const categories = allCategories?.filter((c) =>
 		activeCategoryIds?.includes(c.id),
 	);
@@ -81,7 +103,7 @@ function SearchPage() {
 
 	const updateFilter = (
 		key: keyof typeof searchParams,
-		value: string | undefined,
+		value: string | string[] | undefined,
 	) => {
 		navigate({
 			to: "/search",
@@ -180,33 +202,75 @@ function SearchPage() {
 											</SelectContent>
 										</Select>
 
-										{subcats.length > 0 && (
-											<Select
-												value={
-													selectedCat?.parentId
-														? searchParams.categoryId
-														: "all"
-												}
-												onValueChange={(val) =>
-													updateFilter(
-														"categoryId",
-														val === "all" ? parentId : val,
-													)
-												}
-											>
-												<SelectTrigger className="w-35 h-9 text-sm">
-													<SelectValue placeholder="Subcategory" />
-												</SelectTrigger>
-												<SelectContent>
-													<SelectItem value="all">All Subcategories</SelectItem>
-													{subcats.map((subcat) => (
-														<SelectItem key={subcat.id} value={subcat.id}>
-															{subcat.name} ({categoryCounts.get(subcat.id) || 0})
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-										)}
+										{subcats.length > 0 &&
+											(() => {
+												const selectedItems = subcats.filter((subcat) =>
+													searchParams.subCategoryIds?.includes(subcat.id),
+												);
+												const MAX_VISIBLE = 2;
+												const visibleItems = selectedItems.slice(
+													0,
+													MAX_VISIBLE,
+												);
+												const hiddenCount =
+													selectedItems.length - visibleItems.length;
+
+												return (
+													<div className="w-64 max-w-full">
+														<Combobox
+															items={subcats}
+															itemToStringValue={(c) => c.name}
+															multiple
+															value={selectedItems}
+															onValueChange={(newValues) => {
+																updateFilter(
+																	"subCategoryIds",
+																	newValues.length > 0
+																		? newValues.map((v) => v.id)
+																		: undefined,
+																);
+															}}
+														>
+															<ComboboxChips className="flex-nowrap overflow-hidden">
+																<ComboboxValue>
+																	{visibleItems.map((item) => (
+																		<ComboboxChip
+																			key={item.id}
+																			className="max-w-20"
+																		>
+																			<span className="truncate">
+																				{item.name}
+																			</span>
+																		</ComboboxChip>
+																	))}
+																	{hiddenCount > 0 && (
+																		<span className="text-xs font-medium text-slate-500 whitespace-nowrap ml-1 shrink-0">
+																			+{hiddenCount} more
+																		</span>
+																	)}
+																</ComboboxValue>
+																<ComboboxChipsInput
+																	placeholder="Subcategories"
+																	className="min-w-15 truncate"
+																/>
+															</ComboboxChips>
+															<ComboboxContent>
+																<ComboboxEmpty>
+																	No subcategories found.
+																</ComboboxEmpty>
+																<ComboboxList>
+																	{(item) => (
+																		<ComboboxItem key={item.id} value={item}>
+																			{item.name} (
+																			{categoryCounts.get(item.id) || 0})
+																		</ComboboxItem>
+																	)}
+																</ComboboxList>
+															</ComboboxContent>
+														</Combobox>
+													</div>
+												);
+											})()}
 									</>
 								);
 							})()}
@@ -287,7 +351,8 @@ function SearchPage() {
 																className="justify-start h-auto py-3 px-4 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all bg-white dark:bg-slate-900"
 																onClick={(e) => {
 																	e.stopPropagation();
-																	updateFilter("categoryId", subcat.id);
+																	updateFilter("subCategoryIds", [subcat.id]);
+																	updateFilter("categoryId", parentCat.id);
 																}}
 															>
 																<span className="truncate">{subcat.name}</span>
