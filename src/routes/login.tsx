@@ -126,7 +126,7 @@ function Login() {
 									</Label>
 									<Link
 										to="/forgot-password"
-										className="text-sm font-medium text-white/80 hover:text-white hover:underline"
+										className="text-sm text-shadow-white font-medium text-white/80 hover:text-white hover:underline"
 									>
 										Forgot password?
 									</Link>
