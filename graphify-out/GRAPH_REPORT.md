@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-10-25)
 
 ## Corpus Check
-- 131 files · ~56,028 words
+- 131 files · ~56,060 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `644bc833`
+- Built from commit: `6fa187d0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -291,7 +291,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
   _High betweenness centrality (0.052) - this node is a cross-community bridge._
 - **Why does `react` connect `react` to `all-categories.tsx`, `ingredient-mappings.tsx`, `sidebar.tsx`, `sheet.tsx`, `dropdown-menu.tsx`, `package.json`, `cn`, `$productId.tsx`, `admin/route.tsx`, `__root.tsx`, `utils.ts`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
+  _High betweenness centrality (0.040) - this node is a cross-community bridge._
 - **What connects `$schema`, `enabled`, `clientKind` to the rest of the system?**
   _417 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `all-categories.tsx` be split into smaller, more focused modules?**
