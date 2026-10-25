@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1789393544.157571,
-    "seen": 1790925917.061808,
-    "ast_hash": "47bb5a4be2c5fe2a9a7d0218290af7d9",
+    "mtime": 1792925589.8180916,
+    "seen": 1792925618.589684,
+    "ast_hash": "3d4d4d0bb51cc543e29968c2c074917b",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
@@ -456,9 +456,9 @@
     "semantic_hash": ""
   },
   "src/server/home-functions.ts": {
-    "mtime": 1790925948.469913,
-    "seen": 1790926057.652938,
-    "ast_hash": "92fe9d9a49335bdea812dcc739d2739b",
+    "mtime": 1792925608.3167143,
+    "seen": 1792925618.5897,
+    "ast_hash": "082568cdcf5bb2867b5a3803935e218c",
     "semantic_hash": ""
   },
   "src/server/off-functions.ts": {

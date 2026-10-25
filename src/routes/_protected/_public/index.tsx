@@ -70,7 +70,7 @@ function Home() {
 								value={storeId || "all"}
 								onValueChange={handleStoreSelect}
 							>
-								<SelectTrigger className="w-full sm:w-[220px] bg-white text-slate-900 border-none h-12 shadow-md hover:bg-slate-50 transition-colors">
+								<SelectTrigger className="w-full sm:w-55 bg-white text-slate-900 border-none h-12 shadow-md hover:bg-slate-50 transition-colors">
 									<div className="flex items-center gap-2">
 										<StoreIcon className="w-4 h-4 text-slate-500" />
 										<SelectValue placeholder="Select Store" />
@@ -99,35 +99,49 @@ function Home() {
 							Popular Categories
 						</h2>
 					</div>
-					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-						{data?.popularCategories.map((category) => (
-							<Button
-								key={category.id}
-								variant="outline"
-								className="flex flex-col h-full"
-								onClick={() =>
-									navigate({ to: "/search", search: { q: category.name } })
-								}
-							>
-								{category.iconUrl ? (
-									<img
-										src={category.iconUrl}
-										alt={category.name}
-										className="w-12 h-12 object-cover rounded-full"
-									/>
-								) : (
-									<StoreIcon className="w-12 h-12 text-slate-500" />
-								)}
-								<span className="font-semibold text-slate-700 dark:text-slate-200 text-center">
-									{category.name}
-								</span>
-								<span className="text-xs text-slate-500 font-medium">
-									{category.productCount}{" "}
-									{category.productCount === 1 ? "product" : "products"}
-								</span>
-							</Button>
-						))}
-					</div>
+					{data?.popularCategories && data.popularCategories.length > 0 ? (
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+							{data.popularCategories.map((category) => (
+								<Button
+									key={category.id}
+									variant="outline"
+									className="flex flex-col h-full"
+									onClick={() =>
+										navigate({
+											to: "/search",
+											search: {
+												q: category.name,
+												...(storeId ? { storeId } : {}),
+											},
+										})
+									}
+								>
+									{category.iconUrl ? (
+										<img
+											src={category.iconUrl}
+											alt={category.name}
+											className="w-12 h-12 object-cover rounded-full"
+										/>
+									) : (
+										<StoreIcon className="w-12 h-12 text-slate-500" />
+									)}
+									<span className="font-semibold text-slate-700 dark:text-slate-200 text-center">
+										{category.name}
+									</span>
+									<span className="text-xs text-slate-500 font-medium">
+										{category.productCount}{" "}
+										{category.productCount === 1 ? "product" : "products"}
+									</span>
+								</Button>
+							))}
+						</div>
+					) : (
+						<div className="text-center py-12 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+							<p className="text-slate-500 dark:text-slate-400 font-medium">
+								No categories found for this store.
+							</p>
+						</div>
+					)}
 				</section>
 
 				{/* Recently Added Section */}
