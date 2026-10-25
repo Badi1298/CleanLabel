@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1792925589.8180916,
-    "seen": 1792925618.589684,
-    "ast_hash": "3d4d4d0bb51cc543e29968c2c074917b",
+    "mtime": 1792925642.763304,
+    "seen": 1792925831.947721,
+    "ast_hash": "3cac340ad95d616a2a2ed58cd3805e90",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
