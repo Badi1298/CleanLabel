@@ -40,21 +40,34 @@ import {
 	DropdownMenuTrigger,
 } from "#/components/ui/dropdown-menu";
 import { Input } from "#/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "#/components/ui/select";
 import { useDebounce } from "#/hooks/use-debounce";
 import { allProductsQueryOptions } from "#/queries/product-queries";
+import { storesQueryOptions } from "#/queries/store-queries";
 import { deleteProduct, type getAllProducts } from "#/server/product-functions";
 
 export const Route = createFileRoute("/_protected/admin/all-products")({
 	component: RouteComponent,
-	loader: async ({ context: { queryClient } }) =>
-		await queryClient.ensureQueryData(
-			allProductsQueryOptions({
-				pageIndex: 0,
-				pageSize: 10,
-				globalFilter: "",
-				statusFilter: "all",
-			}),
-		),
+	loader: async ({ context: { queryClient } }) => {
+		await Promise.all([
+			queryClient.ensureQueryData(
+				allProductsQueryOptions({
+					pageIndex: 0,
+					pageSize: 10,
+					globalFilter: "",
+					statusFilter: "all",
+					storeFilter: "all",
+				}),
+			),
+			queryClient.ensureQueryData(storesQueryOptions()),
+		]);
+	},
 });
 
 type ProductData = NonNullable<
@@ -87,6 +100,7 @@ function RouteComponent() {
 		);
 	}
 	const [statusFilter, setStatusFilter] = useState<string>("all");
+	const [storeFilter, setStoreFilter] = useState<string>("all");
 	const [columnVisibility, setColumnVisibility] = useState<
 		Record<string, boolean>
 	>({});
@@ -97,14 +111,17 @@ function RouteComponent() {
 			pageSize: pagination.pageSize,
 			globalFilter: debouncedSearch,
 			statusFilter,
+			storeFilter,
 		}),
-		[pagination, debouncedSearch, statusFilter],
+		[pagination, debouncedSearch, statusFilter, storeFilter],
 	);
 
 	const { data: result, refetch } = useQuery({
 		...allProductsQueryOptions(queryArgs),
 		placeholderData: keepPreviousData,
 	});
+
+	const { data: storesData } = useQuery(storesQueryOptions());
 
 	const queryClient = useQueryClient();
 
@@ -159,6 +176,49 @@ function RouteComponent() {
 									className="font-normal text-xs whitespace-nowrap"
 								>
 									{c.name}
+								</Badge>
+							))}
+							{remainingCount > 0 && (
+								<Badge
+									variant="outline"
+									className="font-normal text-xs whitespace-nowrap text-slate-500"
+								>
+									+{remainingCount} more
+								</Badge>
+							)}
+						</div>
+					);
+				},
+			}),
+			columnHelper.accessor((row) => row.stores, {
+				id: "stores",
+				header: "Stores",
+				enableColumnFilter: false,
+				cell: (info) => {
+					const stores = info.getValue();
+					if (!stores || stores.length === 0) {
+						return (
+							<Badge
+								variant="outline"
+								className="font-normal text-xs whitespace-nowrap border-amber-400 dark:border-amber-700 text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40"
+							>
+								No store
+							</Badge>
+						);
+					}
+
+					const displayStores = stores.slice(0, 2);
+					const remainingCount = stores.length - 2;
+
+					return (
+						<div className="flex flex-wrap gap-1">
+							{displayStores.map((s) => (
+								<Badge
+									key={s.id}
+									variant="secondary"
+									className="font-normal text-xs whitespace-nowrap"
+								>
+									{s.name}
 								</Badge>
 							))}
 							{remainingCount > 0 && (
@@ -305,6 +365,32 @@ function RouteComponent() {
 							</Button>
 						))}
 					</div>
+
+					<Select
+						value={storeFilter}
+						onValueChange={(val) => {
+							setStoreFilter(val);
+							setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+						}}
+					>
+						<SelectTrigger className="w-full sm:w-44 h-9 text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800">
+							<SelectValue placeholder="All Stores" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="all">All Stores</SelectItem>
+							<SelectItem
+								value="missing"
+								className="text-amber-600 dark:text-amber-400 font-medium"
+							>
+								⚠️ Missing Store
+							</SelectItem>
+							{storesData?.map((store) => (
+								<SelectItem key={store.id} value={store.id}>
+									{store.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 				</div>
 
 				<div className="flex items-center gap-4">
