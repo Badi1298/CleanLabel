@@ -1,4 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
+import { getActiveCategories } from "#/server/category-functions";
 import {
 	getAllProducts,
 	getCategories,
@@ -6,7 +7,6 @@ import {
 	getProductById,
 	getProductDetailsById,
 } from "#/server/product-functions";
-import { getActiveCategories } from "#/server/category-functions";
 
 export const categoriesQueryOptions = () =>
 	queryOptions({
@@ -14,11 +14,21 @@ export const categoriesQueryOptions = () =>
 		queryFn: () => getCategories(),
 	});
 
-export const activeCategoriesQueryOptions = (storeId?: string) =>
-	queryOptions({
-		queryKey: ["activeCategories", storeId],
-		queryFn: () => getActiveCategories({ data: { storeId } }),
+export type ActiveCategoriesFilters = {
+	storeId?: string;
+	score?: "gold" | "silver" | "bronze" | "none" | "rejected";
+};
+
+export const activeCategoriesQueryOptions = (
+	filters?: string | ActiveCategoriesFilters,
+) => {
+	const normalized: ActiveCategoriesFilters =
+		typeof filters === "string" ? { storeId: filters } : filters || {};
+	return queryOptions({
+		queryKey: ["activeCategories", normalized],
+		queryFn: () => getActiveCategories({ data: normalized }),
 	});
+};
 
 export const productQueryOptions = (productId?: string) =>
 	queryOptions({

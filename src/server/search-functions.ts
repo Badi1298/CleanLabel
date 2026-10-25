@@ -29,7 +29,7 @@ export const getSearchResults = createServerFn({
 		// Only show approved products in public search
 		whereConditions.push(eq(products.status, "approved"));
 
-		if (score && score !== "none") {
+		if (score) {
 			whereConditions.push(eq(products.score, score));
 		}
 

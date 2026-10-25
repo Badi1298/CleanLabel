@@ -98,6 +98,17 @@ function Home() {
 						<h2 className="text-2xl font-bold text-slate-900 dark:text-white">
 							Popular Categories
 						</h2>
+						<Button
+							variant="outline"
+							onClick={() =>
+								navigate({
+									to: "/search",
+									search: { q: "", ...(storeId ? { storeId } : {}) },
+								})
+							}
+						>
+							See All
+						</Button>
 					</div>
 					{data?.popularCategories && data.popularCategories.length > 0 ? (
 						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
