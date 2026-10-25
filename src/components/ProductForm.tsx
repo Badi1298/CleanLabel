@@ -35,7 +35,7 @@ export type ProductFormValues = {
 	brand: string;
 	categoryIds: string[];
 	ingredientIds: string[];
-	score: "gold" | "silver" | "bronze" | "none" | "rejected";
+	score: "gold" | "silver" | "bronze" | "none";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
 	imageFront: string | File | undefined;
@@ -625,12 +625,7 @@ export function ProductForm({
 										<Select
 											value={field.state.value}
 											onValueChange={(
-												value:
-													| "gold"
-													| "silver"
-													| "bronze"
-													| "none"
-													| "rejected",
+												value: "gold" | "silver" | "bronze" | "none",
 											) => field.handleChange(value)}
 										>
 											<SelectTrigger>
@@ -641,7 +636,6 @@ export function ProductForm({
 												<SelectItem value="gold">Gold</SelectItem>
 												<SelectItem value="silver">Silver</SelectItem>
 												<SelectItem value="bronze">Bronze</SelectItem>
-												<SelectItem value="rejected">Rejected</SelectItem>
 											</SelectContent>
 										</Select>
 										<FieldInfo field={field} />

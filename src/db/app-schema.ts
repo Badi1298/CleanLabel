@@ -16,7 +16,6 @@ export const productScoreEnum = pgEnum("product_score", [
 	"silver",
 	"bronze",
 	"none",
-	"rejected",
 ]);
 export const productStatusEnum = pgEnum("product_status", [
 	"pending_review",

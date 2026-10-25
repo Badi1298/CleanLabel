@@ -10076,7 +10076,7 @@
       "source_location": "L58"
     },
     {
-      "id": "src_routes_protected_public_route_rationale_38",
+      "id": "src_routes_protected_public_route_rationale_40",
       "label": "TODO: We use \"as any\" for search since we don't know if add-product has\u2026",
       "_origin": "ast",
       "community": 56,
@@ -10084,7 +10084,7 @@
       "file_type": "rationale",
       "norm_label": "todo: we use \"as any\" for search since we don't know if add-product has...",
       "source_file": "src/routes/_protected/_public/route.tsx",
-      "source_location": "L38"
+      "source_location": "L40"
     },
     {
       "id": "agents_skills_better_auth_security_best_practices_skill",
@@ -36167,14 +36167,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_routes_protected_public_route_rationale_38",
+      "source": "src_routes_protected_public_route_rationale_40",
       "target": "src_routes_protected_public_route",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/routes/_protected/_public/route.tsx",
-      "source_location": "L38",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -36609,5 +36609,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "644bc8330ffa020dfe8c65ab2bf058e764759129"
+  "built_at_commit": "6fa187d01eab91cef8fde1eded408cd95d6f6b61"
 }

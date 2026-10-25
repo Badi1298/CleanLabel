@@ -23,9 +23,7 @@ const addProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	ingredientIds: z.array(z.string()).optional(),
-	score: z
-		.enum(["gold", "silver", "bronze", "none", "rejected"])
-		.default("none"),
+	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),
@@ -197,9 +195,7 @@ const updateProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	ingredientIds: z.array(z.string()).optional(),
-	score: z
-		.enum(["gold", "silver", "bronze", "none", "rejected"])
-		.default("none"),
+	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),

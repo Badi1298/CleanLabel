@@ -35,7 +35,7 @@ const searchSchema = z.object({
 	storeId: z.string().optional(),
 	categoryId: z.string().optional(),
 	subCategoryIds: z.array(z.string()).optional(),
-	score: z.enum(["gold", "silver", "bronze", "none", "rejected"]).optional(),
+	score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
 });
 
 type SearchSchema = z.infer<typeof searchSchema>;
@@ -167,7 +167,6 @@ function SearchPage() {
 								<SelectItem value="gold">Gold</SelectItem>
 								<SelectItem value="silver">Silver</SelectItem>
 								<SelectItem value="bronze">Bronze</SelectItem>
-								<SelectItem value="rejected">Rejected</SelectItem>
 								<SelectItem value="none">Unrated</SelectItem>
 							</SelectContent>
 						</Select>

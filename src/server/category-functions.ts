@@ -223,7 +223,7 @@ export const deleteCategory = createServerFn({
 
 const getActiveCategoriesSchema = z.object({
 	storeId: z.string().optional(),
-	score: z.enum(["gold", "silver", "bronze", "none", "rejected"]).optional(),
+	score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
 });
 
 export const getActiveCategories = createServerFn({

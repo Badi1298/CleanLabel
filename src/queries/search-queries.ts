@@ -6,7 +6,7 @@ type SearchOptionsArgs = {
 	storeId?: string;
 	categoryId?: string;
 	subCategoryIds?: string[];
-	score?: "gold" | "silver" | "bronze" | "none" | "rejected";
+	score?: "gold" | "silver" | "bronze" | "none";
 };
 
 export const searchQueryOptions = (args: SearchOptionsArgs) =>

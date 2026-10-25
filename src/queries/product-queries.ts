@@ -16,7 +16,7 @@ export const categoriesQueryOptions = () =>
 
 export type ActiveCategoriesFilters = {
 	storeId?: string;
-	score?: "gold" | "silver" | "bronze" | "none" | "rejected";
+	score?: "gold" | "silver" | "bronze" | "none";
 };
 
 export const activeCategoriesQueryOptions = (
