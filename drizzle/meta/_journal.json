@@ -43,6 +43,13 @@
       "when": 1789638614838,
       "tag": "0005_stale_stick",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793021841660,
+      "tag": "0006_known_tusk",
+      "breakpoints": true
     }
   ]
 }
