@@ -844,5 +844,11 @@
     "seen": 1793023569.663064,
     "ast_hash": "eb103eaa7943cac8844248a0f299fbf6",
     "semantic_hash": ""
+  },
+  "drizzle/0007_friendly_shaman.sql": {
+    "mtime": 1793023131.20476,
+    "seen": 1793024591.7104158,
+    "ast_hash": "2f7d2bb7c8ab86d5f2653cff13cb57fb",
+    "semantic_hash": ""
   }
 }
