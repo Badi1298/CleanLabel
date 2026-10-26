@@ -291,7 +291,7 @@ function ProductDetails() {
 				<div className="space-y-6">
 					<h3 className="text-2xl font-semibold flex items-center gap-2">
 						<ShieldAlert className="w-6 h-6 text-blue-500" />
-						Ingredients Analysis
+						Ingredients
 					</h3>
 
 					{product.productIngredients &&
@@ -368,7 +368,7 @@ function ProductDetails() {
 						<Card className="bg-slate-50/50 dark:bg-slate-900/50 border-dashed shadow-none">
 							<CardContent className="p-8 text-center text-slate-500 dark:text-slate-400">
 								<AlertTriangle className="w-8 h-8 mx-auto mb-3 opacity-50" />
-								<p>Detailed ingredient breakdown is not available yet.</p>
+								<p>Ingredients are not yet available.</p>
 							</CardContent>
 						</Card>
 					)}
