@@ -345,20 +345,6 @@ function ProductDetails() {
 													</TooltipProvider>
 												)}
 											</div>
-											{ingredient.hazardLevel && (
-												<Badge
-													variant={
-														ingredient.hazardLevel === "high"
-															? "destructive"
-															: ingredient.hazardLevel === "medium"
-																? "secondary"
-																: "default"
-													}
-													className="uppercase text-[10px]"
-												>
-													{ingredient.hazardLevel} Hazard
-												</Badge>
-											)}
 										</CardContent>
 									</Card>
 								);

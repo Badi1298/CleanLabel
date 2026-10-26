@@ -70,7 +70,6 @@ export const ingredients = pgTable("ingredients", {
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text("name").notNull(),
-	hazardLevel: text("hazard_level"),
 	description: text("description"),
 });
 
