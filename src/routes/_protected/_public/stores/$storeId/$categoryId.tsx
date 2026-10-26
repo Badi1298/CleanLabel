@@ -124,6 +124,7 @@ function StoreCategoryProductsPage() {
 									product={{
 										...result.product,
 										storeName: result.storeName,
+										stores: result.stores,
 									}}
 								/>
 							))}

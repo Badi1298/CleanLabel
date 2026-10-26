@@ -459,6 +459,7 @@ function SearchPage() {
 										product={{
 											...result.product,
 											storeName: result.storeName,
+											stores: result.stores,
 										}}
 									/>
 								))}

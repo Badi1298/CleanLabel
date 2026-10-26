@@ -100,12 +100,19 @@ export const getSearchResults = createServerFn({
 			return fp ? [fp] : [];
 		});
 
-		return sortedProducts.map((p) => ({
-			product: {
-				...p,
-				ingredientIds: p.productIngredients?.map((pi) => pi.ingredientId) || [],
-			},
-			category: p.productCategories?.[0]?.category || null,
-			storeName: p.productStores?.[0]?.store?.name || null,
-		}));
+		return sortedProducts.map((p) => {
+			const stores =
+				p.productStores?.map((ps) => ps.store).filter(Boolean) || [];
+			return {
+				product: {
+					...p,
+					ingredientIds:
+						p.productIngredients?.map((pi) => pi.ingredientId) || [],
+					stores,
+				},
+				category: p.productCategories?.[0]?.category || null,
+				storeName: p.productStores?.[0]?.store?.name || null,
+				stores,
+			};
+		});
 	});

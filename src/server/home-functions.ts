@@ -55,6 +55,8 @@ export const getHomeData = createServerFn({
 						categoryName:
 							p.productCategories?.[0]?.category?.name || "Uncategorized",
 						storeName: p.productStores?.[0]?.store?.name || null,
+						stores:
+							p.productStores?.map((ps) => ps.store).filter(Boolean) || [],
 						ingredientIds:
 							p.productIngredients?.map((pi) => pi.ingredientId) || [],
 						status: p.status,

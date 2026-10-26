@@ -439,6 +439,7 @@ export const getProductAlternatives = createServerFn({
 			name: alt.name,
 			imageFrontUrl: alt.imageFrontUrl,
 			storeName: alt.productStores?.[0]?.store?.name || null,
+			stores: alt.productStores?.map((ps) => ps.store).filter(Boolean) || [],
 			ingredientIds: alt.productIngredients?.map((pi) => pi.ingredientId) || [],
 		}));
 	});
