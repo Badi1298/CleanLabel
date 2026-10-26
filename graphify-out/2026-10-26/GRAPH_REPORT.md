@@ -1,17 +1,17 @@
 # Graph Report - CleanLabel  (2026-10-26)
 
 ## Corpus Check
-- 131 files · ~57,659 words
+- 131 files · ~57,536 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
 ## Summary
-- 1009 nodes · 2177 edges · 58 communities (48 shown, 10 thin omitted)
+- 1009 nodes · 2171 edges · 58 communities (48 shown, 10 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 23 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a7d0d6c8`
+- Built from commit: `c49eb969`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -311,7 +311,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `$schema`, `enabled`, `clientKind` to the rest of the system?**
   _419 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `react` be split into smaller, more focused modules?**
-  _Cohesion score 0.05787106446776612 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05697151424287856 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
 - **Should `sidebar.tsx` be split into smaller, more focused modules?**

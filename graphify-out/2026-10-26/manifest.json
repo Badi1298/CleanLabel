@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "src/db/app-schema.ts": {
-    "mtime": 1792928156.6852694,
-    "seen": 1792928331.2723331,
-    "ast_hash": "ae145a5d33f4db60de56ce95c9db604f",
+    "mtime": 1793021371.5597785,
+    "seen": 1793021472.1781561,
+    "ast_hash": "2073ec4e835cd6339ed92ed53a4e34a1",
     "semantic_hash": ""
   },
   "src/db/auth-schema.ts": {
@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
-    "mtime": 1793021033.986026,
-    "seen": 1793021247.59855,
-    "ast_hash": "0ce982398896d659d2e988a4fc10dae8",
+    "mtime": 1793021427.451359,
+    "seen": 1793021472.1781728,
+    "ast_hash": "4b34ada49c5f75bdc49c82e0b1ca2963",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
@@ -642,9 +642,9 @@
     "semantic_hash": ""
   },
   "src/components/AddIngredientDialog.tsx": {
-    "mtime": 1791188860.3378525,
-    "seen": 1791188862.9191859,
-    "ast_hash": "84a9ba2cb2565c63d383857ebf50c59d",
+    "mtime": 1793021409.0345623,
+    "seen": 1793021472.178132,
+    "ast_hash": "e451624b543a2932bd6e678e3bb9552a",
     "semantic_hash": ""
   },
   "src/components/AddStoreDialog.tsx": {
@@ -702,9 +702,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/all-ingredients.tsx": {
-    "mtime": 1791188860.342585,
-    "seen": 1791188862.919231,
-    "ast_hash": "ada64fcf4626397897b7c7194ca57709",
+    "mtime": 1793021419.287778,
+    "seen": 1793021472.178179,
+    "ast_hash": "3776b50ab2eea1f5f8517999e74362c7",
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/all-stores.tsx": {
@@ -732,9 +732,9 @@
     "semantic_hash": ""
   },
   "src/server/ingredient-functions.ts": {
-    "mtime": 1790925948.4701505,
-    "seen": 1790926057.652939,
-    "ast_hash": "d3a22285fe3217efc3466c73ef4b1284",
+    "mtime": 1793021386.8909693,
+    "seen": 1793021472.178189,
+    "ast_hash": "f16e5263291018ba74b7e40fdf740c92",
     "semantic_hash": ""
   },
   "src/server/profile-functions.ts": {
