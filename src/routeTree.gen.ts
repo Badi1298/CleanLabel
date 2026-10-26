@@ -27,9 +27,11 @@ import { Route as ProtectedAdminAllProductsRouteImport } from './routes/_protect
 import { Route as ProtectedAdminAllStoresRouteImport } from './routes/_protected/admin/all-stores'
 import { Route as ProtectedAdminCategoryMappingsRouteImport } from './routes/_protected/admin/category-mappings'
 import { Route as ProtectedAdminIngredientMappingsRouteImport } from './routes/_protected/admin/ingredient-mappings'
+import { Route as ProtectedAdminStoreSubmissionsRouteImport } from './routes/_protected/admin/store-submissions'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedPublicProductsProductIdRouteImport } from './routes/_protected/_public/products/$productId'
 import { Route as ProtectedPublicStoresIndexRouteImport } from './routes/_protected/_public/stores/index'
+import { Route as ProtectedPublicProductsProductIdAddStoreRouteImport } from './routes/_protected/_public/products/$productId_.add-store'
 import { Route as ProtectedPublicStoresStoreIdIndexRouteImport } from './routes/_protected/_public/stores/$storeId/index'
 import { Route as ProtectedPublicStoresStoreIdCategoryIdRouteImport } from './routes/_protected/_public/stores/$storeId/$categoryId'
 
@@ -129,6 +131,12 @@ const ProtectedAdminIngredientMappingsRoute =
     path: '/ingredient-mappings',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
+const ProtectedAdminStoreSubmissionsRoute =
+  ProtectedAdminStoreSubmissionsRouteImport.update({
+    id: '/store-submissions',
+    path: '/store-submissions',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -144,6 +152,12 @@ const ProtectedPublicStoresIndexRoute =
   ProtectedPublicStoresIndexRouteImport.update({
     id: '/stores/',
     path: '/stores/',
+    getParentRoute: () => ProtectedPublicRouteRoute,
+  } as any)
+const ProtectedPublicProductsProductIdAddStoreRoute =
+  ProtectedPublicProductsProductIdAddStoreRouteImport.update({
+    id: '/products/$productId_/add-store',
+    path: '/products/$productId/add-store',
     getParentRoute: () => ProtectedPublicRouteRoute,
   } as any)
 const ProtectedPublicStoresStoreIdIndexRoute =
@@ -176,9 +190,11 @@ export interface FileRoutesByFullPath {
   '/admin/all-stores': typeof ProtectedAdminAllStoresRoute
   '/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
   '/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
+  '/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/stores/': typeof ProtectedPublicStoresIndexRoute
+  '/products/$productId/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
   '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
 }
@@ -199,9 +215,11 @@ export interface FileRoutesByTo {
   '/admin/all-stores': typeof ProtectedAdminAllStoresRoute
   '/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
   '/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
+  '/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/stores': typeof ProtectedPublicStoresIndexRoute
+  '/products/$productId/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
   '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/stores/$storeId': typeof ProtectedPublicStoresStoreIdIndexRoute
 }
@@ -224,10 +242,12 @@ export interface FileRoutesById {
   '/_protected/admin/all-stores': typeof ProtectedAdminAllStoresRoute
   '/_protected/admin/category-mappings': typeof ProtectedAdminCategoryMappingsRoute
   '/_protected/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
+  '/_protected/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
   '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/_protected/_public/stores/': typeof ProtectedPublicStoresIndexRoute
+  '/_protected/_public/products/$productId_/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
   '/_protected/_public/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   '/_protected/_public/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
 }
@@ -250,9 +270,11 @@ export interface FileRouteTypes {
     | '/admin/all-stores'
     | '/admin/category-mappings'
     | '/admin/ingredient-mappings'
+    | '/admin/store-submissions'
     | '/api/auth/$'
     | '/products/$productId'
     | '/stores/'
+    | '/products/$productId/add-store'
     | '/stores/$storeId/$categoryId'
     | '/stores/$storeId/'
   fileRoutesByTo: FileRoutesByTo
@@ -273,9 +295,11 @@ export interface FileRouteTypes {
     | '/admin/all-stores'
     | '/admin/category-mappings'
     | '/admin/ingredient-mappings'
+    | '/admin/store-submissions'
     | '/api/auth/$'
     | '/products/$productId'
     | '/stores'
+    | '/products/$productId/add-store'
     | '/stores/$storeId/$categoryId'
     | '/stores/$storeId'
   id:
@@ -297,10 +321,12 @@ export interface FileRouteTypes {
     | '/_protected/admin/all-stores'
     | '/_protected/admin/category-mappings'
     | '/_protected/admin/ingredient-mappings'
+    | '/_protected/admin/store-submissions'
     | '/api/auth/$'
     | '/_protected/_public/'
     | '/_protected/_public/products/$productId'
     | '/_protected/_public/stores/'
+    | '/_protected/_public/products/$productId_/add-store'
     | '/_protected/_public/stores/$storeId/$categoryId'
     | '/_protected/_public/stores/$storeId/'
   fileRoutesById: FileRoutesById
@@ -441,6 +467,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminIngredientMappingsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
+    '/_protected/admin/store-submissions': {
+      id: '/_protected/admin/store-submissions'
+      path: '/store-submissions'
+      fullPath: '/admin/store-submissions'
+      preLoaderRoute: typeof ProtectedAdminStoreSubmissionsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -460,6 +493,13 @@ declare module '@tanstack/react-router' {
       path: '/stores'
       fullPath: '/stores/'
       preLoaderRoute: typeof ProtectedPublicStoresIndexRouteImport
+      parentRoute: typeof ProtectedPublicRouteRoute
+    }
+    '/_protected/_public/products/$productId_/add-store': {
+      id: '/_protected/_public/products/$productId_/add-store'
+      path: '/products/$productId/add-store'
+      fullPath: '/products/$productId/add-store'
+      preLoaderRoute: typeof ProtectedPublicProductsProductIdAddStoreRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
     '/_protected/_public/stores/$storeId/': {
@@ -487,6 +527,7 @@ interface ProtectedPublicRouteRouteChildren {
   ProtectedPublicIndexRoute: typeof ProtectedPublicIndexRoute
   ProtectedPublicProductsProductIdRoute: typeof ProtectedPublicProductsProductIdRoute
   ProtectedPublicStoresIndexRoute: typeof ProtectedPublicStoresIndexRoute
+  ProtectedPublicProductsProductIdAddStoreRoute: typeof ProtectedPublicProductsProductIdAddStoreRoute
   ProtectedPublicStoresStoreIdCategoryIdRoute: typeof ProtectedPublicStoresStoreIdCategoryIdRoute
   ProtectedPublicStoresStoreIdIndexRoute: typeof ProtectedPublicStoresStoreIdIndexRoute
 }
@@ -499,6 +540,8 @@ const ProtectedPublicRouteRouteChildren: ProtectedPublicRouteRouteChildren = {
   ProtectedPublicIndexRoute: ProtectedPublicIndexRoute,
   ProtectedPublicProductsProductIdRoute: ProtectedPublicProductsProductIdRoute,
   ProtectedPublicStoresIndexRoute: ProtectedPublicStoresIndexRoute,
+  ProtectedPublicProductsProductIdAddStoreRoute:
+    ProtectedPublicProductsProductIdAddStoreRoute,
   ProtectedPublicStoresStoreIdCategoryIdRoute:
     ProtectedPublicStoresStoreIdCategoryIdRoute,
   ProtectedPublicStoresStoreIdIndexRoute:
@@ -516,6 +559,7 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminAllStoresRoute: typeof ProtectedAdminAllStoresRoute
   ProtectedAdminCategoryMappingsRoute: typeof ProtectedAdminCategoryMappingsRoute
   ProtectedAdminIngredientMappingsRoute: typeof ProtectedAdminIngredientMappingsRoute
+  ProtectedAdminStoreSubmissionsRoute: typeof ProtectedAdminStoreSubmissionsRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
@@ -526,6 +570,7 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminAllStoresRoute: ProtectedAdminAllStoresRoute,
   ProtectedAdminCategoryMappingsRoute: ProtectedAdminCategoryMappingsRoute,
   ProtectedAdminIngredientMappingsRoute: ProtectedAdminIngredientMappingsRoute,
+  ProtectedAdminStoreSubmissionsRoute: ProtectedAdminStoreSubmissionsRoute,
 }
 
 const ProtectedAdminRouteRouteWithChildren =

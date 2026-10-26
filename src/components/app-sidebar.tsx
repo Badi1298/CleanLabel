@@ -9,6 +9,7 @@ import {
 	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
+	SidebarMenuBadge,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarRail,
@@ -19,6 +20,7 @@ export type SidebarItem = {
 	title: string;
 	url: string;
 	isActive?: boolean;
+	badge?: React.ReactNode;
 };
 
 export type SidebarGroupData = {
@@ -46,6 +48,9 @@ export function AppSidebar({
 										<SidebarMenuButton asChild isActive={item.isActive}>
 											<Link to={item.url}>{item.title}</Link>
 										</SidebarMenuButton>
+										{item.badge != null && (
+											<SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
+										)}
 									</SidebarMenuItem>
 								))}
 							</SidebarMenu>

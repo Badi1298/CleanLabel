@@ -163,6 +163,29 @@ export const productCategories = pgTable(
 	(t) => [primaryKey({ columns: [t.productId, t.categoryId] })],
 );
 
+export const productStoreSubmissions = pgTable("product_store_submissions", {
+	id: text("id")
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	productId: text("product_id")
+		.notNull()
+		.references(() => products.id, { onDelete: "cascade" }),
+	storeId: text("store_id").references(() => stores.id, {
+		onDelete: "set null",
+	}),
+	otherStoreName: text("other_store_name"),
+	proofImageUrl: text("proof_image_url").notNull(),
+	submittedById: text("submitted_by_id")
+		.notNull()
+		.references(() => user.id, { onDelete: "cascade" }),
+	status: productStatusEnum("status").default("pending_review").notNull(),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	reviewedAt: timestamp("reviewed_at"),
+	reviewedById: text("reviewed_by_id").references(() => user.id, {
+		onDelete: "set null",
+	}),
+});
+
 // --- Drizzle ORM Relations ---
 
 export const productsRelations = relations(products, ({ one, many }) => ({
@@ -173,6 +196,7 @@ export const productsRelations = relations(products, ({ one, many }) => ({
 	productIngredients: many(productIngredients),
 	productStores: many(productStores),
 	productCategories: many(productCategories),
+	storeSubmissions: many(productStoreSubmissions),
 }));
 
 export const categoriesRelations = relations(categories, ({ one, many }) => ({
@@ -200,6 +224,7 @@ export const offCategoryMappingsRelations = relations(
 
 export const storesRelations = relations(stores, ({ many }) => ({
 	productStores: many(productStores),
+	storeSubmissions: many(productStoreSubmissions),
 }));
 
 export const ingredientsRelations = relations(ingredients, ({ many }) => ({
@@ -284,3 +309,28 @@ export const userFavoriteProductsRelations = relations(
 		}),
 	}),
 );
+
+export const productStoreSubmissionsRelations = relations(
+	productStoreSubmissions,
+	({ one }) => ({
+		product: one(products, {
+			fields: [productStoreSubmissions.productId],
+			references: [products.id],
+		}),
+		store: one(stores, {
+			fields: [productStoreSubmissions.storeId],
+			references: [stores.id],
+		}),
+		submittedBy: one(user, {
+			fields: [productStoreSubmissions.submittedById],
+			references: [user.id],
+			relationName: "store_submission_submitter",
+		}),
+		reviewedBy: one(user, {
+			fields: [productStoreSubmissions.reviewedById],
+			references: [user.id],
+			relationName: "store_submission_reviewer",
+		}),
+	}),
+);
+

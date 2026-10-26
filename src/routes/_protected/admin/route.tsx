@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	Outlet,
@@ -19,6 +20,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { pendingStoreSubmissionsCountQueryOptions } from "#/queries/store-submission-queries";
 
 export const Route = createFileRoute("/_protected/admin")({
 	beforeLoad: ({ context }) => {
@@ -28,11 +30,20 @@ export const Route = createFileRoute("/_protected/admin")({
 			});
 		}
 	},
+	loader: async ({ context: { queryClient } }) => {
+		await queryClient.ensureQueryData(
+			pendingStoreSubmissionsCountQueryOptions(),
+		);
+	},
 	component: RouteComponent,
 });
 
 function RouteComponent() {
 	const location = useLocation();
+	const { data: pendingStoreSubmissions } = useQuery(
+		pendingStoreSubmissionsCountQueryOptions(),
+	);
+	const pendingCount = pendingStoreSubmissions?.count ?? 0;
 
 	const sidebarData = useMemo(
 		() => [
@@ -57,7 +68,18 @@ function RouteComponent() {
 					{
 						title: "All Stores",
 						url: "/admin/all-stores",
-						isActive: location.pathname === "/admin/add-store",
+						isActive: location.pathname === "/admin/all-stores",
+					},
+					{
+						title: "Store Submissions",
+						url: "/admin/store-submissions",
+						isActive: location.pathname === "/admin/store-submissions",
+						badge:
+							pendingCount > 0 ? (
+								<span className="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-white">
+									{pendingCount}
+								</span>
+							) : undefined,
 					},
 				],
 			},
