@@ -2,51 +2,51 @@ import {
 	createFileRoute,
 	Link,
 	Outlet,
-	useNavigate,
+	// useNavigate,
 	useRouteContext,
 } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
-import { Heart, Home, ScanBarcode, Search, Store, User } from "lucide-react";
-import { useState } from "react";
+// import { useServerFn } from "@tanstack/react-start";
+import { Heart, Home, Search, Store, User } from "lucide-react";
+// import { useState } from "react";
 import { Onboarding } from "#/components/Onboarding";
-import { ScannerDialog } from "#/components/ScannerDialog";
+// import { ScannerDialog } from "#/components/ScannerDialog";
 import { Button } from "#/components/ui/button";
-import { processBarcodeScan } from "#/server/off-functions";
+// import { processBarcodeScan } from "#/server/off-functions";
 
 export const Route = createFileRoute("/_protected/_public")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const processScan = useServerFn(processBarcodeScan);
-	const navigate = useNavigate();
+	// const processScan = useServerFn(processBarcodeScan);
+	// const navigate = useNavigate();
 	const { session } = useRouteContext({ from: "/_protected" });
-	const [isScannerOpen, setIsScannerOpen] = useState(false);
-	const [isFetching, setIsFetching] = useState(false);
-	void isFetching;
-	void ScanBarcode;
+	// const [isScannerOpen, setIsScannerOpen] = useState(false);
+	// const [isFetching, setIsFetching] = useState(false);
+	// void isFetching;
+	// void ScanBarcode;
 
-	const handleScanBarcode = async (barcode: string) => {
-		setIsScannerOpen(false);
-		setIsFetching(true);
-		try {
-			const result = await processScan({ data: barcode });
-			if (result.productId) {
-				navigate({
-					to: "/products/$productId",
-					params: { productId: result.productId },
-				});
-			} else {
-				// TODO: We use "as any" for search since we don't know if add-product has validateSearch set up yet
-				navigate({ to: "/add-product", search: { barcode } as any });
-			}
-		} catch (e) {
-			console.error("Error processing scan:", e);
-			navigate({ to: "/add-product", search: { barcode } as any });
-		} finally {
-			setIsFetching(false);
-		}
-	};
+	// const handleScanBarcode = async (barcode: string) => {
+	// 	setIsScannerOpen(false);
+	// 	setIsFetching(true);
+	// 	try {
+	// 		const result = await processScan({ data: barcode });
+	// 		if (result.productId) {
+	// 			navigate({
+	// 				to: "/products/$productId",
+	// 				params: { productId: result.productId },
+	// 			});
+	// 		} else {
+	// 			// TODO: We use "as any" for search since we don't know if add-product has validateSearch set up yet
+	// 			navigate({ to: "/add-product", search: { barcode } as any });
+	// 		}
+	// 	} catch (e) {
+	// 		console.error("Error processing scan:", e);
+	// 		navigate({ to: "/add-product", search: { barcode } as any });
+	// 	} finally {
+	// 		setIsFetching(false);
+	// 	}
+	// };
 
 	return (
 		<div className="relative min-h-screen pb-24 bg-slate-50 dark:bg-slate-950">
@@ -128,11 +128,11 @@ function RouteComponent() {
 				</nav>
 			</div>
 
-			<ScannerDialog
+			{/* <ScannerDialog
 				isOpen={isScannerOpen}
 				onClose={() => setIsScannerOpen(false)}
 				onResult={handleScanBarcode}
-			/>
+			/> */}
 		</div>
 	);
 }

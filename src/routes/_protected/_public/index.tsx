@@ -12,7 +12,40 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "#/components/ui/select";
+import { cn } from "#/lib/utils";
 import { homeQueryOptions } from "#/queries/home-queries";
+
+// Soft pastel palettes for category backdrops matching modern grocery app styles
+const CATEGORY_PALETTES = [
+	{
+		bg: "bg-emerald-50 dark:bg-emerald-950/40",
+		border: "border-emerald-100 dark:border-emerald-900/30",
+	},
+	{
+		bg: "bg-amber-50 dark:bg-amber-950/40",
+		border: "border-amber-100 dark:border-amber-900/30",
+	},
+	{
+		bg: "bg-rose-50 dark:bg-rose-950/40",
+		border: "border-rose-100 dark:border-rose-900/30",
+	},
+	{
+		bg: "bg-sky-50 dark:bg-sky-950/40",
+		border: "border-sky-100 dark:border-sky-900/30",
+	},
+	{
+		bg: "bg-purple-50 dark:bg-purple-950/40",
+		border: "border-purple-100 dark:border-purple-900/30",
+	},
+	{
+		bg: "bg-orange-50 dark:bg-orange-950/40",
+		border: "border-orange-100 dark:border-orange-900/30",
+	},
+];
+
+// Default placeholder image for categories
+const DEFAULT_CATEGORY_PLACEHOLDER =
+	"/images/categories/placeholder-groceries.svg";
 
 export const Route = createFileRoute("/_protected/_public/")({
 	validateSearch: (search: Record<string, unknown>): { storeId?: string } => {
@@ -112,39 +145,58 @@ function Home() {
 					</div>
 					{data?.popularCategories && data.popularCategories.length > 0 ? (
 						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-							{data.popularCategories.map((category) => (
-								<Button
-									key={category.id}
-									variant="outline"
-									className="flex flex-col h-full"
-									onClick={() =>
-										navigate({
-											to: "/search",
-											search: {
-												q: category.name,
-												...(storeId ? { storeId } : {}),
-											},
-										})
-									}
-								>
-									{category.iconUrl ? (
-										<img
-											src={category.iconUrl}
-											alt={category.name}
-											className="w-12 h-12 object-cover rounded-full"
-										/>
-									) : (
-										<StoreIcon className="w-12 h-12 text-slate-500" />
-									)}
-									<span className="font-semibold text-slate-700 dark:text-slate-200 text-center">
-										{category.name}
-									</span>
-									<span className="text-xs text-slate-500 font-medium">
-										{category.productCount}{" "}
-										{category.productCount === 1 ? "product" : "products"}
-									</span>
-								</Button>
-							))}
+							{data.popularCategories.map((category, index) => {
+								const palette =
+									CATEGORY_PALETTES[index % CATEGORY_PALETTES.length];
+								const imageSrc =
+									category.iconUrl || DEFAULT_CATEGORY_PLACEHOLDER;
+
+								return (
+									<button
+										key={category.id}
+										type="button"
+										onClick={() =>
+											navigate({
+												to: "/search",
+												search: {
+													q: category.name,
+													...(storeId ? { storeId } : {}),
+												},
+											})
+										}
+										className="group relative flex flex-col items-center justify-between p-4 h-full min-h-43.75 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer text-center outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+									>
+										{/* Soft pastel circular backdrop with descriptive image */}
+										<div className="relative mb-3 flex items-center justify-center">
+											<div
+												className={cn(
+													"w-20 h-20 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105 border",
+													palette.bg,
+													palette.border,
+												)}
+											>
+												<img
+													src={imageSrc}
+													alt={category.name}
+													className="w-16 h-16 object-contain drop-shadow-sm group-hover:scale-110 transition-transform duration-300"
+													loading="lazy"
+												/>
+											</div>
+										</div>
+
+										{/* Category Name & Count */}
+										<div className="flex flex-col items-center gap-1 w-full mt-auto">
+											<span className="font-semibold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2 leading-snug">
+												{category.name}
+											</span>
+											<span className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+												{category.productCount}{" "}
+												{category.productCount === 1 ? "product" : "products"}
+											</span>
+										</div>
+									</button>
+								);
+							})}
 						</div>
 					) : (
 						<div className="text-center py-12 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
