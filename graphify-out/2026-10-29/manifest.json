@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1793267154.555277,
-    "seen": 1793267182.633487,
-    "ast_hash": "cde35cdd736ad437bcbdf64e5155ab3b",
+    "mtime": 1793267446.236009,
+    "seen": 1793267459.063412,
+    "ast_hash": "7942fe323822de30fcc1233da938f714",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
@@ -851,46 +851,10 @@
     "ast_hash": "2f7d2bb7c8ab86d5f2653cff13cb57fb",
     "semantic_hash": ""
   },
-  "public/images/categories/placeholder-bakery.svg": {
-    "mtime": 1793267071.336501,
-    "seen": 1793267182.633524,
-    "ast_hash": "39212dfc1d3e45fcf3928378e5b5084e",
-    "semantic_hash": ""
-  },
-  "public/images/categories/placeholder-dairy.svg": {
-    "mtime": 1793267030.178536,
-    "seen": 1793267182.633524,
-    "ast_hash": "5feb2015ddaac0cfad319f6e65e7a00e",
-    "semantic_hash": ""
-  },
-  "public/images/categories/placeholder-drinks.svg": {
-    "mtime": 1793267045.7964873,
-    "seen": 1793267182.633525,
-    "ast_hash": "0cfb61064aba0cd883dccfccabdc0038",
-    "semantic_hash": ""
-  },
   "public/images/categories/placeholder-groceries.svg": {
     "mtime": 1793266990.1463487,
     "seen": 1793267182.633526,
     "ast_hash": "1b84bb7012504f414c588b46c16e62ce",
-    "semantic_hash": ""
-  },
-  "public/images/categories/placeholder-meat.svg": {
-    "mtime": 1793267059.5866754,
-    "seen": 1793267182.633526,
-    "ast_hash": "38e2410b6e1b186a02db23583c0aca8a",
-    "semantic_hash": ""
-  },
-  "public/images/categories/placeholder-produce.svg": {
-    "mtime": 1793267015.238161,
-    "seen": 1793267182.633527,
-    "ast_hash": "0286fb64c974938423c85b555b398ffd",
-    "semantic_hash": ""
-  },
-  "public/images/categories/placeholder-tag.svg": {
-    "mtime": 1793267082.5167732,
-    "seen": 1793267182.633527,
-    "ast_hash": "d09d088a4b6013a7b849705154efa443",
     "semantic_hash": ""
   }
 }
