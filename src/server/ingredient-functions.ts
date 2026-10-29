@@ -51,7 +51,6 @@ export const getIngredients = createServerFn({
 
 const addIngredientSchema = z.object({
 	name: z.string().min(1, "Name is required"),
-	hazardLevel: z.string().optional(),
 	description: z.string().optional(),
 });
 
@@ -66,7 +65,6 @@ export const addIngredient = createServerFn({
 			.insert(ingredients)
 			.values({
 				name: data.name,
-				hazardLevel: data.hazardLevel || undefined,
 				description: data.description || undefined,
 			})
 			.returning();
@@ -95,7 +93,6 @@ export const getIngredient = createServerFn({
 const updateIngredientSchema = z.object({
 	id: z.string(),
 	name: z.string().min(1, "Name is required"),
-	hazardLevel: z.string().optional(),
 	description: z.string().optional(),
 });
 
@@ -110,7 +107,6 @@ export const updateIngredient = createServerFn({
 			.update(ingredients)
 			.set({
 				name: data.name,
-				hazardLevel: data.hazardLevel || undefined,
 				description: data.description || undefined,
 			})
 			.where(eq(ingredients.id, data.id))

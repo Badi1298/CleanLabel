@@ -12,6 +12,7 @@ import {
 	Heart,
 	Info,
 	Package,
+	Plus,
 	ShieldAlert,
 	Store,
 } from "lucide-react";
@@ -78,10 +79,6 @@ function getScoreBadgeProps(score: string) {
 		case "bronze":
 			return {
 				className: "bg-amber-600 text-amber-50 border-amber-700",
-			};
-		case "rejected":
-			return {
-				className: "bg-red-600 text-red-50 border-red-700",
 			};
 		default:
 			return {
@@ -295,7 +292,7 @@ function ProductDetails() {
 				<div className="space-y-6">
 					<h3 className="text-2xl font-semibold flex items-center gap-2">
 						<ShieldAlert className="w-6 h-6 text-blue-500" />
-						Ingredients Analysis
+						Ingredients
 					</h3>
 
 					{product.productIngredients &&
@@ -349,20 +346,6 @@ function ProductDetails() {
 													</TooltipProvider>
 												)}
 											</div>
-											{ingredient.hazardLevel && (
-												<Badge
-													variant={
-														ingredient.hazardLevel === "high"
-															? "destructive"
-															: ingredient.hazardLevel === "medium"
-																? "secondary"
-																: "default"
-													}
-													className="uppercase text-[10px]"
-												>
-													{ingredient.hazardLevel} Hazard
-												</Badge>
-											)}
 										</CardContent>
 									</Card>
 								);
@@ -372,7 +355,7 @@ function ProductDetails() {
 						<Card className="bg-slate-50/50 dark:bg-slate-900/50 border-dashed shadow-none">
 							<CardContent className="p-8 text-center text-slate-500 dark:text-slate-400">
 								<AlertTriangle className="w-8 h-8 mx-auto mb-3 opacity-50" />
-								<p>Detailed ingredient breakdown is not available yet.</p>
+								<p>Ingredients are not yet available.</p>
 							</CardContent>
 						</Card>
 					)}
@@ -392,38 +375,97 @@ function ProductDetails() {
 				</div>
 
 				{/* Available at Stores */}
-				{product.productStores && product.productStores.length > 0 && (
-					<>
-						<Separator className="my-8 opacity-50" />
-						<div className="space-y-4">
-							<h3 className="text-xl font-semibold flex items-center gap-2">
-								<Store className="w-5 h-5 text-emerald-500" />
-								Available at
-							</h3>
-							<div className="flex flex-wrap gap-3">
-								{product.productStores.map(({ store }) => (
-									<div
-										key={store.id}
-										className="flex items-center gap-2 bg-white dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm"
-									>
-										{store.logoUrl ? (
-											<img
-												src={store.logoUrl}
-												alt={store.name}
-												className="w-6 h-6 rounded-full object-cover"
-											/>
-										) : (
-											<div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-												<Store className="w-3 h-3 text-slate-500" />
-											</div>
-										)}
-										<span className="font-medium text-sm">{store.name}</span>
-									</div>
-								))}
-							</div>
+				<Separator className="my-8 opacity-50" />
+				<div className="space-y-4">
+					<div className="flex items-center justify-between">
+						<h3 className="text-xl font-semibold flex items-center gap-2">
+							<Store className="w-5 h-5 text-emerald-500" />
+							Available at
+						</h3>
+						<Button
+							variant="ghost"
+							size="sm"
+							className="hidden sm:inline-flex text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-xs font-medium gap-1 rounded-full px-3 h-8 cursor-pointer"
+							asChild
+						>
+							<Link
+								to="/products/$productId/add-store"
+								params={{ productId: product.id }}
+							>
+								<Plus className="w-3.5 h-3.5" />
+								Found at another store?
+							</Link>
+						</Button>
+					</div>
+
+					{product.productStores && product.productStores.length > 0 ? (
+						<div className="flex flex-wrap items-center gap-3">
+							{product.productStores.map(({ store }) => (
+								<div
+									key={store.id}
+									className="flex items-center gap-2 bg-white dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm"
+								>
+									{store.logoUrl ? (
+										<img
+											src={store.logoUrl}
+											alt={store.name}
+											className="w-6 h-6 rounded-full object-cover"
+										/>
+									) : (
+										<div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+											<Store className="w-3 h-3 text-slate-500" />
+										</div>
+									)}
+									<span className="font-medium text-sm">{store.name}</span>
+								</div>
+							))}
+
+							<Button
+								variant="outline"
+								size="sm"
+								className="rounded-full border-dashed border-emerald-500/70 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:border-emerald-600 gap-1.5 h-9.5 px-3.5 text-xs font-medium cursor-pointer transition-colors shadow-none"
+								asChild
+							>
+								<Link
+									to="/products/$productId/add-store"
+									params={{ productId: product.id }}
+								>
+									<Plus className="w-3.5 h-3.5" />
+									Found in another store?
+								</Link>
+							</Button>
 						</div>
-					</>
-				)}
+					) : (
+						<div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/40 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+							<div className="flex items-center gap-3">
+								<div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 shrink-0">
+									<Store className="w-5 h-5" />
+								</div>
+								<div>
+									<p className="font-medium text-sm text-slate-900 dark:text-slate-100">
+										No stores listed yet
+									</p>
+									<p className="text-xs text-slate-500 dark:text-slate-400">
+										Have you found this product in a store? Let the community know!
+									</p>
+								</div>
+							</div>
+							<Button
+								size="sm"
+								className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white gap-1.5 shrink-0 shadow-sm cursor-pointer"
+								asChild
+							>
+								<Link
+									to="/products/$productId/add-store"
+									params={{ productId: product.id }}
+								>
+									<Plus className="w-4 h-4" />
+									Report Store
+								</Link>
+							</Button>
+						</div>
+					)}
+				</div>
 
 				{/* Alternatives Section */}
 				{alternatives && alternatives.length > 0 && (

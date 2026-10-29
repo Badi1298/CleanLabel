@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
-import { stores } from "#/db/app-schema";
+import { productStores, products, stores } from "#/db/app-schema";
 import { ensureSession } from "./auth-functions";
 
 export const getStores = createServerFn({
@@ -59,6 +59,39 @@ export const updateStore = createServerFn({
 		return updatedStore;
 	});
 
+const storeIdSchema = z.object({
+	id: z.string(),
+});
+
+export const getStoreExclusiveProducts = createServerFn({
+	method: "GET",
+})
+	.validator((data: z.infer<typeof storeIdSchema>) => data)
+	.handler(async ({ data }) => {
+		await ensureSession();
+
+		const exclusiveProducts = await db
+			.select({
+				id: products.id,
+				name: products.name,
+				brand: products.brand,
+			})
+			.from(products)
+			.innerJoin(productStores, eq(products.id, productStores.productId))
+			.where(
+				and(
+					eq(productStores.storeId, data.id),
+					sql`NOT EXISTS (
+						SELECT 1 FROM ${productStores} ps2 
+						WHERE ps2.product_id = ${products.id} 
+						AND ps2.store_id != ${data.id}
+					)`,
+				),
+			);
+
+		return exclusiveProducts;
+	});
+
 const deleteStoreSchema = z.object({
 	id: z.string(),
 });
@@ -69,6 +102,30 @@ export const deleteStore = createServerFn({
 	.validator((data: z.infer<typeof deleteStoreSchema>) => data)
 	.handler(async ({ data }) => {
 		await ensureSession();
+
+		const exclusiveProducts = await db
+			.select({
+				id: products.id,
+				name: products.name,
+			})
+			.from(products)
+			.innerJoin(productStores, eq(products.id, productStores.productId))
+			.where(
+				and(
+					eq(productStores.storeId, data.id),
+					sql`NOT EXISTS (
+						SELECT 1 FROM ${productStores} ps2 
+						WHERE ps2.product_id = ${products.id} 
+						AND ps2.store_id != ${data.id}
+					)`,
+				),
+			);
+
+		if (exclusiveProducts.length > 0) {
+			throw new Error(
+				`Cannot delete store because ${exclusiveProducts.length} product(s) are only available at this store. Please assign them to another store first.`,
+			);
+		}
 
 		await db.delete(stores).where(eq(stores.id, data.id));
 

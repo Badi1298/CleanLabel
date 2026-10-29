@@ -35,7 +35,7 @@ export type ProductFormValues = {
 	brand: string;
 	categoryIds: string[];
 	ingredientIds: string[];
-	score: "gold" | "silver" | "bronze" | "none" | "rejected";
+	score: "gold" | "silver" | "bronze" | "none";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
 	imageFront: string | File | undefined;
@@ -44,9 +44,16 @@ export type ProductFormValues = {
 };
 
 function FieldInfo({ field }: { field: any }) {
+	const hasError =
+		(field.state.meta.isTouched ||
+			field.state.meta.isDirty ||
+			field.form?.state?.isSubmitted ||
+			field.state.meta.errorMap?.onSubmit) &&
+		field.state.meta.errors.length;
+
 	return (
 		<div className="min-h-5 mt-1">
-			{field.state.meta.isTouched && field.state.meta.errors.length ? (
+			{hasError ? (
 				<em className="text-sm text-red-500 dark:text-red-400">
 					{field.state.meta.errors.join(", ")}
 				</em>
@@ -96,6 +103,10 @@ export function ProductForm({
 			storeIds: defaultValues?.storeIds || [],
 		},
 		onSubmit: async ({ value }) => {
+			if (isAdmin && (!value.storeIds || value.storeIds.length === 0)) {
+				return;
+			}
+
 			let imageFrontUrl =
 				typeof value.imageFront === "string" ? value.imageFront : undefined;
 			let imageBackUrl =
@@ -556,6 +567,16 @@ export function ProductForm({
 					{isAdmin && (
 						<form.Field
 							name="storeIds"
+							validators={{
+								onChange: ({ value }) =>
+									!value || value.length === 0
+										? "At least one store is required"
+										: undefined,
+								onSubmit: ({ value }) =>
+									!value || value.length === 0
+										? "At least one store is required"
+										: undefined,
+							}}
 							children={(field) => {
 								const selectedStores = field.state.value
 									.map((id) => stores?.find((s) => s.id === id))
@@ -564,7 +585,10 @@ export function ProductForm({
 								return (
 									<div className="flex flex-col gap-y-2">
 										<div className="flex items-center justify-between">
-											<Label htmlFor={field.name}>Available At (Stores)</Label>
+											<Label htmlFor={field.name}>
+												Available At (Stores){" "}
+												<span className="text-red-500">*</span>
+											</Label>
 											<AddStoreDialog
 												trigger={
 													<Button
@@ -625,12 +649,7 @@ export function ProductForm({
 										<Select
 											value={field.state.value}
 											onValueChange={(
-												value:
-													| "gold"
-													| "silver"
-													| "bronze"
-													| "none"
-													| "rejected",
+												value: "gold" | "silver" | "bronze" | "none",
 											) => field.handleChange(value)}
 										>
 											<SelectTrigger>
@@ -641,7 +660,6 @@ export function ProductForm({
 												<SelectItem value="gold">Gold</SelectItem>
 												<SelectItem value="silver">Silver</SelectItem>
 												<SelectItem value="bronze">Bronze</SelectItem>
-												<SelectItem value="rejected">Rejected</SelectItem>
 											</SelectContent>
 										</Select>
 										<FieldInfo field={field} />

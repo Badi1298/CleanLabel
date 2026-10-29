@@ -223,6 +223,7 @@ export const deleteCategory = createServerFn({
 
 const getActiveCategoriesSchema = z.object({
 	storeId: z.string().optional(),
+	score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
 });
 
 export const getActiveCategories = createServerFn({
@@ -230,7 +231,7 @@ export const getActiveCategories = createServerFn({
 })
 	.validator((data: z.infer<typeof getActiveCategoriesSchema>) => data)
 	.handler(async ({ data }) => {
-		const { storeId } = data;
+		const { storeId, score } = data;
 
 		let query = db
 			.select({
@@ -250,14 +251,18 @@ export const getActiveCategories = createServerFn({
 			whereConditions.push(eq(productStores.storeId, storeId));
 		}
 
+		if (score) {
+			whereConditions.push(eq(products.score, score));
+		}
+
 		const categoryCountsRows = await query
 			.where(and(...whereConditions))
 			.groupBy(productCategories.categoryId);
-			
+
 		const activeCategoryIds = categoryCountsRows.map((r: any) => r.categoryId);
 
 		if (activeCategoryIds.length === 0) return [];
-		
+
 		const categoryCountsMap = new Map<string, number>();
 		categoryCountsRows.forEach((row: any) => {
 			categoryCountsMap.set(row.categoryId, Number(row.productCount));
@@ -269,7 +274,7 @@ export const getActiveCategories = createServerFn({
 			.where(inArray(categories.id, activeCategoryIds));
 
 		const parentIds = new Set<string>();
-		
+
 		activeCategories.forEach((c) => {
 			if (c.parentId) {
 				parentIds.add(c.parentId);
@@ -283,8 +288,8 @@ export const getActiveCategories = createServerFn({
 			new Set([...activeCategoryIds, ...parentIds]),
 		);
 
-		return allNeededCategoryIds.map(id => ({
+		return allNeededCategoryIds.map((id) => ({
 			id,
-			count: categoryCountsMap.get(id) || 0
+			count: categoryCountsMap.get(id) || 0,
 		}));
 	});

@@ -6,7 +6,7 @@ import {
 	useRouteContext,
 } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Home, ScanBarcode, Search, Store, User } from "lucide-react";
+import { Heart, Home, ScanBarcode, Search, Store, User } from "lucide-react";
 import { useState } from "react";
 import { Onboarding } from "#/components/Onboarding";
 import { ScannerDialog } from "#/components/ScannerDialog";
@@ -23,6 +23,8 @@ function RouteComponent() {
 	const { session } = useRouteContext({ from: "/_protected" });
 	const [isScannerOpen, setIsScannerOpen] = useState(false);
 	const [isFetching, setIsFetching] = useState(false);
+	void isFetching;
+	void ScanBarcode;
 
 	const handleScanBarcode = async (barcode: string) => {
 		setIsScannerOpen(false);
@@ -77,7 +79,7 @@ function RouteComponent() {
 						</Link>
 					</Button>
 
-					<Button
+					{/* <Button
 						variant="ghost"
 						onClick={() => setIsScannerOpen(true)}
 						className="flex flex-col cursor-pointer items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
@@ -89,6 +91,17 @@ function RouteComponent() {
 							<ScanBarcode className="w-5 h-5" />
 						)}
 						<span className="text-[11px] font-medium">Scan</span>
+					</Button> */}
+
+					<Button
+						variant="ghost"
+						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
+						asChild
+					>
+						<Link to="/favorites">
+							<Heart className="w-5 h-5" />
+							<span className="text-[11px] font-medium">Favorites</span>
+						</Link>
 					</Button>
 
 					<Button

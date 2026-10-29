@@ -139,6 +139,11 @@ function RouteComponent() {
 									: undefined
 							}
 							onSubmit={async (values) => {
+								if (!values.storeIds || values.storeIds.length === 0) {
+									toast.error("Please select at least one store.");
+									return;
+								}
+
 								try {
 									if (product) {
 										await updateProductFn({

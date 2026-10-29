@@ -89,7 +89,6 @@ function RouteComponent() {
 						<thead className="bg-slate-50 dark:bg-slate-800">
 							<tr>
 								<th className="px-6 py-4 font-medium">Name</th>
-								<th className="px-6 py-4 font-medium">Hazard Level</th>
 								<th className="px-6 py-4 font-medium">Description</th>
 								<th className="px-6 py-4 font-medium text-right">Actions</th>
 							</tr>
@@ -99,9 +98,6 @@ function RouteComponent() {
 								<tr key={ingredient.id}>
 									<td className="px-6 py-4 whitespace-nowrap">
 										{ingredient.name}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										{ingredient.hazardLevel || "-"}
 									</td>
 									<td className="px-6 py-4 truncate max-w-50 whitespace-nowrap">
 										{ingredient.description || "-"}

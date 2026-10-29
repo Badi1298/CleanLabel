@@ -12,13 +12,6 @@ import {
 } from "#/components/ui/dialog";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "#/components/ui/select";
 import { Textarea } from "#/components/ui/textarea";
 import { addIngredient, updateIngredient } from "#/server/ingredient-functions";
 
@@ -42,7 +35,6 @@ export function AddIngredientDialog({
 
 	const [formData, setFormData] = useState({
 		name: "",
-		hazardLevel: "none",
 		description: "",
 	});
 
@@ -50,11 +42,10 @@ export function AddIngredientDialog({
 		if (ingredientToEdit && open) {
 			setFormData({
 				name: ingredientToEdit.name || "",
-				hazardLevel: ingredientToEdit.hazardLevel || "none",
 				description: ingredientToEdit.description || "",
 			});
 		} else if (!open && !ingredientToEdit) {
-			setFormData({ name: "", hazardLevel: "none", description: "" });
+			setFormData({ name: "", description: "" });
 		}
 	}, [ingredientToEdit, open]);
 
@@ -70,10 +61,6 @@ export function AddIngredientDialog({
 					data: {
 						id: ingredientToEdit.id,
 						name: formData.name,
-						hazardLevel:
-							formData.hazardLevel === "none"
-								? undefined
-								: formData.hazardLevel,
 						description: formData.description,
 					},
 				});
@@ -82,17 +69,13 @@ export function AddIngredientDialog({
 				await addIngredientFn({
 					data: {
 						name: formData.name,
-						hazardLevel:
-							formData.hazardLevel === "none"
-								? undefined
-								: formData.hazardLevel,
 						description: formData.description,
 					},
 				});
 				toast.success("Ingredient added");
 			}
 			setOpen(false);
-			setFormData({ name: "", hazardLevel: "none", description: "" });
+			setFormData({ name: "", description: "" });
 			queryClient.invalidateQueries({ queryKey: ["ingredients"] });
 			queryClient.invalidateQueries({ queryKey: ["searchResults"] });
 			queryClient.invalidateQueries({ queryKey: ["allProducts"] });
@@ -122,25 +105,6 @@ export function AddIngredientDialog({
 								setFormData({ ...formData, name: e.target.value })
 							}
 						/>
-					</div>
-					<div className="space-y-2">
-						<Label>Hazard Level</Label>
-						<Select
-							value={formData.hazardLevel}
-							onValueChange={(val) =>
-								setFormData({ ...formData, hazardLevel: val })
-							}
-						>
-							<SelectTrigger>
-								<SelectValue />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="none">None</SelectItem>
-								<SelectItem value="low">Low</SelectItem>
-								<SelectItem value="medium">Medium</SelectItem>
-								<SelectItem value="high">High</SelectItem>
-							</SelectContent>
-						</Select>
 					</div>
 					<div className="space-y-2">
 						<Label>Description</Label>

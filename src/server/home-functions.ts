@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, count, desc, eq, or } from "drizzle-orm";
+import { and, countDistinct, desc, eq, or } from "drizzle-orm";
 import { db } from "#/db";
 import {
 	categories,
@@ -17,26 +17,13 @@ export const getHomeData = createServerFn({
 		const storeId = data?.storeId;
 		const allStores = await db.select().from(stores);
 
-		let productsQuery = db
-			.selectDistinct({
+		const recentProductRows = await db
+			.select({
 				id: products.id,
 				createdAt: products.createdAt,
 			})
 			.from(products)
-			.$dynamic();
-
-		const filters = [eq(products.status, "approved")];
-
-		if (storeId) {
-			productsQuery = productsQuery.innerJoin(
-				productStores,
-				eq(products.id, productStores.productId),
-			);
-			filters.push(eq(productStores.storeId, storeId));
-		}
-
-		const recentProductRows = await productsQuery
-			.where(and(...filters))
+			.where(eq(products.status, "approved"))
 			.orderBy(desc(products.createdAt))
 			.limit(10);
 
@@ -68,6 +55,8 @@ export const getHomeData = createServerFn({
 						categoryName:
 							p.productCategories?.[0]?.category?.name || "Uncategorized",
 						storeName: p.productStores?.[0]?.store?.name || null,
+						stores:
+							p.productStores?.map((ps) => ps.store).filter(Boolean) || [],
 						ingredientIds:
 							p.productIngredients?.map((pi) => pi.ingredientId) || [],
 						status: p.status,
@@ -77,28 +66,58 @@ export const getHomeData = createServerFn({
 				.filter(Boolean);
 		}
 
-		const popularCategories = await db
-			.select({
-				id: categories.id,
-				name: categories.name,
-				iconUrl: categories.iconUrl,
-				productCount: count(products.id),
-			})
-			.from(categories)
-			.leftJoin(
-				productCategories,
-				eq(categories.id, productCategories.categoryId),
-			)
-			.leftJoin(
-				products,
-				and(
-					eq(productCategories.productId, products.id),
-					eq(products.status, "approved"),
-				),
-			)
-			.groupBy(categories.id)
-			.orderBy(desc(count(products.id)))
-			.limit(6);
+		const popularCategories = storeId
+			? await db
+					.select({
+						id: categories.id,
+						name: categories.name,
+						iconUrl: categories.iconUrl,
+						productCount: countDistinct(products.id),
+					})
+					.from(categories)
+					.innerJoin(
+						productCategories,
+						eq(categories.id, productCategories.categoryId),
+					)
+					.innerJoin(
+						products,
+						and(
+							eq(productCategories.productId, products.id),
+							eq(products.status, "approved"),
+						),
+					)
+					.innerJoin(
+						productStores,
+						and(
+							eq(products.id, productStores.productId),
+							eq(productStores.storeId, storeId),
+						),
+					)
+					.groupBy(categories.id)
+					.orderBy(desc(countDistinct(products.id)))
+					.limit(6)
+			: await db
+					.select({
+						id: categories.id,
+						name: categories.name,
+						iconUrl: categories.iconUrl,
+						productCount: countDistinct(products.id),
+					})
+					.from(categories)
+					.leftJoin(
+						productCategories,
+						eq(categories.id, productCategories.categoryId),
+					)
+					.leftJoin(
+						products,
+						and(
+							eq(productCategories.productId, products.id),
+							eq(products.status, "approved"),
+						),
+					)
+					.groupBy(categories.id)
+					.orderBy(desc(countDistinct(products.id)))
+					.limit(6);
 
 		return {
 			stores: allStores,

@@ -1,5 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, count, eq, ilike, inArray, ne, or, sql } from "drizzle-orm";
+import {
+	and,
+	countDistinct,
+	eq,
+	ilike,
+	inArray,
+	ne,
+	or,
+	sql,
+} from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
 import {
@@ -23,9 +32,7 @@ const addProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	ingredientIds: z.array(z.string()).optional(),
-	score: z
-		.enum(["gold", "silver", "bronze", "none", "rejected"])
-		.default("none"),
+	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),
@@ -41,6 +48,13 @@ export const addProduct = createServerFn({
 	.validator((data: z.infer<typeof addProductSchema>) => data)
 	.handler(async ({ data }) => {
 		const session = await ensureSession();
+
+		if (
+			session.user.role === "admin" &&
+			(!data.storeIds || data.storeIds.length === 0)
+		) {
+			throw new Error("At least one store is required.");
+		}
 
 		const [newProduct] = await db
 			.insert(products)
@@ -92,6 +106,7 @@ const getProductsSchema = z.object({
 	pageSize: z.number().default(10),
 	globalFilter: z.string().optional(),
 	statusFilter: z.string().optional(),
+	storeFilter: z.string().optional(),
 });
 
 export const getAllProducts = createServerFn({
@@ -100,13 +115,33 @@ export const getAllProducts = createServerFn({
 	.validator((data: z.infer<typeof getProductsSchema>) => data)
 	.handler(async ({ data }) => {
 		await ensureSession();
-		const { pageIndex, pageSize, globalFilter, statusFilter } = data;
+		const { pageIndex, pageSize, globalFilter, statusFilter, storeFilter } =
+			data;
 		const offset = pageIndex * pageSize;
 
 		const whereConditions = [];
 
 		if (statusFilter && statusFilter !== "all") {
 			whereConditions.push(eq(products.status, statusFilter as any));
+		}
+
+		if (storeFilter && storeFilter !== "all") {
+			if (storeFilter === "missing") {
+				whereConditions.push(
+					sql`NOT EXISTS (
+						SELECT 1 FROM ${productStores} 
+						WHERE ${productStores.productId} = ${products.id}
+					)`,
+				);
+			} else {
+				whereConditions.push(
+					sql`EXISTS (
+						SELECT 1 FROM ${productStores} 
+						WHERE ${productStores.productId} = ${products.id} 
+						AND ${productStores.storeId} = ${storeFilter}
+					)`,
+				);
+			}
 		}
 
 		if (globalFilter) {
@@ -139,7 +174,7 @@ export const getAllProducts = createServerFn({
 				.limit(pageSize)
 				.offset(offset),
 			db
-				.select({ totalCount: count(products.id) })
+				.select({ totalCount: countDistinct(products.id) })
 				.from(products)
 				.leftJoin(
 					productCategories,
@@ -155,6 +190,9 @@ export const getAllProducts = createServerFn({
 				productCategories: {
 					with: { category: true },
 				},
+				productStores: {
+					with: { store: true },
+				},
 			},
 			orderBy: (products, { asc }) => [asc(products.createdAt)],
 		});
@@ -168,6 +206,7 @@ export const getAllProducts = createServerFn({
 				product: p,
 				categories:
 					p.productCategories?.map((pc) => pc.category).filter(Boolean) || [],
+				stores: p.productStores?.map((ps) => ps.store).filter(Boolean) || [],
 			})),
 			rowCount: totalCount,
 		};
@@ -197,16 +236,14 @@ const updateProductSchema = z.object({
 	brand: z.string().min(1, "Brand is required"),
 	categoryIds: z.array(z.string()).min(1, "At least one category is required"),
 	ingredientIds: z.array(z.string()).optional(),
-	score: z
-		.enum(["gold", "silver", "bronze", "none", "rejected"])
-		.default("none"),
+	score: z.enum(["gold", "silver", "bronze", "none"]).default("none"),
 	status: z
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),
 	rawIngredientsText: z.string().optional(),
 	imageFrontUrl: z.string().optional(),
 	imageBackUrl: z.string().optional(),
-	storeIds: z.array(z.string()).optional(),
+	storeIds: z.array(z.string()).min(1, "At least one store is required"),
 });
 
 export const updateProduct = createServerFn({
@@ -215,6 +252,10 @@ export const updateProduct = createServerFn({
 	.validator((data: z.infer<typeof updateProductSchema>) => data)
 	.handler(async ({ data }) => {
 		await ensureSession();
+
+		if (!data.storeIds || data.storeIds.length === 0) {
+			throw new Error("At least one store is required.");
+		}
 
 		const [updatedProduct] = await db
 			.update(products)
@@ -398,6 +439,7 @@ export const getProductAlternatives = createServerFn({
 			name: alt.name,
 			imageFrontUrl: alt.imageFrontUrl,
 			storeName: alt.productStores?.[0]?.store?.name || null,
+			stores: alt.productStores?.map((ps) => ps.store).filter(Boolean) || [],
 			ingredientIds: alt.productIngredients?.map((pi) => pi.ingredientId) || [],
 		}));
 	});

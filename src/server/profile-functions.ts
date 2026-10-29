@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "#/db";
 import {
@@ -72,19 +72,38 @@ export const getUserFavoriteProducts = createServerFn({
 }).handler(async () => {
 	const session = await ensureSession();
 
-	const favorites = await db
+	const favRows = await db
 		.select({
-			id: products.id,
-			name: products.name,
-			imageFrontUrl: products.imageFrontUrl,
-			brand: products.brand,
-			score: products.score,
+			productId: userFavoriteProducts.productId,
 		})
 		.from(userFavoriteProducts)
-		.innerJoin(products, eq(userFavoriteProducts.productId, products.id))
 		.where(eq(userFavoriteProducts.userId, session.user.id));
 
-	return favorites;
+	if (favRows.length === 0) return [];
+
+	const fullProducts = await db.query.products.findMany({
+		where: inArray(
+			products.id,
+			favRows.map((r) => r.productId),
+		),
+		with: {
+			productStores: {
+				with: { store: true },
+			},
+			productIngredients: true,
+		},
+	});
+
+	return fullProducts.map((p) => ({
+		id: p.id,
+		name: p.name,
+		brand: p.brand,
+		score: p.score,
+		imageFrontUrl: p.imageFrontUrl,
+		storeName: p.productStores?.[0]?.store?.name || null,
+		stores: p.productStores?.map((ps) => ps.store).filter(Boolean) || [],
+		ingredientIds: p.productIngredients?.map((pi) => pi.ingredientId) || [],
+	}));
 });
 
 const toggleFavoriteProductSchema = z.object({
