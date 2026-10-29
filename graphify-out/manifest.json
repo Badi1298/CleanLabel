@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1792926008.1506977,
-    "seen": 1792926828.123827,
-    "ast_hash": "4977f5563a26eb6931ca6198376cf7bf",
+    "mtime": 1793267446.236009,
+    "seen": 1793267459.063412,
+    "ast_hash": "7942fe323822de30fcc1233da938f714",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
@@ -849,6 +849,12 @@
     "mtime": 1793023131.20476,
     "seen": 1793024591.7104158,
     "ast_hash": "2f7d2bb7c8ab86d5f2653cff13cb57fb",
+    "semantic_hash": ""
+  },
+  "public/images/categories/placeholder-groceries.svg": {
+    "mtime": 1793266990.1463487,
+    "seen": 1793267182.633526,
+    "ast_hash": "1b84bb7012504f414c588b46c16e62ce",
     "semantic_hash": ""
   }
 }
