@@ -8,7 +8,24 @@ import { ensureSession } from "./auth-functions";
 export const getStores = createServerFn({
 	method: "GET",
 }).handler(async () => {
-	return await db.select().from(stores).orderBy(stores.name);
+	return await db
+		.select({
+			id: stores.id,
+			name: stores.name,
+			logoUrl: stores.logoUrl,
+			productCount: sql<number>`count(distinct ${products.id})::int`,
+		})
+		.from(stores)
+		.leftJoin(productStores, eq(stores.id, productStores.storeId))
+		.leftJoin(
+			products,
+			and(
+				eq(productStores.productId, products.id),
+				eq(products.status, "approved"),
+			),
+		)
+		.groupBy(stores.id)
+		.orderBy(stores.name);
 });
 
 const addStoreSchema = z.object({

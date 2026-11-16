@@ -1,8 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Search, X } from "lucide-react";
 import { useState } from "react";
-import { Button } from "#/components/ui/button";
-import { Input } from "#/components/ui/input";
 import { cn } from "#/lib/utils";
 
 type SearchBarProps = {
@@ -99,18 +97,45 @@ export function SearchBar({
 	return (
 		<form
 			onSubmit={handleSearchSubmit}
-			className={cn("flex-1 flex items-center gap-2 relative", className)}
+			className={cn(
+				"flex items-center w-full rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#2C4035] shadow-[0_2px_10px_rgba(27,67,50,0.04)] h-11 md:h-12 overflow-hidden focus-within:ring-2 focus-within:ring-[#2D5A44]/35 focus-within:border-[#2D5A44] transition-all",
+				className,
+			)}
 		>
-			<Search className="absolute left-3 text-slate-400 w-5 h-5" />
-			<Input
+			<button
+				type="submit"
+				aria-label="Search"
+				className="pl-4 pr-2 h-full flex items-center justify-center text-[#687069] hover:text-[#1B4332] dark:text-[#9AA89E] dark:hover:text-[#FCE8C6] transition-colors cursor-pointer shrink-0"
+			>
+				<Search className="w-4.5 h-4.5" strokeWidth={2} aria-hidden="true" />
+			</button>
+
+			<input
+				type="search"
 				placeholder={placeholder}
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
-				className="pl-10 h-12 text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 border-none shadow-none text-md"
+				aria-label="Search products, brands, or ingredients"
+				className="flex-1 min-w-0 h-full bg-transparent text-sm md:text-[15px] text-[#1B3328] dark:text-[#EDF2EE] placeholder:text-[#7D857E] dark:placeholder:text-[#8E9B92] focus:outline-none pr-2 [&::-webkit-search-cancel-button]:hidden"
 			/>
-			<Button type="submit" size="lg" className="h-12 px-8 font-bold">
+
+			{searchQuery.length > 0 && (
+				<button
+					type="button"
+					onClick={() => setSearchQuery("")}
+					aria-label="Clear search"
+					className="p-1.5 mr-1 rounded-full text-[#7D857E] hover:text-[#1B3328] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer shrink-0"
+				>
+					<X className="w-4 h-4" />
+				</button>
+			)}
+
+			<button
+				type="submit"
+				className="inline-flex items-center justify-center mr-1.5 px-4 sm:px-5 h-8 md:h-9 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold tracking-wide hover:bg-[#245540] transition-colors cursor-pointer shrink-0"
+			>
 				Search
-			</Button>
+			</button>
 		</form>
 	);
 }

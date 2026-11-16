@@ -1,9 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Search, Store as StoreIcon } from "lucide-react";
+import { ChevronRight, Search, Sparkles, X } from "lucide-react";
 import { useState } from "react";
-import { Button } from "#/components/ui/button";
-import { Input } from "#/components/ui/input";
+import { CategoryBrowseCard } from "#/components/categories/category-browse-card";
+import { StoreAvatar } from "#/components/stores/store-avatar";
 import {
 	activeCategoriesQueryOptions,
 	categoriesQueryOptions,
@@ -28,12 +28,12 @@ function StoreCategoriesPage() {
 	const { data: activeCategoriesData } = useSuspenseQuery(
 		activeCategoriesQueryOptions(storeId),
 	);
-	
-	const activeCategoryIds = activeCategoriesData?.map(c => c.id);
+
+	const activeCategoryIds = activeCategoriesData?.map((c) => c.id);
 	const categoryCounts = new Map(
-		activeCategoriesData?.map(c => [c.id, c.count])
+		activeCategoriesData?.map((c) => [c.id, c.count]),
 	);
-	
+
 	const categories = allCategories?.filter((c) =>
 		activeCategoryIds?.includes(c.id),
 	);
@@ -41,7 +41,7 @@ function StoreCategoriesPage() {
 	const store = stores?.find((s) => s.id === storeId);
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const q = searchQuery.toLowerCase();
+	const q = searchQuery.trim().toLowerCase();
 
 	const topLevelCategories = categories?.filter((c) => !c.parentId) || [];
 	const visibleTopLevelCategories = topLevelCategories.filter((parentCat) => {
@@ -52,149 +52,153 @@ function StoreCategoriesPage() {
 		return parentMatches || hasMatchingSubcat;
 	});
 
-	const handleSearchSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-	};
-
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20">
-			{/* Top Bar with Search */}
-			<div className="bg-white dark:bg-slate-900 shadow-sm sticky top-0 z-20">
-				<div className="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-2">
-					<div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-						<div className="flex items-center gap-2 text-slate-500 text-sm">
-							<Link
-								to="/stores"
-								className="font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
-							>
-								Stores
-							</Link>
-							<span>/</span>
-							<div className="flex items-center gap-2">
-								{store?.logoUrl ? (
-									<img
-										src={store.logoUrl}
-										alt={store.name}
-										className="w-5 h-5 rounded-full"
-									/>
-								) : (
-									<StoreIcon className="w-4 h-4 text-slate-500" />
-								)}
-								<span className="font-medium text-slate-900 dark:text-white">
-									{store?.name || "Store"}
-								</span>
-							</div>
+		<div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0E1612] pb-20">
+			{/* Sticky Warm Breadcrumb & Category Filter Header */}
+			<div className="bg-[#FDFBF7]/95 dark:bg-[#131F19]/95 backdrop-blur-md border-b border-[#EAE4D7] dark:border-[#24362D] sticky top-0 md:top-16 z-30">
+				<div className="max-w-5xl mx-auto px-4 md:px-6 py-3.5 md:py-4 flex flex-col gap-3">
+					<nav
+						aria-label="Breadcrumb"
+						className="flex items-center gap-2 text-sm min-w-0"
+					>
+						<Link
+							to="/stores"
+							className="font-semibold text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#FCE8C6] transition-colors shrink-0"
+						>
+							Stores
+						</Link>
+						<ChevronRight
+							className="w-4 h-4 text-[#9AA09A] shrink-0"
+							aria-hidden="true"
+						/>
+						<div className="flex items-center gap-2 min-w-0">
+							<StoreAvatar
+								name={store?.name || "Store"}
+								logoUrl={store?.logoUrl}
+								size="xs"
+							/>
+							<span className="font-bold text-[#1B3328] dark:text-[#FBF4E6] truncate">
+								{store?.name || "Store"}
+							</span>
 						</div>
-					</div>
+					</nav>
 
 					<form
-						onSubmit={handleSearchSubmit}
-						className="flex-1 flex items-center gap-2 relative"
+						onSubmit={(e) => e.preventDefault()}
+						className="flex items-center w-full rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#2C4035] shadow-[0_2px_10px_rgba(27,67,50,0.04)] h-11 md:h-12 overflow-hidden focus-within:ring-2 focus-within:ring-[#2D5A44]/35 focus-within:border-[#2D5A44] transition-all"
 					>
-						<Search className="absolute left-3 text-slate-400 w-5 h-5" />
-						<Input
-							placeholder="Search categories..."
+						<span className="pl-4 pr-2.5 flex items-center justify-center text-[#687069] dark:text-[#9AA89E] shrink-0">
+							<Search
+								className="w-4.5 h-4.5"
+								strokeWidth={2}
+								aria-hidden="true"
+							/>
+						</span>
+						<input
+							type="search"
+							placeholder={`Search categories in ${store?.name || "store"}...`}
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
-							className="pl-10 h-12 text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-800 border-none shadow-none text-md"
+							aria-label="Search categories"
+							className="flex-1 min-w-0 h-full bg-transparent text-sm md:text-[15px] text-[#1B3328] dark:text-[#EDF2EE] placeholder:text-[#7D857E] dark:placeholder:text-[#8E9B92] focus:outline-none pr-3 [&::-webkit-search-cancel-button]:hidden"
 						/>
-						<Button
-							type="button"
-							onClick={() => setSearchQuery("")}
-							variant="ghost"
-							size="lg"
-							className="h-12 px-4 font-bold text-slate-500"
-						>
-							Clear
-						</Button>
+						{searchQuery.length > 0 && (
+							<button
+								type="button"
+								onClick={() => setSearchQuery("")}
+								aria-label="Clear category search"
+								className="p-2 mr-1.5 rounded-full text-[#7D857E] hover:text-[#1B3328] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer shrink-0"
+							>
+								<X className="w-4 h-4" />
+							</button>
+						)}
 					</form>
 				</div>
 			</div>
 
-			<main className="max-w-6xl mx-auto px-4 py-8">
-				<section>
-					<div className="space-y-6">
-						{visibleTopLevelCategories.map((parentCat) => {
-							const subcats =
-								categories?.filter((c) => c.parentId === parentCat.id) || [];
-							const visibleSubcats = subcats.filter(
-								(c) =>
-									parentCat.name.toLowerCase().includes(q) ||
-									c.name.toLowerCase().includes(q),
-							);
-
-							return (
-								<div
-									key={parentCat.id}
-									className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden"
-								>
-									{/* Parent Category Header */}
-									<Button
-										variant="ghost"
-										className="w-full h-auto rounded-none p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors font-normal"
-										onClick={() =>
-											navigate({ to: `/stores/${storeId}/${parentCat.id}` })
-										}
-									>
-										<div className="flex items-center gap-4">
-											{parentCat.iconUrl ? (
-												<img
-													src={parentCat.iconUrl}
-													alt={parentCat.name}
-													className="w-12 h-12 object-cover rounded-full bg-slate-100 dark:bg-slate-800"
-												/>
-											) : (
-												<div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-													<StoreIcon className="w-6 h-6 text-slate-500" />
-												</div>
-											)}
-											<h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
-												{parentCat.name}
-											</h3>
-											<span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold px-2 py-1 rounded-full">
-												{categoryCounts.get(parentCat.id) || 0}
-											</span>
-										</div>
-										<div className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50 h-9 px-3">
-											View All {parentCat.name}
-										</div>
-									</Button>
-
-									{/* Subcategories */}
-									{visibleSubcats.length > 0 && (
-										<div className="p-4 bg-slate-50/50 dark:bg-slate-950/50">
-											<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-												{visibleSubcats.map((subcat) => (
-													<Button
-														key={subcat.id}
-														variant="outline"
-														className="justify-start h-auto py-3 px-4 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all bg-white dark:bg-slate-900"
-														onClick={(e) => {
-															e.stopPropagation();
-															navigate({
-																to: `/stores/${storeId}/${subcat.id}`,
-															});
-														}}
-													>
-														<span className="truncate">{subcat.name}</span>
-														<span className="ml-auto bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold px-2 py-0.5 rounded-full">
-															{categoryCounts.get(subcat.id) || 0}
-														</span>
-													</Button>
-												))}
-											</div>
-										</div>
-									)}
-								</div>
-							);
-						})}
-
-						{visibleTopLevelCategories.length === 0 && (
-							<div className="text-center py-10 text-slate-500">
-								No categories found matching "{searchQuery}"
-							</div>
+			<main className="max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-8">
+				<section aria-labelledby="store-categories-heading">
+					<div className="flex items-baseline justify-between gap-3 mb-5">
+						<div>
+							<h1
+								id="store-categories-heading"
+								className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] [text-wrap:balance]"
+							>
+								{store?.name || "Store"} Aisles
+							</h1>
+							<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
+								Browse available categories and subcategories at{" "}
+								{store?.name || "this store"}
+							</p>
+						</div>
+						{visibleTopLevelCategories.length > 0 && (
+							<span className="inline-flex items-center rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
+								{visibleTopLevelCategories.length}{" "}
+								{visibleTopLevelCategories.length === 1
+									? "category"
+									: "categories"}
+							</span>
 						)}
 					</div>
+
+					{visibleTopLevelCategories.length > 0 ? (
+						<div className="space-y-4">
+							{visibleTopLevelCategories.map((parentCat, index) => {
+								const subcats =
+									categories?.filter((c) => c.parentId === parentCat.id) || [];
+								const visibleSubcats = subcats
+									.filter(
+										(c) =>
+											parentCat.name.toLowerCase().includes(q) ||
+											c.name.toLowerCase().includes(q),
+									)
+									.map((subcat) => ({
+										id: subcat.id,
+										name: subcat.name,
+										count: categoryCounts.get(subcat.id) || 0,
+									}));
+
+								return (
+									<CategoryBrowseCard
+										key={parentCat.id}
+										category={parentCat}
+										productCount={categoryCounts.get(parentCat.id) || 0}
+										subcategories={visibleSubcats}
+										paletteIndex={index}
+										onSelectCategory={() =>
+											navigate({ to: `/stores/${storeId}/${parentCat.id}` })
+										}
+										onSelectSubcategory={(subcatId) =>
+											navigate({ to: `/stores/${storeId}/${subcatId}` })
+										}
+									/>
+								);
+							})}
+						</div>
+					) : (
+						<div className="text-center py-16 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)]">
+							<div className="w-12 h-12 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] flex items-center justify-center mx-auto mb-3">
+								<Sparkles className="w-5 h-5" aria-hidden="true" />
+							</div>
+							<h2 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
+								No categories found
+							</h2>
+							<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1">
+								{searchQuery
+									? `No categories match "${searchQuery}" at ${store?.name || "this store"}.`
+									: `No scored products have been added for ${store?.name || "this store"} yet.`}
+							</p>
+							{searchQuery && (
+								<button
+									type="button"
+									onClick={() => setSearchQuery("")}
+									className="mt-5 inline-flex items-center px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors cursor-pointer"
+								>
+									Clear search
+								</button>
+							)}
+						</div>
+					)}
 				</section>
 			</main>
 		</div>
