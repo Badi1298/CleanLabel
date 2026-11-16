@@ -81,7 +81,7 @@ function Home() {
 	return (
 		<div className="bg-[#FAF8F5] dark:bg-[#0E1612]">
 			{/* Deep Botanical Forest Hero */}
-			<section className="relative overflow-hidden bg-[#1B4332] text-[#FBF4E6] rounded-b-[2rem] md:rounded-b-[2.5rem] shadow-[0_12px_32px_rgba(27,67,50,0.16)]">
+			<section className="relative overflow-hidden bg-[#1B4332] text-[#FBF4E6] rounded-b-4xl md:rounded-b-[2.5rem] shadow-[0_12px_32px_rgba(27,67,50,0.16)]">
 				{/* Subtle warm sunlit radial highlight */}
 				<div
 					className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,244,230,0.1),transparent_58%)]"
@@ -126,7 +126,7 @@ function Home() {
 												strokeWidth={2}
 												aria-hidden="true"
 											/>
-											<span className="hidden sm:inline max-w-[110px] truncate">
+											<span className="hidden sm:inline max-w-27.5 truncate">
 												{selectedStore ? selectedStore.name : "All stores"}
 											</span>
 											{selectedStore && (
@@ -255,11 +255,11 @@ function Home() {
 											q: category.name,
 											...(storeId ? { storeId } : {}),
 										}}
-										className="group snap-start shrink-0 w-[86px] md:w-auto flex flex-col items-center gap-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] rounded-2xl"
+										className="group snap-start shrink-0 w-21.5 md:w-auto flex flex-col items-center gap-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] rounded-2xl"
 									>
 										<div
 											className={cn(
-												"w-[84px] h-[84px] md:w-24 md:h-24 rounded-full flex items-center justify-center border transition-all duration-200 group-hover:scale-105 group-hover:shadow-sm",
+												"w-21 h-21 md:w-24 md:h-24 rounded-full flex items-center justify-center border transition-all duration-200 group-hover:scale-105 group-hover:shadow-sm",
 												palette.bg,
 												palette.border,
 											)}
@@ -267,7 +267,7 @@ function Home() {
 											<img
 												src={imageSrc}
 												alt={category.name}
-												className="w-16 h-16 md:w-[72px] md:h-[72px] object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-200"
+												className="w-16 h-16 md:w-18 md:h-18 object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-200"
 												loading="lazy"
 											/>
 										</div>
@@ -326,7 +326,7 @@ function Home() {
 							{data.recentProducts.map((product) => (
 								<div
 									key={product.id}
-									className="w-[45vw] min-w-[166px] max-w-[205px] shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none"
+									className="w-[45vw] min-w-41.5 max-w-51.25 shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none"
 								>
 									<ProductCard product={product} />
 								</div>
@@ -364,7 +364,7 @@ function Home() {
 							{data.stores.map((store) => (
 								<div
 									key={store.id}
-									className="w-[44vw] min-w-[162px] max-w-[196px] shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none"
+									className="w-[44vw] min-w-40.5 max-w-49 shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none"
 								>
 									<StoreCard store={store} />
 								</div>

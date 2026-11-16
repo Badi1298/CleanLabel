@@ -31,7 +31,7 @@ function StoresIndexPage() {
 
 				<div className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-8 pb-6 md:pt-10 md:pb-8">
 					<div className="max-w-2xl">
-						<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-[#FCE8C6] [text-wrap:balance]">
+						<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-[#FCE8C6] text-balance">
 							Available Stores
 						</h1>
 						<p className="mt-1.5 text-sm md:text-base text-[#FCE8C6]/80 font-medium">

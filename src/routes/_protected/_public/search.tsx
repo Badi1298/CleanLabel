@@ -181,7 +181,7 @@ function SearchPage() {
 								<SelectTrigger
 									aria-label="Filter by score"
 									className={cn(
-										"w-full sm:w-auto sm:min-w-[132px] h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
+										"w-full sm:w-auto sm:min-w-33 h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
 										searchParams.score
 											? activeTriggerStyle
 											: inactiveTriggerStyle,
@@ -207,7 +207,7 @@ function SearchPage() {
 								<SelectTrigger
 									aria-label="Filter by store"
 									className={cn(
-										"w-full sm:w-auto sm:min-w-[140px] h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
+										"w-full sm:w-auto sm:min-w-35 h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
 										searchParams.storeId
 											? activeTriggerStyle
 											: inactiveTriggerStyle,
@@ -259,7 +259,7 @@ function SearchPage() {
 												<SelectTrigger
 													aria-label="Filter by category"
 													className={cn(
-														"col-span-2 w-full sm:col-span-1 sm:w-auto sm:min-w-[170px] sm:max-w-[230px] h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
+														"col-span-2 w-full sm:col-span-1 sm:w-auto sm:min-w-42.5 sm:max-w-57.5 h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
 														activeTriggerStyle,
 													)}
 												>
@@ -400,7 +400,7 @@ function SearchPage() {
 							<div>
 								<h1
 									id="browse-categories-heading"
-									className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] [text-wrap:balance]"
+									className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] text-balance"
 								>
 									Browse Categories
 								</h1>
