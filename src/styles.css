@@ -183,6 +183,43 @@ body {
   }
 }
 
+/* Native <dialog> modal scroll containment */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* Native <details>/<summary> profile disclosures */
+.profile-accordion summary {
+  list-style: none;
+}
+
+.profile-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.profile-accordion details::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  contain: layout;
+}
+
+.profile-accordion details:not([open])::details-content {
+  block-size: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .profile-accordion details::details-content {
+    transition:
+      block-size 0.28s ease-in-out,
+      content-visibility 0.28s ease-in-out allow-discrete;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

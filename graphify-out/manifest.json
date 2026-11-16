@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1794837292.790836,
-    "seen": 1794837309.570123,
-    "ast_hash": "2780c4c80e676d29c67cb7a71cf54dba",
+    "mtime": 1794837433.5741823,
+    "seen": 1794837481.2339652,
+    "ast_hash": "64b6c9019499b90545cf594762d7867b",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1794831181.3720403,
-    "seen": 1794831233.159589,
-    "ast_hash": "8a7fe79fe9cd098befb0cbba7a109ef8",
+    "mtime": 1794840816.5408912,
+    "seen": 1794840829.003374,
+    "ast_hash": "e6c7e50783ff59c29088ab4c275ddc78",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
-    "mtime": 1794837134.173537,
-    "seen": 1794837309.570127,
-    "ast_hash": "2d1c3cce5d2b552614b7ebb35dbee0d3",
+    "mtime": 1794837454.5001922,
+    "seen": 1794837481.233969,
+    "ast_hash": "e5c3877ef882ab35f9e3ac3809475001",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores/$storeId/$categoryId.tsx": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores/index.tsx": {
-    "mtime": 1794837289.0656295,
-    "seen": 1794837309.570129,
-    "ast_hash": "e1f8ef1f717978f01ad5c0f9765876cf",
+    "mtime": 1794837441.6231153,
+    "seen": 1794837481.23397,
+    "ast_hash": "f06df81f3c2b516639f50810a662ce2b",
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/add-product.tsx": {
@@ -792,9 +792,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/favorites.tsx": {
-    "mtime": 1794831181.366917,
-    "seen": 1794831233.1595871,
-    "ast_hash": "e4ae0fdaf1fb5299ca1bb07707bf8d14",
+    "mtime": 1794840836.8965573,
+    "seen": 1794840859.613919,
+    "ast_hash": "6d159eff3c3d2ce9ab0acdebb361f990",
     "semantic_hash": ""
   },
   "src/components/Onboarding.tsx": {
