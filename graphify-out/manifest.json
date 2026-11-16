@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "src/components/home/product-card.tsx": {
-    "mtime": 1794831181.3613083,
-    "seen": 1794831233.159555,
-    "ast_hash": "ca2f75f23f28047a990dd0363cead438",
+    "mtime": 1794834334.2559707,
+    "seen": 1794834377.865695,
+    "ast_hash": "808f78e482af86fadd1d0162267c7c4c",
     "semantic_hash": ""
   },
   "src/components/search-form.tsx": {
@@ -102,9 +102,9 @@
     "semantic_hash": ""
   },
   "src/components/search/search-bar.tsx": {
-    "mtime": 1789393544.1544917,
-    "seen": 1790925917.061785,
-    "ast_hash": "c6abbd6c571689f74be12c8cb4e000ad",
+    "mtime": 1794834335.2708893,
+    "seen": 1794834377.865696,
+    "ast_hash": "b2c64423ff9fdbc01649d07245bbf38b",
     "semantic_hash": ""
   },
   "src/components/ui/badge.tsx": {
@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1794831181.3702292,
-    "seen": 1794831233.1595871,
-    "ast_hash": "7942fe323822de30fcc1233da938f714",
+    "mtime": 1794834354.110136,
+    "seen": 1794834377.865729,
+    "ast_hash": "5e1901dc7a545fd6d1f2eb5755876794",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
@@ -372,9 +372,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
-    "mtime": 1794831181.3724275,
-    "seen": 1794831233.15959,
-    "ast_hash": "8e2066852ae613e2604c0a62c015b320",
+    "mtime": 1794834351.3989708,
+    "seen": 1794834377.865731,
+    "ast_hash": "cfe3c6db9c0027e65a7090b62227c1a0",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
@@ -468,9 +468,9 @@
     "semantic_hash": ""
   },
   "src/server/product-functions.ts": {
-    "mtime": 1794831181.3895311,
-    "seen": 1794831233.159604,
-    "ast_hash": "2ae7d7d7a5712a21b5aec047f82f7a6e",
+    "mtime": 1794834341.2819624,
+    "seen": 1794834377.865747,
+    "ast_hash": "c49e969bd196bf4a45ff333e751af828",
     "semantic_hash": ""
   },
   "src/server/search-functions.ts": {
@@ -855,6 +855,18 @@
     "mtime": 1794831181.3491988,
     "seen": 1794831233.15962,
     "ast_hash": "1b84bb7012504f414c588b46c16e62ce",
+    "semantic_hash": ""
+  },
+  "src/components/home/category-icon.tsx": {
+    "mtime": 1794834333.1195085,
+    "seen": 1794834377.865694,
+    "ast_hash": "f311d23c30a30f5c765a384c1c52da88",
+    "semantic_hash": ""
+  },
+  "src/components/ui/score-badge.tsx": {
+    "mtime": 1794834336.4356067,
+    "seen": 1794834377.865705,
+    "ast_hash": "b47976b3569c072c3de39aa4838969e2",
     "semantic_hash": ""
   }
 }

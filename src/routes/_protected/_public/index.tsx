@@ -1,49 +1,45 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Store as StoreIcon } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Check, SlidersHorizontal, Store as StoreIcon, X } from "lucide-react";
+import { useState } from "react";
 
 import { ProductCard } from "#/components/home/product-card";
 import { SearchBar } from "#/components/search/search-bar";
-import { Button } from "#/components/ui/button";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "#/components/ui/select";
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "#/components/ui/popover";
 import { cn } from "#/lib/utils";
 import { homeQueryOptions } from "#/queries/home-queries";
 
-// Soft pastel palettes for category backdrops matching modern grocery app styles
 const CATEGORY_PALETTES = [
 	{
 		bg: "bg-emerald-50 dark:bg-emerald-950/40",
-		border: "border-emerald-100 dark:border-emerald-900/30",
+		border: "border-emerald-200/70 dark:border-emerald-900/40",
 	},
 	{
 		bg: "bg-amber-50 dark:bg-amber-950/40",
-		border: "border-amber-100 dark:border-amber-900/30",
+		border: "border-amber-200/70 dark:border-amber-900/40",
 	},
 	{
 		bg: "bg-rose-50 dark:bg-rose-950/40",
-		border: "border-rose-100 dark:border-rose-900/30",
+		border: "border-rose-200/70 dark:border-rose-900/40",
 	},
 	{
 		bg: "bg-sky-50 dark:bg-sky-950/40",
-		border: "border-sky-100 dark:border-sky-900/30",
+		border: "border-sky-200/70 dark:border-sky-900/40",
 	},
 	{
 		bg: "bg-purple-50 dark:bg-purple-950/40",
-		border: "border-purple-100 dark:border-purple-900/30",
+		border: "border-purple-200/70 dark:border-purple-900/40",
 	},
 	{
 		bg: "bg-orange-50 dark:bg-orange-950/40",
-		border: "border-orange-100 dark:border-orange-900/30",
+		border: "border-orange-200/70 dark:border-orange-900/40",
 	},
 ];
 
-// Default placeholder image for categories
 const DEFAULT_CATEGORY_PLACEHOLDER =
 	"/images/categories/placeholder-groceries.svg";
 
@@ -62,12 +58,16 @@ export const Route = createFileRoute("/_protected/_public/")({
 function Home() {
 	const navigate = useNavigate();
 	const { storeId } = Route.useSearch();
+	const [isStoreFilterOpen, setIsStoreFilterOpen] = useState(false);
 
 	const { data } = useSuspenseQuery({
 		...homeQueryOptions(storeId),
 	});
 
+	const selectedStore = data?.stores?.find((s) => s.id === storeId);
+
 	const handleStoreSelect = (newStoreId: string) => {
+		setIsStoreFilterOpen(false);
 		navigate({
 			to: "/",
 			search: { storeId: newStoreId === "all" ? undefined : newStoreId },
@@ -77,74 +77,172 @@ function Home() {
 	};
 
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-			{/* Hero Section */}
-			<section className="bg-indigo-600 dark:bg-indigo-900 text-white pt-20 pb-16 px-4 rounded-b-[3rem] shadow-lg relative overflow-hidden">
-				<div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/food.png')] opacity-10"></div>
-				<div className="max-w-4xl mx-auto relative z-10 text-center space-y-6">
-					<h1 className="text-5xl font-extrabold tracking-tight">
-						Make <span className="text-yellow-300">Clean</span> Choices
-					</h1>
-					<p className="text-lg text-indigo-100 max-w-2xl mx-auto">
-						Discover the healthiest products based on our transparent scoring
-						system.
-					</p>
+		<div className="bg-[#FAF8F5] dark:bg-[#0E1612]">
+			{/* Deep Botanical Forest Hero */}
+			<section className="relative overflow-hidden bg-[#1B4332] text-[#FBF4E6] rounded-b-[2rem] md:rounded-b-[2.5rem] shadow-[0_12px_32px_rgba(27,67,50,0.16)]">
+				{/* Subtle warm sunlit radial highlight */}
+				<div
+					className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,244,230,0.1),transparent_58%)]"
+					aria-hidden="true"
+				/>
 
-					<div className="mt-8 max-w-2xl mx-auto bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-xl flex flex-col sm:flex-row gap-4">
-						<SearchBar />
+				<div className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-10 pb-7 md:pt-12 md:pb-10">
+					<div className="max-w-2xl">
+						<h1 className="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] font-extrabold tracking-tight leading-[1.03] text-[#FCE8C6]">
+							Make Clean
+							<br className="sm:hidden" /> Choices
+						</h1>
+						<p className="hidden sm:block mt-3 text-sm md:text-base text-[#FCE8C6]/80 font-medium max-w-xl">
+							Discover cleaner everyday groceries backed by transparent
+							ingredient scoring.
+						</p>
 					</div>
 
-					<div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-indigo-100">
-						<span className="text-sm font-medium">
-							Or browse by your favorite store:
-						</span>
-						<div className="w-full sm:w-auto">
-							<Select
-								value={storeId || "all"}
-								onValueChange={handleStoreSelect}
-							>
-								<SelectTrigger className="w-full sm:w-55 bg-white text-slate-900 border-none h-12 shadow-md hover:bg-slate-50 transition-colors">
-									<div className="flex items-center gap-2">
-										<StoreIcon className="w-4 h-4 text-slate-500" />
-										<SelectValue placeholder="Select Store" />
-									</div>
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="all">All Stores</SelectItem>
-									{data?.stores?.map((store) => (
-										<SelectItem key={store.id} value={store.id}>
-											{store.name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</div>
+					{/* Integrated Search & Store Filter Bar */}
+					<div className="mt-5 md:mt-6 max-w-2xl">
+						<SearchBar
+							variant="hero"
+							placeholder="Search products, brands..."
+							trailingSlot={
+								<Popover
+									open={isStoreFilterOpen}
+									onOpenChange={setIsStoreFilterOpen}
+								>
+									<PopoverTrigger asChild>
+										<button
+											type="button"
+											aria-label="Filter categories by store"
+											className={cn(
+												"relative h-full px-3.5 sm:px-4 flex items-center gap-2 text-xs font-semibold transition-colors cursor-pointer shrink-0 focus:outline-none focus-visible:bg-[#FAF8F5]",
+												selectedStore
+													? "text-[#1B4332] bg-[#FAF8F5] dark:bg-[#1E2E26] dark:text-[#CBE3D4]"
+													: "text-[#4A554E] hover:text-[#1B4332] hover:bg-[#FAF8F5] dark:text-[#9AA89E] dark:hover:bg-[#1E2E26]",
+											)}
+										>
+											<SlidersHorizontal
+												className="w-4 h-4 shrink-0"
+												strokeWidth={2}
+												aria-hidden="true"
+											/>
+											<span className="hidden sm:inline max-w-[110px] truncate">
+												{selectedStore ? selectedStore.name : "All stores"}
+											</span>
+											{selectedStore && (
+												<span
+													className="sm:hidden absolute top-2 right-2.5 w-2 h-2 rounded-full bg-[#A67C37] ring-2 ring-white"
+													aria-hidden="true"
+												/>
+											)}
+										</button>
+									</PopoverTrigger>
+									<PopoverContent
+										align="end"
+										sideOffset={8}
+										className="w-60 p-1.5 rounded-2xl border border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C] shadow-xl"
+									>
+										<div className="px-2.5 py-2 border-b border-[#F3EFE6] dark:border-[#24362D] mb-1">
+											<p className="text-[11px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
+												Filter by store
+											</p>
+										</div>
+										<div className="max-h-64 overflow-y-auto space-y-0.5">
+											<button
+												type="button"
+												onClick={() => handleStoreSelect("all")}
+												className={cn(
+													"w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-sm font-medium transition-colors cursor-pointer text-left",
+													!storeId
+														? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] font-semibold"
+														: "text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26]",
+												)}
+											>
+												<span className="flex items-center gap-2">
+													<StoreIcon className="w-4 h-4 opacity-70" />
+													<span>All Stores</span>
+												</span>
+												{!storeId && <Check className="w-4 h-4 shrink-0" />}
+											</button>
+											{data?.stores?.map((store) => {
+												const isSelected = storeId === store.id;
+												return (
+													<button
+														key={store.id}
+														type="button"
+														onClick={() => handleStoreSelect(store.id)}
+														className={cn(
+															"w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-sm font-medium transition-colors cursor-pointer text-left",
+															isSelected
+																? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] font-semibold"
+																: "text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26]",
+														)}
+													>
+														<span className="flex items-center gap-2 min-w-0">
+															{store.logoUrl ? (
+																<img
+																	src={store.logoUrl}
+																	alt=""
+																	className="w-4 h-4 rounded-full object-cover shrink-0"
+																/>
+															) : (
+																<StoreIcon className="w-4 h-4 opacity-70 shrink-0" />
+															)}
+															<span className="truncate">{store.name}</span>
+														</span>
+														{isSelected && (
+															<Check className="w-4 h-4 shrink-0" />
+														)}
+													</button>
+												);
+											})}
+										</div>
+									</PopoverContent>
+								</Popover>
+							}
+						/>
+
+						{/* Active Store Filter Pill */}
+						{selectedStore && (
+							<div className="mt-3 flex items-center gap-2">
+								<span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF4E6]/15 border border-[#FBF4E6]/25 px-3 py-1 text-xs font-medium text-[#FBF4E6]">
+									<StoreIcon className="w-3.5 h-3.5" aria-hidden="true" />
+									<span>Store: {selectedStore.name}</span>
+									<button
+										type="button"
+										onClick={() => handleStoreSelect("all")}
+										aria-label="Clear store filter"
+										className="ml-0.5 rounded-full p-0.5 hover:bg-[#FBF4E6]/20 transition-colors cursor-pointer"
+									>
+										<X className="w-3 h-3" />
+									</button>
+								</span>
+							</div>
+						)}
 					</div>
 				</div>
 			</section>
 
 			{/* Main Content */}
-			<main className="max-w-6xl mx-auto px-4 py-12 space-y-16">
-				{/* Popular Categories Section */}
-				<section>
-					<div className="flex items-center justify-between mb-8">
-						<h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-							Popular Categories
-						</h2>
-						<Button
-							variant="outline"
-							onClick={() =>
-								navigate({
-									to: "/search",
-									search: { q: "", ...(storeId ? { storeId } : {}) },
-								})
-							}
+			<main className="max-w-5xl mx-auto px-4 md:px-6 py-7 md:py-10 space-y-8 md:space-y-12">
+				{/* Categories Section */}
+				<section aria-labelledby="categories-heading">
+					<div className="flex items-baseline justify-between mb-4 md:mb-5">
+						<h2
+							id="categories-heading"
+							className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 						>
-							See All
-						</Button>
+							Categories
+						</h2>
+						<Link
+							to="/search"
+							search={{ ...(storeId ? { storeId } : {}) }}
+							className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+						>
+							See all
+						</Link>
 					</div>
+
 					{data?.popularCategories && data.popularCategories.length > 0 ? (
-						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+						<div className="flex gap-3.5 overflow-x-auto no-scrollbar -mx-4 px-4 scroll-px-4 pb-1 snap-x snap-proximity md:mx-0 md:px-0 md:scroll-px-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-6 md:gap-4">
 							{data.popularCategories.map((category, index) => {
 								const palette =
 									CATEGORY_PALETTES[index % CATEGORY_PALETTES.length];
@@ -152,74 +250,147 @@ function Home() {
 									category.iconUrl || DEFAULT_CATEGORY_PLACEHOLDER;
 
 								return (
-									<button
+									<Link
 										key={category.id}
-										type="button"
-										onClick={() =>
-											navigate({
-												to: "/search",
-												search: {
-													q: category.name,
-													...(storeId ? { storeId } : {}),
-												},
-											})
-										}
-										className="group relative flex flex-col items-center justify-between p-4 h-full min-h-43.75 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer text-center outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+										to="/search"
+										search={{
+											q: category.name,
+											...(storeId ? { storeId } : {}),
+										}}
+										className="group snap-start shrink-0 w-[86px] md:w-auto flex flex-col items-center gap-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] rounded-2xl"
 									>
-										{/* Soft pastel circular backdrop with descriptive image */}
-										<div className="relative mb-3 flex items-center justify-center">
-											<div
-												className={cn(
-													"w-20 h-20 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105 border",
-													palette.bg,
-													palette.border,
-												)}
-											>
-												<img
-													src={imageSrc}
-													alt={category.name}
-													className="w-16 h-16 object-contain drop-shadow-sm group-hover:scale-110 transition-transform duration-300"
-													loading="lazy"
-												/>
-											</div>
+										<div
+											className={cn(
+												"w-[84px] h-[84px] md:w-24 md:h-24 rounded-full flex items-center justify-center border transition-all duration-200 group-hover:scale-105 group-hover:shadow-sm",
+												palette.bg,
+												palette.border,
+											)}
+										>
+											<img
+												src={imageSrc}
+												alt={category.name}
+												className="w-16 h-16 md:w-[72px] md:h-[72px] object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-200"
+												loading="lazy"
+											/>
 										</div>
-
-										{/* Category Name & Count */}
-										<div className="flex flex-col items-center gap-1 w-full mt-auto">
-											<span className="font-semibold text-sm text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2 leading-snug">
+										<div className="flex flex-col items-center gap-0.5 w-full">
+											<span className="text-[13px] font-semibold text-[#1B3328] dark:text-[#EDF2EE] group-hover:text-[#1B4332] dark:group-hover:text-emerald-300 transition-colors line-clamp-2 leading-tight">
 												{category.name}
 											</span>
-											<span className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+											<span className="hidden md:block text-[11px] text-[#5C665E] dark:text-[#9AA89E] font-medium">
 												{category.productCount}{" "}
 												{category.productCount === 1 ? "product" : "products"}
 											</span>
 										</div>
-									</button>
+									</Link>
 								);
 							})}
+							<div className="w-0.5 shrink-0 md:hidden" aria-hidden="true" />
 						</div>
 					) : (
-						<div className="text-center py-12 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
-							<p className="text-slate-500 dark:text-slate-400 font-medium">
+						<div className="text-center py-10 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D]">
+							<p className="text-[#5C665E] dark:text-[#9AA89E] text-sm font-medium">
 								No categories found for this store.
 							</p>
+							{storeId && (
+								<button
+									type="button"
+									onClick={() => handleStoreSelect("all")}
+									className="mt-3 inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#E3EDE7] text-[#1B4332] text-xs font-semibold hover:bg-[#D5E5DC] transition-colors cursor-pointer"
+								>
+									Show all stores
+								</button>
+							)}
 						</div>
 					)}
 				</section>
 
 				{/* Recently Added Section */}
-				<section>
-					<div className="flex items-center justify-between mb-8">
-						<h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+				<section aria-labelledby="recent-heading">
+					<div className="flex items-baseline justify-between mb-4 md:mb-5">
+						<h2
+							id="recent-heading"
+							className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+						>
 							Recently Added
 						</h2>
+						<Link
+							to="/search"
+							search={{ ...(storeId ? { storeId } : {}) }}
+							className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+						>
+							Browse all
+						</Link>
 					</div>
-					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-						{data?.recentProducts?.map((product) => (
-							<ProductCard key={product.id} product={product} />
-						))}
-					</div>
+
+					{data?.recentProducts && data.recentProducts.length > 0 ? (
+						<div className="flex gap-3.5 overflow-x-auto no-scrollbar -mx-4 px-4 scroll-px-4 pb-2 snap-x snap-proximity md:mx-0 md:px-0 md:scroll-px-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-5">
+							{data.recentProducts.map((product) => (
+								<div
+									key={product.id}
+									className="w-[45vw] min-w-[166px] max-w-[205px] shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none"
+								>
+									<ProductCard product={product} />
+								</div>
+							))}
+							<div className="w-0.5 shrink-0 md:hidden" aria-hidden="true" />
+						</div>
+					) : (
+						<div className="text-center py-10 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D]">
+							<p className="text-[#5C665E] dark:text-[#9AA89E] text-sm font-medium">
+								No products added yet.
+							</p>
+						</div>
+					)}
 				</section>
+
+				{/* Browse by Store Section */}
+				{data?.stores && data.stores.length > 0 && (
+					<section aria-labelledby="stores-heading">
+						<div className="flex items-baseline justify-between mb-3.5 md:mb-4">
+							<h2
+								id="stores-heading"
+								className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+							>
+								Browse by Store
+							</h2>
+							<Link
+								to="/stores"
+								className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+							>
+								All stores
+							</Link>
+						</div>
+
+						<div className="flex gap-2.5 overflow-x-auto no-scrollbar -mx-4 px-4 scroll-px-4 pb-1 snap-x snap-proximity md:mx-0 md:px-0 md:scroll-px-0 md:pb-0 md:overflow-visible md:flex-wrap">
+							{data.stores.map((store) => (
+								<Link
+									key={store.id}
+									to="/stores/$storeId"
+									params={{ storeId: store.id }}
+									className="snap-start shrink-0 inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_6px_rgba(27,67,50,0.03)] hover:border-[#C9B382] hover:shadow-sm transition-all text-sm font-semibold text-[#1B3328] dark:text-[#EDF2EE]"
+								>
+									{store.logoUrl ? (
+										<img
+											src={store.logoUrl}
+											alt=""
+											className="w-6 h-6 rounded-full object-cover shrink-0 ring-1 ring-[#EAE4D7] dark:ring-[#24362D]"
+										/>
+									) : (
+										<span className="w-6 h-6 rounded-full bg-[#FBF4E6] dark:bg-[#1E261D] border border-[#EAE4D7] dark:border-[#2F3A2D] flex items-center justify-center shrink-0">
+											<StoreIcon
+												className="w-3.5 h-3.5 text-[#A67C37] dark:text-[#D4AF6A]"
+												aria-hidden="true"
+											/>
+										</span>
+									)}
+									<span>{store.name}</span>
+								</Link>
+							))}
+							<div className="w-0.5 shrink-0 md:hidden" aria-hidden="true" />
+						</div>
+					</section>
+				)}
 			</main>
 		</div>
 	);

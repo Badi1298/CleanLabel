@@ -437,6 +437,7 @@ export const getProductAlternatives = createServerFn({
 		return sortedAlternatives.map((alt) => ({
 			id: alt.id,
 			name: alt.name,
+			score: alt.score,
 			imageFrontUrl: alt.imageFrontUrl,
 			storeName: alt.productStores?.[0]?.store?.name || null,
 			stores: alt.productStores?.map((ps) => ps.store).filter(Boolean) || [],
