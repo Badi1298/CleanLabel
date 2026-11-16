@@ -53,7 +53,7 @@ function StoreCategoriesPage() {
 	});
 
 	return (
-		<div className="bg-[#FAF8F5] dark:bg-[#0E1612] pb-20">
+		<div className="bg-[#FAF8F5] dark:bg-[#0E1612]">
 			{/* Sticky Warm Breadcrumb & Category Filter Header */}
 			<div className="bg-[#FDFBF7]/95 dark:bg-[#131F19]/95 backdrop-blur-md border-b border-[#EAE4D7] dark:border-[#24362D] sticky top-0 md:top-16 z-30">
 				<div className="max-w-5xl mx-auto px-4 md:px-6 py-3.5 md:py-4 flex flex-col gap-3">

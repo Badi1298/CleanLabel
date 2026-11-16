@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-11-16)
 
 ## Corpus Check
-- 144 files · ~72,995 words
+- 144 files · ~72,997 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 

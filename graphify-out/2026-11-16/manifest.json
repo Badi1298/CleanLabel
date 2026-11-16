@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1794840816.5408912,
-    "seen": 1794840829.003374,
-    "ast_hash": "e6c7e50783ff59c29088ab4c275ddc78",
+    "mtime": 1794841486.0226607,
+    "seen": 1794841525.793601,
+    "ast_hash": "59f6d604a477f6bbfbecc2be048cfcd9",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
@@ -792,9 +792,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/favorites.tsx": {
-    "mtime": 1794840818.2760193,
-    "seen": 1794840829.003371,
-    "ast_hash": "5e0d26296dd47f5ac5ec52d23d303bb7",
+    "mtime": 1794840836.8965573,
+    "seen": 1794840859.613919,
+    "ast_hash": "6d159eff3c3d2ce9ab0acdebb361f990",
     "semantic_hash": ""
   },
   "src/components/Onboarding.tsx": {

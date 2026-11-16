@@ -21,7 +21,7 @@ function StoresIndexPage() {
 	);
 
 	return (
-		<div className="bg-[#FAF8F5] dark:bg-[#0E1612] pb-20">
+		<div className="bg-[#FAF8F5] dark:bg-[#0E1612]">
 			{/* Deep Botanical Forest Header */}
 			<section className="relative overflow-hidden bg-[#1B4332] text-[#FBF4E6] rounded-b-[1.75rem] md:rounded-b-[2.25rem] shadow-[0_12px_32px_rgba(27,67,50,0.16)]">
 				<div

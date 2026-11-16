@@ -14621,7 +14621,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L140",
+      "source_location": "L137",
       "weight": 1.0
     },
     {

@@ -174,7 +174,7 @@ export function CategoryBrowseCard({
 					</div>
 
 					<div className="min-w-0">
-						<h3 className="text-[16px] sm:text-[17px] font-bold tracking-tight text-[#1B3328] dark:text-[#EDF2EE] group-hover:text-[#1B4332] dark:group-hover:text-[#FCE8C6] transition-colors leading-snug [text-wrap:balance]">
+						<h3 className="text-[16px] sm:text-[17px] font-bold tracking-tight text-[#1B3328] dark:text-[#EDF2EE] group-hover:text-[#1B4332] dark:group-hover:text-[#FCE8C6] transition-colors leading-snug text-balance">
 							{category.name}
 						</h3>
 						<p className="text-xs font-medium text-[#5C665E] dark:text-[#9AA89E] mt-0.5 tabular-nums">
@@ -190,7 +190,7 @@ export function CategoryBrowseCard({
 					</div>
 				</div>
 
-				<span className="inline-flex items-center gap-1 rounded-full bg-[#FAF8F5] dark:bg-[#1E2C25] border border-[#EAE4D7] dark:border-[#2B3D33] px-3 py-1.5 min-h-[32px] text-xs font-semibold text-[#1B4332] dark:text-[#CBE3D4] group-hover:bg-[#E3EDE7] dark:group-hover:bg-[#1E3A2C] group-hover:border-[#C8DBD0] transition-colors shrink-0">
+				<span className="inline-flex items-center gap-1 rounded-full bg-[#FAF8F5] dark:bg-[#1E2C25] border border-[#EAE4D7] dark:border-[#2B3D33] px-3 py-1.5 min-h-8 text-xs font-semibold text-[#1B4332] dark:text-[#CBE3D4] group-hover:bg-[#E3EDE7] dark:group-hover:bg-[#1E3A2C] group-hover:border-[#C8DBD0] transition-colors shrink-0">
 					<span className="hidden sm:inline">View all</span>
 					<span className="sm:hidden">All</span>
 					<ChevronRight
@@ -209,10 +209,10 @@ export function CategoryBrowseCard({
 								key={subcat.id}
 								type="button"
 								onClick={() => onSelectSubcategory(subcat.id)}
-								className="group/sub inline-flex items-center gap-2 max-w-full min-h-[38px] pointer-coarse:min-h-[44px] rounded-xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#2A3D33] px-3.5 py-1.5 text-[13px] font-semibold text-[#1B3328] dark:text-[#EDF2EE] shadow-[0_1px_2px_rgba(27,67,50,0.03)] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/55 dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] active:scale-[0.99] transition-all cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
+								className="group/sub inline-flex items-center gap-2 max-w-full min-h-9.5 pointer-coarse:min-h-11 rounded-xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#2A3D33] px-3.5 py-1.5 text-[13px] font-semibold text-[#1B3328] dark:text-[#EDF2EE] shadow-[0_1px_2px_rgba(27,67,50,0.03)] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/55 dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] active:scale-[0.99] transition-all cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 							>
 								<span className="leading-snug">{subcat.name}</span>
-								<span className="inline-flex items-center justify-center min-w-[22px] px-1.5 py-0.5 text-[11px] font-bold rounded-full bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E] group-hover/sub:bg-white/90 dark:group-hover/sub:bg-[#16221C] group-hover/sub:text-[#1B4332] dark:group-hover/sub:text-[#CBE3D4] tabular-nums transition-colors shrink-0">
+								<span className="inline-flex items-center justify-center min-w-5.5 px-1.5 py-0.5 text-[11px] font-bold rounded-full bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E] group-hover/sub:bg-white/90 dark:group-hover/sub:bg-[#16221C] group-hover/sub:text-[#1B4332] dark:group-hover/sub:text-[#CBE3D4] tabular-nums transition-colors shrink-0">
 									{subcat.count}
 								</span>
 							</button>
