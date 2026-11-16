@@ -40,7 +40,7 @@
       "file_type": "code",
       "norm_label": "categorybrowsecardprops",
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L114"
+      "source_location": "L121"
     },
     {
       "id": "src_components_categories_category_browse_card_categorybrowsesubcategory",
@@ -53,7 +53,7 @@
       "file_type": "code",
       "norm_label": "categorybrowsesubcategory",
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L108"
+      "source_location": "L115"
     },
     {
       "id": "src_routes_protected_public_search_searchschema",
@@ -541,7 +541,7 @@
       "file_type": "code",
       "norm_label": "categorybrowsecard()",
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L127"
+      "source_location": "L134"
     },
     {
       "id": "src_components_categories_category_browse_card_getcategoryvisual",
@@ -553,7 +553,7 @@
       "file_type": "code",
       "norm_label": "getcategoryvisual()",
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L96"
+      "source_location": "L103"
     },
     {
       "id": "src_components_ui_combobox_comboboxchip",
@@ -12402,7 +12402,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L135",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -12414,7 +12414,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L147",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -14790,7 +14790,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/search.tsx",
-      "source_location": "L187",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -34099,13 +34099,24 @@
     },
     {
       "source": "src_components_categories_category_browse_card",
+      "target": "src_components_categories_category_browse_card_getcategoryvisual",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/categories/category-browse-card.tsx",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_categories_category_browse_card",
       "target": "src_components_categories_category_browse_card_categorybrowsesubcategory",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L108",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -34116,7 +34127,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L114",
+      "source_location": "L121",
       "weight": 1.0
     },
     {
@@ -34127,7 +34138,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L127",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -34150,17 +34161,6 @@
       "confidence_score": 1.0,
       "source_file": "src/components/categories/category-browse-card.tsx",
       "source_location": "L50",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_categories_category_browse_card",
-      "target": "src_components_categories_category_browse_card_getcategoryvisual",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/categories/category-browse-card.tsx",
-      "source_location": "L96",
       "weight": 1.0
     },
     {

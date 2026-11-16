@@ -5,6 +5,8 @@ import { useState } from "react";
 
 import { ProductCard } from "#/components/home/product-card";
 import { SearchBar } from "#/components/search/search-bar";
+import { StoreAvatar } from "#/components/stores/store-avatar";
+import { StoreCard } from "#/components/stores/store-card";
 import {
 	Popover,
 	PopoverContent,
@@ -177,15 +179,11 @@ function Home() {
 														)}
 													>
 														<span className="flex items-center gap-2 min-w-0">
-															{store.logoUrl ? (
-																<img
-																	src={store.logoUrl}
-																	alt=""
-																	className="w-4 h-4 rounded-full object-cover shrink-0"
-																/>
-															) : (
-																<StoreIcon className="w-4 h-4 opacity-70 shrink-0" />
-															)}
+															<StoreAvatar
+																name={store.name}
+																logoUrl={store.logoUrl}
+																size="xs"
+															/>
 															<span className="truncate">{store.name}</span>
 														</span>
 														{isSelected && (
@@ -347,7 +345,7 @@ function Home() {
 				{/* Browse by Store Section */}
 				{data?.stores && data.stores.length > 0 && (
 					<section aria-labelledby="stores-heading">
-						<div className="flex items-baseline justify-between mb-3.5 md:mb-4">
+						<div className="flex items-baseline justify-between mb-3.5 md:mb-5">
 							<h2
 								id="stores-heading"
 								className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
@@ -362,30 +360,14 @@ function Home() {
 							</Link>
 						</div>
 
-						<div className="flex gap-2.5 overflow-x-auto no-scrollbar -mx-4 px-4 scroll-px-4 pb-1 snap-x snap-proximity md:mx-0 md:px-0 md:scroll-px-0 md:pb-0 md:overflow-visible md:flex-wrap">
+						<div className="flex gap-3.5 overflow-x-auto no-scrollbar -mx-4 px-4 scroll-px-4 pb-2 snap-x snap-proximity md:mx-0 md:px-0 md:scroll-px-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-4">
 							{data.stores.map((store) => (
-								<Link
+								<div
 									key={store.id}
-									to="/stores/$storeId"
-									params={{ storeId: store.id }}
-									className="snap-start shrink-0 inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_6px_rgba(27,67,50,0.03)] hover:border-[#C9B382] hover:shadow-sm transition-all text-sm font-semibold text-[#1B3328] dark:text-[#EDF2EE]"
+									className="w-[44vw] min-w-[162px] max-w-[196px] shrink-0 snap-start md:w-auto md:min-w-0 md:max-w-none"
 								>
-									{store.logoUrl ? (
-										<img
-											src={store.logoUrl}
-											alt=""
-											className="w-6 h-6 rounded-full object-cover shrink-0 ring-1 ring-[#EAE4D7] dark:ring-[#24362D]"
-										/>
-									) : (
-										<span className="w-6 h-6 rounded-full bg-[#FBF4E6] dark:bg-[#1E261D] border border-[#EAE4D7] dark:border-[#2F3A2D] flex items-center justify-center shrink-0">
-											<StoreIcon
-												className="w-3.5 h-3.5 text-[#A67C37] dark:text-[#D4AF6A]"
-												aria-hidden="true"
-											/>
-										</span>
-									)}
-									<span>{store.name}</span>
-								</Link>
+									<StoreCard store={store} />
+								</div>
 							))}
 							<div className="w-0.5 shrink-0 md:hidden" aria-hidden="true" />
 						</div>
