@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1794913039.173586,
-    "seen": 1794913080.391753,
-    "ast_hash": "75a335015ae0b362a5ac8b5f27a1e2b8",
+    "mtime": 1794914306.4515831,
+    "seen": 1794914428.886442,
+    "ast_hash": "e3915e6fc5d27450dee942b5d6805f4c",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {

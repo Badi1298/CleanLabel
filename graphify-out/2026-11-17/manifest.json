@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "src/components/home/product-card.tsx": {
-    "mtime": 1794834334.2559707,
-    "seen": 1794834377.865695,
-    "ast_hash": "808f78e482af86fadd1d0162267c7c4c",
+    "mtime": 1794913038.2093174,
+    "seen": 1794913080.391714,
+    "ast_hash": "132d65edfa05e95bad05ed06f88ec3eb",
     "semantic_hash": ""
   },
   "src/components/search-form.tsx": {
@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1794841486.0226607,
-    "seen": 1794841525.793601,
-    "ast_hash": "59f6d604a477f6bbfbecc2be048cfcd9",
+    "mtime": 1794913039.173586,
+    "seen": 1794913080.391753,
+    "ast_hash": "75a335015ae0b362a5ac8b5f27a1e2b8",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
@@ -864,9 +864,9 @@
     "semantic_hash": ""
   },
   "src/components/ui/score-badge.tsx": {
-    "mtime": 1794834336.4356067,
-    "seen": 1794834377.865705,
-    "ast_hash": "b47976b3569c072c3de39aa4838969e2",
+    "mtime": 1794913037.2646725,
+    "seen": 1794913080.391726,
+    "ast_hash": "2b9fc5ec089b8a9a9f25fa267b8216b0",
     "semantic_hash": ""
   },
   "src/components/categories/category-browse-card.tsx": {
@@ -897,6 +897,24 @@
     "mtime": 1794911798.2686343,
     "seen": 1794911818.790384,
     "ast_hash": "585b4d055ad35d015a9ee11f433c6b3c",
+    "semantic_hash": ""
+  },
+  "src/assets/bronze-badge.png": {
+    "mtime": 1794913017.4693186,
+    "seen": 1794913080.3917902,
+    "ast_hash": "28322fce12499d9bb42bd969a4e9f669",
+    "semantic_hash": ""
+  },
+  "src/assets/gold-badge.png": {
+    "mtime": 1794913016.6292408,
+    "seen": 1794913080.3917902,
+    "ast_hash": "50baa40ae5d139b91946565e80890779",
+    "semantic_hash": ""
+  },
+  "src/assets/silver-badge.png": {
+    "mtime": 1794913017.0154502,
+    "seen": 1794913080.391791,
+    "ast_hash": "b50fc1a6c4e32c5f2f88c2bf81281e1c",
     "semantic_hash": ""
   }
 }
