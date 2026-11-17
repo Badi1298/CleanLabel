@@ -874,10 +874,6 @@ function ProfilePage() {
 								>
 									PickItWell Community
 								</h2>
-								<Sparkles
-									className="w-3.5 h-3.5 text-[#A67C37]"
-									aria-hidden="true"
-								/>
 							</div>
 
 							<ul className="divide-y divide-[#F0EAE0] dark:divide-[#22332A]">
