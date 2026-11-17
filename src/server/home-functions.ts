@@ -89,6 +89,7 @@ export const getHomeData = createServerFn({
 						id: categories.id,
 						name: categories.name,
 						iconUrl: categories.iconUrl,
+						parentId: categories.parentId,
 						productCount: countDistinct(products.id),
 					})
 					.from(categories)
@@ -118,6 +119,7 @@ export const getHomeData = createServerFn({
 						id: categories.id,
 						name: categories.name,
 						iconUrl: categories.iconUrl,
+						parentId: categories.parentId,
 						productCount: countDistinct(products.id),
 					})
 					.from(categories)

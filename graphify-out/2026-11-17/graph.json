@@ -12645,6 +12645,42 @@
       "type": "external"
     },
     {
+      "id": "src_assets_bronze_badge",
+      "label": "src_assets_bronze_badge",
+      "_origin": "semantic",
+      "community": 21,
+      "community_name": "react",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_assets_bronze_badge",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "src_assets_gold_badge",
+      "label": "src_assets_gold_badge",
+      "_origin": "semantic",
+      "community": 21,
+      "community_name": "react",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_assets_gold_badge",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "src_assets_silver_badge",
+      "label": "src_assets_silver_badge",
+      "_origin": "semantic",
+      "community": 21,
+      "community_name": "react",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_assets_silver_badge",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_styles_css_url",
       "label": "ref_styles_css_url",
       "_origin": "semantic",
@@ -12725,39 +12761,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_tanstack_react_start_server",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "src_assets_bronze_badge",
-      "label": "src_assets_bronze_badge",
-      "community": 21,
-      "community_name": "react",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "src_assets_bronze_badge",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "src_assets_gold_badge",
-      "label": "src_assets_gold_badge",
-      "community": 21,
-      "community_name": "react",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "src_assets_gold_badge",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "src_assets_silver_badge",
-      "label": "src_assets_silver_badge",
-      "community": 21,
-      "community_name": "react",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "src_assets_silver_badge",
       "source_file": "",
       "type": "external"
     }
@@ -15328,7 +15331,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/profile.tsx",
-      "source_location": "L896",
+      "source_location": "L892",
       "weight": 1.0
     },
     {
@@ -41221,5 +41224,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1e43d879a0fb582d73d155b20f2f6d88a71ec14b"
+  "built_at_commit": "433dd2ac8287ffe8a54cab686aea7c5db1c19244"
 }

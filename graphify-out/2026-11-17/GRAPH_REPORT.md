@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-11-17)
 
 ## Corpus Check
-- 146 files · ~135,716 words
+- 146 files · ~135,710 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1e43d879`
+- Built from commit: `433dd2ac`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -90,16 +90,16 @@
 10. `Button()` - 22 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `BreadcrumbLink()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/breadcrumb.tsx → src/lib/utils.ts
-- `BreadcrumbEllipsis()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/breadcrumb.tsx → src/lib/utils.ts
-- `CardHeader()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/card.tsx → src/lib/utils.ts
-- `CardTitle()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/card.tsx → src/lib/utils.ts
-- `CardDescription()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/card.tsx → src/lib/utils.ts
+- `Slider()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/slider.tsx → src/lib/utils.ts
+- `Switch()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/switch.tsx → src/lib/utils.ts
+- `DropdownMenuLabel()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/dropdown-menu.tsx → src/lib/utils.ts
+- `DropdownMenuRadioItem()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/dropdown-menu.tsx → src/lib/utils.ts
+- `DropdownMenuSeparator()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/dropdown-menu.tsx → src/lib/utils.ts
 
 ## Import Cycles
 - None detected.
@@ -315,7 +315,7 @@ Cohesion: 0.18
 Nodes (13): categories, productCategories, productIngredients, productStores, db, getHomeData, addProductSchema, deleteProduct (+5 more)
 
 ## Knowledge Gaps
-- **454 isolated node(s):** `$schema`, `enabled`, `clientKind`, `useIgnoreFile`, `ignoreUnknown` (+449 more)
+- **454 isolated node(s):** `SessionUserProfile`, `SampleFavoriteProduct`, `SAMPLE_FAVORITES`, `COMMUNITY_LINKS`, `SidebarGroupData` (+449 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 528 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -323,12 +323,12 @@ Nodes (13): categories, productCategories, productIngredients, productStores, db
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `cn()` connect `cn` to `app-sidebar.tsx`, `ProductForm.tsx`, `sidebar.tsx`, `category-icon.tsx`, `sheet.tsx`, `utils.ts`, `storesQueryOptions`, `dropdown-menu.tsx`, `react`, `store-submissions.tsx`, `admin/route.tsx`, `homeQueryOptions`?**
-  _High betweenness centrality (0.081) - this node is a cross-community bridge._
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
 - **Why does `@tanstack/react-start` connect `@tanstack/react-start` to `safe-envs.ts`, `category-functions.ts`, `product-functions.ts`, `ProductForm.tsx`, `ingredient-functions.ts`, `drizzle-orm`, `routeTree.gen.ts`, `package.json`, `storesQueryOptions`, `react`, `store-submissions.tsx`, `ensureSession`, `app-schema.ts`?**
-  _High betweenness centrality (0.065) - this node is a cross-community bridge._
+  _High betweenness centrality (0.063) - this node is a cross-community bridge._
 - **Why does `react` connect `react` to `app-sidebar.tsx`, `ProductForm.tsx`, `sidebar.tsx`, `package.json`, `sheet.tsx`, `utils.ts`, `storesQueryOptions`, `dropdown-menu.tsx`, `store-submissions.tsx`, `admin/route.tsx`, `__root.tsx`, `cn`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
-- **What connects `$schema`, `enabled`, `clientKind` to the rest of the system?**
+  _High betweenness centrality (0.049) - this node is a cross-community bridge._
+- **What connects `SessionUserProfile`, `SampleFavoriteProduct`, `SAMPLE_FAVORITES` to the rest of the system?**
   _454 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `category-functions.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._

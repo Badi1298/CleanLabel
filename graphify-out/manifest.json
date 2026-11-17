@@ -318,9 +318,9 @@
     "semantic_hash": ""
   },
   "src/queries/search-queries.ts": {
-    "mtime": 1794831181.3654408,
-    "seen": 1794831233.159582,
-    "ast_hash": "0d9d550c166c35d26c6f4b79e49c8d65",
+    "mtime": 1794917251.7525263,
+    "seen": 1794917391.372372,
+    "ast_hash": "32100bd5183ba181d2716656425b7d10",
     "semantic_hash": ""
   },
   "src/queries/store-queries.ts": {
@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1794837433.5741823,
-    "seen": 1794837481.2339652,
-    "ast_hash": "64b6c9019499b90545cf594762d7867b",
+    "mtime": 1794917257.577107,
+    "seen": 1794917391.3723772,
+    "ast_hash": "7c032ff47ac4285c0b1b6f0c1ac57d7a",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
-    "mtime": 1794837454.5001922,
-    "seen": 1794837481.233969,
-    "ast_hash": "e5c3877ef882ab35f9e3ac3809475001",
+    "mtime": 1794917362.4615955,
+    "seen": 1794917391.372381,
+    "ast_hash": "c5f601968363712627d12d11596fae24",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores/$storeId/$categoryId.tsx": {
@@ -456,9 +456,9 @@
     "semantic_hash": ""
   },
   "src/server/home-functions.ts": {
-    "mtime": 1794837286.7086577,
-    "seen": 1794837309.57014,
-    "ast_hash": "ded16e375ff7b7aa5d2720b15e8c058a",
+    "mtime": 1794917256.3125389,
+    "seen": 1794917391.372394,
+    "ast_hash": "d857b0be33532b224611dd2b4b4a79f4",
     "semantic_hash": ""
   },
   "src/server/off-functions.ts": {
@@ -474,9 +474,9 @@
     "semantic_hash": ""
   },
   "src/server/search-functions.ts": {
-    "mtime": 1794831181.3905654,
-    "seen": 1794831233.159606,
-    "ast_hash": "f4dd5abfd9a7b7405cf7b0fbaf110f8e",
+    "mtime": 1794917362.4603992,
+    "seen": 1794917391.3723981,
+    "ast_hash": "d4fe3867f591764d93558f088fde6663",
     "semantic_hash": ""
   },
   "src/server/store-functions.ts": {
@@ -915,6 +915,12 @@
     "mtime": 1794913017.0154502,
     "seen": 1794913080.391791,
     "ast_hash": "b50fc1a6c4e32c5f2f88c2bf81281e1c",
+    "semantic_hash": ""
+  },
+  "src/components/search/category-sidebar.tsx": {
+    "mtime": 1794917356.585843,
+    "seen": 1794917391.372341,
+    "ast_hash": "d052d5399dc6b128bb02e48bd5f7b5ed",
     "semantic_hash": ""
   }
 }

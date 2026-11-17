@@ -252,7 +252,10 @@ function Home() {
 										key={category.id}
 										to="/search"
 										search={{
-											q: category.name,
+											categoryId: category.parentId || category.id,
+											...(category.parentId
+												? { subCategoryIds: [category.id] }
+												: {}),
 											...(storeId ? { storeId } : {}),
 										}}
 										className="group snap-start shrink-0 w-21.5 md:w-auto flex flex-col items-center gap-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] rounded-2xl"

@@ -1,27 +1,28 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import {
+	keepPreviousData,
+	useInfiniteQuery,
+	useQuery,
+	useSuspenseQuery,
+} from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
 	ArrowLeft,
+	ChevronRight,
+	FolderTree,
+	Loader2,
 	SearchX,
 	SlidersHorizontal,
-	Sparkles,
 	X,
 } from "lucide-react";
+import { useId, useMemo, useState } from "react";
 import { z } from "zod";
-import { CategoryBrowseCard } from "#/components/categories/category-browse-card";
+import { getCategoryVisual } from "#/components/categories/category-browse-card";
 import { ProductCard } from "#/components/home/product-card";
-import { SearchBar } from "#/components/search/search-bar";
 import {
-	Combobox,
-	ComboboxChip,
-	ComboboxChips,
-	ComboboxChipsInput,
-	ComboboxContent,
-	ComboboxEmpty,
-	ComboboxItem,
-	ComboboxList,
-	ComboboxValue,
-} from "#/components/ui/combobox";
+	CategoryNavList,
+	MobileCategoryDrawer,
+} from "#/components/search/category-sidebar";
+import { SearchBar } from "#/components/search/search-bar";
 import {
 	Select,
 	SelectContent,
@@ -34,8 +35,15 @@ import {
 	activeCategoriesQueryOptions,
 	categoriesQueryOptions,
 } from "#/queries/product-queries";
-import { searchQueryOptions } from "#/queries/search-queries";
+import {
+	infiniteSearchQueryOptions,
+	searchCategorySectionsQueryOptions,
+} from "#/queries/search-queries";
 import { storesQueryOptions } from "#/queries/store-queries";
+import { UNCATEGORIZED_CATEGORY_ID } from "#/server/search-functions";
+
+const CATEGORY_PREVIEW_LIMIT = 8;
+const CATEGORY_PAGE_SIZE = 24;
 
 const searchSchema = z.object({
 	q: z.string().optional(),
@@ -59,24 +67,35 @@ export const Route = createFileRoute("/_protected/_public/search")({
 		score,
 	}),
 	loader: async ({ context: { queryClient }, deps }) => {
-		await queryClient.ensureQueryData(categoriesQueryOptions());
-		await queryClient.ensureQueryData(
-			activeCategoriesQueryOptions({
-				storeId: deps.storeId,
-				score: deps.score,
-			}),
-		);
-		await queryClient.ensureQueryData(storesQueryOptions());
-
-		// Only fetch products if a category or search term is selected
-		const isSearchingProducts =
-			Boolean(deps.q && deps.q.trim().length > 0) ||
+		const hasCategoryFilter =
 			Boolean(deps.categoryId) ||
 			Boolean(deps.subCategoryIds && deps.subCategoryIds.length > 0);
 
-		if (isSearchingProducts) {
-			await queryClient.ensureQueryData(searchQueryOptions(deps));
-		}
+		await Promise.all([
+			queryClient.ensureQueryData(categoriesQueryOptions()),
+			queryClient.ensureQueryData(
+				activeCategoriesQueryOptions({
+					storeId: deps.storeId,
+					score: deps.score,
+				}),
+			),
+			queryClient.ensureQueryData(storesQueryOptions()),
+			hasCategoryFilter
+				? queryClient.ensureInfiniteQueryData(
+						infiniteSearchQueryOptions({
+							...deps,
+							pageSize: CATEGORY_PAGE_SIZE,
+						}),
+					)
+				: queryClient.ensureQueryData(
+						searchCategorySectionsQueryOptions({
+							q: deps.q,
+							storeId: deps.storeId,
+							score: deps.score,
+							limitPerCategory: CATEGORY_PREVIEW_LIMIT,
+						}),
+					),
+		]);
 	},
 	component: SearchPage,
 });
@@ -84,20 +103,20 @@ export const Route = createFileRoute("/_protected/_public/search")({
 function SearchPage() {
 	const navigate = useNavigate();
 	const searchParams = Route.useSearch();
-	const isSearchingProducts =
-		Boolean(searchParams.q && searchParams.q.trim().length > 0) ||
-		Boolean(searchParams.categoryId) ||
-		Boolean(
-			searchParams.subCategoryIds && searchParams.subCategoryIds.length > 0,
-		);
+	const drawerId = useId();
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+	const selectedSubCategoryId = searchParams.subCategoryIds?.[0];
+	const hasCategoryFilter =
+		Boolean(searchParams.categoryId) || Boolean(selectedSubCategoryId);
 
 	const activeFilterCount =
 		(searchParams.score ? 1 : 0) +
 		(searchParams.storeId ? 1 : 0) +
-		(searchParams.categoryId ? 1 : 0) +
-		(searchParams.subCategoryIds?.length || 0);
+		(hasCategoryFilter ? 1 : 0);
 
-	const hasActiveFilters = isSearchingProducts || activeFilterCount > 0;
+	const hasActiveFilters =
+		Boolean(searchParams.q?.trim()) || activeFilterCount > 0;
 
 	const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
 	const { data: activeCategoriesData } = useSuspenseQuery(
@@ -106,24 +125,81 @@ function SearchPage() {
 			score: searchParams.score,
 		}),
 	);
-
-	const activeCategoryIds = activeCategoriesData?.map((c) => c.id);
-	const categoryCounts = new Map(
-		activeCategoriesData?.map((c) => [c.id, c.count]),
-	);
-
-	const categories = allCategories?.filter((c) =>
-		activeCategoryIds?.includes(c.id),
-	);
-	const topLevelCategories = categories?.filter((c) => !c.parentId) || [];
-
 	const { data: stores } = useSuspenseQuery(storesQueryOptions());
 
-	const { data: searchResults } = useQuery({
-		...searchQueryOptions(searchParams),
-		// Only run this query if product search is active
-		enabled: isSearchingProducts,
+	const categoryCounts = useMemo(
+		() => new Map(activeCategoriesData?.map((c) => [c.id, c.count])),
+		[activeCategoriesData],
+	);
+
+	const activeCategoryIds = useMemo(
+		() => new Set(activeCategoriesData?.map((c) => c.id)),
+		[activeCategoriesData],
+	);
+
+	const categories = useMemo(
+		() => allCategories?.filter((c) => activeCategoryIds.has(c.id)) || [],
+		[allCategories, activeCategoryIds],
+	);
+
+	const topLevelCategories = useMemo(
+		() => categories.filter((c) => !c.parentId),
+		[categories],
+	);
+
+	const selectedSubcategory = selectedSubCategoryId
+		? allCategories?.find((c) => c.id === selectedSubCategoryId)
+		: undefined;
+
+	const activeParentId =
+		selectedSubcategory?.parentId ||
+		(searchParams.categoryId
+			? allCategories?.find((c) => c.id === searchParams.categoryId)
+					?.parentId || searchParams.categoryId
+			: undefined);
+
+	const activeParentCategory =
+		activeParentId === UNCATEGORIZED_CATEGORY_ID
+			? { id: UNCATEGORIZED_CATEGORY_ID, name: "Other", iconUrl: null }
+			: activeParentId
+				? allCategories?.find((c) => c.id === activeParentId)
+				: undefined;
+
+	const { data: sectionsData, isFetching: isFetchingSections } = useQuery({
+		...searchCategorySectionsQueryOptions({
+			q: searchParams.q,
+			storeId: searchParams.storeId,
+			score: searchParams.score,
+			limitPerCategory: CATEGORY_PREVIEW_LIMIT,
+		}),
+		enabled: !hasCategoryFilter,
+		placeholderData: keepPreviousData,
 	});
+
+	const {
+		data: infiniteData,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		isFetching: isFetchingFiltered,
+	} = useInfiniteQuery({
+		...infiniteSearchQueryOptions({
+			q: searchParams.q,
+			storeId: searchParams.storeId,
+			categoryId: searchParams.categoryId,
+			subCategoryIds: searchParams.subCategoryIds,
+			score: searchParams.score,
+			pageSize: CATEGORY_PAGE_SIZE,
+		}),
+		enabled: hasCategoryFilter,
+		placeholderData: keepPreviousData,
+	});
+
+	const filteredProducts = useMemo(
+		() => infiniteData?.pages.flatMap((page) => page.items) || [],
+		[infiniteData],
+	);
+	const filteredTotalCount = infiniteData?.pages[0]?.totalCount ?? 0;
 
 	const updateFilters = (updates: Partial<SearchSchema>) => {
 		navigate({
@@ -143,18 +219,42 @@ function SearchPage() {
 		navigate({ to: "/search", search: {} });
 	};
 
+	const handleSelectAllCategories = () => {
+		updateFilters({
+			categoryId: undefined,
+			subCategoryIds: undefined,
+		});
+	};
+
+	const handleSelectCategory = (categoryId: string) => {
+		updateFilters({
+			categoryId,
+			subCategoryIds: undefined,
+		});
+	};
+
+	const handleSelectSubcategory = (parentId: string, subcatId: string) => {
+		updateFilters({
+			categoryId: parentId,
+			subCategoryIds: [subcatId],
+		});
+	};
+
 	const activeTriggerStyle =
 		"bg-[#E3EDE7]/75 dark:bg-[#1E3A2C] border-[#2D5A44]/40 dark:border-[#3D6E54] text-[#1B4332] dark:text-[#CBE3D4] font-semibold";
 	const inactiveTriggerStyle =
 		"bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#C9B382] dark:hover:border-[#365043]";
 
-	const resultsCount = searchResults?.length || 0;
+	const mobileCategoryLabel =
+		selectedSubcategory?.name || activeParentCategory?.name || "Categories";
+
+	const trimmedQuery = searchParams.q?.trim();
 
 	return (
 		<div className="bg-[#FAF8F5] dark:bg-[#0E1612]">
-			{/* Top Bar with Search & Responsive Filters */}
+			{/* Top Bar with Search & Filters */}
 			<div className="bg-[#FDFBF7]/95 dark:bg-[#131F19]/95 backdrop-blur-md border-b border-[#EAE4D7] dark:border-[#24362D] sticky top-0 md:top-16 z-30">
-				<div className="max-w-5xl mx-auto px-4 md:px-6 py-3.5 md:py-4 flex flex-col gap-3">
+				<div className="max-w-6xl mx-auto px-4 md:px-6 py-3.5 md:py-4 flex flex-col gap-3">
 					<SearchBar
 						key={searchParams.q || "empty"}
 						initialQuery={searchParams.q}
@@ -168,6 +268,26 @@ function SearchPage() {
 								<SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
 								<span>Filters</span>
 							</div>
+
+							<button
+								type="button"
+								onClick={() => setIsDrawerOpen(true)}
+								aria-expanded={isDrawerOpen}
+								aria-controls={drawerId}
+								className={cn(
+									"col-span-2 lg:hidden inline-flex items-center justify-between gap-2 h-10 pointer-coarse:h-11 px-3 rounded-xl border text-[13px] transition-colors cursor-pointer",
+									hasCategoryFilter ? activeTriggerStyle : inactiveTriggerStyle,
+								)}
+							>
+								<span className="flex items-center gap-2 min-w-0">
+									<FolderTree className="w-4 h-4 shrink-0" aria-hidden="true" />
+									<span className="truncate">{mobileCategoryLabel}</span>
+								</span>
+								<ChevronRight
+									className="w-4 h-4 shrink-0 opacity-70"
+									aria-hidden="true"
+								/>
+							</button>
 
 							<Select
 								value={searchParams.score || "all"}
@@ -225,140 +345,6 @@ function SearchPage() {
 								</SelectContent>
 							</Select>
 
-							{searchParams.categoryId &&
-								(() => {
-									const selectedCat = allCategories?.find(
-										(c) => c.id === searchParams.categoryId,
-									);
-									const parentId =
-										selectedCat?.parentId || searchParams.categoryId;
-									const subcats =
-										categories?.filter((c) => c.parentId === parentId) || [];
-									const parentCategories =
-										categories?.filter((c) => !c.parentId) || [];
-									const currentParentCat = allCategories?.find(
-										(c) => c.id === parentId,
-									);
-									const displayParentCategories =
-										currentParentCat &&
-										!parentCategories.some((c) => c.id === parentId)
-											? [currentParentCat, ...parentCategories]
-											: parentCategories;
-
-									return (
-										<>
-											<Select
-												value={parentId}
-												onValueChange={(val) =>
-													updateFilters({
-														categoryId: val === "all" ? undefined : val,
-														subCategoryIds: undefined,
-													})
-												}
-											>
-												<SelectTrigger
-													aria-label="Filter by category"
-													className={cn(
-														"col-span-2 w-full sm:col-span-1 sm:w-auto sm:min-w-42.5 sm:max-w-57.5 h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
-														activeTriggerStyle,
-													)}
-												>
-													<SelectValue placeholder="Category" />
-												</SelectTrigger>
-												<SelectContent className="rounded-xl border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C]">
-													<SelectItem value="all">All Categories</SelectItem>
-													{displayParentCategories.map((cat) => (
-														<SelectItem key={cat.id} value={cat.id}>
-															{cat.name} ({categoryCounts.get(cat.id) || 0})
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-
-											{subcats.length > 0 &&
-												(() => {
-													const selectedItems = subcats.filter((subcat) =>
-														searchParams.subCategoryIds?.includes(subcat.id),
-													);
-													const MAX_VISIBLE = 2;
-													const visibleItems = selectedItems.slice(
-														0,
-														MAX_VISIBLE,
-													);
-													const hiddenCount =
-														selectedItems.length - visibleItems.length;
-
-													return (
-														<div className="col-span-2 w-full sm:col-span-1 sm:w-64">
-															<Combobox
-																items={subcats}
-																itemToStringValue={(c) => c.name}
-																multiple
-																value={selectedItems}
-																onValueChange={(newValues) => {
-																	updateFilter(
-																		"subCategoryIds",
-																		newValues.length > 0
-																			? newValues.map((v) => v.id)
-																			: undefined,
-																	);
-																}}
-															>
-																<ComboboxChips
-																	className={cn(
-																		"flex-nowrap overflow-hidden min-h-10 pointer-coarse:min-h-11 rounded-xl shadow-none px-2.5",
-																		selectedItems.length > 0
-																			? "border-[#2D5A44]/40 dark:border-[#3D6E54] bg-[#E3EDE7]/40 dark:bg-[#1E3A2C]/50"
-																			: "border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C]",
-																	)}
-																>
-																	<ComboboxValue>
-																		{visibleItems.map((item) => (
-																			<ComboboxChip
-																				key={item.id}
-																				className="max-w-28 rounded-lg bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] border border-[#C8DBD0]/70 dark:border-[#2E5440]"
-																			>
-																				<span className="truncate">
-																					{item.name}
-																				</span>
-																			</ComboboxChip>
-																		))}
-																		{hiddenCount > 0 && (
-																			<span className="text-xs font-semibold text-[#1B4332] dark:text-[#CBE3D4] whitespace-nowrap ml-1 shrink-0">
-																				+{hiddenCount}
-																			</span>
-																		)}
-																	</ComboboxValue>
-																	<ComboboxChipsInput
-																		placeholder={
-																			selectedItems.length > 0
-																				? "Add subcategory..."
-																				: "Subcategories"
-																		}
-																		className="min-w-16 truncate text-[13px] text-[#1B3328] dark:text-[#EDF2EE] placeholder:text-[#7D857E]"
-																	/>
-																</ComboboxChips>
-																<ComboboxContent className="rounded-xl border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C]">
-																	<ComboboxEmpty>
-																		No subcategories found.
-																	</ComboboxEmpty>
-																	<ComboboxList>
-																		{(item) => (
-																			<ComboboxItem key={item.id} value={item}>
-																				{item.name} (
-																				{categoryCounts.get(item.id) || 0})
-																			</ComboboxItem>
-																		)}
-																	</ComboboxList>
-																</ComboboxContent>
-															</Combobox>
-														</div>
-													);
-												})()}
-										</>
-									);
-								})()}
-
 							{hasActiveFilters && (
 								<button
 									type="button"
@@ -392,153 +378,312 @@ function SearchPage() {
 				</div>
 			</div>
 
-			<main className="max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-8">
-				{!isSearchingProducts ? (
-					// Default / Filtered Categories State
-					<section aria-labelledby="browse-categories-heading">
-						<div className="flex items-baseline justify-between gap-3 mb-5">
-							<div>
-								<h1
-									id="browse-categories-heading"
-									className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] text-balance"
-								>
-									Browse Categories
-								</h1>
-								<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-									Pick a food aisle or jump directly into a subcategory
-								</p>
-							</div>
-							{topLevelCategories.length > 0 && (
-								<span className="inline-flex items-center rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
-									{topLevelCategories.length}{" "}
-									{topLevelCategories.length === 1 ? "category" : "categories"}
-								</span>
-							)}
+			{/* Mobile Slide-Over Category Drawer */}
+			<div className="lg:hidden">
+				<MobileCategoryDrawer
+					id={drawerId}
+					isOpen={isDrawerOpen}
+					onOpenChange={setIsDrawerOpen}
+					topLevelCategories={topLevelCategories}
+					categories={categories}
+					categoryCounts={categoryCounts}
+					activeParentId={activeParentId}
+					selectedCategoryId={searchParams.categoryId}
+					selectedSubCategoryId={selectedSubCategoryId}
+					totalProductsCount={
+						!hasCategoryFilter ? sectionsData?.totalProductsCount : undefined
+					}
+					onSelectAll={handleSelectAllCategories}
+					onSelectCategory={(catId) => handleSelectCategory(catId)}
+					onSelectSubcategory={handleSelectSubcategory}
+				/>
+			</div>
+
+			{/* Main Content + Left Categories Aside */}
+			<div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8">
+				<div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-7">
+					<aside
+						aria-label="Browse by category"
+						className="hidden lg:block w-64 shrink-0 lg:sticky lg:top-44 lg:max-h-[calc(100dvh-12rem)] lg:overflow-y-auto rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] p-3 shadow-[0_2px_10px_rgba(27,67,50,0.03)]"
+					>
+						<div className="px-2.5 pt-1 pb-2">
+							<h2 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
+								Categories
+							</h2>
 						</div>
+						<CategoryNavList
+							topLevelCategories={topLevelCategories}
+							categories={categories}
+							categoryCounts={categoryCounts}
+							activeParentId={activeParentId}
+							selectedCategoryId={searchParams.categoryId}
+							selectedSubCategoryId={selectedSubCategoryId}
+							totalProductsCount={
+								!hasCategoryFilter
+									? sectionsData?.totalProductsCount
+									: undefined
+							}
+							onSelectAll={handleSelectAllCategories}
+							onSelectCategory={(catId) => handleSelectCategory(catId)}
+							onSelectSubcategory={handleSelectSubcategory}
+						/>
+					</aside>
 
-						{topLevelCategories.length > 0 ? (
-							<div className="space-y-4">
-								{topLevelCategories.map((parentCat, index) => {
-									const subcats =
-										categories
-											?.filter((c) => c.parentId === parentCat.id)
-											.map((subcat) => ({
-												id: subcat.id,
-												name: subcat.name,
-												count: categoryCounts.get(subcat.id) || 0,
-											})) || [];
+					<main className="flex-1 min-w-0">
+						{!hasCategoryFilter ? (
+							<section aria-labelledby="all-products-heading">
+								<div className="flex items-baseline justify-between gap-3 mb-6">
+									<div>
+										<h1
+											id="all-products-heading"
+											className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] text-balance"
+										>
+											{trimmedQuery
+												? `Results for "${trimmedQuery}"`
+												: "All Products"}
+										</h1>
+										<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
+											Browse by aisle or pick a category to see all items
+										</p>
+									</div>
 
-									return (
-										<CategoryBrowseCard
-											key={parentCat.id}
-											category={parentCat}
-											productCount={categoryCounts.get(parentCat.id) || 0}
-											subcategories={subcats}
-											paletteIndex={index}
-											onSelectCategory={() =>
-												updateFilters({
-													categoryId: parentCat.id,
-													subCategoryIds: undefined,
-												})
-											}
-											onSelectSubcategory={(subcatId) =>
-												updateFilters({
-													categoryId: parentCat.id,
-													subCategoryIds: [subcatId],
-												})
-											}
-										/>
-									);
-								})}
-							</div>
-						) : (
-							<div className="text-center py-16 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)]">
-								<div className="w-12 h-12 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] flex items-center justify-center mx-auto mb-3">
-									<Sparkles className="w-5 h-5" aria-hidden="true" />
+									{typeof sectionsData?.totalProductsCount === "number" && (
+										<span className="inline-flex items-center gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
+											{isFetchingSections && (
+												<Loader2
+													className="w-3 h-3 animate-spin"
+													aria-hidden="true"
+												/>
+											)}
+											<span>
+												{sectionsData.totalProductsCount}{" "}
+												{sectionsData.totalProductsCount === 1
+													? "product"
+													: "products"}
+											</span>
+										</span>
+									)}
 								</div>
-								<h2 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-									No categories found
-								</h2>
-								<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 max-w-sm mx-auto">
-									Try adjusting your store or score filters to see available
-									aisles.
-								</p>
-								<button
-									type="button"
-									onClick={clearFilters}
-									className="mt-5 inline-flex items-center px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors cursor-pointer"
-								>
-									Clear all filters
-								</button>
-							</div>
-						)}
-					</section>
-				) : (
-					// Active Search State: Products
-					<section aria-labelledby="search-results-heading">
-						<div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-							<div className="flex items-center gap-2.5 flex-wrap">
-								<button
-									type="button"
-									onClick={() =>
-										updateFilters({
-											q: undefined,
-											categoryId: undefined,
-											subCategoryIds: undefined,
-										})
-									}
-									className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] transition-colors cursor-pointer"
-								>
-									<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-									<span>Browse Categories</span>
-								</button>
 
-								<h1
-									id="search-results-heading"
-									className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] tabular-nums"
-								>
-									{resultsCount} {resultsCount === 1 ? "Result" : "Results"}{" "}
-									Found
-								</h1>
-							</div>
-						</div>
+								{sectionsData && sectionsData.sections.length > 0 ? (
+									<div className="space-y-9">
+										{sectionsData.sections.map((section, index) => {
+											const { palette, Icon } = getCategoryVisual(
+												section.category.name,
+												index,
+											);
+											const hasMoreInCategory =
+												section.totalCount > section.products.length;
 
-						{searchResults && searchResults.length > 0 ? (
-							<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5 md:gap-5">
-								{searchResults.map((result) => (
-									<ProductCard
-										key={result.product.id}
-										product={{
-											...result.product,
-											storeName: result.storeName,
-											stores: result.stores,
-										}}
-									/>
-								))}
-							</div>
+											return (
+												<section
+													key={section.category.id}
+													aria-labelledby={`cat-section-${section.category.id}`}
+												>
+													<div className="flex items-center justify-between gap-3 mb-3.5 pb-2 border-b border-[#EAE4D7]/80 dark:border-[#24362D]">
+														<div className="flex items-center gap-2.5 min-w-0">
+															<div
+																className={cn(
+																	"w-8 h-8 rounded-full border flex items-center justify-center shrink-0",
+																	palette.bg,
+																	palette.border,
+																)}
+															>
+																{section.category.iconUrl ? (
+																	<img
+																		src={section.category.iconUrl}
+																		alt=""
+																		className="w-5 h-5 object-contain"
+																		loading="lazy"
+																	/>
+																) : (
+																	<Icon
+																		className={cn("w-4 h-4", palette.iconText)}
+																		strokeWidth={2}
+																		aria-hidden="true"
+																	/>
+																)}
+															</div>
+															<h2
+																id={`cat-section-${section.category.id}`}
+																className="text-base sm:text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] truncate"
+															>
+																{section.category.name}
+															</h2>
+															<span className="inline-flex items-center justify-center rounded-full bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E] px-2 py-0.5 text-[11px] font-bold tabular-nums shrink-0">
+																{section.totalCount}
+															</span>
+														</div>
+
+														<button
+															type="button"
+															onClick={() =>
+																handleSelectCategory(section.category.id)
+															}
+															className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors cursor-pointer shrink-0"
+														>
+															<span>
+																{hasMoreInCategory
+																	? `View all (${section.totalCount})`
+																	: "Open"}
+															</span>
+															<ChevronRight
+																className="w-3.5 h-3.5"
+																aria-hidden="true"
+															/>
+														</button>
+													</div>
+
+													<div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 md:gap-5">
+														{section.products.map((result) => (
+															<ProductCard
+																key={result.product.id}
+																product={{
+																	...result.product,
+																	storeName: result.storeName,
+																	stores: result.stores,
+																}}
+															/>
+														))}
+													</div>
+												</section>
+											);
+										})}
+									</div>
+								) : (
+									<EmptyProductsState onClear={clearFilters} />
+								)}
+							</section>
 						) : (
-							<div className="text-center py-16 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)]">
-								<div className="w-12 h-12 rounded-full bg-[#F3EFE6] dark:bg-[#1E2C25] text-[#5C665E] dark:text-[#9AA89E] flex items-center justify-center mx-auto mb-3">
-									<SearchX className="w-5 h-5" aria-hidden="true" />
+							<section aria-labelledby="search-results-heading">
+								<div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+									<div className="flex items-center gap-2.5 flex-wrap">
+										<button
+											type="button"
+											onClick={handleSelectAllCategories}
+											className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] transition-colors cursor-pointer"
+										>
+											<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+											<span>All Products</span>
+										</button>
+
+										<div className="flex items-center gap-1.5 flex-wrap">
+											{activeParentCategory && selectedSubcategory ? (
+												<>
+													<button
+														type="button"
+														onClick={() =>
+															handleSelectCategory(activeParentCategory.id)
+														}
+														className="text-sm font-semibold text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] transition-colors cursor-pointer"
+													>
+														{activeParentCategory.name}
+													</button>
+													<ChevronRight
+														className="w-4 h-4 text-[#9AA09A]"
+														aria-hidden="true"
+													/>
+													<h1
+														id="search-results-heading"
+														className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+													>
+														{selectedSubcategory.name}
+													</h1>
+												</>
+											) : (
+												<h1
+													id="search-results-heading"
+													className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+												>
+													{activeParentCategory?.name || "Category Results"}
+												</h1>
+											)}
+										</div>
+									</div>
+
+									<span className="inline-flex items-center gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
+										{isFetchingFiltered && !isFetchingNextPage && (
+											<Loader2
+												className="w-3 h-3 animate-spin"
+												aria-hidden="true"
+											/>
+										)}
+										<span>
+											{filteredTotalCount}{" "}
+											{filteredTotalCount === 1 ? "Result" : "Results"}
+										</span>
+									</span>
 								</div>
-								<h2 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-									No products found
-								</h2>
-								<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 max-w-sm mx-auto">
-									Try adjusting your filters or search query.
-								</p>
-								<button
-									type="button"
-									onClick={clearFilters}
-									className="mt-5 inline-flex items-center px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors cursor-pointer"
-								>
-									Clear all filters
-								</button>
-							</div>
+
+								{filteredProducts.length > 0 ? (
+									<>
+										<div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 md:gap-5">
+											{filteredProducts.map((result) => (
+												<ProductCard
+													key={result.product.id}
+													product={{
+														...result.product,
+														storeName: result.storeName,
+														stores: result.stores,
+													}}
+												/>
+											))}
+										</div>
+
+										{hasNextPage && (
+											<div className="mt-8 flex flex-col items-center gap-2">
+												<button
+													type="button"
+													onClick={() => fetchNextPage()}
+													disabled={isFetchingNextPage}
+													className="inline-flex items-center gap-2 min-h-10 px-5 py-2 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-sm font-semibold text-[#1B4332] dark:text-[#CBE3D4] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] disabled:opacity-60 transition-colors cursor-pointer"
+												>
+													{isFetchingNextPage && (
+														<Loader2
+															className="w-4 h-4 animate-spin"
+															aria-hidden="true"
+														/>
+													)}
+													<span>
+														{isFetchingNextPage
+															? "Loading more..."
+															: `Load more (${filteredProducts.length} of ${filteredTotalCount})`}
+													</span>
+												</button>
+											</div>
+										)}
+									</>
+								) : (
+									<EmptyProductsState onClear={clearFilters} />
+								)}
+							</section>
 						)}
-					</section>
-				)}
-			</main>
+					</main>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function EmptyProductsState({ onClear }: { onClear: () => void }) {
+	return (
+		<div className="text-center py-16 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)]">
+			<div className="w-12 h-12 rounded-full bg-[#F3EFE6] dark:bg-[#1E2C25] text-[#5C665E] dark:text-[#9AA89E] flex items-center justify-center mx-auto mb-3">
+				<SearchX className="w-5 h-5" aria-hidden="true" />
+			</div>
+			<h2 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
+				No products found
+			</h2>
+			<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 max-w-sm mx-auto">
+				Try adjusting your filters or search query.
+			</p>
+			<button
+				type="button"
+				onClick={onClear}
+				className="mt-5 inline-flex items-center px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors cursor-pointer"
+			>
+				Clear all filters
+			</button>
 		</div>
 	);
 }
