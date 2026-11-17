@@ -1,17 +1,17 @@
-# Graph Report - CleanLabel  (2026-11-16)
+# Graph Report - CleanLabel  (2026-11-17)
 
 ## Corpus Check
-- 144 files · ~75,642 words
+- 146 files · ~76,509 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
 ## Summary
-- 1084 nodes · 2385 edges · 60 communities (51 shown, 9 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 25 edges (avg confidence: 0.85)
+- 1101 nodes · 2441 edges · 61 communities (53 shown, 8 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 27 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d325ba92`
+- Built from commit: `c3ebdc0f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -26,7 +26,7 @@
 - routeTree.gen.ts
 - package.json
 - Neon
-- radix-ui
+- auth-fields.tsx
 - two-factor-authentication-best-practices/SKILL.md
 - biome.json
 - dropdown-menu.tsx
@@ -37,12 +37,12 @@
 - devDependencies
 - compilerOptions
 - components.json
-- $productId.tsx
+- profile.tsx
 - scripts
 - email-and-password-best-practices/SKILL.md
-- store-submissions.tsx
+- react
 - admin/route.tsx
-- _protected/route.tsx
+- auth-functions.ts
 - __root.tsx
 - cn
 - vite.config.ts
@@ -51,16 +51,17 @@
 - generate-sw.mjs
 - ensureSession
 - 0001_nice_rockslide.sql
-- search.tsx
-- profile.tsx
+- ProductForm.tsx
+- auth-schema.ts
 - category-icon.tsx
 - AGENTS.md
 - dotenv
-- _public/index.tsx
+- sheet.tsx
 - pnpm
 - FileRoutesByPath
-- seed-off.ts
+- drizzle-orm
 - storesQueryOptions
+- store-functions.ts
 - rules/graphify.md
 - workflows/graphify.md
 - "user_favorite_products"
@@ -68,16 +69,16 @@
 - 0003_dapper_jasper_sitwell.sql
 - "user_excluded_ingredients"
 - 0000_next_ben_urich.sql
-- admin/add-product.tsx
+- zod
 - "product_store_submissions"
-- store-submission-queries.ts
+- _public/add-product.tsx
+- _public/route.tsx
 - store-submission-functions.ts
-- category-functions.ts
-- off-functions.ts
+- index.ts
 
 ## God Nodes (most connected - your core abstractions)
-1. `cn()` - 134 edges
-2. `react` - 50 edges
+1. `cn()` - 137 edges
+2. `react` - 54 edges
 3. `lucide-react` - 37 edges
 4. `ensureSession` - 36 edges
 5. `@tanstack/react-query` - 35 edges
@@ -85,44 +86,44 @@
 7. `@tanstack/react-start` - 31 edges
 8. `storesQueryOptions()` - 29 edges
 9. `FileRoutesByPath` - 27 edges
-10. `Button()` - 24 edges
+10. `Button()` - 22 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `StoreChip()` --calls--> `cn()`  [EXTRACTED]
-  src/components/home/product-card.tsx → src/lib/utils.ts
 - `BreadcrumbLink()` --calls--> `cn()`  [EXTRACTED]
   src/components/ui/breadcrumb.tsx → src/lib/utils.ts
 - `BreadcrumbEllipsis()` --calls--> `cn()`  [EXTRACTED]
   src/components/ui/breadcrumb.tsx → src/lib/utils.ts
-- `DropdownMenuRadioItem()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/dropdown-menu.tsx → src/lib/utils.ts
-- `DropdownMenuLabel()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/dropdown-menu.tsx → src/lib/utils.ts
+- `CommandDialog()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/command.tsx → src/lib/utils.ts
+- `CommandSeparator()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/command.tsx → src/lib/utils.ts
+- `CommandShortcut()` --calls--> `cn()`  [EXTRACTED]
+  src/components/ui/command.tsx → src/lib/utils.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (60 total, 9 thin omitted)
+## Communities (61 total, 8 thin omitted)
 
 ### Community 0 - "safe-envs.ts"
-Cohesion: 0.16
-Nodes (22): ref_better_auth_adapters_drizzle, ref_better_auth_tanstack_start, getServerEnv(), getProductUploadUrls, getUploadUrlsSchema, generatePresignedUploadUrl(), s3, getBetterAuthApiKey (+14 more)
+Cohesion: 0.19
+Nodes (20): ref_better_auth_adapters_drizzle, ref_better_auth_tanstack_start, getServerEnv(), generatePresignedUploadUrl(), s3, getBetterAuthApiKey, getBetterAuthSecret, getBetterAuthUrl (+12 more)
 
 ### Community 1 - "product-functions.ts"
-Cohesion: 0.12
-Nodes (21): productIngredients, ActiveCategoriesFilters, allProductsQueryOptions(), productAlternativesQueryOptions(), productDetailsQueryOptions(), ProductQueryArgs, Route, RouteComponent() (+13 more)
+Cohesion: 0.11
+Nodes (25): productIngredients, ActiveCategoriesFilters, allProductsQueryOptions(), productAlternativesQueryOptions(), productDetailsQueryOptions(), ProductQueryArgs, productQueryOptions(), Route (+17 more)
 
 ### Community 2 - "app-sidebar.tsx"
 Cohesion: 0.15
-Nodes (11): AppSidebar(), SidebarGroupData, SidebarItem, SidebarContent(), SidebarFooter(), SidebarGroup(), SidebarGroupContent(), SidebarGroupLabel() (+3 more)
+Nodes (14): AppSidebar(), SidebarGroupData, SidebarItem, Sidebar(), SidebarContent(), SidebarFooter(), SidebarGroupLabel(), SidebarHeader() (+6 more)
 
 ### Community 3 - "dependencies"
 Cohesion: 0.05
 Nodes (39): dependencies, @aws-sdk/client-s3, @aws-sdk/s3-request-presigner, @base-ui/react, better-auth, browser-image-compression, class-variance-authority, clsx (+31 more)
 
 ### Community 4 - "sidebar.tsx"
-Cohesion: 0.08
-Nodes (28): Sheet(), SheetContent(), SheetDescription(), SheetFooter(), SheetHeader(), SheetOverlay(), SheetTitle(), Sidebar() (+20 more)
+Cohesion: 0.12
+Nodes (18): SidebarContext, SidebarContextProps, SidebarGroup(), SidebarGroupAction(), SidebarGroupContent(), SidebarInput(), SidebarMenuAction(), SidebarMenuSkeleton() (+10 more)
 
 ### Community 5 - "organization-best-practices/SKILL.md"
 Cohesion: 0.06
@@ -134,19 +135,19 @@ Nodes (30): Account Enumeration Prevention, Background Tasks, Complete Security 
 
 ### Community 7 - "routeTree.gen.ts"
 Cohesion: 0.05
-Nodes (40): Route, Route, ApiAuthSplatRoute, FileRoutesByFullPath, FileRoutesById, FileRoutesByTo, FileRouteTypes, ForgotPasswordRoute (+32 more)
+Nodes (39): Route, ApiAuthSplatRoute, FileRoutesByFullPath, FileRoutesById, FileRoutesByTo, FileRouteTypes, ForgotPasswordRoute, LoginRoute (+31 more)
 
 ### Community 8 - "package.json"
 Cohesion: 0.06
-Nodes (31): imports, name, private, type, @aws-sdk/client-s3, @aws-sdk/s3-request-presigner, babel-plugin-react-compiler, @base-ui/react (+23 more)
+Nodes (30): imports, name, private, type, @aws-sdk/client-s3, @aws-sdk/s3-request-presigner, babel-plugin-react-compiler, @base-ui/react (+22 more)
 
 ### Community 9 - "Neon"
 Cohesion: 0.07
 Nodes (28): Architecture: How to Use Neon, Backend Primitives, Branch configuration, Branch-First Dev Flow, Choosing the Right Skill, Fetching Docs as Markdown, Finding the Right Page, Getting Started with Neon (+20 more)
 
-### Community 10 - "radix-ui"
-Cohesion: 0.25
-Nodes (6): class-variance-authority, radix-ui, Badge(), badgeVariants, Slider(), Switch()
+### Community 10 - "auth-fields.tsx"
+Cohesion: 0.24
+Nodes (19): @tanstack/react-form, AuthEmailField(), AuthEmailFieldProps, AuthFieldBaseProps, AuthPasswordField(), AuthPasswordFieldProps, AuthSubmitButton(), authValidationLogic() (+11 more)
 
 ### Community 11 - "two-factor-authentication-best-practices/SKILL.md"
 Cohesion: 0.08
@@ -188,9 +189,9 @@ Nodes (18): compilerOptions, allowImportingTsExtensions, jsx, lib, module, modul
 Cohesion: 0.11
 Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 more)
 
-### Community 21 - "$productId.tsx"
-Cohesion: 0.12
-Nodes (27): ref_better_auth_client_plugins, ref_better_auth_react, ProductCard(), ProductCardProps, StoreChip(), StoreInfo, ingredients, userExcludedIngredients (+19 more)
+### Community 21 - "profile.tsx"
+Cohesion: 0.06
+Nodes (60): ref_better_auth_client_plugins, ref_better_auth_react, cmdk, lucide-react, @tanstack/react-router, AuthShellProps, ProductCard(), ProductCardProps (+52 more)
 
 ### Community 22 - "scripts"
 Cohesion: 0.13
@@ -200,73 +201,81 @@ Nodes (15): scripts, build, check, db:generate, db:migrate, db:pull, db:push, db
 Cohesion: 0.14
 Nodes (13): Callback URLs, Client Side Validation, Custom Hashing Algorithm, Email Verification Setup, Password Hashing, Password Requirements, Password Reset Flows, Quick Start (+5 more)
 
-### Community 24 - "store-submissions.tsx"
-Cohesion: 0.07
-Nodes (75): lucide-react, react, sonner, @tanstack/react-form, @tanstack/react-query, @tanstack/react-router, @tanstack/react-start, @tanstack/react-table (+67 more)
+### Community 24 - "react"
+Cohesion: 0.06
+Nodes (80): class-variance-authority, react, sonner, @tanstack/react-query, @tanstack/react-start, @tanstack/react-table, AddCategoryDialog(), AddIngredientDialog() (+72 more)
 
 ### Community 25 - "admin/route.tsx"
-Cohesion: 0.26
-Nodes (9): Breadcrumb(), BreadcrumbEllipsis(), BreadcrumbItem(), BreadcrumbLink(), BreadcrumbList(), BreadcrumbPage(), BreadcrumbSeparator(), Separator() (+1 more)
+Cohesion: 0.20
+Nodes (11): radix-ui, Breadcrumb(), BreadcrumbEllipsis(), BreadcrumbItem(), BreadcrumbLink(), BreadcrumbList(), BreadcrumbPage(), BreadcrumbSeparator() (+3 more)
+
+### Community 26 - "auth-functions.ts"
+Cohesion: 0.47
+Nodes (3): ref_tanstack_react_start_server, Route, getSession
 
 ### Community 27 - "__root.tsx"
-Cohesion: 0.17
-Nodes (9): next-themes, ref_styles_css_url, @tanstack/react-devtools, @tanstack/react-query-devtools, @tanstack/react-router-devtools, NotFound(), Toaster(), TanstackQueryProvider() (+1 more)
+Cohesion: 0.18
+Nodes (8): next-themes, ref_styles_css_url, @tanstack/react-devtools, @tanstack/react-query-devtools, @tanstack/react-router-devtools, NotFound(), Toaster(), MyRouterContext
 
 ### Community 28 - "cn"
-Cohesion: 0.15
-Nodes (21): Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader(), CardTitle(), Command() (+13 more)
+Cohesion: 0.18
+Nodes (15): StoreChip(), Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader(), CardTitle() (+7 more)
 
 ### Community 29 - "vite.config.ts"
 Cohesion: 0.20
 Nodes (9): ref_nitro_vite, @rolldown/plugin-babel, @tailwindcss/vite, @tanstack/devtools-vite, ref_tanstack_react_start_plugin_vite, vite, vite-plugin-pwa, @vitejs/plugin-react (+1 more)
 
 ### Community 30 - "router.tsx"
-Cohesion: 0.28
-Nodes (7): @tanstack/react-router-ssr-query, getContext(), getRouter(), Register, @tanstack/react-router, Register, routeTree
+Cohesion: 0.24
+Nodes (8): @tanstack/react-router-ssr-query, getContext(), TanstackQueryProvider(), getRouter(), Register, @tanstack/react-router, Register, routeTree
 
 ### Community 31 - "app-schema.ts"
-Cohesion: 0.08
-Nodes (23): ref_drizzle_orm_pg_core, categoriesRelations, ingredientsRelations, offCategoryMappingsRelations, offIngredientMappingsRelations, productCategoriesRelations, productIngredientsRelations, productScoreEnum (+15 more)
+Cohesion: 0.10
+Nodes (20): categoriesRelations, ingredients, ingredientsRelations, offCategoryMappingsRelations, offIngredientMappingsRelations, productCategoriesRelations, productIngredientsRelations, productScoreEnum (+12 more)
 
 ### Community 32 - "generate-sw.mjs"
 Cohesion: 0.40
 Nodes (3): ref_node_path, workbox-build, clientDist
 
 ### Community 33 - "ensureSession"
-Cohesion: 0.09
-Nodes (26): ref_tanstack_react_start_server, offIngredientMappings, stores, unmappedOffIngredients, ensureSession, deleteCategory, mapOffTagToCategory, updateCategory (+18 more)
+Cohesion: 0.10
+Nodes (25): offCategoryMappings, offIngredientMappings, unmappedOffIngredients, unmappedOffTags, ensureSession, addCategory, addCategorySchema, deleteCategory (+17 more)
 
 ### Community 34 - "0001_nice_rockslide.sql"
 Cohesion: 0.13
 Nodes (21): "account", account_issuer_accountId_uidx, account_userId_idx, "categories", "ingredients", "product_categories", "product_ingredients", "product_stores" (+13 more)
 
-### Community 35 - "search.tsx"
+### Community 35 - "ProductForm.tsx"
 Cohesion: 0.08
-Nodes (23): cn, CATEGORY_ICON_RULES, CATEGORY_PALETTES, CategoryBrowseCard(), CategoryBrowseCardProps, CategoryBrowseSubcategory, getCategoryVisual(), src_components_ui_combobox_combobox (+15 more)
+Nodes (25): cn, CATEGORY_ICON_RULES, CATEGORY_PALETTES, CategoryBrowseCard(), CategoryBrowseCardProps, CategoryBrowseSubcategory, getCategoryVisual(), ProductFormValues (+17 more)
 
-### Community 36 - "profile.tsx"
-Cohesion: 0.11
-Nodes (18): CommandEmpty(), Popover(), PopoverContent(), PopoverDescription(), PopoverHeader(), PopoverTitle(), PopoverTrigger(), ProductScoreTier (+10 more)
+### Community 36 - "auth-schema.ts"
+Cohesion: 0.18
+Nodes (9): ref_drizzle_orm_pg_core, account, accountRelations, roleEnum, session, sessionRelations, user, userRelations (+1 more)
 
 ### Community 37 - "category-icon.tsx"
 Cohesion: 0.47
 Nodes (5): CATEGORY_ICON_RULES, CategoryIconTile(), CategoryIconTileProps, normalizeCategoryName(), resolveCategoryIcon()
 
-### Community 41 - "_public/index.tsx"
-Cohesion: 0.16
-Nodes (15): SearchBar(), SearchBarProps, getPaletteForStore(), getStoreInitials(), SIZE_CLASSES, STORE_AVATAR_PALETTES, StoreAvatar(), StoreAvatarProps (+7 more)
+### Community 41 - "sheet.tsx"
+Cohesion: 0.18
+Nodes (7): Sheet(), SheetContent(), SheetDescription(), SheetFooter(), SheetHeader(), SheetOverlay(), SheetTitle()
 
 ### Community 43 - "FileRoutesByPath"
-Cohesion: 0.14
-Nodes (11): Onboarding(), auth, Route, Route, Route, Route, Route, NAV_ITEMS (+3 more)
+Cohesion: 0.15
+Nodes (10): auth, Route, Route, Route, Route, Route, Route, Route (+2 more)
 
-### Community 44 - "seed-off.ts"
-Cohesion: 0.31
-Nodes (8): ref_drizzle_orm_node_postgres, pg, db, getOrCreateUncategorized(), main(), mapNutriscore(), pool, resolveOffCategory()
+### Community 44 - "drizzle-orm"
+Cohesion: 0.27
+Nodes (9): drizzle-orm, ref_drizzle_orm_node_postgres, pg, db, getOrCreateUncategorized(), main(), mapNutriscore(), pool (+1 more)
 
 ### Community 45 - "storesQueryOptions"
-Cohesion: 0.15
-Nodes (22): activeCategoriesQueryOptions(), categoriesQueryOptions(), SearchOptionsArgs, searchQueryOptions(), storeExclusiveProductsQueryOptions(), storesQueryOptions(), DeleteStoreDialog(), RouteComponent() (+14 more)
+Cohesion: 0.23
+Nodes (16): activeCategoriesQueryOptions(), categoriesQueryOptions(), searchQueryOptions(), storesQueryOptions(), Route, RouteComponent(), Route, SearchPage() (+8 more)
+
+### Community 46 - "store-functions.ts"
+Cohesion: 0.18
+Nodes (10): storeExclusiveProductsQueryOptions(), DeleteStoreDialog(), addStore, addStoreSchema, deleteStore, deleteStoreSchema, getStoreExclusiveProducts, storeIdSchema (+2 more)
 
 ### Community 49 - ""user_favorite_products""
 Cohesion: 0.50
@@ -284,49 +293,49 @@ Nodes (3): "off_ingredient_mappings", "public"."ingredients", "unmapped_off_ingr
 Cohesion: 0.50
 Nodes (3): "public"."ingredients", "public"."user", "user_excluded_ingredients"
 
-### Community 54 - "admin/add-product.tsx"
-Cohesion: 0.21
-Nodes (13): react-zoom-pan-pinch, ingredientsQueryOptions(), unmappedIngredientsQueryOptions(), productQueryOptions(), Route, RouteComponent(), searchSchema, Route (+5 more)
+### Community 54 - "zod"
+Cohesion: 0.22
+Nodes (7): browser-image-compression, zod, clientEnv, clientEnvSchema, serverEnvSchema, getProductUploadUrls, getUploadUrlsSchema
 
 ### Community 56 - ""product_store_submissions""
 Cohesion: 0.40
 Nodes (4): "product_store_submissions", "public"."products", "public"."stores", "public"."user"
 
-### Community 57 - "store-submission-queries.ts"
-Cohesion: 0.33
-Nodes (8): pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), Route, RouteComponent(), Route, StoreSubmissionsAdminPage(), getPendingStoreSubmissionsCount, getStoreSubmissions
+### Community 57 - "_public/add-product.tsx"
+Cohesion: 0.29
+Nodes (6): ProductForm(), useImageUploadMutation(), AddProductRoute(), Route, searchSchema, AddStoreToProductPage()
+
+### Community 58 - "_public/route.tsx"
+Cohesion: 0.40
+Nodes (3): Onboarding(), NAV_ITEMS, Route
 
 ### Community 61 - "store-submission-functions.ts"
-Cohesion: 0.14
-Nodes (12): zod, productStoreSubmissions, clientEnv, clientEnvSchema, serverEnvSchema, approveStoreSubmission, approveStoreSubmissionSchema, getStoreSubmissionsSchema (+4 more)
+Cohesion: 0.16
+Nodes (15): productStoreSubmissions, pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), RouteComponent(), Route, StoreSubmissionsAdminPage(), approveStoreSubmission, approveStoreSubmissionSchema (+7 more)
 
-### Community 66 - "category-functions.ts"
-Cohesion: 0.17
-Nodes (16): drizzle-orm, categories, offCategoryMappings, productCategories, products, productStores, unmappedOffTags, db (+8 more)
-
-### Community 69 - "off-functions.ts"
-Cohesion: 0.53
-Nodes (5): getOrCreateUncategorized(), mapNutriscore(), processBarcodeScan, resolveOffCategory(), testFetchOffProduct
+### Community 66 - "index.ts"
+Cohesion: 0.15
+Nodes (15): categories, productCategories, products, productStores, stores, db, SearchOptionsArgs, getHomeData (+7 more)
 
 ## Knowledge Gaps
-- **450 isolated node(s):** `$schema`, `enabled`, `clientKind`, `useIgnoreFile`, `ignoreUnknown` (+445 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 524 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **454 isolated node(s):** `$schema`, `enabled`, `clientKind`, `useIgnoreFile`, `ignoreUnknown` (+449 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 525 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `cn` to `app-sidebar.tsx`, `search.tsx`, `profile.tsx`, `category-icon.tsx`, `sidebar.tsx`, `_public/index.tsx`, `radix-ui`, `dropdown-menu.tsx`, `storesQueryOptions`, `$productId.tsx`, `store-submissions.tsx`, `admin/route.tsx`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
-- **Why does `@tanstack/react-start` connect `store-submissions.tsx` to `safe-envs.ts`, `ensureSession`, `category-functions.ts`, `product-functions.ts`, `profile.tsx`, `off-functions.ts`, `routeTree.gen.ts`, `package.json`, `$productId.tsx`, `admin/add-product.tsx`, `store-submission-functions.ts`?**
-  _High betweenness centrality (0.066) - this node is a cross-community bridge._
-- **Why does `react` connect `store-submissions.tsx` to `app-sidebar.tsx`, `search.tsx`, `profile.tsx`, `sidebar.tsx`, `package.json`, `_public/index.tsx`, `radix-ui`, `dropdown-menu.tsx`, `storesQueryOptions`, `$productId.tsx`, `admin/route.tsx`, `cn`, `router.tsx`?**
-  _High betweenness centrality (0.049) - this node is a cross-community bridge._
+- **Why does `cn()` connect `cn` to `app-sidebar.tsx`, `ProductForm.tsx`, `sidebar.tsx`, `category-icon.tsx`, `sheet.tsx`, `auth-fields.tsx`, `dropdown-menu.tsx`, `storesQueryOptions`, `profile.tsx`, `react`, `admin/route.tsx`, `_public/add-product.tsx`?**
+  _High betweenness centrality (0.079) - this node is a cross-community bridge._
+- **Why does `@tanstack/react-start` connect `react` to `safe-envs.ts`, `product-functions.ts`, `ensureSession`, `index.ts`, `routeTree.gen.ts`, `package.json`, `store-functions.ts`, `profile.tsx`, `zod`, `_public/add-product.tsx`, `auth-functions.ts`, `store-submission-functions.ts`, `app-schema.ts`?**
+  _High betweenness centrality (0.064) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `app-sidebar.tsx`, `ProductForm.tsx`, `sidebar.tsx`, `package.json`, `sheet.tsx`, `auth-fields.tsx`, `dropdown-menu.tsx`, `storesQueryOptions`, `profile.tsx`, `admin/route.tsx`, `cn`, `router.tsx`?**
+  _High betweenness centrality (0.056) - this node is a cross-community bridge._
 - **What connects `$schema`, `enabled`, `clientKind` to the rest of the system?**
-  _450 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _454 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `product-functions.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.11857707509881422 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11375661375661375 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
 - **Should `sidebar.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.08403361344537816 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1225296442687747 - nodes in this community are weakly interconnected._

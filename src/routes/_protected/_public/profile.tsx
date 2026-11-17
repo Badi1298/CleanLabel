@@ -565,7 +565,11 @@ function ProfilePage() {
 									>
 										<div className="relative aspect-square w-full bg-[#F5F1E8] dark:bg-[#1A2821] flex items-center justify-center border-b border-[#F5F1E8] dark:border-[#24362D]/80">
 											<div className="absolute top-2.5 left-2.5">
-												<ScoreBadge score={item.score} size="sm" />
+												<ScoreBadge
+													score={item.score}
+													size="sm"
+													className="drop-shadow-sm"
+												/>
 											</div>
 											<span
 												aria-hidden="true"

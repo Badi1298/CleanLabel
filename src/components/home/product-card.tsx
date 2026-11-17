@@ -161,7 +161,11 @@ export function ProductCard({ product }: ProductCardProps) {
 				<div className="relative aspect-square w-full bg-[#F5F1E8] dark:bg-[#1A2821] flex items-center justify-center overflow-hidden border-b border-[#F5F1E8] dark:border-[#24362D]/80">
 					{/* Top-Left Semantic Tier Badge */}
 					<div className="absolute top-2.5 left-2.5 z-10">
-						<ScoreBadge score={product.score} size="sm" className="shadow-sm" />
+						<ScoreBadge
+							score={product.score}
+							size="sm"
+							className="drop-shadow-sm"
+						/>
 					</div>
 
 					{/* Top-Right Favorite Button */}
