@@ -1,4 +1,5 @@
-import { Leaf } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight, Leaf } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { ScoreBadge } from "#/components/ui/score-badge";
@@ -77,10 +78,13 @@ export function AuthShell({
 				/>
 
 				<div className="relative z-10 max-w-md mx-auto text-center">
-					<div className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF4E6]/12 border border-[#FBF4E6]/20 px-3 py-1 text-xs font-bold tracking-tight text-[#FCE8C6]">
+					<Link
+						to="/landing"
+						className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF4E6]/12 hover:bg-[#FBF4E6]/20 border border-[#FBF4E6]/20 px-3 py-1 text-xs font-bold tracking-tight text-[#FCE8C6] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+					>
 						<Leaf className="w-3.5 h-3.5 text-[#FCE8C6]" aria-hidden="true" />
 						<span>CleanLabel</span>
-					</div>
+					</Link>
 
 					<h1 className="mt-3.5 text-[2rem] sm:text-4xl font-extrabold tracking-tight leading-[1.06] text-[#FCE8C6]">
 						{title}
@@ -140,6 +144,16 @@ export function AuthShell({
 						<ScoreBadge score="silver" size="sm" />
 						<ScoreBadge score="bronze" size="sm" />
 					</div>
+				</div>
+
+				<div className="mt-3 text-center">
+					<Link
+						to="/landing"
+						className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#2D5A44] dark:text-emerald-400 hover:text-[#1B4332] dark:hover:text-emerald-300 hover:underline underline-offset-4 transition-colors"
+					>
+						<span>Vezi prezentarea aplicației</span>
+						<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+					</Link>
 				</div>
 			</main>
 		</div>

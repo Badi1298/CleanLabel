@@ -8,10 +8,8 @@ import {
 	ChevronDown,
 	ChevronLeft,
 	ChevronRight,
-	Facebook,
 	Heart,
 	Info,
-	Instagram,
 	LogOut,
 	MessageCircle,
 	Package,
@@ -42,6 +40,7 @@ import {
 } from "#/components/ui/popover";
 import { ScoreBadge } from "#/components/ui/score-badge";
 import { Skeleton } from "#/components/ui/skeleton";
+import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
 import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
@@ -104,7 +103,7 @@ const COMMUNITY_LINKS = [
 		label: "Instagram",
 		description: "@pickitwell — daily label checks & tips",
 		href: "https://www.instagram.com/pickitwell?obrf=bDU5MWdqY3VjaTE4",
-		Icon: Instagram,
+		Icon: InstagramIcon,
 		iconStyle:
 			"bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/50",
 		badge: null,
@@ -124,7 +123,7 @@ const COMMUNITY_LINKS = [
 		label: "Facebook Page",
 		description: "News, updates & clean-label highlights",
 		href: "https://www.facebook.com/profile.php?id=61595898309388",
-		Icon: Facebook,
+		Icon: FacebookIcon,
 		iconStyle:
 			"bg-indigo-50 text-indigo-700 border-indigo-200/80 dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-800/50",
 		badge: null,

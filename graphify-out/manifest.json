@@ -330,9 +330,9 @@
     "semantic_hash": ""
   },
   "src/routeTree.gen.ts": {
-    "mtime": 1794831181.366514,
-    "seen": 1794831233.159584,
-    "ast_hash": "8783575b35ec661181b87e11c8a60ec5",
+    "mtime": 1795032347.6416783,
+    "seen": 1795032442.0496378,
+    "ast_hash": "0249d0b529216e722747c09e5621f9e4",
     "semantic_hash": ""
   },
   "src/router.tsx": {
@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1794914306.4515831,
-    "seen": 1794914428.886442,
-    "ast_hash": "e3915e6fc5d27450dee942b5d6805f4c",
+    "mtime": 1795033281.6338482,
+    "seen": 1795033303.243916,
+    "ast_hash": "44110fed9823bb640569acb0b571b7fa",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
@@ -894,9 +894,9 @@
     "semantic_hash": ""
   },
   "src/components/auth/auth-shell.tsx": {
-    "mtime": 1794911798.2686343,
-    "seen": 1794911818.790384,
-    "ast_hash": "585b4d055ad35d015a9ee11f433c6b3c",
+    "mtime": 1795031726.5407095,
+    "seen": 1795032442.0496042,
+    "ast_hash": "a2475abd10121e9275701d5d74b62874",
     "semantic_hash": ""
   },
   "src/assets/bronze-badge.png": {
@@ -921,6 +921,18 @@
     "mtime": 1794917356.585843,
     "seen": 1794917391.372341,
     "ast_hash": "d052d5399dc6b128bb02e48bd5f7b5ed",
+    "semantic_hash": ""
+  },
+  "src/routes/landing.tsx": {
+    "mtime": 1795033242.9027357,
+    "seen": 1795033276.161569,
+    "ast_hash": "b5479bf063863cb634fcb4f24505b92b",
+    "semantic_hash": ""
+  },
+  "src/components/ui/social-icons.tsx": {
+    "mtime": 1795033281.6200202,
+    "seen": 1795033303.243893,
+    "ast_hash": "42574b881ed50dae77f54003741a0ce5",
     "semantic_hash": ""
   }
 }
