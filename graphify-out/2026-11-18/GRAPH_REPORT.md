@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-11-18)
 
 ## Corpus Check
-- 149 files · ~144,591 words
+- 149 files · ~144,589 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
@@ -382,11 +382,11 @@ Nodes (7): ingredients, userExcludedIngredients, userFavoriteProducts, toggleExc
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `cn()` connect `cn` to `auth-fields.tsx`, `AddCategoryDialog.tsx`, `sidebar.tsx`, `dropdown-menu.tsx`, `profile.tsx`, `store-submissions.tsx`, `admin/route.tsx`, `category-browse-card.tsx`, `landing.tsx`, `ProductForm.tsx`, `category-icon.tsx`, `lucide-react`, `productDetailsQueryOptions`, `product-queries.ts`, `_public/index.tsx`, `product-card.tsx`, `favorites.tsx`, `react`, `$productId.tsx`, `sheet.tsx`?**
-  _High betweenness centrality (0.080) - this node is a cross-community bridge._
+  _High betweenness centrality (0.079) - this node is a cross-community bridge._
 - **Why does `react` connect `react` to `auth-fields.tsx`, `AddCategoryDialog.tsx`, `sidebar.tsx`, `package.json`, `dropdown-menu.tsx`, `profile.tsx`, `store-submissions.tsx`, `admin/route.tsx`, `@tanstack/react-query`, `category-browse-card.tsx`, `landing.tsx`, `ProductForm.tsx`, `lucide-react`, `cn`, `product-queries.ts`, `_public/index.tsx`, `product-card.tsx`, `category-mappings.tsx`, `favorites.tsx`, `$productId.tsx`, `sheet.tsx`, `storesQueryOptions`?**
-  _High betweenness centrality (0.060) - this node is a cross-community bridge._
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
 - **Why does `@tanstack/react-start` connect `store-submissions.tsx` to `index.ts`, `category-mappings.tsx`, `AddCategoryDialog.tsx`, `product-functions.ts`, `category-functions.ts`, `$productId.tsx`, `safe-envs.ts`, `routeTree.gen.ts`, `package.json`, `lucide-react`, `profile-functions.ts`, `search-functions.ts`, `profile.tsx`, `upload-functions.ts`, `ensureSession`, `admin/add-product.tsx`, `product-card.tsx`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
+  _High betweenness centrality (0.057) - this node is a cross-community bridge._
 - **What connects `$schema`, `enabled`, `clientKind` to the rest of the system?**
   _472 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `auth-fields.tsx` be split into smaller, more focused modules?**

@@ -1876,7 +1876,7 @@
       "file_type": "code",
       "norm_label": "facebookicon()",
       "source_file": "src/components/ui/social-icons.tsx",
-      "source_location": "L22"
+      "source_location": "L17"
     },
     {
       "id": "src_components_ui_social_icons_instagramicon",
@@ -22950,7 +22950,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/routes/_protected/_public/profile.tsx",
-      "source_location": "L43",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -30177,7 +30177,7 @@
     },
     {
       "source": "src_routes_protected_public_profile",
-      "target": "src_components_ui_social_icons",
+      "target": "src_components_ui_skeleton",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -30189,7 +30189,7 @@
     },
     {
       "source": "src_routes_protected_public_profile",
-      "target": "src_components_ui_skeleton",
+      "target": "src_components_ui_social_icons",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -38448,7 +38448,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/ui/social-icons.tsx",
-      "source_location": "L22",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
