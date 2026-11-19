@@ -312,9 +312,9 @@
     "semantic_hash": ""
   },
   "src/queries/product-queries.ts": {
-    "mtime": 1795089743.9140239,
-    "seen": 1795090007.72961,
-    "ast_hash": "2305417ba424ca5fe82e462f949aa87c",
+    "mtime": 1795101836.8862715,
+    "seen": 1795101973.215723,
+    "ast_hash": "75fd4b82ffde9f6a4cd0609a1ca99b7c",
     "semantic_hash": ""
   },
   "src/queries/search-queries.ts": {
@@ -324,9 +324,9 @@
     "semantic_hash": ""
   },
   "src/queries/store-queries.ts": {
-    "mtime": 1794831181.3657541,
-    "seen": 1794831233.159583,
-    "ast_hash": "9397691240f0a0e1a0ee853c6b73f15c",
+    "mtime": 1795101839.7525327,
+    "seen": 1795101973.215725,
+    "ast_hash": "827c944aead0165820020abba502fcb9",
     "semantic_hash": ""
   },
   "src/routeTree.gen.ts": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
-    "mtime": 1795098796.0487735,
-    "seen": 1795098976.189306,
-    "ast_hash": "cbcdc09a0bd3528f84e947b3c8492985",
+    "mtime": 1795101894.8762696,
+    "seen": 1795101973.2157319,
+    "ast_hash": "cca0b3b12ecfb1618d749b975a8567cf",
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/add-product.tsx": {
@@ -462,9 +462,9 @@
     "semantic_hash": ""
   },
   "src/server/store-functions.ts": {
-    "mtime": 1794835564.191807,
-    "seen": 1794835668.142621,
-    "ast_hash": "2f5d85466e5de1c93b2f3acf93a464e3",
+    "mtime": 1795101838.3762624,
+    "seen": 1795101973.215748,
+    "ast_hash": "4e50a6ed05e2cde49017c7e7e8dc5ecd",
     "semantic_hash": ""
   },
   "src/server/upload-functions.ts": {
@@ -708,9 +708,9 @@
     "semantic_hash": ""
   },
   "src/server/category-functions.ts": {
-    "mtime": 1794831181.3848,
-    "seen": 1794831233.159602,
-    "ast_hash": "b9f36e1690e6160a56aa54abf72f4760",
+    "mtime": 1795101861.4891152,
+    "seen": 1795101973.215744,
+    "ast_hash": "8ddd3aeec94ff34a84994d201dc87480",
     "semantic_hash": ""
   },
   "src/server/ingredient-functions.ts": {
@@ -1038,9 +1038,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores.tsx": {
-    "mtime": 1795098939.509372,
-    "seen": 1795098976.189306,
-    "ast_hash": "c09a5b7aa8c29e8b26e9afb8707e1912",
+    "mtime": 1795101917.003252,
+    "seen": 1795101973.215733,
+    "ast_hash": "fd468888c4f31272090cdca1af3fd560",
     "semantic_hash": ""
   },
   ".agents/rules/shadcn-ui.md": {
