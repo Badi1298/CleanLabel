@@ -14,6 +14,7 @@ import {
 	Calendar,
 	CheckCircle2,
 	ChevronRight,
+	Flag,
 	Heart,
 	Info,
 	Package,
@@ -29,9 +30,12 @@ import {
 } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { HighlightedIngredientsText } from "#/components/HighlightedIngredientsText";
 import { ProductCard } from "#/components/home/product-card";
+import { ProductReportErrorDialog } from "#/components/ProductReportErrorDialog";
 import { StoreAvatar } from "#/components/stores/store-avatar";
 import { ScoreBadge } from "#/components/ui/score-badge";
+import { isPhraseFoundInText } from "#/lib/additive-highlighting";
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
 import {
@@ -137,6 +141,10 @@ function formatProductDate(value: Date | string | null | undefined) {
 	const date = value instanceof Date ? value : new Date(value);
 	if (Number.isNaN(date.getTime())) return null;
 
+	const day = String(date.getDate()).padStart(2, "0");
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const year = date.getFullYear();
+
 	return {
 		iso: date.toISOString(),
 		formatted: date.toLocaleDateString(undefined, {
@@ -144,6 +152,7 @@ function formatProductDate(value: Date | string | null | undefined) {
 			month: "short",
 			day: "numeric",
 		}),
+		ddmmyyyy: `${day}.${month}.${year}`,
 		dayKey: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
 		timestamp: date.getTime(),
 	};
@@ -380,6 +389,7 @@ function ProductDetails() {
 	);
 
 	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+	const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
 	const [activeImageSide, setActiveImageSide] = useState<ImageSide>("front");
 
 	const { data: session } = authClient.useSession();
@@ -436,11 +446,26 @@ function ProductDetails() {
 		},
 	);
 
-	const ingredientCount = sortedIngredients.length;
+	const hasReviewedAdditives = Array.isArray(product.highlightedAdditives);
+	const markedAdditives = product.highlightedAdditives ?? [];
+	const activeMarkedAdditives = product.rawIngredientsText
+		? markedAdditives.filter((phrase) =>
+				isPhraseFoundInText(product.rawIngredientsText ?? "", phrase),
+			)
+		: markedAdditives;
+	const additiveCountToDisplay: number | null = hasReviewedAdditives
+		? markedAdditives.length
+		: product.score === "gold"
+			? 0
+			: null;
+
 	const storeCount = product.productStores?.length ?? 0;
 
 	const createdInfo = formatProductDate(product.createdAt);
 	const updatedInfo = formatProductDate(product.updatedAt);
+	const checkedDateInfo = formatProductDate(
+		product.updatedAt ?? product.createdAt,
+	);
 	const hasMeaningfulUpdate = Boolean(
 		createdInfo &&
 			updatedInfo &&
@@ -700,8 +725,9 @@ function ProductDetails() {
 										aria-hidden="true"
 									/>
 									<span>
-										{ingredientCount} marked{" "}
-										{ingredientCount === 1 ? "additive" : "additives"}
+										{additiveCountToDisplay !== null
+											? `${additiveCountToDisplay} marked ${additiveCountToDisplay === 1 ? "additive" : "additives"}`
+											: "View ingredients"}
 									</span>
 								</button>
 							</div>
@@ -776,7 +802,7 @@ function ProductDetails() {
 											</div>
 										</div>
 									</div>
-								) : (
+								) : sortedIngredients.length > 0 ? (
 									<div className="rounded-xl border border-emerald-200/80 dark:border-emerald-800/50 bg-[#E3EDE7]/55 dark:bg-[#1E3A2C]/45 px-3.5 py-2.5 flex items-center gap-2 text-xs font-semibold text-[#1B4332] dark:text-[#CBE3D4]">
 										<CheckCircle2
 											className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0"
@@ -787,6 +813,22 @@ function ProductDetails() {
 											{excludedIngredients.length === 1
 												? "ingredient"
 												: "ingredients"}
+										</span>
+									</div>
+								) : (
+									<div className="rounded-xl border border-[#EAE4D7] dark:border-[#24362D] bg-[#FAF8F5] dark:bg-[#121D17] px-3.5 py-2.5 flex items-start gap-2.5 text-xs font-medium text-[#4A554E] dark:text-[#B8C4BC]">
+										<Info
+											className="w-4 h-4 text-[#2D5A44] dark:text-emerald-400 shrink-0 mt-0.5"
+											aria-hidden="true"
+										/>
+										<span>
+											Ingredient tags are not mapped for this product yet
+											&mdash; please check the declared label below for your{" "}
+											{excludedIngredients.length} excluded{" "}
+											{excludedIngredients.length === 1
+												? "ingredient"
+												: "ingredients"}
+											.
 										</span>
 									</div>
 								))}
@@ -876,94 +918,157 @@ function ProductDetails() {
 										id="ingredients-heading"
 										className="text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 									>
-										Marked Ingredients &amp; Additives
+										Declared Ingredients
 									</h2>
 									<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-										Additives and flagged ingredients identified on the label
+										Ingredients declared by the producer, with marked additives
+										highlighted
 									</p>
 								</div>
 							</div>
 
-							<span className="inline-flex items-center rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
-								{ingredientCount} {ingredientCount === 1 ? "item" : "items"}
-							</span>
+							{additiveCountToDisplay !== null && (
+								<span
+									className={cn(
+										"inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0 border",
+										additiveCountToDisplay > 0
+											? "bg-amber-100/90 dark:bg-amber-950/60 border-amber-300/80 dark:border-amber-700/60 text-[#78350F] dark:text-amber-200"
+											: "bg-[#E3EDE7] dark:bg-[#1E3A2C] border-[#C8DBD0] dark:border-[#2E5440] text-[#1B4332] dark:text-[#CBE3D4]",
+									)}
+								>
+									{additiveCountToDisplay} marked{" "}
+									{additiveCountToDisplay === 1 ? "additive" : "additives"}
+								</span>
+							)}
 						</div>
 
-						<div className="p-4 sm:p-5 space-y-4">
-							{sortedIngredients.length > 0 ? (
-								<ul className="space-y-2.5">
-									{sortedIngredients.map(({ ingredient }) => {
-										const isExcluded = excludedIdSet.has(ingredient.id);
-										return (
-											<li
-												key={ingredient.id}
-												className={cn(
-													"rounded-xl border p-3.5 sm:p-4 transition-colors",
-													isExcluded
-														? "border-rose-300 dark:border-rose-800/70 bg-rose-50/60 dark:bg-rose-950/25"
-														: "border-[#EAE4D7] dark:border-[#24362D] bg-[#FAF8F5]/70 dark:bg-[#121D17]/70",
-												)}
-											>
-												<div className="flex items-center justify-between gap-2">
-													<div className="flex items-center gap-2 min-w-0">
-														{isExcluded && (
-															<AlertTriangle
-																className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0"
-																aria-hidden="true"
-															/>
-														)}
-														<span
-															className={cn(
-																"font-bold text-sm sm:text-[15px] capitalize",
-																isExcluded
-																	? "text-rose-800 dark:text-rose-200"
-																	: "text-[#1B3328] dark:text-[#EDF2EE]",
-															)}
-														>
-															{ingredient.name}
-														</span>
-													</div>
-													{isExcluded && (
-														<span className="inline-flex items-center rounded-full bg-rose-100 dark:bg-rose-900/60 border border-rose-200 dark:border-rose-700/60 px-2.5 py-0.5 text-[11px] font-bold text-rose-800 dark:text-rose-200 shrink-0">
-															Excluded
-														</span>
-													)}
-												</div>
+						<div className="p-4 sm:p-5 space-y-5">
+							{product.rawIngredientsText ? (
+								<div className="space-y-2.5">
+									<h3 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
+										Label Ingredients
+									</h3>
+									<div className="rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#24362D] p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed text-[#1B3328] dark:text-[#EDF2EE]">
+										<HighlightedIngredientsText
+											text={product.rawIngredientsText}
+											highlightedAdditives={product.highlightedAdditives}
+										/>
+									</div>
 
-												{ingredient.description && (
-													<p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-[#5C665E] dark:text-[#9AA89E]">
-														{ingredient.description}
-													</p>
-												)}
-											</li>
-										);
-									})}
-								</ul>
+									{activeMarkedAdditives.length > 0 ? (
+										<p className="flex flex-wrap items-center gap-1.5 text-xs text-[#5C665E] dark:text-[#9AA89E]">
+											<mark className="inline rounded-md bg-amber-100/95 dark:bg-amber-950/75 border border-amber-400/75 dark:border-amber-600/70 text-[#78350F] dark:text-amber-200 px-1.5 py-0.5 text-[11px] font-semibold">
+												Additive
+											</mark>
+											<span>
+												Highlighted items are additives marked on the label.
+											</span>
+										</p>
+									) : (
+										hasReviewedAdditives &&
+										markedAdditives.length === 0 && (
+											<p className="text-xs text-[#5C665E] dark:text-[#9AA89E]">
+												No additives marked on this label.
+											</p>
+										)
+									)}
+								</div>
 							) : (
 								<div className="rounded-xl border border-dashed border-[#DCD4C3] dark:border-[#2A3D33] bg-[#FAF8F5]/65 dark:bg-[#121D17]/50 p-6 text-center">
 									<p className="text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-										{product.score === "gold"
-											? "No flagged additives listed"
-											: "Ingredients not yet mapped"}
+										Label text not yet added
 									</p>
 									<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-1">
 										{product.score === "gold"
 											? "This product earned Gold with minimal or no marked additives."
-											: "Detailed marked additives are not yet available for this product."}
+											: "Detailed label ingredients are not yet available for this product."}
 									</p>
 								</div>
 							)}
 
-							{product.rawIngredientsText && (
-								<div className="pt-2">
-									<h3 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E] mb-2">
-										Raw Label Text
+							{sortedIngredients.length > 0 && (
+								<div className="space-y-2.5 pt-1 border-t border-[#F0EAE0] dark:border-[#22332A]">
+									<h3 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E] pt-2">
+										Tagged Ingredients
 									</h3>
-									<div className="rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#24362D] p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed text-[#4A554E] dark:text-[#B8C4BC]">
-										{product.rawIngredientsText}
-									</div>
+									<ul className="space-y-2.5">
+										{sortedIngredients.map(({ ingredient }) => {
+											const isExcluded = excludedIdSet.has(ingredient.id);
+											return (
+												<li
+													key={ingredient.id}
+													className={cn(
+														"rounded-xl border p-3.5 sm:p-4 transition-colors",
+														isExcluded
+															? "border-rose-300 dark:border-rose-800/70 bg-rose-50/60 dark:bg-rose-950/25"
+															: "border-[#EAE4D7] dark:border-[#24362D] bg-[#FAF8F5]/70 dark:bg-[#121D17]/70",
+													)}
+												>
+													<div className="flex items-center justify-between gap-2">
+														<div className="flex items-center gap-2 min-w-0">
+															{isExcluded && (
+																<AlertTriangle
+																	className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0"
+																	aria-hidden="true"
+																/>
+															)}
+															<span
+																className={cn(
+																	"font-bold text-sm sm:text-[15px] capitalize",
+																	isExcluded
+																		? "text-rose-800 dark:text-rose-200"
+																		: "text-[#1B3328] dark:text-[#EDF2EE]",
+																)}
+															>
+																{ingredient.name}
+															</span>
+														</div>
+														{isExcluded && (
+															<span className="inline-flex items-center rounded-full bg-rose-100 dark:bg-rose-900/60 border border-rose-200 dark:border-rose-700/60 px-2.5 py-0.5 text-[11px] font-bold text-rose-800 dark:text-rose-200 shrink-0">
+																Excluded
+															</span>
+														)}
+													</div>
+
+													{ingredient.description && (
+														<p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-[#5C665E] dark:text-[#9AA89E]">
+															{ingredient.description}
+														</p>
+													)}
+												</li>
+											);
+										})}
+									</ul>
 								</div>
 							)}
+
+							<div className="pt-3 border-t border-[#F0EAE0] dark:border-[#22332A] flex flex-wrap items-center justify-between gap-2 text-xs">
+								{checkedDateInfo ? (
+									<span className="inline-flex items-center gap-1.5 text-[#5C665E] dark:text-[#9AA89E] font-medium">
+										<Calendar
+											className="w-3.5 h-3.5 shrink-0"
+											aria-hidden="true"
+										/>
+										<span>
+											Label checked on:{" "}
+											<time dateTime={checkedDateInfo.iso}>
+												{checkedDateInfo.ddmmyyyy}
+											</time>
+										</span>
+									</span>
+								) : (
+									<span />
+								)}
+
+								<button
+									type="button"
+									onClick={() => setIsReportDialogOpen(true)}
+									className="inline-flex items-center gap-1.5 font-bold text-[#A67C37] dark:text-[#D4AF6A] hover:underline underline-offset-4 cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
+								>
+									<Flag className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+									<span>Report an error</span>
+								</button>
+							</div>
 						</div>
 					</section>
 
@@ -1111,6 +1216,15 @@ function ProductDetails() {
 				imageBackUrl={product.imageBackUrl}
 				activeSide={activeImageSide}
 				onSelectSide={setActiveImageSide}
+			/>
+
+			{/* Native Modal Dialog for Reporting Label or Product Errors */}
+			<ProductReportErrorDialog
+				open={isReportDialogOpen}
+				onClose={() => setIsReportDialogOpen(false)}
+				productName={product.name}
+				productBrand={product.brand}
+				defaultEmail={session?.user?.email}
 			/>
 		</div>
 	);

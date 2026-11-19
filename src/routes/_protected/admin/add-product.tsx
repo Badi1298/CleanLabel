@@ -130,6 +130,8 @@ function RouteComponent() {
 											score: product.score,
 											status: product.status,
 											rawIngredientsText: product.rawIngredientsText || "",
+											highlightedAdditives:
+												product.highlightedAdditives ?? null,
 											imageFront: product.imageFrontUrl || undefined,
 											imageBack: product.imageBackUrl || undefined,
 											storeIds:
@@ -161,6 +163,7 @@ function RouteComponent() {
 														: undefined,
 												storeIds: values.storeIds,
 												ingredientIds: values.ingredientIds,
+												highlightedAdditives: values.highlightedAdditives,
 											},
 										});
 										toast.success("Product updated successfully!");
@@ -174,6 +177,7 @@ function RouteComponent() {
 												score: values.score,
 												status: values.status || "approved",
 												rawIngredientsText: values.rawIngredientsText,
+												highlightedAdditives: values.highlightedAdditives,
 												imageFrontUrl:
 													typeof values.imageFront === "string"
 														? values.imageFront

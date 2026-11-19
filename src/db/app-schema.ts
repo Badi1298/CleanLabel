@@ -53,6 +53,7 @@ export const products = pgTable("products", {
 	imageFrontUrl: text("image_front_url"),
 	imageBackUrl: text("image_back_url"),
 	rawIngredientsText: text("raw_ingredients_text"),
+	highlightedAdditives: jsonb("highlighted_additives").$type<string[]>(),
 	status: productStatusEnum("status").default("approved").notNull(),
 	offTags: jsonb("off_tags").$type<string[]>(),
 	isReviewed: boolean("is_reviewed").default(false).notNull(),
@@ -333,4 +334,3 @@ export const productStoreSubmissionsRelations = relations(
 		}),
 	}),
 );
-

@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "drizzle/meta/_journal.json": {
-    "mtime": 1794831181.3165352,
-    "seen": 1794831233.1595461,
-    "ast_hash": "1612bc8ef94553638ba09b31e050c411",
+    "mtime": 1795086268.98417,
+    "seen": 1795090007.729557,
+    "ast_hash": "21da6e9194900dceed2f6c465e6ef98e",
     "semantic_hash": ""
   },
   "package.json": {
@@ -72,9 +72,9 @@
     "semantic_hash": ""
   },
   "src/components/ProductForm.tsx": {
-    "mtime": 1794831181.360363,
-    "seen": 1794831233.159553,
-    "ast_hash": "a83c7bdede8156255f8a042d1f64a252",
+    "mtime": 1795089970.0566406,
+    "seen": 1795090007.729565,
+    "ast_hash": "658037ff297991346bea45ed82694fe3",
     "semantic_hash": ""
   },
   "src/components/ScannerDialog.tsx": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "src/db/app-schema.ts": {
-    "mtime": 1794831181.3617568,
-    "seen": 1794831233.159572,
-    "ast_hash": "d8158ef0fb8f71a4042181646df02b9f",
+    "mtime": 1795089970.0456102,
+    "seen": 1795090007.7296,
+    "ast_hash": "d57982db1bef37c22c22eb6150fc57e8",
     "semantic_hash": ""
   },
   "src/db/auth-schema.ts": {
@@ -312,9 +312,9 @@
     "semantic_hash": ""
   },
   "src/queries/product-queries.ts": {
-    "mtime": 1794831181.3649628,
-    "seen": 1794831233.159581,
-    "ast_hash": "7597eed94fd8f230471070d7cda15616",
+    "mtime": 1795089743.9140239,
+    "seen": 1795090007.72961,
+    "ast_hash": "2305417ba424ca5fe82e462f949aa87c",
     "semantic_hash": ""
   },
   "src/queries/search-queries.ts": {
@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
-    "mtime": 1794844648.8288774,
-    "seen": 1794844658.471837,
-    "ast_hash": "cd19f7131849f351241cff156e91ba8e",
+    "mtime": 1795089970.0635889,
+    "seen": 1795090007.7296178,
+    "ast_hash": "ca21bff2bf205e956cb8f03fa6c8559f",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
@@ -402,15 +402,15 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/add-product.tsx": {
-    "mtime": 1794831181.3736076,
-    "seen": 1794831233.1595929,
-    "ast_hash": "92bb88c455e00fb25cf4bcdad6b88dc9",
+    "mtime": 1795089814.802502,
+    "seen": 1795090007.729623,
+    "ast_hash": "9083dc058fe6cb02dfdefd0649aaa372",
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/all-products.tsx": {
-    "mtime": 1794831181.3826265,
-    "seen": 1794831233.159595,
-    "ast_hash": "52caca26059481e0aa64f7460810fcd5",
+    "mtime": 1795089844.9010704,
+    "seen": 1795090007.729625,
+    "ast_hash": "4a662b0960b43a278817008534b9427d",
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/route.tsx": {
@@ -468,9 +468,9 @@
     "semantic_hash": ""
   },
   "src/server/product-functions.ts": {
-    "mtime": 1794834341.2819624,
-    "seen": 1794834377.865747,
-    "ast_hash": "c49e969bd196bf4a45ff333e751af828",
+    "mtime": 1795089759.1287727,
+    "seen": 1795090007.7296379,
+    "ast_hash": "89bf613043eab08c26a919f0ca57d9f1",
     "semantic_hash": ""
   },
   "src/server/search-functions.ts": {
@@ -999,6 +999,36 @@
     "mtime": 1795079315.5284965,
     "seen": 1795079557.286313,
     "ast_hash": "819788bedfaa7fe37956858347edb333",
+    "semantic_hash": ""
+  },
+  "drizzle/0008_parallel_wrecking_crew.sql": {
+    "mtime": 1795086268.9843142,
+    "seen": 1795090007.7295492,
+    "ast_hash": "d7112f8472c3642455473af3ae5bca1c",
+    "semantic_hash": ""
+  },
+  "drizzle/meta/0008_snapshot.json": {
+    "mtime": 1795086268.9838033,
+    "seen": 1795090007.729556,
+    "ast_hash": "5fcbf02cff0755b404726ab8b7b1713e",
+    "semantic_hash": ""
+  },
+  "src/components/HighlightedIngredientsText.tsx": {
+    "mtime": 1795089731.6554334,
+    "seen": 1795090007.729563,
+    "ast_hash": "79afc0f11ae3060648c22578724f3177",
+    "semantic_hash": ""
+  },
+  "src/components/ProductReportErrorDialog.tsx": {
+    "mtime": 1795089970.04569,
+    "seen": 1795090007.729565,
+    "ast_hash": "3a8119357355f92feeaa94f4c1a08377",
+    "semantic_hash": ""
+  },
+  "src/lib/additive-highlighting.ts": {
+    "mtime": 1795089703.7152026,
+    "seen": 1795090007.729606,
+    "ast_hash": "c8ae8dbb65f8c6c6a4e169a3e2eee466",
     "semantic_hash": ""
   }
 }

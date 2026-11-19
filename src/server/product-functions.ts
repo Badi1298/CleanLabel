@@ -5,6 +5,8 @@ import {
 	eq,
 	ilike,
 	inArray,
+	isNotNull,
+	isNull,
 	ne,
 	or,
 	sql,
@@ -18,6 +20,7 @@ import {
 	productStores,
 	products,
 } from "#/db/app-schema";
+import { sanitizeHighlightedAdditives } from "#/lib/additive-highlighting";
 import { ensureSession } from "./auth-functions";
 
 export const getCategories = createServerFn({
@@ -37,6 +40,7 @@ const addProductSchema = z.object({
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),
 	rawIngredientsText: z.string().optional(),
+	highlightedAdditives: z.array(z.string()).nullable().optional(),
 	imageFrontUrl: z.string().optional(),
 	imageBackUrl: z.string().optional(),
 	storeIds: z.array(z.string()).optional(),
@@ -56,6 +60,11 @@ export const addProduct = createServerFn({
 			throw new Error("At least one store is required.");
 		}
 
+		const highlightedAdditives =
+			session.user.role === "admin" && data.highlightedAdditives !== undefined
+				? sanitizeHighlightedAdditives(data.highlightedAdditives)
+				: undefined;
+
 		const [newProduct] = await db
 			.insert(products)
 			.values({
@@ -65,6 +74,7 @@ export const addProduct = createServerFn({
 				score: data.score,
 				status: data.status,
 				rawIngredientsText: data.rawIngredientsText || undefined,
+				...(highlightedAdditives !== undefined ? { highlightedAdditives } : {}),
 				imageFrontUrl: data.imageFrontUrl || undefined,
 				imageBackUrl: data.imageBackUrl || undefined,
 				submittedById: session.user.id,
@@ -107,6 +117,7 @@ const getProductsSchema = z.object({
 	globalFilter: z.string().optional(),
 	statusFilter: z.string().optional(),
 	storeFilter: z.string().optional(),
+	additivesFilter: z.string().optional(),
 });
 
 export const getAllProducts = createServerFn({
@@ -115,14 +126,26 @@ export const getAllProducts = createServerFn({
 	.validator((data: z.infer<typeof getProductsSchema>) => data)
 	.handler(async ({ data }) => {
 		await ensureSession();
-		const { pageIndex, pageSize, globalFilter, statusFilter, storeFilter } =
-			data;
+		const {
+			pageIndex,
+			pageSize,
+			globalFilter,
+			statusFilter,
+			storeFilter,
+			additivesFilter,
+		} = data;
 		const offset = pageIndex * pageSize;
 
 		const whereConditions = [];
 
 		if (statusFilter && statusFilter !== "all") {
 			whereConditions.push(eq(products.status, statusFilter as any));
+		}
+
+		if (additivesFilter === "unreviewed") {
+			whereConditions.push(isNull(products.highlightedAdditives));
+		} else if (additivesFilter === "reviewed") {
+			whereConditions.push(isNotNull(products.highlightedAdditives));
 		}
 
 		if (storeFilter && storeFilter !== "all") {
@@ -241,6 +264,7 @@ const updateProductSchema = z.object({
 		.enum(["pending_review", "approved", "rejected"])
 		.default("pending_review"),
 	rawIngredientsText: z.string().optional(),
+	highlightedAdditives: z.array(z.string()).nullable().optional(),
 	imageFrontUrl: z.string().optional(),
 	imageBackUrl: z.string().optional(),
 	storeIds: z.array(z.string()).min(1, "At least one store is required"),
@@ -251,11 +275,16 @@ export const updateProduct = createServerFn({
 })
 	.validator((data: z.infer<typeof updateProductSchema>) => data)
 	.handler(async ({ data }) => {
-		await ensureSession();
+		const session = await ensureSession();
 
 		if (!data.storeIds || data.storeIds.length === 0) {
 			throw new Error("At least one store is required.");
 		}
+
+		const highlightedAdditives =
+			session.user.role === "admin" && data.highlightedAdditives !== undefined
+				? sanitizeHighlightedAdditives(data.highlightedAdditives)
+				: undefined;
 
 		const [updatedProduct] = await db
 			.update(products)
@@ -266,6 +295,7 @@ export const updateProduct = createServerFn({
 				score: data.score,
 				status: data.status,
 				rawIngredientsText: data.rawIngredientsText || undefined,
+				...(highlightedAdditives !== undefined ? { highlightedAdditives } : {}),
 				imageFrontUrl: data.imageFrontUrl || undefined,
 				imageBackUrl: data.imageBackUrl || undefined,
 			})

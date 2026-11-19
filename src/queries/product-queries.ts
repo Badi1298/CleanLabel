@@ -42,6 +42,7 @@ type ProductQueryArgs = {
 	globalFilter?: string;
 	statusFilter?: string;
 	storeFilter?: string;
+	additivesFilter?: string;
 };
 
 export const allProductsQueryOptions = (args: ProductQueryArgs) =>

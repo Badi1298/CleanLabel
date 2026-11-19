@@ -63,6 +63,7 @@ export const Route = createFileRoute("/_protected/admin/all-products")({
 					globalFilter: "",
 					statusFilter: "all",
 					storeFilter: "all",
+					additivesFilter: "all",
 				}),
 			),
 			queryClient.ensureQueryData(storesQueryOptions()),
@@ -101,6 +102,7 @@ function RouteComponent() {
 	}
 	const [statusFilter, setStatusFilter] = useState<string>("all");
 	const [storeFilter, setStoreFilter] = useState<string>("all");
+	const [additivesFilter, setAdditivesFilter] = useState<string>("all");
 	const [columnVisibility, setColumnVisibility] = useState<
 		Record<string, boolean>
 	>({});
@@ -112,8 +114,9 @@ function RouteComponent() {
 			globalFilter: debouncedSearch,
 			statusFilter,
 			storeFilter,
+			additivesFilter,
 		}),
-		[pagination, debouncedSearch, statusFilter, storeFilter],
+		[pagination, debouncedSearch, statusFilter, storeFilter, additivesFilter],
 	);
 
 	const { data: result, refetch } = useQuery({
@@ -250,6 +253,42 @@ function RouteComponent() {
 							}
 						>
 							{status.replace("_", " ")}
+						</Badge>
+					);
+				},
+			}),
+			columnHelper.accessor((row) => row.product.highlightedAdditives, {
+				id: "additives",
+				header: "Additives",
+				enableColumnFilter: false,
+				cell: (info) => {
+					const marked = info.getValue();
+					if (marked == null) {
+						return (
+							<Badge
+								variant="outline"
+								className="font-normal text-xs whitespace-nowrap border-amber-400 dark:border-amber-700 text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40"
+							>
+								Unreviewed
+							</Badge>
+						);
+					}
+					if (marked.length === 0) {
+						return (
+							<Badge
+								variant="outline"
+								className="font-normal text-xs whitespace-nowrap border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40"
+							>
+								0 marked
+							</Badge>
+						);
+					}
+					return (
+						<Badge
+							variant="outline"
+							className="font-medium text-xs whitespace-nowrap border-amber-400/80 dark:border-amber-700 text-amber-900 dark:text-amber-200 bg-amber-100/80 dark:bg-amber-950/60"
+						>
+							{marked.length} marked
 						</Badge>
 					);
 				},
@@ -391,6 +430,26 @@ function RouteComponent() {
 							))}
 						</SelectContent>
 					</Select>
+
+					<Select
+						value={additivesFilter}
+						onValueChange={(val) => {
+							setAdditivesFilter(val);
+							setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+						}}
+					>
+						<SelectTrigger
+							aria-label="Filter by additive review status"
+							className="w-full sm:w-44 h-9 text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+						>
+							<SelectValue placeholder="All Additives" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="all">All Additives</SelectItem>
+							<SelectItem value="unreviewed">Needs Review</SelectItem>
+							<SelectItem value="reviewed">Reviewed</SelectItem>
+						</SelectContent>
+					</Select>
 				</div>
 
 				<div className="flex items-center gap-4">
@@ -440,10 +499,12 @@ function RouteComponent() {
 									{headerGroup.headers.map((header) => {
 										const widthClass =
 											{
-												name: "w-[35%]",
-												categories: "w-[20%]",
-												status: "w-[20%]",
-												date: "w-[15%]",
+												name: "w-[26%]",
+												categories: "w-[18%]",
+												stores: "w-[16%]",
+												status: "w-[10%]",
+												additives: "w-[10%]",
+												date: "w-[10%]",
 												actions: "w-[10%]",
 											}[header.id] || "";
 										return (
