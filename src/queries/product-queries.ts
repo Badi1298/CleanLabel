@@ -15,6 +15,7 @@ export const categoriesQueryOptions = () =>
 	});
 
 export type ActiveCategoriesFilters = {
+	q?: string;
 	storeId?: string;
 	score?: "gold" | "silver" | "bronze" | "none";
 };
@@ -22,8 +23,14 @@ export type ActiveCategoriesFilters = {
 export const activeCategoriesQueryOptions = (
 	filters?: string | ActiveCategoriesFilters,
 ) => {
-	const normalized: ActiveCategoriesFilters =
+	const raw: ActiveCategoriesFilters =
 		typeof filters === "string" ? { storeId: filters } : filters || {};
+	const trimmedQ = raw.q?.trim();
+	const normalized: ActiveCategoriesFilters = {
+		...(trimmedQ ? { q: trimmedQ } : {}),
+		...(raw.storeId ? { storeId: raw.storeId } : {}),
+		...(raw.score ? { score: raw.score } : {}),
+	};
 	return queryOptions({
 		queryKey: ["activeCategories", normalized],
 		queryFn: () => getActiveCategories({ data: normalized }),

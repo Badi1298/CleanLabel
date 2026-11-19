@@ -1,10 +1,15 @@
 import { queryOptions } from "@tanstack/react-query";
 import { getStoreExclusiveProducts, getStores } from "#/server/store-functions";
 
-export function storesQueryOptions() {
+export type StoresQueryFilters = {
+	score?: "gold" | "silver" | "bronze" | "none";
+};
+
+export function storesQueryOptions(filters?: StoresQueryFilters) {
+	const score = filters?.score;
 	return queryOptions({
-		queryKey: ["stores"],
-		queryFn: () => getStores(),
+		queryKey: score ? ["stores", { score }] : ["stores"],
+		queryFn: () => getStores({ data: { score } }),
 	});
 }
 

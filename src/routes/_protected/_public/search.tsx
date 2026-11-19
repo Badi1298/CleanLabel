@@ -90,6 +90,7 @@ export const Route = createFileRoute("/_protected/_public/search")({
 			queryClient.ensureQueryData(categoriesQueryOptions()),
 			queryClient.ensureQueryData(
 				activeCategoriesQueryOptions({
+					q: deps.q,
 					storeId: deps.storeId,
 					score: deps.score,
 				}),
@@ -135,6 +136,7 @@ function SearchPage() {
 	const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
 	const { data: activeCategoriesData } = useSuspenseQuery(
 		activeCategoriesQueryOptions({
+			q: searchParams.q,
 			storeId: searchParams.storeId,
 			score: searchParams.score,
 		}),
@@ -142,12 +144,12 @@ function SearchPage() {
 	const { data: stores } = useSuspenseQuery(storesQueryOptions());
 
 	const categoryCounts = useMemo(
-		() => new Map(activeCategoriesData?.map((c) => [c.id, c.count])),
+		() => new Map(activeCategoriesData.categories.map((c) => [c.id, c.count])),
 		[activeCategoriesData],
 	);
 
 	const activeCategoryIds = useMemo(
-		() => new Set(activeCategoriesData?.map((c) => c.id)),
+		() => new Set(activeCategoriesData.categories.map((c) => c.id)),
 		[activeCategoriesData],
 	);
 
@@ -312,11 +314,7 @@ function SearchPage() {
 									activeParentId={activeParentId}
 									selectedCategoryId={searchParams.categoryId}
 									selectedSubCategoryId={selectedSubCategoryId}
-									totalProductsCount={
-										!hasCategoryFilter
-											? sectionsData?.totalProductsCount
-											: undefined
-									}
+									totalProductsCount={activeCategoriesData.totalProductsCount}
 									onSelectAll={handleSelectAllCategories}
 									onSelectCategory={(catId) => handleSelectCategory(catId)}
 									onSelectSubcategory={handleSelectSubcategory}
@@ -410,11 +408,7 @@ function SearchPage() {
 							activeParentId={activeParentId}
 							selectedCategoryId={searchParams.categoryId}
 							selectedSubCategoryId={selectedSubCategoryId}
-							totalProductsCount={
-								!hasCategoryFilter
-									? sectionsData?.totalProductsCount
-									: undefined
-							}
+							totalProductsCount={activeCategoriesData.totalProductsCount}
 							onSelectAll={handleSelectAllCategories}
 							onSelectCategory={(catId) => handleSelectCategory(catId)}
 							onSelectSubcategory={handleSelectSubcategory}

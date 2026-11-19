@@ -77,7 +77,9 @@ export const Route = createFileRoute("/_protected/_public/stores")({
 		score,
 	}),
 	loader: async ({ context: { queryClient }, deps }) => {
-		const storesPromise = queryClient.ensureQueryData(storesQueryOptions());
+		const storesPromise = queryClient.ensureQueryData(
+			storesQueryOptions({ score: deps.score }),
+		);
 
 		if (!deps.storeId) {
 			await storesPromise;
@@ -92,6 +94,7 @@ export const Route = createFileRoute("/_protected/_public/stores")({
 			queryClient.ensureQueryData(categoriesQueryOptions()),
 			queryClient.ensureQueryData(
 				activeCategoriesQueryOptions({
+					q: deps.q,
 					storeId: deps.storeId,
 					score: deps.score,
 				}),
@@ -128,7 +131,9 @@ function StoresPage() {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [storeSearchQuery, setStoreSearchQuery] = useState("");
 
-	const { data: stores } = useSuspenseQuery(storesQueryOptions());
+	const { data: stores } = useSuspenseQuery(
+		storesQueryOptions({ score: searchParams.score }),
+	);
 
 	const selectedStore = useMemo(
 		() =>
@@ -151,6 +156,7 @@ function StoresPage() {
 	const { data: activeCategoriesData, isFetching: isFetchingCategories } =
 		useQuery({
 			...activeCategoriesQueryOptions({
+				q: searchParams.q,
 				storeId: selectedStore?.id,
 				score: searchParams.score,
 			}),
@@ -159,12 +165,15 @@ function StoresPage() {
 		});
 
 	const categoryCounts = useMemo(
-		() => new Map(activeCategoriesData?.map((c) => [c.id, c.count])),
+		() =>
+			new Map(
+				(activeCategoriesData?.categories ?? []).map((c) => [c.id, c.count]),
+			),
 		[activeCategoriesData],
 	);
 
 	const activeCategoryIds = useMemo(
-		() => new Set(activeCategoriesData?.map((c) => c.id)),
+		() => new Set((activeCategoriesData?.categories ?? []).map((c) => c.id)),
 		[activeCategoriesData],
 	);
 
@@ -207,10 +216,6 @@ function StoresPage() {
 				: [],
 		[categories, activeParentId],
 	);
-
-	const activeParentCount = activeParentId
-		? categoryCounts.get(activeParentId)
-		: undefined;
 
 	const {
 		data: sectionsData,
@@ -264,6 +269,28 @@ function StoresPage() {
 		[stores, trimmedStoreQuery],
 	);
 
+	const trimmedProductQuery = searchParams.q?.trim();
+
+	const sidebarStores = useMemo(() => {
+		if (
+			!selectedStore ||
+			!trimmedProductQuery ||
+			typeof activeCategoriesData?.totalProductsCount !== "number"
+		) {
+			return stores;
+		}
+		return stores.map((store) =>
+			store.id === selectedStore.id
+				? { ...store, productCount: activeCategoriesData.totalProductsCount }
+				: store,
+		);
+	}, [
+		stores,
+		selectedStore,
+		trimmedProductQuery,
+		activeCategoriesData?.totalProductsCount,
+	]);
+
 	const activeStoreFilterCount =
 		(searchParams.score ? 1 : 0) + (hasCategoryFilter ? 1 : 0);
 	const hasActiveStoreFilters =
@@ -315,6 +342,18 @@ function StoresPage() {
 		});
 	};
 
+	const handleToggleSubcategory = (
+		storeId: string,
+		parentId: string,
+		subCategoryId: string,
+	) => {
+		if (selectedSubcategory?.id === subCategoryId) {
+			handleSelectCategory(storeId, parentId);
+			return;
+		}
+		handleSelectSubcategory(parentId, subCategoryId);
+	};
+
 	const clearStoreFilters = () => {
 		navigate({
 			to: "/stores",
@@ -323,8 +362,6 @@ function StoresPage() {
 			}),
 		});
 	};
-
-	const trimmedProductQuery = searchParams.q?.trim();
 
 	const mobileDrawerTriggerLabel = selectedStore
 		? selectedSubcategory?.name
@@ -391,7 +428,7 @@ function StoresPage() {
 													/>
 												</Button>
 											}
-											stores={stores}
+											stores={sidebarStores}
 											selectedStoreId={selectedStore.id}
 											activeCategories={topLevelCategories}
 											categoryCounts={categoryCounts}
@@ -515,7 +552,7 @@ function StoresPage() {
 							</h2>
 						</div>
 						<StoreNavList
-							stores={stores}
+							stores={sidebarStores}
 							selectedStoreId={selectedStore?.id}
 							activeCategories={topLevelCategories}
 							categoryCounts={categoryCounts}
@@ -757,40 +794,6 @@ function StoresPage() {
 										aria-label={`Subcategories in ${activeParentCategory.name}`}
 										className="flex flex-wrap items-center gap-2 mb-5"
 									>
-										<Button
-											type="button"
-											variant="outline"
-											size="sm"
-											onClick={() =>
-												handleSelectCategory(
-													selectedStore.id,
-													activeParentCategory.id,
-												)
-											}
-											aria-pressed={!selectedSubcategory}
-											className={cn(
-												"h-auto min-h-8.5 gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shadow-none transition-colors",
-												!selectedSubcategory
-													? "bg-[#E3EDE7] dark:bg-[#1E3A2C] border-[#2D5A44]/50 dark:border-[#3D6E54] text-[#1B4332] dark:text-[#CBE3D4] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4]"
-													: "bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] text-[#5C665E] dark:text-[#9AA89E] hover:border-[#2D5A44] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
-											)}
-										>
-											<span>All {activeParentCategory.name}</span>
-											{typeof activeParentCount === "number" && (
-												<Badge
-													variant="secondary"
-													className={cn(
-														"px-1.5 py-0 text-[10px] font-bold rounded-full tabular-nums",
-														!selectedSubcategory
-															? "bg-white/90 dark:bg-[#16221C] text-[#1B4332] dark:text-[#CBE3D4]"
-															: "bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E]",
-													)}
-												>
-													{activeParentCount}
-												</Badge>
-											)}
-										</Button>
-
 										{activeSubcategories.map((subcat) => {
 											const isSubSelected =
 												selectedSubcategory?.id === subcat.id;
@@ -803,16 +806,17 @@ function StoresPage() {
 													variant="outline"
 													size="sm"
 													onClick={() =>
-														handleSelectSubcategory(
+														handleToggleSubcategory(
+															selectedStore.id,
 															activeParentCategory.id,
 															subcat.id,
 														)
 													}
 													aria-pressed={isSubSelected}
 													className={cn(
-														"h-auto min-h-8.5 gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shadow-none transition-colors",
+														"h-auto min-h-8.5 gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shadow-none transition-colors cursor-pointer",
 														isSubSelected
-															? "bg-[#E3EDE7] dark:bg-[#1E3A2C] border-[#2D5A44]/50 dark:border-[#3D6E54] text-[#1B4332] dark:text-[#CBE3D4] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4]"
+															? "bg-[#E3EDE7] dark:bg-[#1E3A2C] border-[#2D5A44]/50 dark:border-[#3D6E54] text-[#1B4332] dark:text-[#CBE3D4] hover:bg-[#D5E6DC] dark:hover:bg-[#234535] hover:border-[#2D5A44] hover:text-[#1B4332] dark:hover:text-[#CBE3D4]"
 															: "bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] text-[#5C665E] dark:text-[#9AA89E] hover:border-[#2D5A44] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
 													)}
 												>
@@ -828,6 +832,12 @@ function StoresPage() {
 													>
 														{subCount}
 													</Badge>
+													{isSubSelected && (
+														<X
+															className="w-3 h-3 shrink-0 opacity-80"
+															aria-hidden="true"
+														/>
+													)}
 												</Button>
 											);
 										})}
