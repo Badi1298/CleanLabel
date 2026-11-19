@@ -924,9 +924,9 @@
     "semantic_hash": ""
   },
   "src/routes/landing.tsx": {
-    "mtime": 1795082162.5175683,
-    "seen": 1795082176.131061,
-    "ast_hash": "1fc24826ee40f93040b67163a54a53b4",
+    "mtime": 1795096340.0080562,
+    "seen": 1795096433.6069381,
+    "ast_hash": "49694f319ec18887a32cdbcb870cd32d",
     "semantic_hash": ""
   },
   "src/components/ui/social-icons.tsx": {
@@ -948,15 +948,15 @@
     "semantic_hash": ""
   },
   "src/components/landing/how-it-works-section.tsx": {
-    "mtime": 1795079442.11511,
-    "seen": 1795079557.286291,
-    "ast_hash": "babfca0474592b8c02c18d7e04f594e2",
+    "mtime": 1795096355.0199244,
+    "seen": 1795096433.606879,
+    "ast_hash": "d56a8a095babe72b8d4ae96640f344d9",
     "semantic_hash": ""
   },
   "src/components/landing/landing-data.ts": {
-    "mtime": 1795079518.7291784,
-    "seen": 1795079557.286292,
-    "ast_hash": "d2511138dcd4bc0197a746aa06506b9e",
+    "mtime": 1795096338.1764185,
+    "seen": 1795096433.60688,
+    "ast_hash": "8b2b7e26b5ba80069720df3cbd5f693c",
     "semantic_hash": ""
   },
   "src/components/landing/landing-footer.tsx": {
@@ -972,9 +972,9 @@
     "semantic_hash": ""
   },
   "src/components/landing/landing-info-dialog.tsx": {
-    "mtime": 1795079518.7329118,
-    "seen": 1795079557.286293,
-    "ast_hash": "f965ccd261dd2c55cf7a12b8699d74de",
+    "mtime": 1795096373.5949323,
+    "seen": 1795096433.606882,
+    "ast_hash": "8f58bbd5b83b419293e49945464ce1e5",
     "semantic_hash": ""
   },
   "src/components/landing/reviews-section.tsx": {

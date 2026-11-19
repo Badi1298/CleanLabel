@@ -13,11 +13,7 @@ import { ScoreBadge } from "#/components/ui/score-badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs";
 import { cn } from "#/lib/utils";
 
-export function HowItWorksSection({
-	onReportError,
-}: {
-	onReportError: () => void;
-}) {
+export function HowItWorksSection() {
 	const [activeStep, setActiveStep] = useState<StepId>("cauta");
 
 	return (
@@ -109,9 +105,7 @@ export function HowItWorksSection({
 								<div className="lg:col-span-7">
 									<figure className="space-y-3">
 										{step.id === "cauta" && <StepSearchVisual />}
-										{step.id === "vezi" && (
-											<StepInspectVisual onReportError={onReportError} />
-										)}
+										{step.id === "vezi" && <StepInspectVisual />}
 										{step.id === "alege" && <StepChooseVisual />}
 
 										{step.note && (
@@ -182,7 +176,7 @@ function StepSearchVisual() {
 	);
 }
 
-function StepInspectVisual({ onReportError }: { onReportError: () => void }) {
+function StepInspectVisual() {
 	return (
 		<div className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-4 sm:p-5 space-y-4">
 			{/* Product Header Card */}
@@ -226,15 +220,10 @@ function StepInspectVisual({ onReportError }: { onReportError: () => void }) {
 						<Calendar className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
 						<span>Etichetă consultată la: 18.11.2026</span>
 					</span>
-					<Button
-						type="button"
-						variant="link"
-						onClick={onReportError}
-						className="h-auto p-0 gap-1 text-xs font-bold text-[#A67C37] dark:text-[#D4AF6A] hover:underline underline-offset-4"
-					>
-						<Flag className="w-3.5 h-3.5" aria-hidden="true" />
+					<span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF4E6] dark:bg-amber-950/50 border border-[#D4AF6A]/45 px-2.5 py-1 text-[11px] font-bold text-[#A67C37] dark:text-[#D4AF6A]">
+						<Flag className="w-3 h-3 shrink-0" aria-hidden="true" />
 						<span>Raportează o greșeală</span>
-					</Button>
+					</span>
 				</div>
 			</div>
 		</div>

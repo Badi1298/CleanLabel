@@ -62,7 +62,7 @@ function LandingPage() {
 
 			<main className="flex-1">
 				<HeroSection heroHeadingId={heroHeadingId} isSignedIn={isSignedIn} />
-				<HowItWorksSection onReportError={() => setModalTopic("raporteaza")} />
+				<HowItWorksSection />
 				<WhySection onOpenMethodology={() => setModalTopic("metodologie")} />
 				<ReviewsSection />
 				<FinalCtaSection
@@ -75,6 +75,7 @@ function LandingPage() {
 
 			<LandingInfoDialog
 				topic={modalTopic}
+				isSignedIn={isSignedIn}
 				onSelectTopic={setModalTopic}
 				onClose={() => setModalTopic(null)}
 			/>

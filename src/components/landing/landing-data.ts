@@ -245,7 +245,7 @@ export const INFO_MODAL_TOPICS: readonly InfoModalTopicConfig[] = [
 		footerLabel: "Raportează o greșeală",
 		title: "Raportează o greșeală",
 		description:
-			"Formular pentru semnalarea modificărilor de rețetă sau a informațiilor inexacte.",
+			"Cum poți semnala modificări de rețetă sau informații inexacte direct din pagina produsului în aplicația PickItWell.",
 	},
 	{
 		id: "contact",

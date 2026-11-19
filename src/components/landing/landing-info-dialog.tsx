@@ -1,14 +1,12 @@
-import { revalidateLogic, useForm } from "@tanstack/react-form";
+import { Link } from "@tanstack/react-router";
 import {
 	AlertTriangle,
-	CheckCircle2,
+	ArrowRight,
 	ExternalLink,
+	Flag,
 	Info,
 	X,
 } from "lucide-react";
-import { useId, useRef } from "react";
-import { toast } from "sonner";
-import { z } from "zod";
 import {
 	INFO_MODAL_TOPIC_MAP,
 	INFO_MODAL_TOPICS,
@@ -25,52 +23,26 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "#/components/ui/dialog";
-import { Input } from "#/components/ui/input";
-import { Label } from "#/components/ui/label";
 import { ScoreBadge } from "#/components/ui/score-badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs";
-import { Textarea } from "#/components/ui/textarea";
-
-const reportErrorSchema = z.object({
-	product: z
-		.string()
-		.trim()
-		.min(1, "Te rugăm să introduci produsul sau brandul."),
-	details: z.string().trim().min(1, "Te rugăm să descrii ce trebuie corectat."),
-	email: z
-		.string()
-		.trim()
-		.refine(
-			(val) => val === "" || z.email().safeParse(val).success,
-			"Adresa de e-mail nu este validă.",
-		),
-});
-
-function getFieldErrorMessage(errors: unknown[]): string | undefined {
-	if (!errors.length) return undefined;
-	const messages = errors
-		.map((err) => {
-			if (typeof err === "string") return err;
-			if (err && typeof err === "object" && "message" in err) {
-				return String((err as { message: unknown }).message);
-			}
-			return String(err);
-		})
-		.filter(Boolean);
-	return messages.length > 0 ? messages.join(", ") : undefined;
-}
 
 export function LandingInfoDialog({
 	topic,
+	isSignedIn,
 	onSelectTopic,
 	onClose,
 }: {
 	topic: InfoModalTopic | null;
+	isSignedIn: boolean;
 	onSelectTopic: (topic: InfoModalTopic) => void;
 	onClose: () => void;
 }) {
 	const activeTopic: InfoModalTopic = topic ?? "metodologie";
 	const activeConfig = INFO_MODAL_TOPIC_MAP[activeTopic];
+	const appCtaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
+	const appCtaLabel = isSignedIn
+		? "Deschide aplicația"
+		: "Creează cont gratuit";
 
 	return (
 		<Dialog
@@ -189,8 +161,95 @@ export function LandingInfoDialog({
 							</p>
 						</TabsContent>
 
-						<TabsContent value="raporteaza">
-							<ReportErrorForm onSubmitted={onClose} />
+						<TabsContent value="raporteaza" className="space-y-4">
+							<div className="rounded-2xl bg-[#FBF4E6] dark:bg-[#121D17] border border-border p-4 flex items-start gap-3">
+								<Flag
+									className="w-5 h-5 text-[#A67C37] dark:text-[#D4AF6A] shrink-0 mt-0.5"
+									aria-hidden="true"
+								/>
+								<p className="text-xs sm:text-sm text-foreground">
+									Sesizările privind rețetele, aditivii sau magazinele se trimit
+									direct de pe pagina fiecărui produs din aplicația PickItWell,
+									astfel încât raportarea să fie asociată produsului exact.
+								</p>
+							</div>
+
+							<div className="space-y-2.5">
+								<h3 className="text-sm font-extrabold text-foreground dark:text-[#FBF4E6]">
+									Cum poți raporta o greșeală
+								</h3>
+								<ol className="space-y-2.5">
+									<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-start gap-3">
+										<span
+											aria-hidden="true"
+											className="w-6 h-6 rounded-full bg-[#1B4332] dark:bg-[#FCE8C6] text-[#FCE8C6] dark:text-[#1B3328] text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5"
+										>
+											1
+										</span>
+										<span>
+											Deschide PickItWell și caută produsul la care ai observat
+											o diferență pe etichetă sau în magazin.
+										</span>
+									</li>
+									<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-start gap-3">
+										<span
+											aria-hidden="true"
+											className="w-6 h-6 rounded-full bg-[#1B4332] dark:bg-[#FCE8C6] text-[#FCE8C6] dark:text-[#1B3328] text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5"
+										>
+											2
+										</span>
+										<span>
+											Pe pagina produsului, sub lista de ingrediente declarate,
+											apasă pe{" "}
+											<strong className="font-bold text-foreground">
+												Raportează o greșeală
+											</strong>
+											.
+										</span>
+									</li>
+									<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-start gap-3">
+										<span
+											aria-hidden="true"
+											className="w-6 h-6 rounded-full bg-[#1B4332] dark:bg-[#FCE8C6] text-[#FCE8C6] dark:text-[#1B3328] text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5"
+										>
+											3
+										</span>
+										<span>
+											Descrie diferența observată (ingrediente, aditivi marcați
+											sau disponibilitatea în magazin), iar echipa noastră
+											verifică și actualizează informațiile.
+										</span>
+									</li>
+								</ol>
+							</div>
+
+							<p className="text-xs text-muted-foreground">
+								Pentru întrebări generale care nu țin de un produs anume, ne
+								poți contacta prin canalele oficiale de comunitate.
+							</p>
+
+							<div className="flex flex-wrap items-center gap-2.5 pt-1">
+								<Button
+									asChild
+									className="h-auto min-h-10 px-5 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-xs font-bold"
+								>
+									<Link to={appCtaTarget} onClick={onClose}>
+										<span>{appCtaLabel}</span>
+										<ArrowRight
+											className="w-4 h-4 shrink-0"
+											aria-hidden="true"
+										/>
+									</Link>
+								</Button>
+								<Button
+									type="button"
+									variant="outline"
+									onClick={() => onSelectTopic("contact")}
+									className="h-auto min-h-10 px-4 py-2 rounded-full border-border dark:border-[#2B3D33] bg-background dark:bg-[#121D17] text-xs font-bold text-foreground hover:bg-secondary"
+								>
+									Vezi canalele de contact
+								</Button>
+							</div>
 						</TabsContent>
 
 						<TabsContent value="contact" className="space-y-4">
@@ -287,166 +346,5 @@ export function LandingInfoDialog({
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
-	);
-}
-
-function FormFieldError({ id, message }: { id: string; message?: string }) {
-	if (!message) return null;
-	return (
-		<p
-			id={id}
-			role="alert"
-			className="text-xs font-medium text-rose-700 dark:text-rose-300"
-		>
-			{message}
-		</p>
-	);
-}
-
-function ReportErrorForm({ onSubmitted }: { onSubmitted: () => void }) {
-	const formRef = useRef<HTMLFormElement>(null);
-	const productInputId = useId();
-	const productErrorId = useId();
-	const detailsInputId = useId();
-	const detailsErrorId = useId();
-	const emailInputId = useId();
-	const emailErrorId = useId();
-
-	const form = useForm({
-		defaultValues: {
-			product: "",
-			details: "",
-			email: "",
-		},
-		validationLogic: revalidateLogic(),
-		validators: {
-			onDynamic: reportErrorSchema,
-		},
-		onSubmitInvalid: () => {
-			requestAnimationFrame(() => {
-				formRef.current
-					?.querySelector<HTMLElement>('[aria-invalid="true"]')
-					?.focus();
-			});
-		},
-		onSubmit: () => {
-			toast.success("Mulțumim! Sesizarea a fost trimisă spre verificare.");
-			form.reset();
-			onSubmitted();
-		},
-	});
-
-	return (
-		<form
-			ref={formRef}
-			noValidate
-			onSubmit={(e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				form.handleSubmit();
-			}}
-			className="space-y-4"
-		>
-			<p className="text-xs sm:text-sm">
-				Ai observat o schimbare de rețetă pe etichetă sau o informație care
-				necesită actualizare? Trimite-ne detaliile mai jos.
-			</p>
-
-			<form.Field name="product">
-				{(field) => {
-					const errorMessage = getFieldErrorMessage(field.state.meta.errors);
-					return (
-						<div className="space-y-1.5">
-							<Label
-								htmlFor={productInputId}
-								className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
-							>
-								Produs / Brand
-							</Label>
-							<Input
-								id={productInputId}
-								type="text"
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-								aria-invalid={Boolean(errorMessage)}
-								aria-describedby={errorMessage ? productErrorId : undefined}
-								placeholder="Ex: Sos de roșii cu busuioc"
-								className="h-auto min-h-11 px-3.5 py-2.5 rounded-xl bg-background dark:bg-[#121D17] border-border dark:border-[#2B3D33] text-sm md:text-sm text-foreground"
-							/>
-							<FormFieldError id={productErrorId} message={errorMessage} />
-						</div>
-					);
-				}}
-			</form.Field>
-
-			<form.Field name="details">
-				{(field) => {
-					const errorMessage = getFieldErrorMessage(field.state.meta.errors);
-					return (
-						<div className="space-y-1.5">
-							<Label
-								htmlFor={detailsInputId}
-								className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
-							>
-								Ce trebuie corectat?
-							</Label>
-							<Textarea
-								id={detailsInputId}
-								rows={3}
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-								aria-invalid={Boolean(errorMessage)}
-								aria-describedby={errorMessage ? detailsErrorId : undefined}
-								placeholder="Descrie diferența observată pe etichetă sau magazinul..."
-								className="p-3.5 rounded-xl bg-background dark:bg-[#121D17] border-border dark:border-[#2B3D33] text-sm md:text-sm text-foreground"
-							/>
-							<FormFieldError id={detailsErrorId} message={errorMessage} />
-						</div>
-					);
-				}}
-			</form.Field>
-
-			<form.Field name="email">
-				{(field) => {
-					const errorMessage = getFieldErrorMessage(field.state.meta.errors);
-					return (
-						<div className="space-y-1.5">
-							<Label
-								htmlFor={emailInputId}
-								className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
-							>
-								E-mail (opțional)
-							</Label>
-							<Input
-								id={emailInputId}
-								type="email"
-								inputMode="email"
-								autoComplete="email"
-								value={field.state.value}
-								onBlur={field.handleBlur}
-								onChange={(e) => field.handleChange(e.target.value)}
-								aria-invalid={Boolean(errorMessage)}
-								aria-describedby={errorMessage ? emailErrorId : undefined}
-								placeholder="nume@exemplu.ro"
-								className="h-auto min-h-11 px-3.5 py-2.5 rounded-xl bg-background dark:bg-[#121D17] border-border dark:border-[#2B3D33] text-sm md:text-sm text-foreground"
-							/>
-							<FormFieldError id={emailErrorId} message={errorMessage} />
-						</div>
-					);
-				}}
-			</form.Field>
-
-			<div className="flex justify-end gap-2 pt-1">
-				<Button
-					type="submit"
-					className="h-auto min-h-10 px-5 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-xs font-bold"
-				>
-					<CheckCircle2 className="w-4 h-4" aria-hidden="true" />
-					<span>Trimite sesizarea</span>
-				</Button>
-			</div>
-		</form>
 	);
 }
