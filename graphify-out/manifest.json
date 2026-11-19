@@ -924,9 +924,9 @@
     "semantic_hash": ""
   },
   "src/routes/landing.tsx": {
-    "mtime": 1795079471.9320474,
-    "seen": 1795079557.286344,
-    "ast_hash": "37fb34fef055d2758d3d338e88c0b3f5",
+    "mtime": 1795082162.5175683,
+    "seen": 1795082176.131061,
+    "ast_hash": "1fc24826ee40f93040b67163a54a53b4",
     "semantic_hash": ""
   },
   "src/components/ui/social-icons.tsx": {

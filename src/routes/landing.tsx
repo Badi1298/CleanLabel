@@ -9,9 +9,20 @@ import { LandingHeader } from "#/components/landing/landing-header";
 import { LandingInfoDialog } from "#/components/landing/landing-info-dialog";
 import { ReviewsSection } from "#/components/landing/reviews-section";
 import { WhySection } from "#/components/landing/why-section";
-import { authClient } from "#/lib/auth-client";
+import { getSession } from "#/server/auth-functions";
 
 export const Route = createFileRoute("/landing")({
+	loader: async () => {
+		try {
+			const session = await getSession();
+			return { isSignedIn: Boolean(session?.user) };
+		} catch {
+			return { isSignedIn: false };
+		}
+	},
+	gcTime: 0,
+	preloadGcTime: 0,
+	preloadStaleTime: 5_000,
 	head: () => ({
 		meta: [
 			{
@@ -29,8 +40,7 @@ export const Route = createFileRoute("/landing")({
 });
 
 function LandingPage() {
-	const { data: session } = authClient.useSession();
-	const isSignedIn = Boolean(session?.user);
+	const { isSignedIn } = Route.useLoaderData();
 
 	const [modalTopic, setModalTopic] = useState<InfoModalTopic | null>(null);
 	const heroHeadingId = useId();

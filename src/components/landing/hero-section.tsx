@@ -113,7 +113,7 @@ export function HeroSection({
 					<div className="lg:col-span-6">
 						<div className="relative mx-auto max-w-md lg:max-w-lg flex flex-col items-center">
 							{/* Phone Frame */}
-							<div className="relative z-10 w-full max-w-[310px] sm:max-w-[330px] rounded-[2.4rem] bg-[#0E1612] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] border border-[#FCE8C6]/25">
+							<div className="relative z-10 w-full max-w-77.5 sm:max-w-82.5 rounded-[2.4rem] bg-[#0E1612] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] border border-[#FCE8C6]/25">
 								<div className="rounded-[1.9rem] bg-background dark:bg-sidebar text-foreground overflow-hidden">
 									{/* Phone Status / Notch Bar */}
 									<div className="bg-[#1B4332] px-4 pt-3 pb-3 text-[#FCE8C6] flex items-center justify-between">
@@ -134,7 +134,7 @@ export function HeroSection({
 
 									{/* Product Header */}
 									<div className="p-4 space-y-3">
-										<div className="rounded-2xl bg-gradient-to-br from-[#FFFBEB] via-[#FEF3C7]/75 to-[#FBF4E6] dark:from-amber-950/50 dark:via-amber-950/30 dark:to-card border border-[#F59E0B]/35 p-3">
+										<div className="rounded-2xl bg-linear-to-br from-[#FFFBEB] via-[#FEF3C7]/75 to-[#FBF4E6] dark:from-amber-950/50 dark:via-amber-950/30 dark:to-card border border-[#F59E0B]/35 p-3">
 											<div className="flex items-center justify-between gap-2">
 												<span className="text-[10px] font-bold uppercase tracking-wider text-[#2D5A44] dark:text-emerald-400">
 													Olympus
@@ -197,7 +197,7 @@ export function HeroSection({
 							{/* Floating Classification Cards around Phone */}
 							<div className="mt-5 sm:mt-0 w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5 sm:gap-3 lg:pointer-events-none">
 								{/* Gold Card */}
-								<div className="lg:absolute lg:top-8 lg:-left-6 lg:z-20 rounded-2xl bg-[#FBF4E6] dark:bg-card text-foreground border border-border shadow-lg px-3.5 py-2.5 flex items-center justify-between lg:flex-col lg:items-start gap-1.5 lg:max-w-[178px]">
+								<div className="lg:absolute lg:top-8 lg:-left-6 lg:z-20 rounded-2xl bg-[#FBF4E6] dark:bg-card text-foreground border border-border shadow-lg px-3.5 py-2.5 flex items-center justify-between lg:flex-col lg:items-start gap-1.5 lg:max-w-44.5">
 									<div className="flex items-center gap-2">
 										<ScoreBadge score="gold" size="sm" />
 									</div>
@@ -212,7 +212,7 @@ export function HeroSection({
 								</div>
 
 								{/* Silver Card */}
-								<div className="lg:absolute lg:top-1/2 lg:-translate-y-1/2 lg:-right-6 lg:z-20 rounded-2xl bg-[#FBF4E6] dark:bg-card text-foreground border border-border shadow-lg px-3.5 py-2.5 flex items-center justify-between lg:flex-col lg:items-start gap-1.5 lg:max-w-[184px]">
+								<div className="lg:absolute lg:top-1/2 lg:-translate-y-1/2 lg:-right-6 lg:z-20 rounded-2xl bg-[#FBF4E6] dark:bg-card text-foreground border border-border shadow-lg px-3.5 py-2.5 flex items-center justify-between lg:flex-col lg:items-start gap-1.5 lg:max-w-46">
 									<div className="flex items-center gap-2">
 										<ScoreBadge score="silver" size="sm" />
 									</div>
@@ -227,7 +227,7 @@ export function HeroSection({
 								</div>
 
 								{/* Bronze Card */}
-								<div className="lg:absolute lg:bottom-8 lg:-left-4 lg:z-20 rounded-2xl bg-[#FBF4E6] dark:bg-card text-foreground border border-border shadow-lg px-3.5 py-2.5 flex items-center justify-between lg:flex-col lg:items-start gap-1.5 lg:max-w-[178px]">
+								<div className="lg:absolute lg:bottom-8 lg:-left-4 lg:z-20 rounded-2xl bg-[#FBF4E6] dark:bg-card text-foreground border border-border shadow-lg px-3.5 py-2.5 flex items-center justify-between lg:flex-col lg:items-start gap-1.5 lg:max-w-44.5">
 									<div className="flex items-center gap-2">
 										<ScoreBadge score="bronze" size="sm" />
 									</div>
