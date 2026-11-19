@@ -18,8 +18,8 @@ export function StoreCard({ store, className }: StoreCardProps) {
 
 	return (
 		<Link
-			to="/stores/$storeId"
-			params={{ storeId: store.id }}
+			to="/stores"
+			search={{ storeId: store.id }}
 			className={cn(
 				"group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]",
 				className,

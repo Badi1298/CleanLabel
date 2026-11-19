@@ -322,8 +322,8 @@ export function ProductCard({ product }: ProductCardProps) {
 													return (
 														<Link
 															key={storeKey}
-															to="/stores/$storeId"
-															params={{ storeId: s.id }}
+															to="/stores"
+															search={{ storeId: s.id }}
 															onClick={(e) => {
 																e.stopPropagation();
 																setIsPopoverOpen(false);

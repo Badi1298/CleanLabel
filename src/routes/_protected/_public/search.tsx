@@ -10,19 +10,34 @@ import {
 	ChevronRight,
 	FolderTree,
 	Loader2,
-	SearchX,
 	SlidersHorizontal,
 	X,
 } from "lucide-react";
-import { useId, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { z } from "zod";
-import { getCategoryVisual } from "#/components/categories/category-browse-card";
-import { ProductCard } from "#/components/home/product-card";
+import {
+	CategorySectionsView,
+	EmptyProductsState,
+	FILTER_TRIGGER_ACTIVE_CLASS,
+	FILTER_TRIGGER_INACTIVE_CLASS,
+	PaginatedProductsGrid,
+	ScoreFilterSelect,
+} from "#/components/search/catalog-views";
 import {
 	CategoryNavList,
 	MobileCategoryDrawer,
 } from "#/components/search/category-sidebar";
 import { SearchBar } from "#/components/search/search-bar";
+import { Badge } from "#/components/ui/badge";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "#/components/ui/breadcrumb";
+import { Button } from "#/components/ui/button";
 import {
 	Select,
 	SelectContent,
@@ -103,7 +118,6 @@ export const Route = createFileRoute("/_protected/_public/search")({
 function SearchPage() {
 	const navigate = useNavigate();
 	const searchParams = Route.useSearch();
-	const drawerId = useId();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
 	const selectedSubCategoryId = searchParams.subCategoryIds?.[0];
@@ -240,11 +254,6 @@ function SearchPage() {
 		});
 	};
 
-	const activeTriggerStyle =
-		"bg-[#E3EDE7]/75 dark:bg-[#1E3A2C] border-[#2D5A44]/40 dark:border-[#3D6E54] text-[#1B4332] dark:text-[#CBE3D4] font-semibold";
-	const inactiveTriggerStyle =
-		"bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#C9B382] dark:hover:border-[#365043]";
-
 	const mobileCategoryLabel =
 		selectedSubcategory?.name || activeParentCategory?.name || "Categories";
 
@@ -269,54 +278,55 @@ function SearchPage() {
 								<span>Filters</span>
 							</div>
 
-							<button
-								type="button"
-								onClick={() => setIsDrawerOpen(true)}
-								aria-expanded={isDrawerOpen}
-								aria-controls={drawerId}
-								className={cn(
-									"col-span-2 lg:hidden inline-flex items-center justify-between gap-2 h-10 pointer-coarse:h-11 px-3 rounded-xl border text-[13px] transition-colors cursor-pointer",
-									hasCategoryFilter ? activeTriggerStyle : inactiveTriggerStyle,
-								)}
-							>
-								<span className="flex items-center gap-2 min-w-0">
-									<FolderTree className="w-4 h-4 shrink-0" aria-hidden="true" />
-									<span className="truncate">{mobileCategoryLabel}</span>
-								</span>
-								<ChevronRight
-									className="w-4 h-4 shrink-0 opacity-70"
-									aria-hidden="true"
+							<div className="col-span-2 lg:hidden">
+								<MobileCategoryDrawer
+									isOpen={isDrawerOpen}
+									onOpenChange={setIsDrawerOpen}
+									trigger={
+										<Button
+											type="button"
+											variant="outline"
+											className={cn(
+												"w-full justify-between gap-2 h-10 pointer-coarse:h-11 px-3 rounded-xl text-[13px] shadow-none transition-colors",
+												hasCategoryFilter
+													? FILTER_TRIGGER_ACTIVE_CLASS
+													: FILTER_TRIGGER_INACTIVE_CLASS,
+											)}
+										>
+											<span className="flex items-center gap-2 min-w-0">
+												<FolderTree
+													className="w-4 h-4 shrink-0"
+													aria-hidden="true"
+												/>
+												<span className="truncate">{mobileCategoryLabel}</span>
+											</span>
+											<ChevronRight
+												className="w-4 h-4 shrink-0 opacity-70"
+												aria-hidden="true"
+											/>
+										</Button>
+									}
+									topLevelCategories={topLevelCategories}
+									categories={categories}
+									categoryCounts={categoryCounts}
+									activeParentId={activeParentId}
+									selectedCategoryId={searchParams.categoryId}
+									selectedSubCategoryId={selectedSubCategoryId}
+									totalProductsCount={
+										!hasCategoryFilter
+											? sectionsData?.totalProductsCount
+											: undefined
+									}
+									onSelectAll={handleSelectAllCategories}
+									onSelectCategory={(catId) => handleSelectCategory(catId)}
+									onSelectSubcategory={handleSelectSubcategory}
 								/>
-							</button>
+							</div>
 
-							<Select
-								value={searchParams.score || "all"}
-								onValueChange={(val) =>
-									updateFilter(
-										"score",
-										val === "all" ? undefined : (val as SearchSchema["score"]),
-									)
-								}
-							>
-								<SelectTrigger
-									aria-label="Filter by score"
-									className={cn(
-										"w-full sm:w-auto sm:min-w-33 h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
-										searchParams.score
-											? activeTriggerStyle
-											: inactiveTriggerStyle,
-									)}
-								>
-									<SelectValue placeholder="Score" />
-								</SelectTrigger>
-								<SelectContent className="rounded-xl border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C]">
-									<SelectItem value="all">Any Score</SelectItem>
-									<SelectItem value="gold">Gold</SelectItem>
-									<SelectItem value="silver">Silver</SelectItem>
-									<SelectItem value="bronze">Bronze</SelectItem>
-									<SelectItem value="none">Unrated</SelectItem>
-								</SelectContent>
-							</Select>
+							<ScoreFilterSelect
+								value={searchParams.score}
+								onChange={(val) => updateFilter("score", val)}
+							/>
 
 							<Select
 								value={searchParams.storeId || "all"}
@@ -327,10 +337,10 @@ function SearchPage() {
 								<SelectTrigger
 									aria-label="Filter by store"
 									className={cn(
-										"w-full sm:w-auto sm:min-w-35 h-10 pointer-coarse:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
+										"w-full sm:w-auto sm:min-w-35 h-10 data-[size=default]:h-10 pointer-coarse:h-11 pointer-coarse:data-[size=default]:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
 										searchParams.storeId
-											? activeTriggerStyle
-											: inactiveTriggerStyle,
+											? FILTER_TRIGGER_ACTIVE_CLASS
+											: FILTER_TRIGGER_INACTIVE_CLASS,
 									)}
 								>
 									<SelectValue placeholder="Store" />
@@ -346,14 +356,15 @@ function SearchPage() {
 							</Select>
 
 							{hasActiveFilters && (
-								<button
+								<Button
 									type="button"
+									variant="ghost"
 									onClick={clearFilters}
-									className="hidden sm:inline-flex items-center gap-1.5 h-10 px-3 rounded-xl text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer sm:ml-auto"
+									className="hidden sm:inline-flex items-center gap-1.5 h-10 px-3 rounded-xl text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/40 dark:hover:text-rose-300 sm:ml-auto"
 								>
 									<X className="w-3.5 h-3.5" aria-hidden="true" />
 									<span>Clear all</span>
-								</button>
+								</Button>
 							)}
 						</div>
 
@@ -364,39 +375,20 @@ function SearchPage() {
 										? `${activeFilterCount} ${activeFilterCount === 1 ? "filter" : "filters"} active`
 										: "Search active"}
 								</span>
-								<button
+								<Button
 									type="button"
+									variant="outline"
+									size="sm"
 									onClick={clearFilters}
-									className="inline-flex items-center gap-1 min-h-8 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/50 border border-rose-200/80 dark:border-rose-800/50 text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-100 transition-colors cursor-pointer"
+									className="h-auto min-h-8 gap-1 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/50 border-rose-200/80 dark:border-rose-800/50 text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-100 hover:text-rose-700 dark:hover:bg-rose-950/70 shadow-none"
 								>
 									<X className="w-3.5 h-3.5" aria-hidden="true" />
 									<span>Clear all</span>
-								</button>
+								</Button>
 							</div>
 						)}
 					</section>
 				</div>
-			</div>
-
-			{/* Mobile Slide-Over Category Drawer */}
-			<div className="lg:hidden">
-				<MobileCategoryDrawer
-					id={drawerId}
-					isOpen={isDrawerOpen}
-					onOpenChange={setIsDrawerOpen}
-					topLevelCategories={topLevelCategories}
-					categories={categories}
-					categoryCounts={categoryCounts}
-					activeParentId={activeParentId}
-					selectedCategoryId={searchParams.categoryId}
-					selectedSubCategoryId={selectedSubCategoryId}
-					totalProductsCount={
-						!hasCategoryFilter ? sectionsData?.totalProductsCount : undefined
-					}
-					onSelectAll={handleSelectAllCategories}
-					onSelectCategory={(catId) => handleSelectCategory(catId)}
-					onSelectSubcategory={handleSelectSubcategory}
-				/>
 			</div>
 
 			{/* Main Content + Left Categories Aside */}
@@ -448,7 +440,10 @@ function SearchPage() {
 									</div>
 
 									{typeof sectionsData?.totalProductsCount === "number" && (
-										<span className="inline-flex items-center gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
+										<Badge
+											variant="secondary"
+											className="gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0"
+										>
 											{isFetchingSections && (
 												<Loader2
 													className="w-3 h-3 animate-spin"
@@ -461,147 +456,78 @@ function SearchPage() {
 													? "product"
 													: "products"}
 											</span>
-										</span>
+										</Badge>
 									)}
 								</div>
 
 								{sectionsData && sectionsData.sections.length > 0 ? (
-									<div className="space-y-9">
-										{sectionsData.sections.map((section, index) => {
-											const { palette, Icon } = getCategoryVisual(
-												section.category.name,
-												index,
-											);
-											const hasMoreInCategory =
-												section.totalCount > section.products.length;
-
-											return (
-												<section
-													key={section.category.id}
-													aria-labelledby={`cat-section-${section.category.id}`}
-												>
-													<div className="flex items-center justify-between gap-3 mb-3.5 pb-2 border-b border-[#EAE4D7]/80 dark:border-[#24362D]">
-														<div className="flex items-center gap-2.5 min-w-0">
-															<div
-																className={cn(
-																	"w-8 h-8 rounded-full border flex items-center justify-center shrink-0",
-																	palette.bg,
-																	palette.border,
-																)}
-															>
-																{section.category.iconUrl ? (
-																	<img
-																		src={section.category.iconUrl}
-																		alt=""
-																		className="w-5 h-5 object-contain"
-																		loading="lazy"
-																	/>
-																) : (
-																	<Icon
-																		className={cn("w-4 h-4", palette.iconText)}
-																		strokeWidth={2}
-																		aria-hidden="true"
-																	/>
-																)}
-															</div>
-															<h2
-																id={`cat-section-${section.category.id}`}
-																className="text-base sm:text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] truncate"
-															>
-																{section.category.name}
-															</h2>
-															<span className="inline-flex items-center justify-center rounded-full bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E] px-2 py-0.5 text-[11px] font-bold tabular-nums shrink-0">
-																{section.totalCount}
-															</span>
-														</div>
-
-														<button
-															type="button"
-															onClick={() =>
-																handleSelectCategory(section.category.id)
-															}
-															className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors cursor-pointer shrink-0"
-														>
-															<span>
-																{hasMoreInCategory
-																	? `View all (${section.totalCount})`
-																	: "Open"}
-															</span>
-															<ChevronRight
-																className="w-3.5 h-3.5"
-																aria-hidden="true"
-															/>
-														</button>
-													</div>
-
-													<div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 md:gap-5">
-														{section.products.map((result) => (
-															<ProductCard
-																key={result.product.id}
-																product={{
-																	...result.product,
-																	storeName: result.storeName,
-																	stores: result.stores,
-																}}
-															/>
-														))}
-													</div>
-												</section>
-											);
-										})}
-									</div>
+									<CategorySectionsView
+										sections={sectionsData.sections}
+										onSelectCategory={handleSelectCategory}
+									/>
 								) : (
-									<EmptyProductsState onClear={clearFilters} />
+									<EmptyProductsState onAction={clearFilters} />
 								)}
 							</section>
 						) : (
 							<section aria-labelledby="search-results-heading">
 								<div className="flex flex-wrap items-center justify-between gap-3 mb-5">
 									<div className="flex items-center gap-2.5 flex-wrap">
-										<button
+										<Button
 											type="button"
+											variant="outline"
+											size="sm"
 											onClick={handleSelectAllCategories}
-											className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] transition-colors cursor-pointer"
+											className="h-auto min-h-9 gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] hover:text-[#1B3328] dark:hover:text-[#EDF2EE] shadow-none"
 										>
 											<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
 											<span>All Products</span>
-										</button>
+										</Button>
 
-										<div className="flex items-center gap-1.5 flex-wrap">
-											{activeParentCategory && selectedSubcategory ? (
-												<>
-													<button
-														type="button"
-														onClick={() =>
-															handleSelectCategory(activeParentCategory.id)
-														}
-														className="text-sm font-semibold text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] transition-colors cursor-pointer"
-													>
-														{activeParentCategory.name}
-													</button>
-													<ChevronRight
-														className="w-4 h-4 text-[#9AA09A]"
-														aria-hidden="true"
-													/>
-													<h1
-														id="search-results-heading"
-														className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
-													>
-														{selectedSubcategory.name}
-													</h1>
-												</>
-											) : (
-												<h1
-													id="search-results-heading"
-													className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
-												>
-													{activeParentCategory?.name || "Category Results"}
-												</h1>
-											)}
-										</div>
+										{activeParentCategory && selectedSubcategory ? (
+											<Breadcrumb>
+												<BreadcrumbList className="gap-1.5 sm:gap-1.5">
+													<BreadcrumbItem>
+														<BreadcrumbLink asChild>
+															<Button
+																type="button"
+																variant="link"
+																onClick={() =>
+																	handleSelectCategory(activeParentCategory.id)
+																}
+																className="h-auto p-0 text-sm font-semibold text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] hover:no-underline"
+															>
+																{activeParentCategory.name}
+															</Button>
+														</BreadcrumbLink>
+													</BreadcrumbItem>
+													<BreadcrumbSeparator className="text-[#9AA09A] [&>svg]:size-4" />
+													<BreadcrumbItem>
+														<BreadcrumbPage className="font-normal">
+															<h1
+																id="search-results-heading"
+																className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+															>
+																{selectedSubcategory.name}
+															</h1>
+														</BreadcrumbPage>
+													</BreadcrumbItem>
+												</BreadcrumbList>
+											</Breadcrumb>
+										) : (
+											<h1
+												id="search-results-heading"
+												className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+											>
+												{activeParentCategory?.name || "Category Results"}
+											</h1>
+										)}
 									</div>
 
-									<span className="inline-flex items-center gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
+									<Badge
+										variant="secondary"
+										className="gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0"
+									>
 										{isFetchingFiltered && !isFetchingNextPage && (
 											<Loader2
 												className="w-3 h-3 animate-spin"
@@ -612,78 +538,25 @@ function SearchPage() {
 											{filteredTotalCount}{" "}
 											{filteredTotalCount === 1 ? "Result" : "Results"}
 										</span>
-									</span>
+									</Badge>
 								</div>
 
 								{filteredProducts.length > 0 ? (
-									<>
-										<div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5 md:gap-5">
-											{filteredProducts.map((result) => (
-												<ProductCard
-													key={result.product.id}
-													product={{
-														...result.product,
-														storeName: result.storeName,
-														stores: result.stores,
-													}}
-												/>
-											))}
-										</div>
-
-										{hasNextPage && (
-											<div className="mt-8 flex flex-col items-center gap-2">
-												<button
-													type="button"
-													onClick={() => fetchNextPage()}
-													disabled={isFetchingNextPage}
-													className="inline-flex items-center gap-2 min-h-10 px-5 py-2 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-sm font-semibold text-[#1B4332] dark:text-[#CBE3D4] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] disabled:opacity-60 transition-colors cursor-pointer"
-												>
-													{isFetchingNextPage && (
-														<Loader2
-															className="w-4 h-4 animate-spin"
-															aria-hidden="true"
-														/>
-													)}
-													<span>
-														{isFetchingNextPage
-															? "Loading more..."
-															: `Load more (${filteredProducts.length} of ${filteredTotalCount})`}
-													</span>
-												</button>
-											</div>
-										)}
-									</>
+									<PaginatedProductsGrid
+										products={filteredProducts}
+										totalCount={filteredTotalCount}
+										hasNextPage={hasNextPage}
+										isFetchingNextPage={isFetchingNextPage}
+										onFetchNextPage={() => fetchNextPage()}
+									/>
 								) : (
-									<EmptyProductsState onClear={clearFilters} />
+									<EmptyProductsState onAction={clearFilters} />
 								)}
 							</section>
 						)}
 					</main>
 				</div>
 			</div>
-		</div>
-	);
-}
-
-function EmptyProductsState({ onClear }: { onClear: () => void }) {
-	return (
-		<div className="text-center py-16 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)]">
-			<div className="w-12 h-12 rounded-full bg-[#F3EFE6] dark:bg-[#1E2C25] text-[#5C665E] dark:text-[#9AA89E] flex items-center justify-center mx-auto mb-3">
-				<SearchX className="w-5 h-5" aria-hidden="true" />
-			</div>
-			<h2 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-				No products found
-			</h2>
-			<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 max-w-sm mx-auto">
-				Try adjusting your filters or search query.
-			</p>
-			<button
-				type="button"
-				onClick={onClear}
-				className="mt-5 inline-flex items-center px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors cursor-pointer"
-			>
-				Clear all filters
-			</button>
 		</div>
 	);
 }

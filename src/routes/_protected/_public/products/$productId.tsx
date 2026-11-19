@@ -1107,8 +1107,8 @@ function ProductDetails() {
 										{product.productStores.map(({ store }) => (
 											<li key={store.id}>
 												<Link
-													to="/stores/$storeId"
-													params={{ storeId: store.id }}
+													to="/stores"
+													search={{ storeId: store.id }}
 													className="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#24362D] hover:border-[#2D5A44] dark:hover:border-[#3D6E54] hover:bg-[#E3EDE7]/45 dark:hover:bg-[#1E3A2C]/55 transition-colors group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 												>
 													<div className="flex items-center gap-3 min-w-0">
