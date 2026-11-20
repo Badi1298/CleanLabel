@@ -219,6 +219,117 @@ dialog::backdrop {
   }
 }
 
+/* Fixed-height landing info dialog body: stable gutter, themed scrollbar, scroll-edge shadows */
+.landing-dialog-scroll {
+  --scrollbar-thumb: var(--muted-foreground);
+  --scrollbar-track: transparent;
+  --scroll-shadow: rgb(0 0 0 / 0.14);
+
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  container-type: scroll-state;
+}
+
+.dark .landing-dialog-scroll {
+  --scroll-shadow: rgb(0 0 0 / 0.42);
+}
+
+@supports not (scrollbar-color: auto) {
+  .landing-dialog-scroll {
+    scrollbar-width: auto;
+  }
+
+  .landing-dialog-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .landing-dialog-scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
+  }
+
+  .landing-dialog-scroll::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+}
+
+.landing-dialog-scroll::before,
+.landing-dialog-scroll::after {
+  content: "";
+  display: block;
+  position: sticky;
+  block-size: 0.75rem;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.landing-dialog-scroll::before {
+  inset-block-start: 0;
+  margin-block-end: -0.75rem;
+  background: radial-gradient(
+    farthest-side at 50% 0,
+    var(--scroll-shadow),
+    transparent
+  );
+}
+
+.landing-dialog-scroll::after {
+  inset-block-end: 0;
+  margin-block-start: -0.75rem;
+  background: radial-gradient(
+    farthest-side at 50% 100%,
+    var(--scroll-shadow),
+    transparent
+  );
+}
+
+@container scroll-state(scrollable: block-start) {
+  .landing-dialog-scroll::before {
+    opacity: 1;
+  }
+}
+
+@container scroll-state(scrollable: block-end) {
+  .landing-dialog-scroll::after {
+    opacity: 1;
+  }
+}
+
+@supports not (container-type: scroll-state) {
+  .landing-dialog-scroll::before,
+  .landing-dialog-scroll::after {
+    animation: landing-dialog-show-shadow linear both;
+    animation-timeline: scroll();
+  }
+
+  .landing-dialog-scroll::before {
+    animation-range: 0 2rem;
+  }
+
+  .landing-dialog-scroll::after {
+    animation-direction: reverse;
+    animation-range: calc(100% - 2rem) 100%;
+  }
+}
+
+@keyframes landing-dialog-show-shadow {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-dialog-scroll::before,
+  .landing-dialog-scroll::after {
+    transition: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

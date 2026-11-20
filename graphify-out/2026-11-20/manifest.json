@@ -36,15 +36,15 @@
     "semantic_hash": ""
   },
   "drizzle/meta/_journal.json": {
-    "mtime": 1795086268.98417,
-    "seen": 1795090007.729557,
-    "ast_hash": "21da6e9194900dceed2f6c465e6ef98e",
+    "mtime": 1795162307.498176,
+    "seen": 1795162322.409535,
+    "ast_hash": "f4487b44d56a15767046611b295bbbc9",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1795079291.0262916,
-    "seen": 1795079557.2862751,
-    "ast_hash": "552dbba218fda1dc94c4c90977181ad2",
+    "mtime": 1795161589.175626,
+    "seen": 1795162322.409535,
+    "ast_hash": "365c6d5fa8fefa5b978b307a9dadcb09",
     "semantic_hash": ""
   },
   "public/registerSW.js": {
@@ -240,9 +240,9 @@
     "semantic_hash": ""
   },
   "src/db/auth-schema.ts": {
-    "mtime": 1790930932.855987,
-    "seen": 1790931670.408631,
-    "ast_hash": "8e624347cf0ba618b9f3cc78d0126311",
+    "mtime": 1795162300.8396716,
+    "seen": 1795162322.409581,
+    "ast_hash": "9506f8c5e9094bbe15c056c6bf479096",
     "semantic_hash": ""
   },
   "src/db/index.ts": {
@@ -2313,6 +2313,18 @@
     "mtime": 1795126232.7008939,
     "seen": 1795126971.91854,
     "ast_hash": "2cb5f3a7f19f405fa87384e0df1b4f73",
+    "semantic_hash": ""
+  },
+  "drizzle/0009_previous_firebird.sql": {
+    "mtime": 1795162307.4983,
+    "seen": 1795162322.409527,
+    "ast_hash": "bbb8d925cf22c6f0d8698ef9b17eb00e",
+    "semantic_hash": ""
+  },
+  "drizzle/meta/0009_snapshot.json": {
+    "mtime": 1795162307.4977322,
+    "seen": 1795162322.409534,
+    "ast_hash": "46d2660916018bdc308d252b13664cff",
     "semantic_hash": ""
   }
 }
