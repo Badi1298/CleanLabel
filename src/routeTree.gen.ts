@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LandingRouteImport } from './routes/landing'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProtectedPublicRouteRouteImport } from './routes/_protected/_public/route'
@@ -20,6 +21,7 @@ import { Route as ProtectedPublicAddProductRouteImport } from './routes/_protect
 import { Route as ProtectedPublicFavoritesRouteImport } from './routes/_protected/_public/favorites'
 import { Route as ProtectedPublicProfileRouteImport } from './routes/_protected/_public/profile'
 import { Route as ProtectedPublicSearchRouteImport } from './routes/_protected/_public/search'
+import { Route as ProtectedPublicStoresRouteImport } from './routes/_protected/_public/stores'
 import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protected/admin/add-product'
 import { Route as ProtectedAdminAllCategoriesRouteImport } from './routes/_protected/admin/all-categories'
 import { Route as ProtectedAdminAllIngredientsRouteImport } from './routes/_protected/admin/all-ingredients'
@@ -30,10 +32,7 @@ import { Route as ProtectedAdminIngredientMappingsRouteImport } from './routes/_
 import { Route as ProtectedAdminStoreSubmissionsRouteImport } from './routes/_protected/admin/store-submissions'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedPublicProductsProductIdRouteImport } from './routes/_protected/_public/products/$productId'
-import { Route as ProtectedPublicStoresIndexRouteImport } from './routes/_protected/_public/stores/index'
 import { Route as ProtectedPublicProductsProductIdAddStoreRouteImport } from './routes/_protected/_public/products/$productId_.add-store'
-import { Route as ProtectedPublicStoresStoreIdIndexRouteImport } from './routes/_protected/_public/stores/$storeId/index'
-import { Route as ProtectedPublicStoresStoreIdCategoryIdRouteImport } from './routes/_protected/_public/stores/$storeId/$categoryId'
 
 const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
   id: '/_protected',
@@ -42,6 +41,11 @@ const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -88,6 +92,11 @@ const ProtectedPublicProfileRoute = ProtectedPublicProfileRouteImport.update({
 const ProtectedPublicSearchRoute = ProtectedPublicSearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => ProtectedPublicRouteRoute,
+} as any)
+const ProtectedPublicStoresRoute = ProtectedPublicStoresRouteImport.update({
+  id: '/stores',
+  path: '/stores',
   getParentRoute: () => ProtectedPublicRouteRoute,
 } as any)
 const ProtectedAdminAddProductRoute =
@@ -148,34 +157,17 @@ const ProtectedPublicProductsProductIdRoute =
     path: '/products/$productId',
     getParentRoute: () => ProtectedPublicRouteRoute,
   } as any)
-const ProtectedPublicStoresIndexRoute =
-  ProtectedPublicStoresIndexRouteImport.update({
-    id: '/stores/',
-    path: '/stores/',
-    getParentRoute: () => ProtectedPublicRouteRoute,
-  } as any)
 const ProtectedPublicProductsProductIdAddStoreRoute =
   ProtectedPublicProductsProductIdAddStoreRouteImport.update({
     id: '/products/$productId_/add-store',
     path: '/products/$productId/add-store',
     getParentRoute: () => ProtectedPublicRouteRoute,
   } as any)
-const ProtectedPublicStoresStoreIdIndexRoute =
-  ProtectedPublicStoresStoreIdIndexRouteImport.update({
-    id: '/stores/$storeId/',
-    path: '/stores/$storeId/',
-    getParentRoute: () => ProtectedPublicRouteRoute,
-  } as any)
-const ProtectedPublicStoresStoreIdCategoryIdRoute =
-  ProtectedPublicStoresStoreIdCategoryIdRouteImport.update({
-    id: '/stores/$storeId/$categoryId',
-    path: '/stores/$storeId/$categoryId',
-    getParentRoute: () => ProtectedPublicRouteRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof ProtectedPublicIndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
@@ -183,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof ProtectedPublicFavoritesRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
+  '/stores': typeof ProtectedPublicStoresRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
   '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-ingredients': typeof ProtectedAdminAllIngredientsRoute
@@ -193,14 +186,12 @@ export interface FileRoutesByFullPath {
   '/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
-  '/stores/': typeof ProtectedPublicStoresIndexRoute
   '/products/$productId/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
-  '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
-  '/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof ProtectedPublicIndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
@@ -208,6 +199,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof ProtectedPublicFavoritesRoute
   '/profile': typeof ProtectedPublicProfileRoute
   '/search': typeof ProtectedPublicSearchRoute
+  '/stores': typeof ProtectedPublicStoresRoute
   '/admin/add-product': typeof ProtectedAdminAddProductRoute
   '/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/admin/all-ingredients': typeof ProtectedAdminAllIngredientsRoute
@@ -218,15 +210,13 @@ export interface FileRoutesByTo {
   '/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
-  '/stores': typeof ProtectedPublicStoresIndexRoute
   '/products/$productId/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
-  '/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
-  '/stores/$storeId': typeof ProtectedPublicStoresStoreIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/_protected/_public': typeof ProtectedPublicRouteRouteWithChildren
@@ -235,6 +225,7 @@ export interface FileRoutesById {
   '/_protected/_public/favorites': typeof ProtectedPublicFavoritesRoute
   '/_protected/_public/profile': typeof ProtectedPublicProfileRoute
   '/_protected/_public/search': typeof ProtectedPublicSearchRoute
+  '/_protected/_public/stores': typeof ProtectedPublicStoresRoute
   '/_protected/admin/add-product': typeof ProtectedAdminAddProductRoute
   '/_protected/admin/all-categories': typeof ProtectedAdminAllCategoriesRoute
   '/_protected/admin/all-ingredients': typeof ProtectedAdminAllIngredientsRoute
@@ -246,16 +237,14 @@ export interface FileRoutesById {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
   '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
-  '/_protected/_public/stores/': typeof ProtectedPublicStoresIndexRoute
   '/_protected/_public/products/$productId_/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
-  '/_protected/_public/stores/$storeId/$categoryId': typeof ProtectedPublicStoresStoreIdCategoryIdRoute
-  '/_protected/_public/stores/$storeId/': typeof ProtectedPublicStoresStoreIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/forgot-password'
+    | '/landing'
     | '/login'
     | '/signup'
     | '/admin'
@@ -263,6 +252,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/profile'
     | '/search'
+    | '/stores'
     | '/admin/add-product'
     | '/admin/all-categories'
     | '/admin/all-ingredients'
@@ -273,14 +263,12 @@ export interface FileRouteTypes {
     | '/admin/store-submissions'
     | '/api/auth/$'
     | '/products/$productId'
-    | '/stores/'
     | '/products/$productId/add-store'
-    | '/stores/$storeId/$categoryId'
-    | '/stores/$storeId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/forgot-password'
+    | '/landing'
     | '/login'
     | '/signup'
     | '/admin'
@@ -288,6 +276,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/profile'
     | '/search'
+    | '/stores'
     | '/admin/add-product'
     | '/admin/all-categories'
     | '/admin/all-ingredients'
@@ -298,14 +287,12 @@ export interface FileRouteTypes {
     | '/admin/store-submissions'
     | '/api/auth/$'
     | '/products/$productId'
-    | '/stores'
     | '/products/$productId/add-store'
-    | '/stores/$storeId/$categoryId'
-    | '/stores/$storeId'
   id:
     | '__root__'
     | '/_protected'
     | '/forgot-password'
+    | '/landing'
     | '/login'
     | '/signup'
     | '/_protected/_public'
@@ -314,6 +301,7 @@ export interface FileRouteTypes {
     | '/_protected/_public/favorites'
     | '/_protected/_public/profile'
     | '/_protected/_public/search'
+    | '/_protected/_public/stores'
     | '/_protected/admin/add-product'
     | '/_protected/admin/all-categories'
     | '/_protected/admin/all-ingredients'
@@ -325,15 +313,13 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/_protected/_public/'
     | '/_protected/_public/products/$productId'
-    | '/_protected/_public/stores/'
     | '/_protected/_public/products/$productId_/add-store'
-    | '/_protected/_public/stores/$storeId/$categoryId'
-    | '/_protected/_public/stores/$storeId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -353,6 +339,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -416,6 +409,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof ProtectedPublicSearchRouteImport
+      parentRoute: typeof ProtectedPublicRouteRoute
+    }
+    '/_protected/_public/stores': {
+      id: '/_protected/_public/stores'
+      path: '/stores'
+      fullPath: '/stores'
+      preLoaderRoute: typeof ProtectedPublicStoresRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
     '/_protected/admin/add-product': {
@@ -488,32 +488,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedPublicProductsProductIdRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
-    '/_protected/_public/stores/': {
-      id: '/_protected/_public/stores/'
-      path: '/stores'
-      fullPath: '/stores/'
-      preLoaderRoute: typeof ProtectedPublicStoresIndexRouteImport
-      parentRoute: typeof ProtectedPublicRouteRoute
-    }
     '/_protected/_public/products/$productId_/add-store': {
       id: '/_protected/_public/products/$productId_/add-store'
       path: '/products/$productId/add-store'
       fullPath: '/products/$productId/add-store'
       preLoaderRoute: typeof ProtectedPublicProductsProductIdAddStoreRouteImport
-      parentRoute: typeof ProtectedPublicRouteRoute
-    }
-    '/_protected/_public/stores/$storeId/': {
-      id: '/_protected/_public/stores/$storeId/'
-      path: '/stores/$storeId'
-      fullPath: '/stores/$storeId/'
-      preLoaderRoute: typeof ProtectedPublicStoresStoreIdIndexRouteImport
-      parentRoute: typeof ProtectedPublicRouteRoute
-    }
-    '/_protected/_public/stores/$storeId/$categoryId': {
-      id: '/_protected/_public/stores/$storeId/$categoryId'
-      path: '/stores/$storeId/$categoryId'
-      fullPath: '/stores/$storeId/$categoryId'
-      preLoaderRoute: typeof ProtectedPublicStoresStoreIdCategoryIdRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
   }
@@ -524,12 +503,10 @@ interface ProtectedPublicRouteRouteChildren {
   ProtectedPublicFavoritesRoute: typeof ProtectedPublicFavoritesRoute
   ProtectedPublicProfileRoute: typeof ProtectedPublicProfileRoute
   ProtectedPublicSearchRoute: typeof ProtectedPublicSearchRoute
+  ProtectedPublicStoresRoute: typeof ProtectedPublicStoresRoute
   ProtectedPublicIndexRoute: typeof ProtectedPublicIndexRoute
   ProtectedPublicProductsProductIdRoute: typeof ProtectedPublicProductsProductIdRoute
-  ProtectedPublicStoresIndexRoute: typeof ProtectedPublicStoresIndexRoute
   ProtectedPublicProductsProductIdAddStoreRoute: typeof ProtectedPublicProductsProductIdAddStoreRoute
-  ProtectedPublicStoresStoreIdCategoryIdRoute: typeof ProtectedPublicStoresStoreIdCategoryIdRoute
-  ProtectedPublicStoresStoreIdIndexRoute: typeof ProtectedPublicStoresStoreIdIndexRoute
 }
 
 const ProtectedPublicRouteRouteChildren: ProtectedPublicRouteRouteChildren = {
@@ -537,15 +514,11 @@ const ProtectedPublicRouteRouteChildren: ProtectedPublicRouteRouteChildren = {
   ProtectedPublicFavoritesRoute: ProtectedPublicFavoritesRoute,
   ProtectedPublicProfileRoute: ProtectedPublicProfileRoute,
   ProtectedPublicSearchRoute: ProtectedPublicSearchRoute,
+  ProtectedPublicStoresRoute: ProtectedPublicStoresRoute,
   ProtectedPublicIndexRoute: ProtectedPublicIndexRoute,
   ProtectedPublicProductsProductIdRoute: ProtectedPublicProductsProductIdRoute,
-  ProtectedPublicStoresIndexRoute: ProtectedPublicStoresIndexRoute,
   ProtectedPublicProductsProductIdAddStoreRoute:
     ProtectedPublicProductsProductIdAddStoreRoute,
-  ProtectedPublicStoresStoreIdCategoryIdRoute:
-    ProtectedPublicStoresStoreIdCategoryIdRoute,
-  ProtectedPublicStoresStoreIdIndexRoute:
-    ProtectedPublicStoresStoreIdIndexRoute,
 }
 
 const ProtectedPublicRouteRouteWithChildren =
@@ -593,6 +566,7 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,

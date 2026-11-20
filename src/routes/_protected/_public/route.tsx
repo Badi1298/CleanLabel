@@ -2,137 +2,104 @@ import {
 	createFileRoute,
 	Link,
 	Outlet,
-	// useNavigate,
 	useRouteContext,
 } from "@tanstack/react-router";
-// import { useServerFn } from "@tanstack/react-start";
 import { Heart, Home, Search, Store, User } from "lucide-react";
-// import { useState } from "react";
 import { Onboarding } from "#/components/Onboarding";
-// import { ScannerDialog } from "#/components/ScannerDialog";
-import { Button } from "#/components/ui/button";
-// import { processBarcodeScan } from "#/server/off-functions";
 
 export const Route = createFileRoute("/_protected/_public")({
 	component: RouteComponent,
 });
 
-function RouteComponent() {
-	// const processScan = useServerFn(processBarcodeScan);
-	// const navigate = useNavigate();
-	const { session } = useRouteContext({ from: "/_protected" });
-	// const [isScannerOpen, setIsScannerOpen] = useState(false);
-	// const [isFetching, setIsFetching] = useState(false);
-	// void isFetching;
-	// void ScanBarcode;
+const NAV_ITEMS = [
+	{ to: "/" as const, label: "Home", Icon: Home, exact: true },
+	{ to: "/search" as const, label: "Search", Icon: Search, exact: false },
+	{ to: "/favorites" as const, label: "Favorites", Icon: Heart, exact: false },
+	{ to: "/stores" as const, label: "Stores", Icon: Store, exact: false },
+	{ to: "/profile" as const, label: "Profile", Icon: User, exact: false },
+];
 
-	// const handleScanBarcode = async (barcode: string) => {
-	// 	setIsScannerOpen(false);
-	// 	setIsFetching(true);
-	// 	try {
-	// 		const result = await processScan({ data: barcode });
-	// 		if (result.productId) {
-	// 			navigate({
-	// 				to: "/products/$productId",
-	// 				params: { productId: result.productId },
-	// 			});
-	// 		} else {
-	// 			// TODO: We use "as any" for search since we don't know if add-product has validateSearch set up yet
-	// 			navigate({ to: "/add-product", search: { barcode } as any });
-	// 		}
-	// 	} catch (e) {
-	// 		console.error("Error processing scan:", e);
-	// 		navigate({ to: "/add-product", search: { barcode } as any });
-	// 	} finally {
-	// 		setIsFetching(false);
-	// 	}
-	// };
+function RouteComponent() {
+	const { session } = useRouteContext({ from: "/_protected" });
 
 	return (
-		<div className="relative min-h-screen pb-24 bg-slate-50 dark:bg-slate-950">
+		<div className="relative min-h-screen pb-20 md:pb-10 bg-[#FAF8F5] dark:bg-[#0E1612] text-[#1B3328] dark:text-[#EDF2EE]">
+			{/* Desktop & Tablet Slim Top Navigation */}
+			<header className="hidden md:block sticky top-0 z-40 bg-[#FDFBF7]/92 dark:bg-[#131F19]/92 backdrop-blur-md border-b border-[#EAE4D7] dark:border-[#24362D]">
+				<div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+					<Link
+						to="/"
+						className="flex items-center gap-2.5 rounded-xl px-1.5 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
+					>
+						<img
+							src="/logo-192x192.png"
+							alt="CleanLabel"
+							className="w-8 h-8 rounded-lg object-contain"
+						/>
+						<span className="font-extrabold text-lg tracking-tight text-[#1B4332] dark:text-[#FBF4E6]">
+							CleanLabel
+						</span>
+					</Link>
+
+					<nav
+						aria-label="Primary navigation"
+						className="flex items-center gap-1.5"
+					>
+						{NAV_ITEMS.map(({ to, label, Icon, exact }) => (
+							<Link
+								key={to}
+								to={to}
+								activeOptions={{ exact }}
+								className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#FBF4E6] hover:bg-[#F3EFE6]/80 dark:hover:bg-[#1A2922] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
+								activeProps={{
+									className:
+										"bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] font-semibold hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C]",
+								}}
+							>
+								<Icon className="w-4 h-4 shrink-0" aria-hidden="true" />
+								<span>{label}</span>
+							</Link>
+						))}
+					</nav>
+				</div>
+			</header>
+
 			<Onboarding user={session.user} />
 			<Outlet />
 
-			{/* Sticky Bottom Navigation */}
-			{/* Sticky Bottom Navigation */}
-			<div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-[#FDFBF7] dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-				<nav className="flex justify-between items-center w-full max-w-md px-4 py-1 h-17">
-					<Button
-						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
-						asChild
-					>
-						<Link to="/">
-							<Home className="w-5 h-5" />
-							<span className="text-[11px] font-medium">Home</span>
+			{/* Mobile Sticky Bottom Navigation */}
+			<div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FDFBF7]/95 dark:bg-[#131F19]/95 backdrop-blur-md border-t border-[#EAE4D7] dark:border-[#24362D] shadow-[0_-4px_20px_rgba(27,67,50,0.06)] pb-[env(safe-area-inset-bottom)]">
+				<nav
+					aria-label="Mobile navigation"
+					className="grid grid-cols-5 items-center max-w-md mx-auto px-2 py-1.5 h-[66px]"
+				>
+					{NAV_ITEMS.map(({ to, label, Icon, exact }) => (
+						<Link
+							key={to}
+							to={to}
+							activeOptions={{ exact }}
+							className="flex flex-col items-center justify-center gap-1 h-13 px-1 rounded-xl text-[#687069] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
+							activeProps={{
+								className:
+									"bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] font-semibold",
+							}}
+						>
+							{({ isActive }) => (
+								<>
+									<Icon
+										className="w-5 h-5 shrink-0"
+										strokeWidth={isActive ? 2.25 : 1.85}
+										aria-hidden="true"
+									/>
+									<span className="text-[11px] leading-none tracking-tight">
+										{label}
+									</span>
+								</>
+							)}
 						</Link>
-					</Button>
-
-					<Button
-						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
-						asChild
-					>
-						<Link to="/search">
-							<Search className="w-5 h-5" />
-							<span className="text-[11px] font-medium">Search</span>
-						</Link>
-					</Button>
-
-					{/* <Button
-						variant="ghost"
-						onClick={() => setIsScannerOpen(true)}
-						className="flex flex-col cursor-pointer items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
-						disabled={isFetching}
-					>
-						{isFetching ? (
-							<div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
-						) : (
-							<ScanBarcode className="w-5 h-5" />
-						)}
-						<span className="text-[11px] font-medium">Scan</span>
-					</Button> */}
-
-					<Button
-						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
-						asChild
-					>
-						<Link to="/favorites">
-							<Heart className="w-5 h-5" />
-							<span className="text-[11px] font-medium">Favorites</span>
-						</Link>
-					</Button>
-
-					<Button
-						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
-						asChild
-					>
-						<Link to="/stores">
-							<Store className="w-5 h-5" />
-							<span className="text-[11px] font-medium">Stores</span>
-						</Link>
-					</Button>
-
-					<Button
-						variant="ghost"
-						className="flex flex-col items-center justify-center gap-1 h-auto min-w-18 py-2 px-2 text-slate-500 [&.active]:text-emerald-700 dark:[&.active]:text-emerald-400 [&.active]:bg-emerald-100/60 dark:[&.active]:bg-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400 rounded-xl"
-						asChild
-					>
-						<Link to="/profile">
-							<User className="w-5 h-5" />
-							<span className="text-[11px] font-medium">Profile</span>
-						</Link>
-					</Button>
+					))}
 				</nav>
 			</div>
-
-			{/* <ScannerDialog
-				isOpen={isScannerOpen}
-				onClose={() => setIsScannerOpen(false)}
-				onResult={handleScanBarcode}
-			/> */}
 		</div>
 	);
 }

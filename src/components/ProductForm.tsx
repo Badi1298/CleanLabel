@@ -1,10 +1,21 @@
 /** biome-ignore-all lint/correctness/noChildrenProp: The official documentation provides this pattern */
 import { useForm } from "@tanstack/react-form";
-import { CameraIcon, Plus } from "lucide-react";
-import { useState } from "react";
+import {
+	AlertTriangle,
+	CameraIcon,
+	CheckCircle2,
+	Highlighter,
+	Plus,
+	Sparkles,
+	X,
+} from "lucide-react";
+import { useRef, useState } from "react";
+import { toast } from "sonner";
 import { AddCategoryDialog } from "#/components/AddCategoryDialog";
 import { AddIngredientDialog } from "#/components/AddIngredientDialog";
 import { AddStoreDialog } from "#/components/AddStoreDialog";
+import { HighlightedIngredientsText } from "#/components/HighlightedIngredientsText";
+import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import {
 	Combobox,
@@ -28,6 +39,13 @@ import {
 } from "#/components/ui/select";
 import { Textarea } from "#/components/ui/textarea";
 import { useImageUploadMutation } from "#/hooks/use-image-upload-mutation";
+import {
+	detectAdditiveCandidates,
+	isPhraseFoundInText,
+	mergeAdditivePhrase,
+	normalizeAdditivePhrase,
+	suggestScoreFromAdditivesCount,
+} from "#/lib/additive-highlighting";
 
 export type ProductFormValues = {
 	barcode: string;
@@ -38,6 +56,7 @@ export type ProductFormValues = {
 	score: "gold" | "silver" | "bronze" | "none";
 	status: "pending_review" | "approved" | "rejected";
 	rawIngredientsText: string;
+	highlightedAdditives: string[] | null;
 	imageFront: string | File | undefined;
 	imageBack: string | File | undefined;
 	storeIds: string[];
@@ -86,6 +105,20 @@ export function ProductForm({
 	onSubmit: (values: ProductFormValues) => void;
 }) {
 	const [showFullForm, setShowFullForm] = useState(isAdmin);
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const [selectedLabelText, setSelectedLabelText] = useState("");
+
+	const updateSelectionFromTextarea = () => {
+		const el = textareaRef.current;
+		if (!el) return;
+		const start = el.selectionStart ?? 0;
+		const end = el.selectionEnd ?? 0;
+		if (end > start) {
+			setSelectedLabelText(el.value.slice(start, end));
+		} else {
+			setSelectedLabelText("");
+		}
+	};
 
 	const imageUploadMutation = useImageUploadMutation();
 	const form = useForm({
@@ -98,6 +131,7 @@ export function ProductForm({
 			score: defaultValues?.score || "none",
 			status: defaultValues?.status || "pending_review",
 			rawIngredientsText: defaultValues?.rawIngredientsText || "",
+			highlightedAdditives: defaultValues?.highlightedAdditives ?? null,
 			imageFront: defaultValues?.imageFront,
 			imageBack: defaultValues?.imageBack,
 			storeIds: defaultValues?.storeIds || [],
@@ -552,10 +586,19 @@ export function ProductForm({
 									Raw Ingredients List (from label)
 								</Label>
 								<Textarea
+									ref={textareaRef}
 									id={field.name}
 									value={field.state.value}
 									onBlur={field.handleBlur}
-									onChange={(e) => field.handleChange(e.target.value)}
+									onSelect={isAdmin ? updateSelectionFromTextarea : undefined}
+									onKeyUp={isAdmin ? updateSelectionFromTextarea : undefined}
+									onMouseUp={isAdmin ? updateSelectionFromTextarea : undefined}
+									onChange={(e) => {
+										field.handleChange(e.target.value);
+										if (isAdmin) {
+											setSelectedLabelText("");
+										}
+									}}
 									placeholder="e.g. Water, Almonds (2%), Calcium, Sea Salt..."
 									className="min-h-24"
 								/>
@@ -563,6 +606,243 @@ export function ProductForm({
 							</div>
 						)}
 					/>
+
+					{isAdmin && (
+						<form.Field
+							name="highlightedAdditives"
+							children={(field) => (
+								<form.Subscribe
+									selector={(state) => state.values.rawIngredientsText}
+									children={(rawText) => {
+										const markedAdditives = field.state.value;
+										const isReviewed = markedAdditives !== null;
+										const additiveList = markedAdditives ?? [];
+										const hasSelection = Boolean(selectedLabelText.trim());
+										const hasRawText = Boolean(rawText.trim());
+
+										const handleMarkSelected = () => {
+											const normalized =
+												normalizeAdditivePhrase(selectedLabelText);
+											if (!normalized) {
+												toast.error(
+													"Select an additive phrase in the raw label text first.",
+												);
+												return;
+											}
+											const next = mergeAdditivePhrase(
+												additiveList,
+												normalized,
+											);
+											field.handleChange(next);
+											setSelectedLabelText("");
+											if (next.length === additiveList.length) {
+												toast.info(
+													`"${normalized}" is already covered by a marked additive.`,
+												);
+											}
+										};
+
+										const handleAutoDetect = () => {
+											const candidates = detectAdditiveCandidates(rawText);
+											if (candidates.length === 0) {
+												if (additiveList.length === 0) {
+													field.handleChange([]);
+													toast.info(
+														"No common additives detected — marked as 0 additives.",
+													);
+												} else {
+													toast.info(
+														"No additional common additives detected.",
+													);
+												}
+												return;
+											}
+
+											let next = additiveList;
+											const beforeCount = next.length;
+											for (const candidate of candidates) {
+												next = mergeAdditivePhrase(next, candidate);
+											}
+											field.handleChange(next);
+											const addedCount = next.length - beforeCount;
+											if (addedCount > 0) {
+												toast.success(
+													`Detected ${candidates.length} additive ${candidates.length === 1 ? "phrase" : "phrases"} (${addedCount} added).`,
+												);
+											} else {
+												toast.info(
+													"All detected additives are already marked.",
+												);
+											}
+										};
+
+										const handleConfirmZero = () => {
+											field.handleChange([]);
+										};
+
+										const handleRemovePhrase = (phraseToRemove: string) => {
+											field.handleChange(
+												additiveList.filter((item) => item !== phraseToRemove),
+											);
+										};
+
+										return (
+											<div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50 p-4 space-y-3">
+												<div className="flex flex-wrap items-center justify-between gap-2">
+													<div className="flex items-center gap-2">
+														<Highlighter
+															className="w-4 h-4 text-amber-700 dark:text-amber-300"
+															aria-hidden="true"
+														/>
+														<span className="text-sm font-semibold">
+															Marked Additives on Label
+														</span>
+													</div>
+
+													{!isReviewed ? (
+														<Badge
+															variant="outline"
+															className="border-amber-400 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300"
+														>
+															<AlertTriangle aria-hidden="true" />
+															<span>Not reviewed</span>
+														</Badge>
+													) : additiveList.length === 0 ? (
+														<Badge
+															variant="outline"
+															className="border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
+														>
+															<CheckCircle2 aria-hidden="true" />
+															<span>0 additives confirmed</span>
+														</Badge>
+													) : (
+														<Badge
+															variant="outline"
+															className="border-amber-400 dark:border-amber-700 bg-amber-100/80 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 font-semibold"
+														>
+															<Highlighter aria-hidden="true" />
+															<span>{additiveList.length} marked</span>
+														</Badge>
+													)}
+												</div>
+
+												<p className="text-xs text-muted-foreground">
+													Highlight an additive in the raw label text above and
+													click &lsquo;Mark selected as additive&rsquo;, or run
+													Auto-detect and adjust.
+												</p>
+
+												<div className="flex flex-wrap items-center gap-2">
+													<Button
+														type="button"
+														variant="secondary"
+														size="sm"
+														disabled={!hasSelection}
+														onClick={handleMarkSelected}
+													>
+														<Highlighter
+															className="w-3.5 h-3.5"
+															aria-hidden="true"
+														/>
+														<span>Mark selected as additive</span>
+													</Button>
+
+													<Button
+														type="button"
+														variant="outline"
+														size="sm"
+														disabled={!hasRawText}
+														onClick={handleAutoDetect}
+													>
+														<Sparkles
+															className="w-3.5 h-3.5"
+															aria-hidden="true"
+														/>
+														<span>Auto-detect additives</span>
+													</Button>
+
+													{(markedAdditives === null ||
+														additiveList.length > 0) && (
+														<Button
+															type="button"
+															variant="ghost"
+															size="sm"
+															onClick={handleConfirmZero}
+														>
+															<CheckCircle2
+																className="w-3.5 h-3.5"
+																aria-hidden="true"
+															/>
+															<span>
+																{markedAdditives === null
+																	? "Confirm 0 additives"
+																	: "Clear all (0 additives)"}
+															</span>
+														</Button>
+													)}
+												</div>
+
+												{additiveList.length > 0 && (
+													<div className="flex flex-wrap gap-1.5 pt-1">
+														{additiveList.map((phrase) => {
+															const foundInText =
+																!hasRawText ||
+																isPhraseFoundInText(rawText, phrase);
+
+															return (
+																<span
+																	key={phrase}
+																	className={
+																		foundInText
+																			? "inline-flex items-center gap-1.5 rounded-full border border-amber-400/75 dark:border-amber-700/70 bg-amber-100/90 dark:bg-amber-950/70 px-2.5 py-1 text-xs font-semibold text-[#78350F] dark:text-amber-200"
+																			: "inline-flex items-center gap-1.5 rounded-full border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-1 text-xs font-semibold text-rose-800 dark:text-rose-200"
+																	}
+																>
+																	{!foundInText && (
+																		<AlertTriangle
+																			className="w-3.5 h-3.5 shrink-0"
+																			aria-hidden="true"
+																		/>
+																	)}
+																	<span>{phrase}</span>
+																	{!foundInText && (
+																		<span className="text-[11px] font-medium opacity-85">
+																			(not in label text)
+																		</span>
+																	)}
+																	<button
+																		type="button"
+																		onClick={() => handleRemovePhrase(phrase)}
+																		aria-label={`Remove ${phrase}`}
+																		className="ml-0.5 rounded-full p-0.5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors cursor-pointer"
+																	>
+																		<X className="w-3 h-3" aria-hidden="true" />
+																	</button>
+																</span>
+															);
+														})}
+													</div>
+												)}
+
+												{hasRawText && isReviewed && (
+													<div className="rounded-lg border border-border bg-card p-3 space-y-1.5">
+														<p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+															Live Label Preview
+														</p>
+														<HighlightedIngredientsText
+															text={rawText}
+															highlightedAdditives={additiveList}
+															className="text-xs sm:text-sm leading-relaxed text-foreground"
+														/>
+													</div>
+												)}
+											</div>
+										);
+									}}
+								/>
+							)}
+						/>
+					)}
 
 					{isAdmin && (
 						<form.Field
@@ -652,7 +932,7 @@ export function ProductForm({
 												value: "gold" | "silver" | "bronze" | "none",
 											) => field.handleChange(value)}
 										>
-											<SelectTrigger>
+											<SelectTrigger id={field.name}>
 												<SelectValue placeholder="Select a score" />
 											</SelectTrigger>
 											<SelectContent>
@@ -662,6 +942,46 @@ export function ProductForm({
 												<SelectItem value="bronze">Bronze</SelectItem>
 											</SelectContent>
 										</Select>
+										<form.Subscribe
+											selector={(state) => state.values.highlightedAdditives}
+											children={(highlightedAdditives) => {
+												if (highlightedAdditives === null) return null;
+												const count = highlightedAdditives.length;
+												const suggested = suggestScoreFromAdditivesCount(count);
+												const suggestedLabel =
+													suggested.charAt(0).toUpperCase() +
+													suggested.slice(1);
+
+												if (field.state.value === suggested) {
+													return (
+														<p className="text-xs text-muted-foreground">
+															Matches {count} marked{" "}
+															{count === 1 ? "additive" : "additives"} (
+															{suggestedLabel}).
+														</p>
+													);
+												}
+
+												return (
+													<div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-300/70 dark:border-amber-700/60 bg-amber-50/70 dark:bg-amber-950/30 px-2.5 py-1.5 text-xs text-amber-900 dark:text-amber-200">
+														<span>
+															{count} marked{" "}
+															{count === 1 ? "additive" : "additives"} &rarr;
+															Suggested: <strong>{suggestedLabel}</strong>
+														</span>
+														<Button
+															type="button"
+															variant="outline"
+															size="sm"
+															onClick={() => field.handleChange(suggested)}
+															className="h-6 px-2 text-xs font-semibold border-amber-400/80 dark:border-amber-700 bg-white dark:bg-slate-900 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+														>
+															Apply
+														</Button>
+													</div>
+												);
+											}}
+										/>
 										<FieldInfo field={field} />
 									</div>
 								)}

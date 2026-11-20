@@ -1,11 +1,19 @@
-import { type AnyFieldApi, useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Globe2Icon } from "lucide-react";
+import { useRef } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Button } from "#/components/ui/button";
-import { Input } from "#/components/ui/input";
-import { Label } from "#/components/ui/label";
+import {
+	AuthEmailField,
+	AuthPasswordField,
+	AuthSubmitButton,
+	authValidationLogic,
+	focusFirstInvalidField,
+	useAuthErrorAnnouncer,
+	validateEmail,
+	validatePassword,
+} from "#/components/auth/auth-fields";
+import { AuthShell } from "#/components/auth/auth-shell";
 import { authClient } from "#/lib/auth-client";
 
 const searchSchema = z.object({
@@ -17,39 +25,30 @@ export const Route = createFileRoute("/login")({
 	component: Login,
 });
 
-function FieldInfo({ field }: { field: AnyFieldApi }) {
-	return (
-		<div className="min-h-5 mt-1">
-			{field.state.meta.isTouched && field.state.meta.errors.length ? (
-				<em className="text-sm text-red-200">
-					{field.state.meta.errors.join(", ")}
-				</em>
-			) : null}
-			{field.state.meta.isValidating ? (
-				<span className="text-sm text-white/70">Validating...</span>
-			) : null}
-		</div>
-	);
-}
-
 function Login() {
 	const search = Route.useSearch();
+	const formRef = useRef<HTMLFormElement>(null);
+	const { announceError, clearAnnouncement, liveRegion } =
+		useAuthErrorAnnouncer();
+
 	const form = useForm({
 		defaultValues: {
 			email: "",
 			password: "",
 		},
+		validationLogic: authValidationLogic,
+		onSubmitInvalid: () => {
+			clearAnnouncement();
+			focusFirstInvalidField(formRef.current);
+		},
 		onSubmit: async ({ value }) => {
+			clearAnnouncement();
 			const { error } = await authClient.signIn.email({
 				email: value.email,
 				password: value.password,
 			});
 			if (!error) {
-				if (search.redirect) {
-					window.location.href = search.redirect;
-				} else {
-					window.location.href = "/";
-				}
+				window.location.href = search.redirect || "/";
 			} else {
 				toast.error(error.message || "Failed to login");
 			}
@@ -57,145 +56,90 @@ function Login() {
 	});
 
 	return (
-		<div className="flex min-h-screen items-center justify-center bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
-			<div className="w-full max-w-md overflow-hidden rounded-2xl bg-white/10 p-8 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] backdrop-blur-md border border-white/20 dark:bg-black/20">
-				<div className="mb-8 text-center">
-					<h1 className="text-3xl font-extrabold tracking-tight text-white">
-						Welcome Back
-					</h1>
-					<p className="text-white/80 mt-2">
-						Sign in to your account to continue
-					</p>
-				</div>
-
-				<form
-					onSubmit={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						form.handleSubmit();
-					}}
-					className="space-y-4"
-				>
-					<form.Field
-						name="email"
-						validators={{
-							onChange: ({ value }) =>
-								!value
-									? "Email is required"
-									: !/^\S+@\S+\.\S+$/.test(value)
-										? "Invalid email format"
-										: undefined,
-						}}
-					>
-						{(field) => (
-							<div className="space-y-1">
-								<Label htmlFor={field.name} className="text-white">
-									Email Address
-								</Label>
-								<Input
-									id={field.name}
-									name={field.name}
-									type="email"
-									value={field.state.value}
-									onBlur={field.handleBlur}
-									onChange={(e) => field.handleChange(e.target.value)}
-									className="bg-white/20 border-white/30 text-white placeholder:text-white/50 focus-visible:ring-white/50"
-									placeholder="you@example.com"
-								/>
-								<FieldInfo field={field} />
-							</div>
-						)}
-					</form.Field>
-
-					<form.Field
-						name="password"
-						validators={{
-							onChange: ({ value }) =>
-								!value
-									? "Password is required"
-									: value.length < 6
-										? "Password must be at least 6 characters"
-										: undefined,
-						}}
-					>
-						{(field) => (
-							<div className="space-y-1">
-								<div className="flex items-center justify-between">
-									<Label htmlFor={field.name} className="text-white">
-										Password
-									</Label>
-									<Link
-										to="/forgot-password"
-										className="text-sm text-shadow-white font-medium text-white/80 hover:text-white hover:underline"
-									>
-										Forgot password?
-									</Link>
-								</div>
-								<Input
-									id={field.name}
-									name={field.name}
-									type="password"
-									value={field.state.value}
-									onBlur={field.handleBlur}
-									onChange={(e) => field.handleChange(e.target.value)}
-									className="bg-white/20 border-white/30 text-white placeholder:text-white/50 focus-visible:ring-white/50"
-									placeholder="••••••••"
-								/>
-								<FieldInfo field={field} />
-							</div>
-						)}
-					</form.Field>
-
-					<form.Subscribe
-						selector={(state) => [state.canSubmit, state.isSubmitting]}
-					>
-						{([canSubmit, isSubmitting]) => (
-							<Button
-								type="submit"
-								disabled={!canSubmit || isSubmitting}
-								className="w-full mt-4 bg-white text-purple-600 hover:bg-white/90 font-bold py-6 text-lg rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-							>
-								{isSubmitting ? "Signing in..." : "Sign In"}
-							</Button>
-						)}
-					</form.Subscribe>
-				</form>
-
-				<div className="relative mt-8">
-					<div className="absolute inset-0 flex items-center">
-						<span className="w-full border-t border-white/20" />
-					</div>
-					<div className="relative flex justify-center text-xs uppercase">
-						<span className="bg-[#a855f7] px-2 text-white/80 rounded-md">
-							Or continue with
-						</span>
-					</div>
-				</div>
-
-				<Button
-					variant="outline"
-					type="button"
-					className="w-full mt-6 bg-transparent text-white border-white/30 hover:bg-white/20 hover:text-white font-medium py-6 text-lg rounded-xl transition-all shadow-sm"
-					onClick={async () => {
-						await authClient.signIn.social({
-							provider: "google",
-						});
-					}}
-				>
-					<Globe2Icon className="h-5 w-5" />
-					Google
-				</Button>
-
-				<div className="mt-8 text-center text-sm text-white/80">
-					Don't have an account?{" "}
+		<AuthShell
+			title="Welcome Back"
+			subtitle="Sign in to your account to continue making clean grocery choices."
+			footer={
+				<>
+					Don&apos;t have an account?{" "}
 					<Link
 						to="/signup"
-						className="font-semibold text-white hover:underline"
+						className="font-bold text-[#1B4332] dark:text-emerald-300 hover:underline underline-offset-4"
 					>
 						Sign up
 					</Link>
-				</div>
-			</div>
-		</div>
+				</>
+			}
+		>
+			<form
+				ref={formRef}
+				noValidate
+				onSubmit={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					form.handleSubmit();
+				}}
+				className="space-y-2.5"
+			>
+				{liveRegion}
+
+				<form.Field
+					name="email"
+					validators={{
+						onDynamic: ({ value }) => validateEmail(value),
+					}}
+				>
+					{(field) => (
+						<AuthEmailField
+							field={field}
+							id="email"
+							label="Email Address"
+							autoComplete="username"
+							enterKeyHint="next"
+							onBlurError={announceError}
+							onErrorCleared={clearAnnouncement}
+						/>
+					)}
+				</form.Field>
+
+				<form.Field
+					name="password"
+					validators={{
+						onDynamic: ({ value }) => validatePassword(value),
+					}}
+				>
+					{(field) => (
+						<AuthPasswordField
+							field={field}
+							id="password"
+							label="Password"
+							autoComplete="current-password"
+							enterKeyHint="done"
+							minLength={6}
+							onBlurError={announceError}
+							onErrorCleared={clearAnnouncement}
+							labelRight={
+								<Link
+									to="/forgot-password"
+									className="text-xs font-semibold text-[#2D5A44] dark:text-emerald-400 hover:text-[#1B4332] dark:hover:text-emerald-300 hover:underline underline-offset-4 transition-colors"
+								>
+									Forgot password?
+								</Link>
+							}
+						/>
+					)}
+				</form.Field>
+
+				<form.Subscribe selector={(state) => state.isSubmitting}>
+					{(isSubmitting) => (
+						<AuthSubmitButton
+							isSubmitting={isSubmitting}
+							idleLabel="Sign In"
+							submittingLabel="Signing in..."
+						/>
+					)}
+				</form.Subscribe>
+			</form>
+		</AuthShell>
 	);
 }

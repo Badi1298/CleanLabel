@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, countDistinct, desc, eq, or } from "drizzle-orm";
+import { and, countDistinct, desc, eq, or, sql } from "drizzle-orm";
 import { db } from "#/db";
 import {
 	categories,
@@ -15,7 +15,24 @@ export const getHomeData = createServerFn({
 	.validator((data: { storeId?: string } | undefined) => data)
 	.handler(async ({ data }) => {
 		const storeId = data?.storeId;
-		const allStores = await db.select().from(stores);
+		const allStores = await db
+			.select({
+				id: stores.id,
+				name: stores.name,
+				logoUrl: stores.logoUrl,
+				productCount: sql<number>`count(distinct ${products.id})::int`,
+			})
+			.from(stores)
+			.leftJoin(productStores, eq(stores.id, productStores.storeId))
+			.leftJoin(
+				products,
+				and(
+					eq(productStores.productId, products.id),
+					eq(products.status, "approved"),
+				),
+			)
+			.groupBy(stores.id)
+			.orderBy(stores.name);
 
 		const recentProductRows = await db
 			.select({
@@ -72,6 +89,7 @@ export const getHomeData = createServerFn({
 						id: categories.id,
 						name: categories.name,
 						iconUrl: categories.iconUrl,
+						parentId: categories.parentId,
 						productCount: countDistinct(products.id),
 					})
 					.from(categories)
@@ -101,6 +119,7 @@ export const getHomeData = createServerFn({
 						id: categories.id,
 						name: categories.name,
 						iconUrl: categories.iconUrl,
+						parentId: categories.parentId,
 						productCount: countDistinct(products.id),
 					})
 					.from(categories)

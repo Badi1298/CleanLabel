@@ -1,21 +1,43 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Filter, Store as StoreIcon, X } from "lucide-react";
-import { z } from "zod";
-import { ProductCard } from "#/components/home/product-card";
-import { SearchBar } from "#/components/search/search-bar";
-import { Button } from "#/components/ui/button";
 import {
-	Combobox,
-	ComboboxChip,
-	ComboboxChips,
-	ComboboxChipsInput,
-	ComboboxContent,
-	ComboboxEmpty,
-	ComboboxItem,
-	ComboboxList,
-	ComboboxValue,
-} from "#/components/ui/combobox";
+	keepPreviousData,
+	useInfiniteQuery,
+	useQuery,
+	useSuspenseQuery,
+} from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+	ArrowLeft,
+	ChevronRight,
+	FolderTree,
+	Loader2,
+	SlidersHorizontal,
+	X,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+import { z } from "zod";
+import {
+	CategorySectionsView,
+	EmptyProductsState,
+	FILTER_TRIGGER_ACTIVE_CLASS,
+	FILTER_TRIGGER_INACTIVE_CLASS,
+	PaginatedProductsGrid,
+	ScoreFilterSelect,
+} from "#/components/search/catalog-views";
+import {
+	CategoryNavList,
+	MobileCategoryDrawer,
+} from "#/components/search/category-sidebar";
+import { SearchBar } from "#/components/search/search-bar";
+import { Badge } from "#/components/ui/badge";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "#/components/ui/breadcrumb";
+import { Button } from "#/components/ui/button";
 import {
 	Select,
 	SelectContent,
@@ -23,12 +45,20 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "#/components/ui/select";
+import { cn } from "#/lib/utils";
 import {
 	activeCategoriesQueryOptions,
 	categoriesQueryOptions,
 } from "#/queries/product-queries";
-import { searchQueryOptions } from "#/queries/search-queries";
+import {
+	infiniteSearchQueryOptions,
+	searchCategorySectionsQueryOptions,
+} from "#/queries/search-queries";
 import { storesQueryOptions } from "#/queries/store-queries";
+import { UNCATEGORIZED_CATEGORY_ID } from "#/server/search-functions";
+
+const CATEGORY_PREVIEW_LIMIT = 8;
+const CATEGORY_PAGE_SIZE = 24;
 
 const searchSchema = z.object({
 	q: z.string().optional(),
@@ -52,24 +82,36 @@ export const Route = createFileRoute("/_protected/_public/search")({
 		score,
 	}),
 	loader: async ({ context: { queryClient }, deps }) => {
-		await queryClient.ensureQueryData(categoriesQueryOptions());
-		await queryClient.ensureQueryData(
-			activeCategoriesQueryOptions({
-				storeId: deps.storeId,
-				score: deps.score,
-			}),
-		);
-		await queryClient.ensureQueryData(storesQueryOptions());
-
-		// Only fetch products if a category or search term is selected
-		const isSearchingProducts =
-			Boolean(deps.q && deps.q.trim().length > 0) ||
+		const hasCategoryFilter =
 			Boolean(deps.categoryId) ||
 			Boolean(deps.subCategoryIds && deps.subCategoryIds.length > 0);
 
-		if (isSearchingProducts) {
-			await queryClient.ensureQueryData(searchQueryOptions(deps));
-		}
+		await Promise.all([
+			queryClient.ensureQueryData(categoriesQueryOptions()),
+			queryClient.ensureQueryData(
+				activeCategoriesQueryOptions({
+					q: deps.q,
+					storeId: deps.storeId,
+					score: deps.score,
+				}),
+			),
+			queryClient.ensureQueryData(storesQueryOptions()),
+			hasCategoryFilter
+				? queryClient.ensureInfiniteQueryData(
+						infiniteSearchQueryOptions({
+							...deps,
+							pageSize: CATEGORY_PAGE_SIZE,
+						}),
+					)
+				: queryClient.ensureQueryData(
+						searchCategorySectionsQueryOptions({
+							q: deps.q,
+							storeId: deps.storeId,
+							score: deps.score,
+							limitPerCategory: CATEGORY_PREVIEW_LIMIT,
+						}),
+					),
+		]);
 	},
 	component: SearchPage,
 });
@@ -77,43 +119,103 @@ export const Route = createFileRoute("/_protected/_public/search")({
 function SearchPage() {
 	const navigate = useNavigate();
 	const searchParams = Route.useSearch();
-	const isSearchingProducts =
-		Boolean(searchParams.q && searchParams.q.trim().length > 0) ||
-		Boolean(searchParams.categoryId) ||
-		Boolean(
-			searchParams.subCategoryIds && searchParams.subCategoryIds.length > 0,
-		);
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+	const selectedSubCategoryId = searchParams.subCategoryIds?.[0];
+	const hasCategoryFilter =
+		Boolean(searchParams.categoryId) || Boolean(selectedSubCategoryId);
+
+	const activeFilterCount =
+		(searchParams.score ? 1 : 0) +
+		(searchParams.storeId ? 1 : 0) +
+		(hasCategoryFilter ? 1 : 0);
 
 	const hasActiveFilters =
-		isSearchingProducts ||
-		Boolean(searchParams.storeId) ||
-		Boolean(searchParams.score);
+		Boolean(searchParams.q?.trim()) || activeFilterCount > 0;
 
 	const { data: allCategories } = useSuspenseQuery(categoriesQueryOptions());
 	const { data: activeCategoriesData } = useSuspenseQuery(
 		activeCategoriesQueryOptions({
+			q: searchParams.q,
 			storeId: searchParams.storeId,
 			score: searchParams.score,
 		}),
 	);
-
-	const activeCategoryIds = activeCategoriesData?.map((c) => c.id);
-	const categoryCounts = new Map(
-		activeCategoriesData?.map((c) => [c.id, c.count]),
-	);
-
-	const categories = allCategories?.filter((c) =>
-		activeCategoryIds?.includes(c.id),
-	);
-	const topLevelCategories = categories?.filter((c) => !c.parentId) || [];
-
 	const { data: stores } = useSuspenseQuery(storesQueryOptions());
 
-	const { data: searchResults } = useQuery({
-		...searchQueryOptions(searchParams),
-		// Only run this query if product search is active
-		enabled: isSearchingProducts,
+	const categoryCounts = useMemo(
+		() => new Map(activeCategoriesData.categories.map((c) => [c.id, c.count])),
+		[activeCategoriesData],
+	);
+
+	const activeCategoryIds = useMemo(
+		() => new Set(activeCategoriesData.categories.map((c) => c.id)),
+		[activeCategoriesData],
+	);
+
+	const categories = useMemo(
+		() => allCategories?.filter((c) => activeCategoryIds.has(c.id)) || [],
+		[allCategories, activeCategoryIds],
+	);
+
+	const topLevelCategories = useMemo(
+		() => categories.filter((c) => !c.parentId),
+		[categories],
+	);
+
+	const selectedSubcategory = selectedSubCategoryId
+		? allCategories?.find((c) => c.id === selectedSubCategoryId)
+		: undefined;
+
+	const activeParentId =
+		selectedSubcategory?.parentId ||
+		(searchParams.categoryId
+			? allCategories?.find((c) => c.id === searchParams.categoryId)
+					?.parentId || searchParams.categoryId
+			: undefined);
+
+	const activeParentCategory =
+		activeParentId === UNCATEGORIZED_CATEGORY_ID
+			? { id: UNCATEGORIZED_CATEGORY_ID, name: "Other", iconUrl: null }
+			: activeParentId
+				? allCategories?.find((c) => c.id === activeParentId)
+				: undefined;
+
+	const { data: sectionsData, isFetching: isFetchingSections } = useQuery({
+		...searchCategorySectionsQueryOptions({
+			q: searchParams.q,
+			storeId: searchParams.storeId,
+			score: searchParams.score,
+			limitPerCategory: CATEGORY_PREVIEW_LIMIT,
+		}),
+		enabled: !hasCategoryFilter,
+		placeholderData: keepPreviousData,
 	});
+
+	const {
+		data: infiniteData,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		isFetching: isFetchingFiltered,
+	} = useInfiniteQuery({
+		...infiniteSearchQueryOptions({
+			q: searchParams.q,
+			storeId: searchParams.storeId,
+			categoryId: searchParams.categoryId,
+			subCategoryIds: searchParams.subCategoryIds,
+			score: searchParams.score,
+			pageSize: CATEGORY_PAGE_SIZE,
+		}),
+		enabled: hasCategoryFilter,
+		placeholderData: keepPreviousData,
+	});
+
+	const filteredProducts = useMemo(
+		() => infiniteData?.pages.flatMap((page) => page.items) || [],
+		[infiniteData],
+	);
+	const filteredTotalCount = infiniteData?.pages[0]?.totalCount ?? 0;
 
 	const updateFilters = (updates: Partial<SearchSchema>) => {
 		navigate({
@@ -133,357 +235,322 @@ function SearchPage() {
 		navigate({ to: "/search", search: {} });
 	};
 
+	const handleSelectAllCategories = () => {
+		updateFilters({
+			categoryId: undefined,
+			subCategoryIds: undefined,
+		});
+	};
+
+	const handleSelectCategory = (categoryId: string) => {
+		updateFilters({
+			categoryId,
+			subCategoryIds: undefined,
+		});
+	};
+
+	const handleSelectSubcategory = (parentId: string, subcatId: string) => {
+		updateFilters({
+			categoryId: parentId,
+			subCategoryIds: [subcatId],
+		});
+	};
+
+	const mobileCategoryLabel =
+		selectedSubcategory?.name || activeParentCategory?.name || "Categories";
+
+	const trimmedQuery = searchParams.q?.trim();
+
 	return (
-		<div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20">
-			{/* Top Bar with Search */}
-			<div className="bg-white dark:bg-slate-900 shadow-sm sticky top-0 z-20">
-				<div className="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-4">
+		<div className="bg-[#FAF8F5] dark:bg-[#0E1612]">
+			{/* Top Bar with Search & Filters */}
+			<div className="bg-[#FDFBF7]/95 dark:bg-[#131F19]/95 backdrop-blur-md border-b border-[#EAE4D7] dark:border-[#24362D] sticky top-0 md:top-16 z-30">
+				<div className="max-w-6xl mx-auto px-4 md:px-6 py-3.5 md:py-4 flex flex-col gap-3">
 					<SearchBar
 						key={searchParams.q || "empty"}
 						initialQuery={searchParams.q}
+						placeholder="Search products, brands..."
 					/>
 
-					{/* Filters */}
-					<div className="flex flex-wrap items-center gap-2">
-						<div className="flex items-center gap-2 text-slate-500 font-medium text-sm">
-							<Filter className="w-4 h-4" />
-							<span>Filters:</span>
+					{/* Responsive Filters */}
+					<section aria-label="Search filters" className="flex flex-col gap-2">
+						<div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-2">
+							<div className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E] mr-1">
+								<SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
+								<span>Filters</span>
+							</div>
+
+							<div className="col-span-2 lg:hidden">
+								<MobileCategoryDrawer
+									isOpen={isDrawerOpen}
+									onOpenChange={setIsDrawerOpen}
+									trigger={
+										<Button
+											type="button"
+											variant="outline"
+											className={cn(
+												"w-full justify-between gap-2 h-10 pointer-coarse:h-11 px-3 rounded-xl text-[13px] shadow-none transition-colors",
+												hasCategoryFilter
+													? FILTER_TRIGGER_ACTIVE_CLASS
+													: FILTER_TRIGGER_INACTIVE_CLASS,
+											)}
+										>
+											<span className="flex items-center gap-2 min-w-0">
+												<FolderTree
+													className="w-4 h-4 shrink-0"
+													aria-hidden="true"
+												/>
+												<span className="truncate">{mobileCategoryLabel}</span>
+											</span>
+											<ChevronRight
+												className="w-4 h-4 shrink-0 opacity-70"
+												aria-hidden="true"
+											/>
+										</Button>
+									}
+									topLevelCategories={topLevelCategories}
+									categories={categories}
+									categoryCounts={categoryCounts}
+									activeParentId={activeParentId}
+									selectedCategoryId={searchParams.categoryId}
+									selectedSubCategoryId={selectedSubCategoryId}
+									totalProductsCount={activeCategoriesData.totalProductsCount}
+									onSelectAll={handleSelectAllCategories}
+									onSelectCategory={(catId) => handleSelectCategory(catId)}
+									onSelectSubcategory={handleSelectSubcategory}
+								/>
+							</div>
+
+							<ScoreFilterSelect
+								value={searchParams.score}
+								onChange={(val) => updateFilter("score", val)}
+							/>
+
+							<Select
+								value={searchParams.storeId || "all"}
+								onValueChange={(val) =>
+									updateFilter("storeId", val === "all" ? undefined : val)
+								}
+							>
+								<SelectTrigger
+									aria-label="Filter by store"
+									className={cn(
+										"w-full sm:w-auto sm:min-w-35 h-10 data-[size=default]:h-10 pointer-coarse:h-11 pointer-coarse:data-[size=default]:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
+										searchParams.storeId
+											? FILTER_TRIGGER_ACTIVE_CLASS
+											: FILTER_TRIGGER_INACTIVE_CLASS,
+									)}
+								>
+									<SelectValue placeholder="Store" />
+								</SelectTrigger>
+								<SelectContent className="rounded-xl border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C]">
+									<SelectItem value="all">Any Store</SelectItem>
+									{stores?.map((store) => (
+										<SelectItem key={store.id} value={store.id}>
+											{store.name}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+
+							{hasActiveFilters && (
+								<Button
+									type="button"
+									variant="ghost"
+									onClick={clearFilters}
+									className="hidden sm:inline-flex items-center gap-1.5 h-10 px-3 rounded-xl text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/40 dark:hover:text-rose-300 sm:ml-auto"
+								>
+									<X className="w-3.5 h-3.5" aria-hidden="true" />
+									<span>Clear all</span>
+								</Button>
+							)}
 						</div>
 
-						<Select
-							value={searchParams.score || "all"}
-							onValueChange={(val) =>
-								updateFilter(
-									"score",
-									val === "all" ? undefined : (val as SearchSchema["score"]),
-								)
-							}
-						>
-							<SelectTrigger className="w-32.5 h-9 text-sm">
-								<SelectValue placeholder="Score" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="all">Any Score</SelectItem>
-								<SelectItem value="gold">Gold</SelectItem>
-								<SelectItem value="silver">Silver</SelectItem>
-								<SelectItem value="bronze">Bronze</SelectItem>
-								<SelectItem value="none">Unrated</SelectItem>
-							</SelectContent>
-						</Select>
-
-						<Select
-							value={searchParams.storeId || "all"}
-							onValueChange={(val) =>
-								updateFilter("storeId", val === "all" ? undefined : val)
-							}
-						>
-							<SelectTrigger className="w-35 h-9 text-sm">
-								<SelectValue placeholder="Store" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="all">Any Store</SelectItem>
-								{stores?.map((store) => (
-									<SelectItem key={store.id} value={store.id}>
-										{store.name}
-									</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-
-						{searchParams.categoryId &&
-							(() => {
-								const selectedCat = allCategories?.find(
-									(c) => c.id === searchParams.categoryId,
-								);
-								const parentId =
-									selectedCat?.parentId || searchParams.categoryId;
-								const subcats =
-									categories?.filter((c) => c.parentId === parentId) || [];
-								const parentCategories =
-									categories?.filter((c) => !c.parentId) || [];
-								const currentParentCat = allCategories?.find(
-									(c) => c.id === parentId,
-								);
-								const displayParentCategories =
-									currentParentCat &&
-									!parentCategories.some((c) => c.id === parentId)
-										? [currentParentCat, ...parentCategories]
-										: parentCategories;
-
-								return (
-									<>
-										<Select
-											value={parentId}
-											onValueChange={(val) =>
-												updateFilters({
-													categoryId: val === "all" ? undefined : val,
-													subCategoryIds: undefined,
-												})
-											}
-										>
-											<SelectTrigger className="w-35 h-9 text-sm">
-												<SelectValue placeholder="Category" />
-											</SelectTrigger>
-											<SelectContent>
-												<SelectItem value="all">All Categories</SelectItem>
-												{displayParentCategories.map((cat) => (
-													<SelectItem key={cat.id} value={cat.id}>
-														{cat.name} ({categoryCounts.get(cat.id) || 0})
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-
-										{subcats.length > 0 &&
-											(() => {
-												const selectedItems = subcats.filter((subcat) =>
-													searchParams.subCategoryIds?.includes(subcat.id),
-												);
-												const MAX_VISIBLE = 2;
-												const visibleItems = selectedItems.slice(
-													0,
-													MAX_VISIBLE,
-												);
-												const hiddenCount =
-													selectedItems.length - visibleItems.length;
-
-												return (
-													<div className="w-64 max-w-full">
-														<Combobox
-															items={subcats}
-															itemToStringValue={(c) => c.name}
-															multiple
-															value={selectedItems}
-															onValueChange={(newValues) => {
-																updateFilter(
-																	"subCategoryIds",
-																	newValues.length > 0
-																		? newValues.map((v) => v.id)
-																		: undefined,
-																);
-															}}
-														>
-															<ComboboxChips className="flex-nowrap overflow-hidden">
-																<ComboboxValue>
-																	{visibleItems.map((item) => (
-																		<ComboboxChip
-																			key={item.id}
-																			className="max-w-20"
-																		>
-																			<span className="truncate">
-																				{item.name}
-																			</span>
-																		</ComboboxChip>
-																	))}
-																	{hiddenCount > 0 && (
-																		<span className="text-xs font-medium text-slate-500 whitespace-nowrap ml-1 shrink-0">
-																			+{hiddenCount} more
-																		</span>
-																	)}
-																</ComboboxValue>
-																<ComboboxChipsInput
-																	placeholder="Subcategories"
-																	className="min-w-15 truncate"
-																/>
-															</ComboboxChips>
-															<ComboboxContent>
-																<ComboboxEmpty>
-																	No subcategories found.
-																</ComboboxEmpty>
-																<ComboboxList>
-																	{(item) => (
-																		<ComboboxItem key={item.id} value={item}>
-																			{item.name} (
-																			{categoryCounts.get(item.id) || 0})
-																		</ComboboxItem>
-																	)}
-																</ComboboxList>
-															</ComboboxContent>
-														</Combobox>
-													</div>
-												);
-											})()}
-									</>
-								);
-							})()}
-
 						{hasActiveFilters && (
-							<Button
-								variant="ghost"
-								size="sm"
-								onClick={clearFilters}
-								className="text-red-500 hover:text-red-600 hover:bg-red-50 h-9"
-							>
-								<X className="w-4 h-4 mr-1" />
-								Clear
-							</Button>
+							<div className="flex sm:hidden items-center justify-between pt-0.5">
+								<span className="text-xs font-medium text-[#5C665E] dark:text-[#9AA89E]">
+									{activeFilterCount > 0
+										? `${activeFilterCount} ${activeFilterCount === 1 ? "filter" : "filters"} active`
+										: "Search active"}
+								</span>
+								<Button
+									type="button"
+									variant="outline"
+									size="sm"
+									onClick={clearFilters}
+									className="h-auto min-h-8 gap-1 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/50 border-rose-200/80 dark:border-rose-800/50 text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-100 hover:text-rose-700 dark:hover:bg-rose-950/70 shadow-none"
+								>
+									<X className="w-3.5 h-3.5" aria-hidden="true" />
+									<span>Clear all</span>
+								</Button>
+							</div>
 						)}
-					</div>
+					</section>
 				</div>
 			</div>
 
-			<main className="max-w-6xl mx-auto px-4 py-8">
-				{!isSearchingProducts ? (
-					// Default / Filtered Categories State
-					<section>
-						<h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-							Browse Categories
-						</h2>
-						{topLevelCategories.length > 0 ? (
-							<div className="space-y-6">
-								{topLevelCategories.map((parentCat) => {
-									const subcats =
-										categories?.filter((c) => c.parentId === parentCat.id) ||
-										[];
-
-									return (
-										<div
-											key={parentCat.id}
-											className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden"
-										>
-											{/* Parent Category Header */}
-											<Button
-												variant="ghost"
-												className="w-full h-auto rounded-none p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors font-normal"
-												onClick={() =>
-													updateFilters({
-														categoryId: parentCat.id,
-														subCategoryIds: undefined,
-													})
-												}
-											>
-												<div className="flex items-center gap-4">
-													{parentCat.iconUrl ? (
-														<img
-															src={parentCat.iconUrl}
-															alt={parentCat.name}
-															className="w-12 h-12 object-cover rounded-full bg-slate-100 dark:bg-slate-800"
-														/>
-													) : (
-														<div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-															<StoreIcon className="w-6 h-6 text-slate-500" />
-														</div>
-													)}
-													<h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
-														{parentCat.name}
-													</h3>
-													<span className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold px-2 py-1 rounded-full">
-														{categoryCounts.get(parentCat.id) || 0}
-													</span>
-												</div>
-												<div className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50 h-9 px-3">
-													View All {parentCat.name}
-												</div>
-											</Button>
-
-											{/* Subcategories */}
-											{subcats.length > 0 && (
-												<div className="p-4 bg-slate-50/50 dark:bg-slate-950/50">
-													<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-														{subcats.map((subcat) => (
-															<Button
-																key={subcat.id}
-																variant="outline"
-																className="justify-start h-auto py-3 px-4 hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-all bg-white dark:bg-slate-900"
-																onClick={(e) => {
-																	e.stopPropagation();
-																	updateFilters({
-																		categoryId: parentCat.id,
-																		subCategoryIds: [subcat.id],
-																	});
-																}}
-															>
-																<span className="truncate">{subcat.name}</span>
-																<span className="ml-auto bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold px-2 py-0.5 rounded-full">
-																	{categoryCounts.get(subcat.id) || 0}
-																</span>
-															</Button>
-														))}
-													</div>
-												</div>
-											)}
-										</div>
-									);
-								})}
-							</div>
-						) : (
-							<div className="text-center py-20 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
-								<h3 className="text-lg font-semibold text-slate-700 dark:text-slate-300">
-									No categories found
-								</h3>
-								<p className="text-slate-500 mt-2">
-									Try adjusting your store or score filters.
-								</p>
-								<Button
-									variant="outline"
-									className="mt-6"
-									onClick={clearFilters}
-								>
-									Clear all filters
-								</Button>
-							</div>
-						)}
-					</section>
-				) : (
-					// Active Search State: Products
-					<section>
-						<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-							<div className="flex items-center gap-3">
-								<Button
-									variant="ghost"
-									size="sm"
-									className="gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-2.5 h-8 -ml-2"
-									onClick={() =>
-										updateFilters({
-											q: undefined,
-											categoryId: undefined,
-											subCategoryIds: undefined,
-										})
-									}
-								>
-									<ArrowLeft className="w-4 h-4" />
-									Browse Categories
-								</Button>
-								<span className="text-slate-300 dark:text-slate-700">|</span>
-								<h2 className="text-xl font-bold text-slate-900 dark:text-white">
-									{searchResults?.length || 0} Results Found
-								</h2>
-							</div>
+			{/* Main Content + Left Categories Aside */}
+			<div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8">
+				<div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-7">
+					<aside
+						aria-label="Browse by category"
+						className="hidden lg:block w-64 shrink-0 lg:sticky lg:top-44 lg:max-h-[calc(100dvh-12rem)] lg:overflow-y-auto rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] p-3 shadow-[0_2px_10px_rgba(27,67,50,0.03)]"
+					>
+						<div className="px-2.5 pt-1 pb-2">
+							<h2 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
+								Categories
+							</h2>
 						</div>
+						<CategoryNavList
+							topLevelCategories={topLevelCategories}
+							categories={categories}
+							categoryCounts={categoryCounts}
+							activeParentId={activeParentId}
+							selectedCategoryId={searchParams.categoryId}
+							selectedSubCategoryId={selectedSubCategoryId}
+							totalProductsCount={activeCategoriesData.totalProductsCount}
+							onSelectAll={handleSelectAllCategories}
+							onSelectCategory={(catId) => handleSelectCategory(catId)}
+							onSelectSubcategory={handleSelectSubcategory}
+						/>
+					</aside>
 
-						{searchResults && searchResults.length > 0 ? (
-							<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-								{searchResults.map((result) => (
-									<ProductCard
-										key={result.product.id}
-										product={{
-											...result.product,
-											storeName: result.storeName,
-											stores: result.stores,
-										}}
+					<main className="flex-1 min-w-0">
+						{!hasCategoryFilter ? (
+							<section aria-labelledby="all-products-heading">
+								<div className="flex items-baseline justify-between gap-3 mb-6">
+									<div>
+										<h1
+											id="all-products-heading"
+											className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] text-balance"
+										>
+											{trimmedQuery
+												? `Results for "${trimmedQuery}"`
+												: "All Products"}
+										</h1>
+										<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
+											Browse by aisle or pick a category to see all items
+										</p>
+									</div>
+
+									{typeof sectionsData?.totalProductsCount === "number" && (
+										<Badge
+											variant="secondary"
+											className="gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0"
+										>
+											{isFetchingSections && (
+												<Loader2
+													className="w-3 h-3 animate-spin"
+													aria-hidden="true"
+												/>
+											)}
+											<span>
+												{sectionsData.totalProductsCount}{" "}
+												{sectionsData.totalProductsCount === 1
+													? "product"
+													: "products"}
+											</span>
+										</Badge>
+									)}
+								</div>
+
+								{sectionsData && sectionsData.sections.length > 0 ? (
+									<CategorySectionsView
+										sections={sectionsData.sections}
+										onSelectCategory={handleSelectCategory}
 									/>
-								))}
-							</div>
+								) : (
+									<EmptyProductsState onAction={clearFilters} />
+								)}
+							</section>
 						) : (
-							<div className="text-center py-20 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
-								<h3 className="text-lg font-semibold text-slate-700 dark:text-slate-300">
-									No products found
-								</h3>
-								<p className="text-slate-500 mt-2">
-									Try adjusting your filters or search query.
-								</p>
-								<Button
-									variant="outline"
-									className="mt-6"
-									onClick={clearFilters}
-								>
-									Clear all filters
-								</Button>
-							</div>
+							<section aria-labelledby="search-results-heading">
+								<div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+									<div className="flex items-center gap-2.5 flex-wrap">
+										<Button
+											type="button"
+											variant="outline"
+											size="sm"
+											onClick={handleSelectAllCategories}
+											className="h-auto min-h-9 gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] hover:text-[#1B3328] dark:hover:text-[#EDF2EE] shadow-none"
+										>
+											<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+											<span>All Products</span>
+										</Button>
+
+										{activeParentCategory && selectedSubcategory ? (
+											<Breadcrumb>
+												<BreadcrumbList className="gap-1.5 sm:gap-1.5">
+													<BreadcrumbItem>
+														<BreadcrumbLink asChild>
+															<Button
+																type="button"
+																variant="link"
+																onClick={() =>
+																	handleSelectCategory(activeParentCategory.id)
+																}
+																className="h-auto p-0 text-sm font-semibold text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] hover:no-underline"
+															>
+																{activeParentCategory.name}
+															</Button>
+														</BreadcrumbLink>
+													</BreadcrumbItem>
+													<BreadcrumbSeparator className="text-[#9AA09A] [&>svg]:size-4" />
+													<BreadcrumbItem>
+														<BreadcrumbPage className="font-normal">
+															<h1
+																id="search-results-heading"
+																className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+															>
+																{selectedSubcategory.name}
+															</h1>
+														</BreadcrumbPage>
+													</BreadcrumbItem>
+												</BreadcrumbList>
+											</Breadcrumb>
+										) : (
+											<h1
+												id="search-results-heading"
+												className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
+											>
+												{activeParentCategory?.name || "Category Results"}
+											</h1>
+										)}
+									</div>
+
+									<Badge
+										variant="secondary"
+										className="gap-1.5 rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0"
+									>
+										{isFetchingFiltered && !isFetchingNextPage && (
+											<Loader2
+												className="w-3 h-3 animate-spin"
+												aria-hidden="true"
+											/>
+										)}
+										<span>
+											{filteredTotalCount}{" "}
+											{filteredTotalCount === 1 ? "Result" : "Results"}
+										</span>
+									</Badge>
+								</div>
+
+								{filteredProducts.length > 0 ? (
+									<PaginatedProductsGrid
+										products={filteredProducts}
+										totalCount={filteredTotalCount}
+										hasNextPage={hasNextPage}
+										isFetchingNextPage={isFetchingNextPage}
+										onFetchNextPage={() => fetchNextPage()}
+									/>
+								) : (
+									<EmptyProductsState onAction={clearFilters} />
+								)}
+							</section>
 						)}
-					</section>
-				)}
-			</main>
+					</main>
+				</div>
+			</div>
 		</div>
 	);
 }

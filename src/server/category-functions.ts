@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
+import { and, count, desc, eq, ilike, isNotNull, or, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { z } from "zod";
 import { db } from "#/db";
@@ -222,6 +222,7 @@ export const deleteCategory = createServerFn({
 	});
 
 const getActiveCategoriesSchema = z.object({
+	q: z.string().optional(),
 	storeId: z.string().optional(),
 	score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
 });
@@ -229,67 +230,102 @@ const getActiveCategoriesSchema = z.object({
 export const getActiveCategories = createServerFn({
 	method: "GET",
 })
-	.validator((data: z.infer<typeof getActiveCategoriesSchema>) => data)
+	.validator((data: z.input<typeof getActiveCategoriesSchema>) =>
+		getActiveCategoriesSchema.parse(data),
+	)
 	.handler(async ({ data }) => {
-		const { storeId, score } = data;
-
-		let query = db
-			.select({
-				categoryId: productCategories.categoryId,
-				productCount: count(products.id),
-			})
-			.from(productCategories)
-			.innerJoin(products, eq(productCategories.productId, products.id)) as any;
+		const { q, storeId, score } = data;
+		const activeParentCategories = alias(
+			categories,
+			"active_parent_categories",
+		);
+		const topCategoryIdExpr = sql<string>`coalesce(${activeParentCategories.id}, ${categories.id})`;
 
 		const whereConditions = [eq(products.status, "approved")];
-
-		if (storeId) {
-			query = query.innerJoin(
-				productStores,
-				eq(products.id, productStores.productId),
-			);
-			whereConditions.push(eq(productStores.storeId, storeId));
-		}
 
 		if (score) {
 			whereConditions.push(eq(products.score, score));
 		}
 
-		const categoryCountsRows = await query
-			.where(and(...whereConditions))
-			.groupBy(productCategories.categoryId);
+		if (storeId) {
+			whereConditions.push(
+				sql`EXISTS (SELECT 1 FROM ${productStores} WHERE ${productStores.productId} = ${products.id} AND ${productStores.storeId} = ${storeId})`,
+			);
+		}
 
-		const activeCategoryIds = categoryCountsRows.map((r: any) => r.categoryId);
-
-		if (activeCategoryIds.length === 0) return [];
-
-		const categoryCountsMap = new Map<string, number>();
-		categoryCountsRows.forEach((row: any) => {
-			categoryCountsMap.set(row.categoryId, Number(row.productCount));
-		});
-
-		const activeCategories = await db
-			.select()
-			.from(categories)
-			.where(inArray(categories.id, activeCategoryIds));
-
-		const parentIds = new Set<string>();
-
-		activeCategories.forEach((c) => {
-			if (c.parentId) {
-				parentIds.add(c.parentId);
-				const currentParentCount = categoryCountsMap.get(c.parentId) || 0;
-				const subCount = categoryCountsMap.get(c.id) || 0;
-				categoryCountsMap.set(c.parentId, currentParentCount + subCount);
+		const trimmedQ = q?.trim();
+		if (trimmedQ) {
+			const searchTerm = `%${trimmedQ}%`;
+			const searchCondition = or(
+				ilike(products.name, searchTerm),
+				ilike(products.brand, searchTerm),
+				ilike(categories.name, searchTerm),
+				ilike(activeParentCategories.name, searchTerm),
+				ilike(products.rawIngredientsText, searchTerm),
+			);
+			if (searchCondition) {
+				whereConditions.push(searchCondition);
 			}
-		});
+		}
 
-		const allNeededCategoryIds = Array.from(
-			new Set([...activeCategoryIds, ...parentIds]),
-		);
+		const whereClause = and(...whereConditions);
 
-		return allNeededCategoryIds.map((id) => ({
-			id,
-			count: categoryCountsMap.get(id) || 0,
-		}));
+		const [topLevelRows, subCategoryRows, totalCountRows] = await Promise.all([
+			db
+				.select({
+					id: topCategoryIdExpr,
+					count: sql<number>`count(distinct ${products.id})::int`,
+				})
+				.from(productCategories)
+				.innerJoin(products, eq(productCategories.productId, products.id))
+				.innerJoin(categories, eq(productCategories.categoryId, categories.id))
+				.leftJoin(
+					activeParentCategories,
+					eq(categories.parentId, activeParentCategories.id),
+				)
+				.where(whereClause)
+				.groupBy(topCategoryIdExpr),
+			db
+				.select({
+					id: categories.id,
+					count: sql<number>`count(distinct ${products.id})::int`,
+				})
+				.from(productCategories)
+				.innerJoin(products, eq(productCategories.productId, products.id))
+				.innerJoin(categories, eq(productCategories.categoryId, categories.id))
+				.leftJoin(
+					activeParentCategories,
+					eq(categories.parentId, activeParentCategories.id),
+				)
+				.where(and(whereClause, isNotNull(categories.parentId)))
+				.groupBy(categories.id),
+			db
+				.select({
+					totalCount: sql<number>`count(distinct ${products.id})::int`,
+				})
+				.from(products)
+				.leftJoin(
+					productCategories,
+					eq(products.id, productCategories.productId),
+				)
+				.leftJoin(categories, eq(productCategories.categoryId, categories.id))
+				.leftJoin(
+					activeParentCategories,
+					eq(categories.parentId, activeParentCategories.id),
+				)
+				.where(whereClause),
+		]);
+
+		const countsById = new Map<string, number>();
+		for (const row of subCategoryRows) {
+			countsById.set(row.id, Number(row.count));
+		}
+		for (const row of topLevelRows) {
+			countsById.set(row.id, Number(row.count));
+		}
+
+		return {
+			categories: Array.from(countsById, ([id, count]) => ({ id, count })),
+			totalProductsCount: Number(totalCountRows[0]?.totalCount ?? 0),
+		};
 	});

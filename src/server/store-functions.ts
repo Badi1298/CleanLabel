@@ -5,11 +5,41 @@ import { db } from "#/db";
 import { productStores, products, stores } from "#/db/app-schema";
 import { ensureSession } from "./auth-functions";
 
+const getStoresSchema = z
+	.object({
+		score: z.enum(["gold", "silver", "bronze", "none"]).optional(),
+	})
+	.optional();
+
 export const getStores = createServerFn({
 	method: "GET",
-}).handler(async () => {
-	return await db.select().from(stores).orderBy(stores.name);
-});
+})
+	.validator((data: z.input<typeof getStoresSchema>) =>
+		getStoresSchema.parse(data),
+	)
+	.handler(async ({ data }) => {
+		const productJoinConditions = [
+			eq(productStores.productId, products.id),
+			eq(products.status, "approved"),
+		];
+
+		if (data?.score) {
+			productJoinConditions.push(eq(products.score, data.score));
+		}
+
+		return await db
+			.select({
+				id: stores.id,
+				name: stores.name,
+				logoUrl: stores.logoUrl,
+				productCount: sql<number>`count(distinct ${products.id})::int`,
+			})
+			.from(stores)
+			.leftJoin(productStores, eq(stores.id, productStores.storeId))
+			.leftJoin(products, and(...productJoinConditions))
+			.groupBy(stores.id)
+			.orderBy(stores.name);
+	});
 
 const addStoreSchema = z.object({
 	name: z.string().min(1, "Name is required"),
