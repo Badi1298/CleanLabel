@@ -1,12 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import {
-	AlertTriangle,
-	ArrowRight,
-	ExternalLink,
-	Flag,
-	Info,
-	X,
-} from "lucide-react";
+import { AlertTriangle, ArrowRight, ExternalLink, Flag, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import {
 	INFO_MODAL_TOPIC_MAP,
@@ -24,7 +17,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "#/components/ui/dialog";
-import { ScoreBadge } from "#/components/ui/score-badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs";
 
 export function LandingInfoDialog({
@@ -38,7 +30,7 @@ export function LandingInfoDialog({
 	onSelectTopic: (topic: InfoModalTopic) => void;
 	onClose: () => void;
 }) {
-	const activeTopic: InfoModalTopic = topic ?? "metodologie";
+	const activeTopic: InfoModalTopic = topic ?? "contact";
 	const activeConfig = INFO_MODAL_TOPIC_MAP[activeTopic];
 	const appCtaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
 	const appCtaLabel = isSignedIn
@@ -116,66 +108,6 @@ export function LandingInfoDialog({
 						className="landing-dialog-scroll flex-1 min-h-0 overflow-y-auto text-sm leading-relaxed text-[#4A554E] dark:text-[#B8C4BC]"
 					>
 						<div className="p-5 sm:p-6">
-							<TabsContent value="metodologie" className="space-y-4">
-								<p>
-									PickItWell selectează produse alimentare cu puțini aditivi
-									marcați pe etichetă (cu cod E sau clasă funcțională), după
-									aceleași criterii cu care facem cumpărăturile pentru familia
-									noastră.
-								</p>
-								<ul className="space-y-2.5">
-									<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-center gap-3">
-										<ScoreBadge score="gold" size="sm" />
-										<span>
-											Produse fără aditivi marcați pe etichetă sau cu un număr
-											minim.
-										</span>
-									</li>
-									<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-center gap-3">
-										<ScoreBadge score="silver" size="sm" />
-										<span>
-											Produse cu un număr redus de aditivi marcați pe etichetă.
-										</span>
-									</li>
-									<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-center gap-3">
-										<ScoreBadge score="bronze" size="sm" />
-										<span>
-											Produse cu un număr moderat de aditivi marcați pe
-											etichetă.
-										</span>
-									</li>
-								</ul>
-								<p className="text-xs text-muted-foreground border-t border-border pt-3">
-									Grupa se bazează doar pe numărul de ingrediente marcate pe
-									etichetă ca aditivi și nu reprezintă o evaluare a calității
-									nutriționale sau generale a produsului.
-								</p>
-							</TabsContent>
-
-							<TabsContent value="declinare" className="space-y-3">
-								<div className="rounded-2xl bg-[#FBF4E6] dark:bg-[#121D17] border border-border p-4 flex items-start gap-3">
-									<Info
-										className="w-5 h-5 text-[#A67C37] dark:text-[#D4AF6A] shrink-0 mt-0.5"
-										aria-hidden="true"
-									/>
-									<p className="text-xs sm:text-sm text-foreground">
-										Informațiile afișate în PickItWell au caracter orientativ.
-										Decizia de cumpărare îți aparține în întregime.
-									</p>
-								</div>
-								<p>
-									Listele de ingrediente sunt preluate de pe etichetele
-									consultate la data menționată pe pagina produsului.
-									Producătorii pot modifica rețetele în timp, așa că te rugăm să
-									verifici întotdeauna eticheta fizică înainte de cumpărare sau
-									consum (mai ales în caz de alergii sau intoleranțe).
-								</p>
-								<p>
-									Magazinele indicate sunt cele în care produsul a fost găsit;
-									disponibilitatea în stoc în timp real nu este verificată.
-								</p>
-							</TabsContent>
-
 							<TabsContent value="raporteaza" className="space-y-4">
 								<div className="rounded-2xl bg-[#FBF4E6] dark:bg-[#121D17] border border-border p-4 flex items-start gap-3">
 									<Flag

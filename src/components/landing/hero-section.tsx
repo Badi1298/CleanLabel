@@ -236,7 +236,7 @@ export function HeroSection({
 											Sos pesto clasic
 										</p>
 										<p className="text-[11px] font-medium text-muted-foreground">
-											3+ aditivi marcați
+											3–4 aditivi marcați
 										</p>
 									</div>
 								</div>

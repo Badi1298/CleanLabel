@@ -954,9 +954,9 @@
     "semantic_hash": ""
   },
   "src/components/landing/landing-info-dialog.tsx": {
-    "mtime": 1795096373.5949323,
-    "seen": 1795096433.606882,
-    "ast_hash": "8f58bbd5b83b419293e49945464ce1e5",
+    "mtime": 1795163274.2734175,
+    "seen": 1795163314.918061,
+    "ast_hash": "95909443a861337c4c5b7da1af12dedf",
     "semantic_hash": ""
   },
   "src/components/landing/reviews-section.tsx": {
