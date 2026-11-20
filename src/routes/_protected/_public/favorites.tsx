@@ -85,8 +85,7 @@ function FavoritesPage() {
 							My Favorites
 						</h1>
 						<p className="mt-1.5 text-sm md:text-base text-[#FCE8C6]/80 font-medium">
-							Your saved clean-label picks for quick shelf checks while
-							shopping.
+							Your saved PickItWell picks for quick shelf checks while shopping.
 						</p>
 					</div>
 

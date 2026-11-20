@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Calendar, Sparkles, Store } from "lucide-react";
+import { BrandLogo } from "#/components/brand-logo";
 import { HERO_STORES } from "#/components/landing/landing-data";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
@@ -117,18 +118,7 @@ export function HeroSection({
 								<div className="rounded-[1.9rem] bg-background dark:bg-sidebar text-foreground overflow-hidden">
 									{/* Phone Status / Notch Bar */}
 									<div className="bg-[#1B4332] px-4 pt-3 pb-3 text-[#FCE8C6] flex items-center justify-between">
-										<div className="flex items-center gap-1.5">
-											<img
-												src="/logo-192x192.png"
-												alt=""
-												width={20}
-												height={20}
-												className="w-5 h-5 rounded-md object-contain"
-											/>
-											<span className="text-xs font-extrabold tracking-tight">
-												PickItWell
-											</span>
-										</div>
+										<BrandLogo surface="dark" size="xs" />
 										<ScoreBadge score="gold" size="sm" />
 									</div>
 
@@ -236,7 +226,7 @@ export function HeroSection({
 											Sos pesto clasic
 										</p>
 										<p className="text-[11px] font-medium text-muted-foreground">
-											3+ aditivi marcați
+											3–4 aditivi marcați
 										</p>
 									</div>
 								</div>

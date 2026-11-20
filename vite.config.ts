@@ -18,17 +18,24 @@ const config = defineConfig({
 		babel({ presets: [reactCompilerPreset()] }),
 		VitePWA({
 			registerType: "autoUpdate",
-			includeAssets: ["favicon.ico", "logo-192x192.png", "logo-512x512.png"],
+			includeAssets: [
+				"favicon.ico",
+				"logo-192x192.png",
+				"logo-512x512.png",
+				"pickitwell-logo.png",
+			],
 			devOptions: {
 				enabled: true,
 			},
 			manifestFilename: "manifest.json",
 			manifest: {
-				name: "CleanLabel",
-				short_name: "CleanLabel",
-				description: "CleanLabel Application",
-				theme_color: "#ffffff",
-				background_color: "#ffffff",
+				id: "/",
+				name: "PickItWell",
+				short_name: "PickItWell",
+				description:
+					"PickItWell — Produse alimentare selectate după aditivii marcați pe etichetă.",
+				theme_color: "#1B4332",
+				background_color: "#1B4332",
 				display: "standalone",
 				start_url: "/",
 				icons: [

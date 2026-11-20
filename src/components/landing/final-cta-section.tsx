@@ -5,13 +5,7 @@ import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { ScoreBadge } from "#/components/ui/score-badge";
 
-export function FinalCtaSection({
-	isSignedIn,
-	onOpenMethodology,
-}: {
-	isSignedIn: boolean;
-	onOpenMethodology: () => void;
-}) {
+export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 	const ctaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
 	const ctaLabel = isSignedIn ? "Deschide aplicația" : "Creează cont gratuit";
 
@@ -123,12 +117,13 @@ export function FinalCtaSection({
 							</p>
 
 							<Button
-								type="button"
+								asChild
 								variant="link"
-								onClick={onOpenMethodology}
 								className="mt-1 h-auto p-0 gap-1 text-xs font-bold text-[#FCE8C6]/90 hover:text-white underline underline-offset-4"
 							>
-								<span>Vezi cum selectăm</span>
+								<Link to="/metodologie">
+									<span>Vezi metodologia</span>
+								</Link>
 							</Button>
 						</div>
 					</div>

@@ -356,7 +356,13 @@ export const getProductDetailsById = createServerFn({
 			where: (products, { eq }) => eq(products.id, productId),
 			with: {
 				productCategories: {
-					with: { category: true },
+					with: {
+						category: {
+							with: {
+								parent: true,
+							},
+						},
+					},
 				},
 				submittedBy: true,
 				productIngredients: {

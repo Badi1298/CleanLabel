@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
+import { BrandLogo } from "#/components/brand-logo";
 import {
-	FOOTER_TOPIC_IDS,
+	FOOTER_LEGAL_LINKS,
 	HEADER_LINKS,
-	INFO_MODAL_TOPIC_MAP,
 	type InfoModalTopic,
 	SOCIAL_LINKS,
 } from "#/components/landing/landing-data";
@@ -11,31 +11,36 @@ import { Separator } from "#/components/ui/separator";
 
 export function LandingFooter({
 	onOpenInfoModal,
+	isLandingPage = true,
 }: {
 	onOpenInfoModal: (topic: InfoModalTopic) => void;
+	isLandingPage?: boolean;
 }) {
+	const brandClassName =
+		"inline-flex items-center rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]";
+	const brandContent = (
+		<BrandLogo surface="adaptive" size="md" loading="lazy" />
+	);
+	const exploreLinkClassName =
+		"inline-flex items-center py-1 text-foreground hover:text-[#2D5A44] dark:hover:text-[#FCE8C6] transition-colors";
+	const legalLinkClassName =
+		"inline-flex items-center py-1 text-left text-foreground hover:text-[#2D5A44] dark:hover:text-[#FCE8C6] transition-colors";
+
 	return (
 		<footer className="bg-sidebar border-t border-border">
 			<div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-14">
 				<div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
 					{/* Coloana 1 – PickItWell */}
 					<div className="md:col-span-5 space-y-4">
-						<a
-							href="#top"
-							className="inline-flex items-center gap-2.5 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
-						>
-							<img
-								src="/logo-192x192.png"
-								alt=""
-								width={36}
-								height={36}
-								loading="lazy"
-								className="w-9 h-9 rounded-xl object-contain"
-							/>
-							<span className="font-extrabold text-lg tracking-tight text-[#1B4332] dark:text-[#FBF4E6]">
-								PickItWell
-							</span>
-						</a>
+						{isLandingPage ? (
+							<a href="#top" className={brandClassName}>
+								{brandContent}
+							</a>
+						) : (
+							<Link to="/landing" className={brandClassName}>
+								{brandContent}
+							</Link>
+						)}
 
 						<p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
 							Produse alimentare selectate după aditivii marcați pe etichetă.
@@ -77,12 +82,19 @@ export function LandingFooter({
 						<ul className="space-y-2 text-sm font-semibold">
 							{HEADER_LINKS.map((item) => (
 								<li key={item.href}>
-									<a
-										href={item.href}
-										className="inline-flex items-center py-1 text-foreground hover:text-[#2D5A44] dark:hover:text-[#FCE8C6] transition-colors"
-									>
-										{item.label}
-									</a>
+									{isLandingPage ? (
+										<a href={item.href} className={exploreLinkClassName}>
+											{item.label}
+										</a>
+									) : (
+										<Link
+											to="/landing"
+											hash={item.hash}
+											className={exploreLinkClassName}
+										>
+											{item.label}
+										</Link>
+									)}
 								</li>
 							))}
 							<li>
@@ -102,20 +114,30 @@ export function LandingFooter({
 							Suport și informații legale
 						</h2>
 						<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-1.5 text-sm font-semibold">
-							{FOOTER_TOPIC_IDS.map((topicId) => {
-								const topic = INFO_MODAL_TOPIC_MAP[topicId];
-								return (
-									<li key={topic.id}>
+							{FOOTER_LEGAL_LINKS.map((item) => (
+								<li key={item.kind === "route" ? item.to : item.topicId}>
+									{item.kind === "route" ? (
+										<Link
+											to={item.to}
+											className={legalLinkClassName}
+											activeProps={{
+												className:
+													"text-[#1B4332] dark:text-[#FCE8C6] underline underline-offset-4",
+											}}
+										>
+											{item.label}
+										</Link>
+									) : (
 										<button
 											type="button"
-											onClick={() => onOpenInfoModal(topic.id)}
-											className="inline-flex items-center py-1 text-left text-foreground hover:text-[#2D5A44] dark:hover:text-[#FCE8C6] transition-colors cursor-pointer"
+											onClick={() => onOpenInfoModal(item.topicId)}
+											className={`${legalLinkClassName} cursor-pointer`}
 										>
-											{topic.footerLabel}
+											{item.label}
 										</button>
-									</li>
-								);
-							})}
+									)}
+								</li>
+							))}
 						</ul>
 					</div>
 				</div>

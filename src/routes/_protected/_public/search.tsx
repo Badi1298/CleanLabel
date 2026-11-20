@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { z } from "zod";
+import { CategoryIcon } from "#/components/categories/category-icon";
 import {
 	CategorySectionsView,
 	EmptyProductsState,
@@ -296,10 +297,25 @@ function SearchPage() {
 											)}
 										>
 											<span className="flex items-center gap-2 min-w-0">
-												<FolderTree
-													className="w-4 h-4 shrink-0"
-													aria-hidden="true"
-												/>
+												{activeParentCategory ? (
+													<CategoryIcon
+														name={
+															selectedSubcategory?.name ??
+															activeParentCategory.name
+														}
+														parentName={activeParentCategory.name}
+														iconUrl={
+															selectedSubcategory?.iconUrl ??
+															activeParentCategory.iconUrl
+														}
+														className="w-5 h-5"
+													/>
+												) : (
+													<FolderTree
+														className="w-4 h-4 shrink-0"
+														aria-hidden="true"
+													/>
+												)}
 												<span className="truncate">{mobileCategoryLabel}</span>
 											</span>
 											<ChevronRight
@@ -477,6 +493,20 @@ function SearchPage() {
 											<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
 											<span>All Products</span>
 										</Button>
+
+										{activeParentCategory && (
+											<CategoryIcon
+												name={
+													selectedSubcategory?.name ?? activeParentCategory.name
+												}
+												parentName={activeParentCategory.name}
+												iconUrl={
+													selectedSubcategory?.iconUrl ??
+													activeParentCategory.iconUrl
+												}
+												className="w-8 h-8"
+											/>
+										)}
 
 										{activeParentCategory && selectedSubcategory ? (
 											<Breadcrumb>

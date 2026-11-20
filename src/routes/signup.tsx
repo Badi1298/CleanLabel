@@ -58,7 +58,7 @@ function Signup() {
 	return (
 		<AuthShell
 			title="Create Account"
-			subtitle="Join CleanLabel to save favorites and flag ingredients you avoid."
+			subtitle="Join PickItWell to save favorites and flag ingredients you avoid."
 			footer={
 				<>
 					Already have an account?{" "}

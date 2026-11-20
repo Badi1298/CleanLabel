@@ -28,7 +28,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "TanStack Start Starter",
+				name: "theme-color",
+				content: "#1B4332",
+			},
+			{
+				title: "PickItWell",
 			},
 		],
 		links: [

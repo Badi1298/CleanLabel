@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { CategoryIcon } from "#/components/categories/category-icon";
 import { HighlightedIngredientsText } from "#/components/HighlightedIngredientsText";
 import { ProductCard } from "#/components/home/product-card";
 import { ProductReportErrorDialog } from "#/components/ProductReportErrorDialog";
@@ -125,7 +126,7 @@ function getScoreSpotlightConfig(score: string | null | undefined) {
 			return {
 				title: "Score Pending",
 				description:
-					"This product has not been assigned a CleanLabel tier yet.",
+					"This product has not been assigned a PickItWell tier yet.",
 				cardClass:
 					"bg-[#FAF8F5] dark:bg-[#121D17] border-[#EAE4D7] dark:border-[#24362D]",
 				emblemClass:
@@ -757,15 +758,16 @@ function ProductDetails() {
 															? [pc.category.id]
 															: undefined,
 													}}
-													className="inline-flex items-center gap-1.5 rounded-full bg-[#F3EFE6] dark:bg-[#1E2C25] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] border border-[#EAE4D7] dark:border-[#2B3D33] px-3 py-1 text-xs font-semibold text-[#1B3328] dark:text-[#CBE3D4] transition-colors"
+													className="inline-flex items-center gap-1.5 rounded-full bg-[#F3EFE6] dark:bg-[#1E2C25] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] border border-[#EAE4D7] dark:border-[#2B3D33] pl-1.5 pr-3 py-1 text-xs font-semibold text-[#1B3328] dark:text-[#CBE3D4] transition-colors"
 												>
-													{pc.category.iconUrl && (
-														<img
-															src={pc.category.iconUrl}
-															alt=""
-															className="w-3.5 h-3.5 object-contain opacity-85"
-														/>
-													)}
+													<CategoryIcon
+														name={pc.category.name}
+														parentName={pc.category.parent?.name}
+														iconUrl={
+															pc.category.iconUrl ?? pc.category.parent?.iconUrl
+														}
+														className="w-5 h-5"
+													/>
 													<span>{pc.category.name}</span>
 												</Link>
 											))}

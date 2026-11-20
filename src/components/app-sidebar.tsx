@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type * as React from "react";
+import { BrandLogo } from "#/components/brand-logo";
+import { Badge } from "#/components/ui/badge";
 import {
 	Sidebar,
 	SidebarContent,
@@ -34,8 +36,17 @@ export function AppSidebar({
 }: React.ComponentProps<typeof Sidebar> & { sidebarData: SidebarGroupData[] }) {
 	return (
 		<Sidebar {...props}>
-			<SidebarHeader className="pt-4">
-				<h2 className="text-xl font-bold ">Clean Label Admin</h2>
+			<SidebarHeader className="pt-4 px-3">
+				<div className="flex items-center gap-2.5">
+					<BrandLogo surface="adaptive" size="sm" />
+					<Badge
+						variant="secondary"
+						className="text-[11px] font-bold uppercase tracking-wider"
+					>
+						Admin
+					</Badge>
+					<span className="sr-only">PickItWell Admin</span>
+				</div>
 			</SidebarHeader>
 			<SidebarContent>
 				{sidebarData.map((group) => (

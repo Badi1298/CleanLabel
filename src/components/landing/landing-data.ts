@@ -1,27 +1,21 @@
 import {
 	Award,
-	Baby,
-	Beef,
-	Cookie,
-	CupSoda,
-	Droplets,
 	type LucideIcon,
-	Milk,
-	Package,
 	ShieldCheck,
 	Sparkles,
 	Store,
-	UtensilsCrossed,
-	Wheat,
 } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
+import type { CategoryIconKey } from "#/components/categories/category-icon";
 import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 
 export type StepId = "cauta" | "vezi" | "alege";
 
+export const LEGAL_LAST_UPDATED_DATE = "20 noiembrie 2026";
+export const LEGAL_LAST_UPDATED_ISO = "2026-11-20";
+export const METHODOLOGY_REVIEW_SLA_DAYS = "[x]";
+
 export type InfoModalTopic =
-	| "metodologie"
-	| "declinare"
 	| "raporteaza"
 	| "contact"
 	| "confidentialitate"
@@ -29,9 +23,17 @@ export type InfoModalTopic =
 	| "cookies";
 
 export const HEADER_LINKS = [
-	{ href: "#cum-functioneaza", label: "Cum funcționează" },
-	{ href: "#de-ce-pickitwell", label: "De ce PickItWell?" },
-	{ href: "#recenzii", label: "Recenzii" },
+	{
+		href: "#cum-functioneaza",
+		hash: "cum-functioneaza",
+		label: "Cum funcționează",
+	},
+	{
+		href: "#de-ce-pickitwell",
+		hash: "de-ce-pickitwell",
+		label: "De ce PickItWell?",
+	},
+	{ href: "#recenzii", hash: "recenzii", label: "Recenzii" },
 ] as const;
 
 export const HERO_STORES = ["Kaufland", "Mega Image", "Lidl"] as const;
@@ -46,52 +48,52 @@ export const SAMPLE_STORES = [
 export const CATALOG_CATEGORIES: Array<{
 	name: string;
 	subcategoriesCount: number;
-	Icon: LucideIcon;
+	iconKey: CategoryIconKey;
 }> = [
 	{
 		name: "Cereale, paste și panificație",
 		subcategoriesCount: 4,
-		Icon: Wheat,
+		iconKey: "cereale-paste-panificatie",
 	},
 	{
 		name: "Lactate și alternative",
 		subcategoriesCount: 4,
-		Icon: Milk,
+		iconKey: "lactate-alternative",
 	},
 	{
 		name: "Sosuri și tartinabile",
 		subcategoriesCount: 4,
-		Icon: Droplets,
+		iconKey: "sosuri-tartinabile",
 	},
 	{
 		name: "Gustări și dulciuri",
 		subcategoriesCount: 6,
-		Icon: Cookie,
+		iconKey: "gustari-dulciuri",
 	},
 	{
 		name: "Băuturi",
 		subcategoriesCount: 4,
-		Icon: CupSoda,
+		iconKey: "bauturi",
 	},
 	{
 		name: "Ingrediente pentru gătit",
 		subcategoriesCount: 4,
-		Icon: UtensilsCrossed,
+		iconKey: "ingrediente-gatit",
 	},
 	{
 		name: "Conserve, Mâncăruri Semipreparate/Congelate",
 		subcategoriesCount: 2,
-		Icon: Package,
+		iconKey: "conserve-mancaruri-gata",
 	},
 	{
 		name: "Carne și mezeluri",
 		subcategoriesCount: 2,
-		Icon: Beef,
+		iconKey: "carne-mezeluri",
 	},
 	{
 		name: "Alimente pentru copii",
 		subcategoriesCount: 2,
-		Icon: Baby,
+		iconKey: "alimente-copii",
 	},
 ];
 
@@ -224,22 +226,6 @@ export interface InfoModalTopicConfig {
 
 export const INFO_MODAL_TOPICS: readonly InfoModalTopicConfig[] = [
 	{
-		id: "metodologie",
-		shortLabel: "Cum selectăm",
-		footerLabel: "Cum selectăm",
-		title: "Cum selectăm produsele (Metodologie)",
-		description:
-			"Criteriile după care produsele sunt grupate în Gold, Silver și Bronze.",
-	},
-	{
-		id: "declinare",
-		shortLabel: "Declinarea răspunderii",
-		footerLabel: "Declinarea răspunderii",
-		title: "Declinarea răspunderii",
-		description:
-			"Informații despre caracterul orientativ al datelor afișate în PickItWell.",
-	},
-	{
 		id: "raporteaza",
 		shortLabel: "Raportează o greșeală",
 		footerLabel: "Raportează o greșeală",
@@ -284,21 +270,27 @@ export const INFO_MODAL_TOPIC_MAP: Record<
 	InfoModalTopic,
 	InfoModalTopicConfig
 > = {
-	metodologie: INFO_MODAL_TOPICS[0],
-	declinare: INFO_MODAL_TOPICS[1],
-	raporteaza: INFO_MODAL_TOPICS[2],
-	contact: INFO_MODAL_TOPICS[3],
-	confidentialitate: INFO_MODAL_TOPICS[4],
-	termeni: INFO_MODAL_TOPICS[5],
-	cookies: INFO_MODAL_TOPICS[6],
+	raporteaza: INFO_MODAL_TOPICS[0],
+	contact: INFO_MODAL_TOPICS[1],
+	confidentialitate: INFO_MODAL_TOPICS[2],
+	termeni: INFO_MODAL_TOPICS[3],
+	cookies: INFO_MODAL_TOPICS[4],
 };
 
-export const FOOTER_TOPIC_IDS: readonly InfoModalTopic[] = [
-	"contact",
-	"raporteaza",
-	"metodologie",
-	"declinare",
-	"confidentialitate",
-	"termeni",
-	"cookies",
+export type FooterLegalLink =
+	| { kind: "modal"; topicId: InfoModalTopic; label: string }
+	| { kind: "route"; to: "/metodologie" | "/disclaimer"; label: string };
+
+export const FOOTER_LEGAL_LINKS: readonly FooterLegalLink[] = [
+	{ kind: "modal", topicId: "contact", label: "Contact" },
+	{ kind: "modal", topicId: "raporteaza", label: "Raportează o greșeală" },
+	{ kind: "route", to: "/metodologie", label: "Metodologie" },
+	{ kind: "route", to: "/disclaimer", label: "Disclaimer" },
+	{
+		kind: "modal",
+		topicId: "confidentialitate",
+		label: "Politica de confidențialitate",
+	},
+	{ kind: "modal", topicId: "termeni", label: "Termeni și condiții" },
+	{ kind: "modal", topicId: "cookies", label: "Politica de cookie-uri" },
 ];

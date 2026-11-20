@@ -1,13 +1,10 @@
+import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { WHY_CARDS } from "#/components/landing/landing-data";
 import { Button } from "#/components/ui/button";
 import { Card } from "#/components/ui/card";
 
-export function WhySection({
-	onOpenMethodology,
-}: {
-	onOpenMethodology: () => void;
-}) {
+export function WhySection() {
 	return (
 		<section
 			id="de-ce-pickitwell"
@@ -57,16 +54,17 @@ export function WhySection({
 									{card.hasMethodologyLink && (
 										<div className="pt-1">
 											<Button
-												type="button"
+												asChild
 												variant="link"
-												onClick={onOpenMethodology}
 												className="h-auto p-0 gap-1 text-xs font-bold text-[#2D5A44] dark:text-emerald-400 hover:text-[#1B4332] dark:hover:text-emerald-300 underline underline-offset-4"
 											>
-												<span>Vezi cum selectăm</span>
-												<ChevronRight
-													className="w-3.5 h-3.5"
-													aria-hidden="true"
-												/>
+												<Link to="/metodologie">
+													<span>Vezi metodologia</span>
+													<ChevronRight
+														className="w-3.5 h-3.5"
+														aria-hidden="true"
+													/>
+												</Link>
 											</Button>
 										</div>
 									)}

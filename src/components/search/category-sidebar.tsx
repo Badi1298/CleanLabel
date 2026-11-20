@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronRight, LayoutGrid } from "lucide-react";
 import type * as React from "react";
-import { getCategoryVisual } from "#/components/categories/category-browse-card";
+import { CategoryIcon } from "#/components/categories/category-icon";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import {
@@ -104,7 +104,7 @@ export function CategoryNavList({
 				</p>
 			) : (
 				<ul className="flex flex-col gap-1">
-					{topLevelCategories.map((parentCat, index) => {
+					{topLevelCategories.map((parentCat) => {
 						const subcats = categories.filter(
 							(c) => c.parentId === parentCat.id,
 						);
@@ -113,7 +113,6 @@ export function CategoryNavList({
 						const isParentDirectlySelected =
 							isExpanded && !selectedSubCategoryId;
 						const count = categoryCounts.get(parentCat.id) || 0;
-						const { palette, Icon } = getCategoryVisual(parentCat.name, index);
 
 						const parentButton = (
 							<Button
@@ -131,28 +130,11 @@ export function CategoryNavList({
 								)}
 							>
 								<span className="flex items-center gap-2.5 min-w-0">
-									<span
-										className={cn(
-											"w-7 h-7 rounded-full border flex items-center justify-center shrink-0",
-											palette.bg,
-											palette.border,
-										)}
-									>
-										{parentCat.iconUrl ? (
-											<img
-												src={parentCat.iconUrl}
-												alt=""
-												className="w-4.5 h-4.5 object-contain"
-												loading="lazy"
-											/>
-										) : (
-											<Icon
-												className={cn("w-3.5 h-3.5", palette.iconText)}
-												strokeWidth={2}
-												aria-hidden="true"
-											/>
-										)}
-									</span>
+									<CategoryIcon
+										name={parentCat.name}
+										iconUrl={parentCat.iconUrl}
+										className="w-7 h-7"
+									/>
 									<span className="truncate leading-snug">
 										{parentCat.name}
 									</span>

@@ -10,9 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LandingRouteImport } from './routes/landing'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MetodologieRouteImport } from './routes/metodologie'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProtectedPublicRouteRouteImport } from './routes/_protected/_public/route'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
@@ -38,6 +40,11 @@ const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
   id: '/_protected',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
@@ -51,6 +58,11 @@ const LandingRoute = LandingRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MetodologieRoute = MetodologieRouteImport.update({
+  id: '/metodologie',
+  path: '/metodologie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -166,9 +178,11 @@ const ProtectedPublicProductsProductIdAddStoreRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof ProtectedPublicIndexRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/metodologie': typeof MetodologieRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/add-product': typeof ProtectedPublicAddProductRoute
@@ -190,9 +204,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof ProtectedPublicIndexRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/metodologie': typeof MetodologieRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/add-product': typeof ProtectedPublicAddProductRoute
@@ -215,9 +231,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
+  '/metodologie': typeof MetodologieRoute
   '/signup': typeof SignupRoute
   '/_protected/_public': typeof ProtectedPublicRouteRouteWithChildren
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
@@ -243,9 +261,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/disclaimer'
     | '/forgot-password'
     | '/landing'
     | '/login'
+    | '/metodologie'
     | '/signup'
     | '/admin'
     | '/add-product'
@@ -267,9 +287,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/disclaimer'
     | '/forgot-password'
     | '/landing'
     | '/login'
+    | '/metodologie'
     | '/signup'
     | '/admin'
     | '/add-product'
@@ -291,9 +313,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_protected'
+    | '/disclaimer'
     | '/forgot-password'
     | '/landing'
     | '/login'
+    | '/metodologie'
     | '/signup'
     | '/_protected/_public'
     | '/_protected/admin'
@@ -318,9 +342,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  DisclaimerRoute: typeof DisclaimerRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
+  MetodologieRoute: typeof MetodologieRoute
   SignupRoute: typeof SignupRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -332,6 +358,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof ProtectedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -353,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/metodologie': {
+      id: '/metodologie'
+      path: '/metodologie'
+      fullPath: '/metodologie'
+      preLoaderRoute: typeof MetodologieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -565,9 +605,11 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  DisclaimerRoute: DisclaimerRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
+  MetodologieRoute: MetodologieRoute,
   SignupRoute: SignupRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

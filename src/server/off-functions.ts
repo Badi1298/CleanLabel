@@ -83,7 +83,7 @@ export const processBarcodeScan = createServerFn({
 			const response = await fetch(url, {
 				headers: {
 					"User-Agent":
-						"CleanLabelApp - Web - Version 1.0 (serbandavid83@gmail.com)",
+						"PickItWellApp - Web - Version 1.0 (serbandavid83@gmail.com)",
 				},
 			});
 
@@ -209,7 +209,7 @@ export const testFetchOffProduct = createServerFn({
 		const response = await fetch(url, {
 			headers: {
 				"User-Agent":
-					"CleanLabelApp - Web - Version 1.0 (serbandavid83@gmail.com)",
+					"PickItWellApp - Web - Version 1.0 (serbandavid83@gmail.com)",
 			},
 		});
 
