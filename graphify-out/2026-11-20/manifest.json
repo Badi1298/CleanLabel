@@ -354,15 +354,15 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1794917257.577107,
-    "seen": 1794917391.3723772,
-    "ast_hash": "7c032ff47ac4285c0b1b6f0c1ac57d7a",
+    "mtime": 1795189552.0027506,
+    "seen": 1795189676.7249138,
+    "ast_hash": "63ecce463b4f863a1b15b8f4c7943e15",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
-    "mtime": 1795187339.5628378,
-    "seen": 1795187409.267334,
-    "ast_hash": "b1251a42fd09477384656ccb14c3b93a",
+    "mtime": 1795189642.732712,
+    "seen": 1795189676.7249138,
+    "ast_hash": "bff1f245c4036f798232f2fd02844cf5",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
-    "mtime": 1795101894.8762696,
-    "seen": 1795101973.2157319,
-    "ast_hash": "cca0b3b12ecfb1618d749b975a8567cf",
+    "mtime": 1795189642.7237945,
+    "seen": 1795189676.724917,
+    "ast_hash": "5b5f32568c56d0ffaa61adc2be700ae0",
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/add-product.tsx": {
@@ -438,9 +438,9 @@
     "semantic_hash": ""
   },
   "src/server/home-functions.ts": {
-    "mtime": 1794917256.3125389,
-    "seen": 1794917391.372394,
-    "ast_hash": "d857b0be33532b224611dd2b4b4a79f4",
+    "mtime": 1795189548.1314514,
+    "seen": 1795189676.72493,
+    "ast_hash": "ab99be0c1923bed52ada798b03153ddc",
     "semantic_hash": ""
   },
   "src/server/off-functions.ts": {
@@ -450,9 +450,9 @@
     "semantic_hash": ""
   },
   "src/server/product-functions.ts": {
-    "mtime": 1795089759.1287727,
-    "seen": 1795090007.7296379,
-    "ast_hash": "89bf613043eab08c26a919f0ca57d9f1",
+    "mtime": 1795189592.847008,
+    "seen": 1795189676.724931,
+    "ast_hash": "1fb8901c8a5a7d069db3b20c512b26fd",
     "semantic_hash": ""
   },
   "src/server/search-functions.ts": {
@@ -833,28 +833,10 @@
     "ast_hash": "2f7d2bb7c8ab86d5f2653cff13cb57fb",
     "semantic_hash": ""
   },
-  "public/images/categories/placeholder-groceries.svg": {
-    "mtime": 1794831181.3491988,
-    "seen": 1794831233.15962,
-    "ast_hash": "1b84bb7012504f414c588b46c16e62ce",
-    "semantic_hash": ""
-  },
-  "src/components/home/category-icon.tsx": {
-    "mtime": 1794834333.1195085,
-    "seen": 1794834377.865694,
-    "ast_hash": "f311d23c30a30f5c765a384c1c52da88",
-    "semantic_hash": ""
-  },
   "src/components/ui/score-badge.tsx": {
     "mtime": 1794913037.2646725,
     "seen": 1794913080.391726,
     "ast_hash": "2b9fc5ec089b8a9a9f25fa267b8216b0",
-    "semantic_hash": ""
-  },
-  "src/components/categories/category-browse-card.tsx": {
-    "mtime": 1794844597.813213,
-    "seen": 1794844658.4718,
-    "ast_hash": "4dc966decdf4c85a0067d1460053b63f",
     "semantic_hash": ""
   },
   "src/components/stores/store-avatar.tsx": {
@@ -900,9 +882,9 @@
     "semantic_hash": ""
   },
   "src/components/search/category-sidebar.tsx": {
-    "mtime": 1795098767.5358112,
-    "seen": 1795098976.1892638,
-    "ast_hash": "49e50014118bfbf4c2b7e0852fa7e8b0",
+    "mtime": 1795189554.8760245,
+    "seen": 1795189676.724876,
+    "ast_hash": "a5d263caba453ac91d60b9c689e9cbe2",
     "semantic_hash": ""
   },
   "src/routes/landing.tsx": {
@@ -930,15 +912,15 @@
     "semantic_hash": ""
   },
   "src/components/landing/how-it-works-section.tsx": {
-    "mtime": 1795096355.0199244,
-    "seen": 1795096433.606879,
-    "ast_hash": "d56a8a095babe72b8d4ae96640f344d9",
+    "mtime": 1795189562.5622318,
+    "seen": 1795189676.72487,
+    "ast_hash": "a1b447304fb9d00215e02e4c16595148",
     "semantic_hash": ""
   },
   "src/components/landing/landing-data.ts": {
-    "mtime": 1795185533.4300342,
-    "seen": 1795185619.9666119,
-    "ast_hash": "4bd9e06b01ba3d030e2d044ce694e030",
+    "mtime": 1795189559.7961528,
+    "seen": 1795189676.72487,
+    "ast_hash": "1beba1c4f24ccf8373e364d97f06aece",
     "semantic_hash": ""
   },
   "src/components/landing/landing-footer.tsx": {
@@ -1020,15 +1002,15 @@
     "semantic_hash": ""
   },
   "src/components/search/catalog-views.tsx": {
-    "mtime": 1795098740.6251514,
-    "seen": 1795098976.1892622,
-    "ast_hash": "961082c0837e225508aae4fda78fefda",
+    "mtime": 1795189557.442666,
+    "seen": 1795189676.724875,
+    "ast_hash": "10bcebc1772ee39d378b6d6908e0ef2c",
     "semantic_hash": ""
   },
   "src/components/stores/store-sidebar.tsx": {
-    "mtime": 1795098818.1681707,
-    "seen": 1795098976.189266,
-    "ast_hash": "fef28799727360b32776ed55622b281d",
+    "mtime": 1795189568.1516247,
+    "seen": 1795189676.724878,
+    "ast_hash": "2f578142c37acdd6dc3becf706d6500f",
     "semantic_hash": ""
   },
   "src/components/ui/collapsible.tsx": {
@@ -1038,9 +1020,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores.tsx": {
-    "mtime": 1795187343.2590413,
-    "seen": 1795187409.2673368,
-    "ast_hash": "f2c21e081ff48233504cc979149ac630",
+    "mtime": 1795189642.724887,
+    "seen": 1795189676.724917,
+    "ast_hash": "25781dae1e8bf7aaf52655a6a4078480",
     "semantic_hash": ""
   },
   ".agents/rules/shadcn-ui.md": {
@@ -2361,6 +2343,120 @@
     "mtime": 1795186712.341896,
     "seen": 1795187409.267506,
     "ast_hash": "53385e0186afa7799877790227fc2203",
+    "semantic_hash": ""
+  },
+  "src/components/categories/category-icon.tsx": {
+    "mtime": 1795189642.7116563,
+    "seen": 1795189676.724867,
+    "ast_hash": "9c063571b8334a3d72e00838ed063125",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/01-cereale-paste-panificatie.png": {
+    "mtime": 1795188575.40381,
+    "seen": 1795189676.7250838,
+    "ast_hash": "554681cfbc9e60b72d03b763d298a9b8",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/01-cereale-paste-panificatie.svg": {
+    "mtime": 1795188575.40437,
+    "seen": 1795189676.725085,
+    "ast_hash": "9908fe49e3b98b805315f32f9fb53f20",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/02-lactate-alternative.png": {
+    "mtime": 1795188575.4061594,
+    "seen": 1795189676.725086,
+    "ast_hash": "f27ab9f2aca4a0c8c1073053c6020175",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/02-lactate-alternative.svg": {
+    "mtime": 1795188575.406638,
+    "seen": 1795189676.725086,
+    "ast_hash": "bfc7d874527b3a1639f5f4cdd83452d2",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/03-sosuri-tartinabile.png": {
+    "mtime": 1795188575.4089797,
+    "seen": 1795189676.725087,
+    "ast_hash": "9891b26ecb27a7726e7ca1567a08dd90",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/03-sosuri-tartinabile.svg": {
+    "mtime": 1795188575.4094498,
+    "seen": 1795189676.725087,
+    "ast_hash": "ac4919c5b0f3915493d3267f8093e4dd",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/04-gustari-dulciuri.png": {
+    "mtime": 1795188575.410566,
+    "seen": 1795189676.725088,
+    "ast_hash": "e22ef6de4ea133c9ce2fecc448b12c25",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/04-gustari-dulciuri.svg": {
+    "mtime": 1795188575.4110277,
+    "seen": 1795189676.725088,
+    "ast_hash": "74903e67a27be5b634477e3db6bdfe10",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/05-bauturi.png": {
+    "mtime": 1795188575.4119587,
+    "seen": 1795189676.725089,
+    "ast_hash": "576e3b4ae4c63b510bb3dbbbbfa2c715",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/05-bauturi.svg": {
+    "mtime": 1795188575.4124403,
+    "seen": 1795189676.725089,
+    "ast_hash": "7918e373f2a49afea6357cc6c61de7c0",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/06-ingrediente-gatit.png": {
+    "mtime": 1795188575.4140756,
+    "seen": 1795189676.72509,
+    "ast_hash": "95a15d7a6f9a49413d7f4a898bc83de1",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/06-ingrediente-gatit.svg": {
+    "mtime": 1795188575.414502,
+    "seen": 1795189676.72509,
+    "ast_hash": "86a9246421eb3ad26dab6cb2f718e055",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/07-conserve-mancaruri-gata.png": {
+    "mtime": 1795188575.4151058,
+    "seen": 1795189676.725091,
+    "ast_hash": "3372f78870c39adfd6595cb54f461136",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/07-conserve-mancaruri-gata.svg": {
+    "mtime": 1795188575.4155269,
+    "seen": 1795189676.725091,
+    "ast_hash": "6baf8fa247a2d53988c3642e0fbd65e5",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/08-carne-mezeluri.png": {
+    "mtime": 1795188575.4166718,
+    "seen": 1795189676.725091,
+    "ast_hash": "0817f8c6b8da010dc8884a482fa9f9ae",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/08-carne-mezeluri.svg": {
+    "mtime": 1795188575.4170897,
+    "seen": 1795189676.7250922,
+    "ast_hash": "52ce865292b23ea2f088029232bb33ca",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/09-alimente-copii.png": {
+    "mtime": 1795188575.4183595,
+    "seen": 1795189676.7250922,
+    "ast_hash": "b00f84fe41268122bfb662fa915bbc2a",
+    "semantic_hash": ""
+  },
+  "src/assets/pickitwell-icons/09-alimente-copii.svg": {
+    "mtime": 1795188575.4192052,
+    "seen": 1795189676.7250931,
+    "ast_hash": "a5f432f95073bb40182f3cfeb7463d98",
     "semantic_hash": ""
   }
 }

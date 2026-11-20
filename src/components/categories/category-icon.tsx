@@ -1,4 +1,3 @@
-import { useId } from "react";
 import cerealePastePanificatieIcon from "#/assets/pickitwell-icons/01-cereale-paste-panificatie.svg";
 import lactateAlternativeIcon from "#/assets/pickitwell-icons/02-lactate-alternative.svg";
 import sosuriTartinabileIcon from "#/assets/pickitwell-icons/03-sosuri-tartinabile.svg";
@@ -314,136 +313,9 @@ export function resolveCategoryIconSrc({
 	return null;
 }
 
-function CategoryFallbackBadge({
-	alt,
-	className,
-}: {
-	alt: string;
-	className?: string;
-}) {
-	const uid = useId().replace(/:/g, "");
-	const bgId = `cat-bg-${uid}`;
-	const goldId = `cat-gold-${uid}`;
-	const isDecorative = alt === "";
+const FALLBACK_CATEGORY_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><defs><radialGradient id="bg" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="#157050"/><stop offset=".6" stop-color="#0A4231"/><stop offset="1" stop-color="#042A20"/></radialGradient><linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="70" y1="50" x2="190" y2="210"><stop offset="0" stop-color="#F7E1A0"/><stop offset=".35" stop-color="#E2B04E"/><stop offset=".65" stop-color="#B98429"/><stop offset="1" stop-color="#EBC56E"/></linearGradient></defs><rect x="8" y="8" width="240" height="240" rx="56" fill="url(#bg)"/><rect x="8" y="8" width="240" height="240" rx="56" fill="none" stroke="url(#gold)" stroke-width="2.5"/><rect x="17" y="17" width="222" height="222" rx="48" fill="none" stroke="url(#gold)" stroke-opacity=".35" stroke-width="1"/><g transform="translate(128 128) scale(1.12) translate(-128 -128)"><rect x="76" y="76" width="44" height="44" rx="11" fill="url(#gold)" fill-opacity=".17" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="136" y="76" width="44" height="44" rx="11" fill="url(#gold)" fill-opacity=".17" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="76" y="136" width="44" height="44" rx="11" fill="url(#gold)" fill-opacity=".17" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="136" y="136" width="44" height="44" rx="11" fill="url(#gold)" fill-opacity=".17" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
 
-	return (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 256 256"
-			width={256}
-			height={256}
-			aria-hidden={isDecorative ? true : undefined}
-			role={isDecorative ? undefined : "img"}
-			aria-label={isDecorative ? undefined : alt}
-			className={cn("shrink-0 select-none", className)}
-		>
-			{!isDecorative && <title>{alt}</title>}
-			<defs>
-				<radialGradient id={bgId} cx=".5" cy=".28" r=".85">
-					<stop offset="0" stopColor="#157050" />
-					<stop offset=".6" stopColor="#0A4231" />
-					<stop offset="1" stopColor="#042A20" />
-				</radialGradient>
-				<linearGradient
-					id={goldId}
-					gradientUnits="userSpaceOnUse"
-					x1="70"
-					y1="50"
-					x2="190"
-					y2="210"
-				>
-					<stop offset="0" stopColor="#F7E1A0" />
-					<stop offset=".35" stopColor="#E2B04E" />
-					<stop offset=".65" stopColor="#B98429" />
-					<stop offset="1" stopColor="#EBC56E" />
-				</linearGradient>
-			</defs>
-			<rect
-				x="8"
-				y="8"
-				width="240"
-				height="240"
-				rx="56"
-				fill={`url(#${bgId})`}
-			/>
-			<rect
-				x="8"
-				y="8"
-				width="240"
-				height="240"
-				rx="56"
-				fill="none"
-				stroke={`url(#${goldId})`}
-				strokeWidth="2.5"
-			/>
-			<rect
-				x="17"
-				y="17"
-				width="222"
-				height="222"
-				rx="48"
-				fill="none"
-				stroke={`url(#${goldId})`}
-				strokeOpacity=".35"
-				strokeWidth="1"
-			/>
-			<g transform="translate(128 128) scale(1.12) translate(-128 -128)">
-				<rect
-					x="76"
-					y="76"
-					width="44"
-					height="44"
-					rx="11"
-					fill={`url(#${goldId})`}
-					fillOpacity=".17"
-					stroke={`url(#${goldId})`}
-					strokeWidth="4.5"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				/>
-				<rect
-					x="136"
-					y="76"
-					width="44"
-					height="44"
-					rx="11"
-					fill={`url(#${goldId})`}
-					fillOpacity=".17"
-					stroke={`url(#${goldId})`}
-					strokeWidth="4.5"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				/>
-				<rect
-					x="76"
-					y="136"
-					width="44"
-					height="44"
-					rx="11"
-					fill={`url(#${goldId})`}
-					fillOpacity=".17"
-					stroke={`url(#${goldId})`}
-					strokeWidth="4.5"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				/>
-				<rect
-					x="136"
-					y="136"
-					width="44"
-					height="44"
-					rx="11"
-					fill={`url(#${goldId})`}
-					fillOpacity=".17"
-					stroke={`url(#${goldId})`}
-					strokeWidth="4.5"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				/>
-			</g>
-		</svg>
-	);
-}
+const FALLBACK_CATEGORY_ICON_SRC = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(FALLBACK_CATEGORY_SVG)}`;
 
 export type CategoryIconProps = {
 	iconKey?: CategoryIconKey;
@@ -471,13 +343,9 @@ export function CategoryIcon({
 		iconUrl,
 	});
 
-	if (!resolved) {
-		return <CategoryFallbackBadge alt={alt} className={className} />;
-	}
-
 	return (
 		<img
-			src={resolved.src}
+			src={resolved?.src ?? FALLBACK_CATEGORY_ICON_SRC}
 			alt={alt}
 			width={256}
 			height={256}
@@ -487,7 +355,7 @@ export function CategoryIcon({
 			aria-hidden={alt === "" ? true : undefined}
 			className={cn(
 				"shrink-0 object-contain select-none",
-				resolved.isCustomUrl && "rounded-[22%]",
+				resolved?.isCustomUrl && "rounded-[22%]",
 				className,
 			)}
 		/>
