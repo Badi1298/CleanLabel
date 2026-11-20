@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { BrandLogo } from "#/components/brand-logo";
 import { HEADER_LINKS } from "#/components/landing/landing-data";
 import { Button } from "#/components/ui/button";
 import { Separator } from "#/components/ui/separator";
@@ -26,21 +27,8 @@ export function LandingHeader({
 	const ctaLabel = isSignedIn ? "Deschide aplicația" : "Începe acum";
 
 	const brandClassName =
-		"inline-flex items-center gap-2.5 rounded-xl px-1.5 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] dark:focus-visible:ring-[#FCE8C6] shrink-0";
-	const brandContent = (
-		<>
-			<img
-				src="/logo-192x192.png"
-				alt=""
-				width={36}
-				height={36}
-				className="w-9 h-9 rounded-xl object-contain"
-			/>
-			<span className="font-extrabold text-lg tracking-tight text-[#1B4332] dark:text-[#FBF4E6]">
-				PickItWell
-			</span>
-		</>
-	);
+		"inline-flex items-center rounded-xl px-0.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] dark:focus-visible:ring-[#FCE8C6] shrink-0";
+	const brandContent = <BrandLogo surface="adaptive" size="md" />;
 
 	const desktopNavLinkClassName =
 		"inline-flex items-center min-h-9 px-3.5 py-1.5 rounded-xl text-sm font-semibold text-muted-foreground hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:bg-secondary/85 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]";
@@ -109,14 +97,8 @@ export function LandingHeader({
 						>
 							<SheetHeader className="p-5 pb-4 border-b border-border text-left">
 								<SheetTitle className="flex items-center gap-2.5 text-lg font-extrabold tracking-tight text-[#1B4332] dark:text-[#FBF4E6]">
-									<img
-										src="/logo-192x192.png"
-										alt=""
-										width={32}
-										height={32}
-										className="w-8 h-8 rounded-lg object-contain"
-									/>
-									<span>PickItWell</span>
+									<BrandLogo surface="adaptive" size="sm" />
+									<span className="sr-only">PickItWell</span>
 								</SheetTitle>
 								<SheetDescription className="sr-only">
 									Meniu principal de navigare PickItWell

@@ -85,7 +85,7 @@ async function main() {
 			"https://world.openfoodfacts.net/api/v2/search?countries_tags_en=romania&fields=code,product_name,product_name_ro,brands,categories_tags,categories_hierarchy,ingredients_text_ro,ingredients_text,image_front_url,image_ingredients_url,stores_tags,nutriscore_grade,nova_group,additives_tags,ingredients&page=2&page_size=50&lc=ro&cc=ro",
 			{
 				headers: {
-					"User-Agent": "CleanLabelApp - Web - Version 1.0 (serbandavid83@gmail.com)",
+					"User-Agent": "PickItWellApp - Web - Version 1.0 (serbandavid83@gmail.com)",
 				},
 			}
 		);

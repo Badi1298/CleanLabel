@@ -586,7 +586,7 @@ function StoresPage() {
 												: "All Supermarkets"}
 										</h1>
 										<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-											Select a supermarket to explore its clean-label aisles and
+											Select a supermarket to explore its curated aisles and
 											scored products
 										</p>
 									</div>

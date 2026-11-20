@@ -925,7 +925,7 @@ export function ProductForm({
 								name="score"
 								children={(field) => (
 									<div className="flex flex-col gap-y-2">
-										<Label htmlFor={field.name}>Clean Label Score</Label>
+										<Label htmlFor={field.name}>PickItWell Score</Label>
 										<Select
 											value={field.state.value}
 											onValueChange={(

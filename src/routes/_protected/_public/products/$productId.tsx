@@ -125,7 +125,7 @@ function getScoreSpotlightConfig(score: string | null | undefined) {
 			return {
 				title: "Score Pending",
 				description:
-					"This product has not been assigned a CleanLabel tier yet.",
+					"This product has not been assigned a PickItWell tier yet.",
 				cardClass:
 					"bg-[#FAF8F5] dark:bg-[#121D17] border-[#EAE4D7] dark:border-[#24362D]",
 				emblemClass:

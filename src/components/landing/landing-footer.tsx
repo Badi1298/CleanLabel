@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
+import { BrandLogo } from "#/components/brand-logo";
 import {
 	FOOTER_LEGAL_LINKS,
 	HEADER_LINKS,
@@ -16,21 +17,9 @@ export function LandingFooter({
 	isLandingPage?: boolean;
 }) {
 	const brandClassName =
-		"inline-flex items-center gap-2.5 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]";
+		"inline-flex items-center rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]";
 	const brandContent = (
-		<>
-			<img
-				src="/logo-192x192.png"
-				alt=""
-				width={36}
-				height={36}
-				loading="lazy"
-				className="w-9 h-9 rounded-xl object-contain"
-			/>
-			<span className="font-extrabold text-lg tracking-tight text-[#1B4332] dark:text-[#FBF4E6]">
-				PickItWell
-			</span>
-		</>
+		<BrandLogo surface="adaptive" size="md" loading="lazy" />
 	);
 	const exploreLinkClassName =
 		"inline-flex items-center py-1 text-foreground hover:text-[#2D5A44] dark:hover:text-[#FCE8C6] transition-colors";

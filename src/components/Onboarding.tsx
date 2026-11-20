@@ -94,7 +94,7 @@ export function Onboarding({ user }: { user: any }) {
 				<DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
 					<DialogHeader>
 						<DialogTitle className="text-xl">
-							Welcome to CleanLabel! 🎉
+							Welcome to PickItWell! 🎉
 						</DialogTitle>
 						<DialogDescription className="text-slate-500 dark:text-slate-400">
 							Let's get to know you better. Please provide your first and last

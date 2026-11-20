@@ -5,6 +5,7 @@ import {
 	useRouteContext,
 } from "@tanstack/react-router";
 import { Heart, Home, Search, Store, User } from "lucide-react";
+import { BrandLogo } from "#/components/brand-logo";
 import { Onboarding } from "#/components/Onboarding";
 
 export const Route = createFileRoute("/_protected/_public")({
@@ -29,16 +30,9 @@ function RouteComponent() {
 				<div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
 					<Link
 						to="/"
-						className="flex items-center gap-2.5 rounded-xl px-1.5 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
+						className="inline-flex items-center rounded-xl px-0.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
 					>
-						<img
-							src="/logo-192x192.png"
-							alt="CleanLabel"
-							className="w-8 h-8 rounded-lg object-contain"
-						/>
-						<span className="font-extrabold text-lg tracking-tight text-[#1B4332] dark:text-[#FBF4E6]">
-							CleanLabel
-						</span>
+						<BrandLogo surface="adaptive" size="md" />
 					</Link>
 
 					<nav

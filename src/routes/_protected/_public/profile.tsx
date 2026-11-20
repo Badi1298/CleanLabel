@@ -121,7 +121,7 @@ const COMMUNITY_LINKS = [
 	{
 		id: "fb-page",
 		label: "Facebook Page",
-		description: "News, updates & clean-label highlights",
+		description: "News, updates & PickItWell highlights",
 		href: "https://www.facebook.com/profile.php?id=61595898309388",
 		Icon: FacebookIcon,
 		iconStyle:

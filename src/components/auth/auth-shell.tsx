@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Leaf } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { toast } from "sonner";
+import { BrandLogo } from "#/components/brand-logo";
 import { ScoreBadge } from "#/components/ui/score-badge";
 import { authClient } from "#/lib/auth-client";
 
@@ -80,10 +81,9 @@ export function AuthShell({
 				<div className="relative z-10 max-w-md mx-auto text-center">
 					<Link
 						to="/landing"
-						className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF4E6]/12 hover:bg-[#FBF4E6]/20 border border-[#FBF4E6]/20 px-3 py-1 text-xs font-bold tracking-tight text-[#FCE8C6] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+						className="inline-flex items-center justify-center rounded-2xl px-2 py-1 transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 					>
-						<Leaf className="w-3.5 h-3.5 text-[#FCE8C6]" aria-hidden="true" />
-						<span>CleanLabel</span>
+						<BrandLogo surface="dark" size="lg" />
 					</Link>
 
 					<h1 className="mt-3.5 text-[2rem] sm:text-4xl font-extrabold tracking-tight leading-[1.06] text-[#FCE8C6]">
