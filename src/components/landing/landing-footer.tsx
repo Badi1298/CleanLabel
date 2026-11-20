@@ -27,7 +27,11 @@ export function LandingFooter({
 		"inline-flex items-center py-1 text-left text-foreground hover:text-[#2D5A44] dark:hover:text-[#FCE8C6] transition-colors";
 
 	return (
-		<footer className="bg-sidebar border-t border-border">
+		<footer className="relative bg-sidebar border-t border-border">
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#D4AF6A]/45 to-transparent"
+			/>
 			<div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-14">
 				<div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
 					{/* Coloana 1 – PickItWell */}
@@ -56,7 +60,7 @@ export function LandingFooter({
 											href={social.href}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full bg-background dark:bg-card border border-border hover:border-[#2D5A44] text-xs font-semibold text-foreground transition-colors"
+											className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full bg-background dark:bg-card border border-border hover:border-[#D4AF6A]/70 text-xs font-semibold text-foreground transition-colors"
 										>
 											<Icon
 												className="w-3.5 h-3.5 text-[#A67C37] dark:text-[#D4AF6A]"

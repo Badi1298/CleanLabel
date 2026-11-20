@@ -6,6 +6,11 @@ import {
 	Store,
 } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
+import productBreadImg from "#/assets/landing/product-bread.png";
+import productCrackersImg from "#/assets/landing/product-crackers.png";
+import productPestoImg from "#/assets/landing/product-pesto.png";
+import productTomatoSauceImg from "#/assets/landing/product-tomato-sauce.png";
+import productYogurtImg from "#/assets/landing/product-yogurt.png";
 import type { CategoryIconKey } from "#/components/categories/category-icon";
 import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 
@@ -294,3 +299,245 @@ export const FOOTER_LEGAL_LINKS: readonly FooterLegalLink[] = [
 	{ kind: "modal", topicId: "termeni", label: "Termeni și condiții" },
 	{ kind: "modal", topicId: "cookies", label: "Politica de cookie-uri" },
 ];
+
+export type HeroTier = "gold" | "silver" | "bronze";
+
+export interface HeroTierPreview {
+	score: HeroTier;
+	cardTitle: string;
+	cardSubtitle: string;
+	brand: string;
+	productName: string;
+	additiveBadge: string;
+	ingredients: string;
+	highlightedAdditives: string[];
+	checkedDate: string;
+	stores: readonly string[];
+	image: string;
+	imageAlt: string;
+}
+
+export const HERO_TIER_PREVIEWS: readonly HeroTierPreview[] = [
+	{
+		score: "gold",
+		cardTitle: "Iaurt Grecesc 10%",
+		cardSubtitle: "0 aditivi marcați",
+		brand: "Olympus",
+		productName: "Iaurt Grecesc Străvechi 10%",
+		additiveBadge: "0 aditivi marcați",
+		ingredients:
+			"Lapte de vacă pasteurizat, smântână din lapte de vacă, culturi lactice selecționate.",
+		highlightedAdditives: [],
+		checkedDate: "18.11.2026",
+		stores: HERO_STORES,
+		image: productYogurtImg,
+		imageAlt: "Iaurt Grecesc Străvechi 10%",
+	},
+	{
+		score: "silver",
+		cardTitle: "Crackers cu semințe",
+		cardSubtitle: "1–2 aditivi marcați",
+		brand: "Artizan Pan",
+		productName: "Crackers cu semințe",
+		additiveBadge: "2 aditivi marcați",
+		ingredients:
+			"Făină integrală de grâu, semințe de in (12%), susan, ulei de floarea-soarelui, sare de mare, agent de afânare: carbonat acid de sodiu (E500), antioxidant: extract bogat în tocoferol (E306).",
+		highlightedAdditives: [
+			"agent de afânare: carbonat acid de sodiu (E500)",
+			"antioxidant: extract bogat în tocoferol (E306)",
+		],
+		checkedDate: "18.11.2026",
+		stores: ["Mega Image", "Carrefour"],
+		image: productCrackersImg,
+		imageAlt: "Crackers cu semințe",
+	},
+	{
+		score: "bronze",
+		cardTitle: "Sos pesto clasic",
+		cardSubtitle: "3–4 aditivi marcați",
+		brand: "Delicii Italiene",
+		productName: "Sos pesto clasic",
+		additiveBadge: "3 aditivi marcați",
+		ingredients:
+			"Ulei de floarea-soarelui, busuioc (32%), caju, brânză dură, sare, corector de aciditate: acid lactic (E270), stabilizator: gumă xantan (E415), antioxidant: acid ascorbic (E300).",
+		highlightedAdditives: [
+			"corector de aciditate: acid lactic (E270)",
+			"stabilizator: gumă xantan (E415)",
+			"antioxidant: acid ascorbic (E300)",
+		],
+		checkedDate: "18.11.2026",
+		stores: ["Kaufland", "Lidl", "Carrefour"],
+		image: productPestoImg,
+		imageAlt: "Sos pesto clasic",
+	},
+] as const;
+
+export interface CategoryDemoProduct {
+	name: string;
+	score: "gold" | "silver";
+	additivesLabel: string;
+}
+
+export const CATEGORY_DEMO_PRODUCTS: Record<
+	CategoryIconKey,
+	readonly [CategoryDemoProduct, CategoryDemoProduct]
+> = {
+	"cereale-paste-panificatie": [
+		{
+			name: "Ovăz integral bio",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Pâine integrală cu semințe",
+			score: "silver",
+			additivesLabel: "1 aditiv marcat",
+		},
+	],
+	"lactate-alternative": [
+		{
+			name: "Iaurt Grecesc Străvechi 10%",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Chefir tradițional",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+	],
+	"sosuri-tartinabile": [
+		{
+			name: "Passata rustică bio",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Sos de roșii cu busuioc",
+			score: "silver",
+			additivesLabel: "1 aditiv marcat",
+		},
+	],
+	"gustari-dulciuri": [
+		{
+			name: "Migdale crude naturale",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Crackers cu semințe",
+			score: "silver",
+			additivesLabel: "2 aditivi marcați",
+		},
+	],
+	bauturi: [
+		{
+			name: "Suc presat la rece de mere",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Ceai verde infuzat",
+			score: "silver",
+			additivesLabel: "1 aditiv marcat",
+		},
+	],
+	"ingrediente-gatit": [
+		{
+			name: "Ulei de măsline extravirgin",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Oțet balsamic de Modena",
+			score: "silver",
+			additivesLabel: "1 aditiv marcat",
+		},
+	],
+	"conserve-mancaruri-gata": [
+		{
+			name: "Năut fiert la borcan",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Fasole roșie conservă",
+			score: "silver",
+			additivesLabel: "1 aditiv marcat",
+		},
+	],
+	"carne-mezeluri": [
+		{
+			name: "Piept de curcan copt lent",
+			score: "silver",
+			additivesLabel: "1 aditiv marcat",
+		},
+		{
+			name: "Cârnați proaspeți de porc",
+			score: "silver",
+			additivesLabel: "2 aditivi marcați",
+		},
+	],
+	"alimente-copii": [
+		{
+			name: "Piure de mere și pere bio",
+			score: "gold",
+			additivesLabel: "0 aditivi marcați",
+		},
+		{
+			name: "Biscuiți cu ovăz pentru copii",
+			score: "silver",
+			additivesLabel: "1 aditiv marcat",
+		},
+	],
+};
+
+export const STEP_INSPECT_PRODUCT = {
+	name: "Sos de roșii cu busuioc",
+	score: "silver" as const,
+	additiveBadge: "1 aditiv marcat",
+	ingredients:
+		"Roșii (84%), ceapă, ulei de măsline extravirgin, busuioc (2%), sare de mare, zahăr, corector de aciditate: acid citric (E330).",
+	highlightedAdditives: ["corector de aciditate: acid citric (E330)"],
+	checkedDate: "18.11.2026",
+	image: productTomatoSauceImg,
+} as const;
+
+export interface StepAlternativeItem {
+	id: string;
+	name: string;
+	score: "gold";
+	additivesLabel: string;
+	stores: readonly string[];
+	image: string;
+}
+
+export const STEP_CHOOSE_ALTERNATIVES: readonly StepAlternativeItem[] = [
+	{
+		id: "passata-bio",
+		name: "Passata rustică bio",
+		score: "gold",
+		additivesLabel: "0 aditivi marcați",
+		stores: ["Kaufland", "Mega Image", "Carrefour"],
+		image: productTomatoSauceImg,
+	},
+	{
+		id: "sos-clasic",
+		name: "Sos clasic de roșii",
+		score: "gold",
+		additivesLabel: "0 aditivi marcați",
+		stores: ["Lidl", "Kaufland"],
+		image: productTomatoSauceImg,
+	},
+] as const;
+
+export const FINAL_CTA_PRODUCT = {
+	name: "Pâine integrală cu semințe",
+	score: "silver" as const,
+	ingredients:
+		"Făină integrală de grâu, apă, semințe de floarea-soarelui, drojdie, sare, acid ascorbic (E300).",
+	highlightedAdditives: ["acid ascorbic (E300)"],
+	additiveLabel: "1 aditiv marcat",
+	checkedDate: "18.11.2026",
+	image: productBreadImg,
+} as const;

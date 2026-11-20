@@ -1,6 +1,10 @@
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { REVIEWS } from "#/components/landing/landing-data";
+import {
+	BotanicalFlourish,
+	ScrollReveal,
+} from "#/components/landing/landing-primitives";
 import { Button } from "#/components/ui/button";
 import { Card } from "#/components/ui/card";
 import {
@@ -45,17 +49,20 @@ export function ReviewsSection() {
 			aria-labelledby="recenzii-heading"
 			className="scroll-mt-20 max-w-6xl mx-auto px-4 md:px-6 py-14 md:py-20"
 		>
-			<div className="max-w-2xl mx-auto text-center">
-				<h2
-					id="recenzii-heading"
-					className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-foreground dark:text-[#FBF4E6]"
-				>
-					Ce spun utilizatorii PickItWell?
-				</h2>
-				<p className="mt-3 text-sm sm:text-base text-muted-foreground font-medium">
-					Opinii trimise de utilizatori despre experiența lor cu PickItWell.
-				</p>
-			</div>
+			<ScrollReveal>
+				<div className="max-w-2xl mx-auto text-center space-y-3">
+					<BotanicalFlourish variant="divider" />
+					<h2
+						id="recenzii-heading"
+						className="display-title text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-foreground dark:text-[#FBF4E6]"
+					>
+						Ce spun utilizatorii PickItWell?
+					</h2>
+					<p className="text-sm sm:text-base text-muted-foreground font-medium">
+						Opinii trimise de utilizatori despre experiența lor cu PickItWell.
+					</p>
+				</div>
+			</ScrollReveal>
 
 			<Carousel
 				setApi={setApi}
@@ -65,7 +72,7 @@ export function ReviewsSection() {
 					breakpoints: { "(min-width: 768px)": { active: false } },
 				}}
 				aria-label="Recenzii utilizatori PickItWell"
-				className="mt-8 md:mt-11"
+				className="mt-8 md:mt-12"
 			>
 				{/* Mobile Previous / Next controls placed before track in DOM order */}
 				<div className="md:hidden flex items-center justify-between gap-3 mb-3">
@@ -97,42 +104,69 @@ export function ReviewsSection() {
 				</div>
 
 				<CarouselContent
-					viewportClassName="py-1 -my-1 md:overflow-visible"
+					viewportClassName="py-2 -my-2 md:overflow-visible"
 					className="md:ml-0 md:grid md:grid-cols-3 md:gap-6"
 				>
-					{REVIEWS.map((review, index) => (
-						<CarouselItem
-							key={review.id}
-							aria-label={`${index + 1} din ${REVIEWS.length}`}
-							className="pl-4 md:pl-0 flex"
-						>
-							<Card className="w-full rounded-3xl bg-card border-border shadow-[0_2px_12px_rgba(27,67,50,0.04)] p-6 justify-between gap-5">
-								<div className="space-y-4">
-									<div
-										role="img"
-										aria-label={`Evaluare ${review.rating} din 5 stele`}
-										className="flex items-center gap-1 text-[#A67C37] dark:text-[#D4AF6A]"
-									>
-										{[1, 2, 3, 4, 5].map((starNumber) => (
-											<Star
-												key={`${review.id}-star-${starNumber}`}
-												className="w-4.5 h-4.5 fill-current"
+					{REVIEWS.map((review, index) => {
+						const isFeaturedCenter = index === 1;
+						return (
+							<CarouselItem
+								key={review.id}
+								aria-label={`${index + 1} din ${REVIEWS.length}`}
+								className="pl-4 md:pl-0 flex"
+							>
+								<Card
+									className={cn(
+										"w-full rounded-3xl p-6 md:p-7 justify-between gap-5 transition-all duration-200",
+										isFeaturedCenter
+											? "md:-translate-y-2 bg-[#FBF4E6]/85 dark:bg-[#192820] border-[#D4AF6A]/50 shadow-[0_14px_34px_rgba(27,67,50,0.08)]"
+											: "bg-card border-border shadow-[0_4px_16px_rgba(27,67,50,0.04)] hover:border-[#D4AF6A]/45",
+									)}
+								>
+									<div className="space-y-3.5">
+										<div className="flex items-center justify-between gap-2">
+											<div
+												role="img"
+												aria-label={`Evaluare ${review.rating} din 5 stele`}
+												className="flex items-center gap-1 text-[#C59338] dark:text-[#E2B04E]"
+											>
+												{[1, 2, 3, 4, 5].map((starNumber) => (
+													<Star
+														key={`${review.id}-star-${starNumber}`}
+														className="w-4.5 h-4.5 fill-current"
+														aria-hidden="true"
+													/>
+												))}
+											</div>
+
+											<span
 												aria-hidden="true"
-											/>
-										))}
+												className="display-title text-5xl leading-none text-[#D4AF6A]/40 select-none -mt-2"
+											>
+												&ldquo;
+											</span>
+										</div>
+
+										<blockquote className="text-sm sm:text-[15px] text-foreground leading-relaxed">
+											&ldquo;{review.text}&rdquo;
+										</blockquote>
 									</div>
 
-									<blockquote className="text-sm sm:text-[15px] text-foreground leading-relaxed">
-										&ldquo;{review.text}&rdquo;
-									</blockquote>
-								</div>
-
-								<p className="pt-3 border-t border-[#F0EAE0] dark:border-[#22332A] text-sm font-extrabold text-[#1B4332] dark:text-[#FCE8C6]">
-									{review.name}
-								</p>
-							</Card>
-						</CarouselItem>
-					))}
+									<div className="pt-3.5 border-t border-[#F0EAE0] dark:border-[#22332A] flex items-center gap-3">
+										<span
+											aria-hidden="true"
+											className="w-8 h-8 rounded-full bg-[radial-gradient(circle_at_50%_28%,#157050_0%,#0A4231_65%,#042A20_100%)] border border-[#E2B04E]/65 text-[#F3D58D] text-xs font-extrabold flex items-center justify-center shrink-0"
+										>
+											{review.name.charAt(0)}
+										</span>
+										<p className="text-sm font-extrabold text-[#1B4332] dark:text-[#FCE8C6]">
+											{review.name}
+										</p>
+									</div>
+								</Card>
+							</CarouselItem>
+						);
+					})}
 				</CarouselContent>
 
 				{/* Visually hidden live status */}

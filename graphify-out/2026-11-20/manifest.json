@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1795187350.6523323,
-    "seen": 1795187409.267274,
-    "ast_hash": "aac7c73bb84a7b4fed3afabc2185450c",
+    "mtime": 1795202692.4722621,
+    "seen": 1795203013.7659469,
+    "ast_hash": "ec8091541cb6b8ff0558ca846746a2b8",
     "semantic_hash": ""
   },
   "public/registerSW.js": {
@@ -888,9 +888,9 @@
     "semantic_hash": ""
   },
   "src/routes/landing.tsx": {
-    "mtime": 1795185463.4603047,
-    "seen": 1795185619.966665,
-    "ast_hash": "f481a9c4b3c22c655ac6cdece51cdc80",
+    "mtime": 1795202926.7168858,
+    "seen": 1795203013.766019,
+    "ast_hash": "4d7ad982f84462cf431a9ceea88c82c8",
     "semantic_hash": ""
   },
   "src/components/ui/social-icons.tsx": {
@@ -900,39 +900,39 @@
     "semantic_hash": ""
   },
   "src/components/landing/final-cta-section.tsx": {
-    "mtime": 1795185538.0806665,
-    "seen": 1795185619.96661,
-    "ast_hash": "5e10cc257043b1679f5468766a78d58a",
+    "mtime": 1795202926.717003,
+    "seen": 1795203013.765961,
+    "ast_hash": "6c3a054ce97fc77fc0b657f2f02ca1d9",
     "semantic_hash": ""
   },
   "src/components/landing/hero-section.tsx": {
-    "mtime": 1795187308.836431,
-    "seen": 1795187409.267288,
-    "ast_hash": "93c7370edfb85c0cd1812f5b5b17f12d",
+    "mtime": 1795202926.7184458,
+    "seen": 1795203013.765962,
+    "ast_hash": "94e1b28bf55d07b013ff5bd9a537bfab",
     "semantic_hash": ""
   },
   "src/components/landing/how-it-works-section.tsx": {
-    "mtime": 1795189562.5622318,
-    "seen": 1795189676.72487,
-    "ast_hash": "a1b447304fb9d00215e02e4c16595148",
+    "mtime": 1795202945.9058614,
+    "seen": 1795203013.765962,
+    "ast_hash": "5c9676194bd86e48c9543c04674ca7e8",
     "semantic_hash": ""
   },
   "src/components/landing/landing-data.ts": {
-    "mtime": 1795189559.7961528,
-    "seen": 1795189676.72487,
-    "ast_hash": "1beba1c4f24ccf8373e364d97f06aece",
+    "mtime": 1795202750.3600178,
+    "seen": 1795203013.765963,
+    "ast_hash": "613957bc67f17d275bc32b3caa0ceefa",
     "semantic_hash": ""
   },
   "src/components/landing/landing-footer.tsx": {
-    "mtime": 1795187305.6808524,
-    "seen": 1795187409.26729,
-    "ast_hash": "7ad84a656b065af139fcea7aae3c7a84",
+    "mtime": 1795202880.990075,
+    "seen": 1795203013.765963,
+    "ast_hash": "2e607cbe65ffa70d7b63fe292b99d7fe",
     "semantic_hash": ""
   },
   "src/components/landing/landing-header.tsx": {
-    "mtime": 1795188401.3586676,
-    "seen": 1795188478.708534,
-    "ast_hash": "adcc938e56306feb0e10939b8ce30a9f",
+    "mtime": 1795202798.5499883,
+    "seen": 1795203013.765964,
+    "ast_hash": "c4faac9d64718dfb2aa5375a2ee924c0",
     "semantic_hash": ""
   },
   "src/components/landing/landing-info-dialog.tsx": {
@@ -942,15 +942,15 @@
     "semantic_hash": ""
   },
   "src/components/landing/reviews-section.tsx": {
-    "mtime": 1795079443.5138407,
-    "seen": 1795079557.286294,
-    "ast_hash": "126b6ce66deff0af65e615e91568ff74",
+    "mtime": 1795202876.2836275,
+    "seen": 1795203013.7659671,
+    "ast_hash": "cb569b9272d1da11e4d0abbdbee7f184",
     "semantic_hash": ""
   },
   "src/components/landing/why-section.tsx": {
-    "mtime": 1795185536.5729864,
-    "seen": 1795185619.966615,
-    "ast_hash": "83251b83eaea32a5a080e88458ad238e",
+    "mtime": 1795202926.720802,
+    "seen": 1795203013.7659671,
+    "ast_hash": "9e5ced4e9b9d36ebe6496918899f4de5",
     "semantic_hash": ""
   },
   "src/components/ui/carousel.tsx": {
@@ -2346,9 +2346,9 @@
     "semantic_hash": ""
   },
   "src/components/categories/category-icon.tsx": {
-    "mtime": 1795189642.7116563,
-    "seen": 1795189676.724867,
-    "ast_hash": "9c063571b8334a3d72e00838ed063125",
+    "mtime": 1795191662.609091,
+    "seen": 1795191689.660971,
+    "ast_hash": "5345f29905ff9cc059ce080ad8da81dd",
     "semantic_hash": ""
   },
   "src/assets/pickitwell-icons/01-cereale-paste-panificatie.png": {
@@ -2457,6 +2457,48 @@
     "mtime": 1795188575.4192052,
     "seen": 1795189676.7250931,
     "ast_hash": "a5f432f95073bb40182f3cfeb7463d98",
+    "semantic_hash": ""
+  },
+  "src/components/landing/category-ribbon.tsx": {
+    "mtime": 1795202926.7172844,
+    "seen": 1795203013.76596,
+    "ast_hash": "2d30a4c05d238013e100d9429b74f10f",
+    "semantic_hash": ""
+  },
+  "src/components/landing/landing-primitives.tsx": {
+    "mtime": 1795202947.8692331,
+    "seen": 1795203013.7659662,
+    "ast_hash": "61cbe1b665764f1b12dd5c51cece97ab",
+    "semantic_hash": ""
+  },
+  "src/assets/landing/product-bread.png": {
+    "mtime": 1795202713.6249032,
+    "seen": 1795203013.766177,
+    "ast_hash": "09469556fe1ab7009861fcd43a15b9a8",
+    "semantic_hash": ""
+  },
+  "src/assets/landing/product-crackers.png": {
+    "mtime": 1795202713.1798964,
+    "seen": 1795203013.766177,
+    "ast_hash": "8926446d94b69cc2cb9302ac6c544ec8",
+    "semantic_hash": ""
+  },
+  "src/assets/landing/product-pesto.png": {
+    "mtime": 1795202713.330191,
+    "seen": 1795203013.7661781,
+    "ast_hash": "40da2f0c8110f1e0d802a28bd0499ca0",
+    "semantic_hash": ""
+  },
+  "src/assets/landing/product-tomato-sauce.png": {
+    "mtime": 1795202713.480827,
+    "seen": 1795203013.7661781,
+    "ast_hash": "14e24522b4b60dce23cd200691aff637",
+    "semantic_hash": ""
+  },
+  "src/assets/landing/product-yogurt.png": {
+    "mtime": 1795202713.0243545,
+    "seen": 1795203013.766179,
+    "ast_hash": "bbf0ecea614963c9c0a588df6a44092e",
     "semantic_hash": ""
   }
 }

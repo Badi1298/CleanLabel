@@ -31,12 +31,12 @@ export function LandingHeader({
 	const brandContent = <BrandLogo surface="adaptive" size="md" />;
 
 	const desktopNavLinkClassName =
-		"inline-flex items-center min-h-9 px-3.5 py-1.5 rounded-xl text-sm font-semibold text-muted-foreground hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:bg-secondary/85 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]";
+		"relative inline-flex items-center min-h-9 px-3.5 py-1.5 rounded-xl text-sm font-semibold text-muted-foreground hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:bg-secondary/75 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332] after:content-[''] after:absolute after:inset-x-3.5 after:bottom-1 after:h-0.5 after:rounded-full after:bg-[#C99B42] after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-center";
 	const mobileNavLinkClassName =
 		"flex items-center min-h-11 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-muted-foreground hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:bg-secondary transition-colors";
 
 	return (
-		<header className="sticky top-0 z-40 bg-sidebar/92 backdrop-blur-md border-b border-border">
+		<header className="sticky top-0 z-40 bg-sidebar/88 backdrop-blur-lg border-b border-border/80 shadow-[0_1px_12px_rgba(27,67,50,0.04)]">
 			<div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
 				{isLandingPage ? (
 					<a href="#top" className={brandClassName}>
@@ -74,7 +74,7 @@ export function LandingHeader({
 
 					<Button
 						asChild
-						className="h-auto min-h-10 px-4 sm:px-5 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-xs sm:text-sm font-bold shadow-xs shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
+						className="h-auto min-h-10 px-4 sm:px-5 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-xs sm:text-sm font-bold shadow-[0_3px_12px_rgba(27,67,50,0.16)] hover:-translate-y-px transition-all shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 					>
 						<Link to={ctaTarget}>{ctaLabel}</Link>
 					</Button>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -162,6 +162,78 @@ body {
 
 .display-title {
   font-family: 'Fraunces', Georgia, serif;
+}
+
+/* Landing page editorial botanical craft helpers */
+.landing-gold-cta {
+  background: linear-gradient(135deg, #F8E5B0 0%, #E6BD68 48%, #CFA042 100%);
+  color: #132A1F;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    0 10px 26px rgb(10 32 22 / 0.28);
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.landing-gold-cta:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.65),
+    0 14px 32px rgb(10 32 22 / 0.36);
+}
+
+.landing-gold-cta:active {
+  transform: translateY(1px);
+}
+
+.landing-gold-text {
+  color: #FCE8C6;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .landing-gold-text {
+    background: linear-gradient(135deg, #FCE8C6 0%, #F2CF82 55%, #D9A64A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.landing-botanical-dots {
+  background-image: radial-gradient(
+    circle,
+    rgb(247 225 160 / 0.09) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+.landing-grain {
+  opacity: 0.038;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+@keyframes landing-float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-float-slow {
+    animation: landing-float-y 6.5s ease-in-out infinite;
+  }
+
+  .landing-float-delayed {
+    animation: landing-float-y 7.2s ease-in-out 1.2s infinite;
+  }
 }
 
 /* Hide scrollbars cleanly on horizontal mobile snap carousels */

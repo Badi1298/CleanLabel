@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MotionConfig } from "motion/react";
 import { useId, useState } from "react";
+import type { CategoryIconKey } from "#/components/categories/category-icon";
 import { FinalCtaSection } from "#/components/landing/final-cta-section";
 import { HeroSection } from "#/components/landing/hero-section";
 import { HowItWorksSection } from "#/components/landing/how-it-works-section";
-import type { InfoModalTopic } from "#/components/landing/landing-data";
+import type { InfoModalTopic, StepId } from "#/components/landing/landing-data";
 import { LandingFooter } from "#/components/landing/landing-footer";
 import { LandingHeader } from "#/components/landing/landing-header";
 import { LandingInfoDialog } from "#/components/landing/landing-info-dialog";
@@ -43,39 +45,50 @@ function LandingPage() {
 	const { isSignedIn } = Route.useLoaderData();
 
 	const [modalTopic, setModalTopic] = useState<InfoModalTopic | null>(null);
+	const [selectedCategory, setSelectedCategory] = useState<CategoryIconKey>(
+		"cereale-paste-panificatie",
+	);
+	const [activeStep, setActiveStep] = useState<StepId>("cauta");
 	const heroHeadingId = useId();
 
 	return (
-		<div
-			lang="ro"
-			id="top"
-			className="min-h-screen flex flex-col bg-background text-foreground"
-		>
-			<a
-				href={`#${heroHeadingId}`}
-				className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-[#1B4332] focus:text-[#FCE8C6] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:shadow-lg"
+		<MotionConfig reducedMotion="user">
+			<div
+				lang="ro"
+				id="top"
+				className="min-h-screen flex flex-col bg-background text-foreground"
 			>
-				Sari la conținut
-			</a>
+				<a
+					href={`#${heroHeadingId}`}
+					className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-[#1B4332] focus:text-[#FCE8C6] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:shadow-lg"
+				>
+					Sari la conținut
+				</a>
 
-			<LandingHeader isSignedIn={isSignedIn} />
+				<LandingHeader isSignedIn={isSignedIn} />
 
-			<main className="flex-1">
-				<HeroSection heroHeadingId={heroHeadingId} isSignedIn={isSignedIn} />
-				<HowItWorksSection />
-				<WhySection />
-				<ReviewsSection />
-				<FinalCtaSection isSignedIn={isSignedIn} />
-			</main>
+				<main className="flex-1">
+					<HeroSection heroHeadingId={heroHeadingId} isSignedIn={isSignedIn} />
+					<HowItWorksSection
+						selectedCategory={selectedCategory}
+						onSelectCategory={setSelectedCategory}
+						activeStep={activeStep}
+						onActiveStepChange={setActiveStep}
+					/>
+					<WhySection />
+					<ReviewsSection />
+					<FinalCtaSection isSignedIn={isSignedIn} />
+				</main>
 
-			<LandingFooter onOpenInfoModal={setModalTopic} />
+				<LandingFooter onOpenInfoModal={setModalTopic} />
 
-			<LandingInfoDialog
-				topic={modalTopic}
-				isSignedIn={isSignedIn}
-				onSelectTopic={setModalTopic}
-				onClose={() => setModalTopic(null)}
-			/>
-		</div>
+				<LandingInfoDialog
+					topic={modalTopic}
+					isSignedIn={isSignedIn}
+					onSelectTopic={setModalTopic}
+					onClose={() => setModalTopic(null)}
+				/>
+			</div>
+		</MotionConfig>
 	);
 }
