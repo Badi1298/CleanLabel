@@ -1,6 +1,6 @@
 import { ChevronRight, Loader2, SearchX } from "lucide-react";
 import type * as React from "react";
-import { getCategoryVisual } from "#/components/categories/category-browse-card";
+import { CategoryIcon } from "#/components/categories/category-icon";
 import { ProductCard, type StoreInfo } from "#/components/home/product-card";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
@@ -96,11 +96,7 @@ export function CategorySectionsView({
 }: CategorySectionsViewProps) {
 	return (
 		<div className="space-y-9">
-			{sections.map((section, index) => {
-				const { palette, Icon } = getCategoryVisual(
-					section.category.name,
-					index,
-				);
+			{sections.map((section) => {
 				const hasMoreInCategory = section.totalCount > section.products.length;
 
 				return (
@@ -110,28 +106,11 @@ export function CategorySectionsView({
 					>
 						<div className="flex items-center justify-between gap-3 mb-3.5 pb-2 border-b border-[#EAE4D7]/80 dark:border-[#24362D]">
 							<div className="flex items-center gap-2.5 min-w-0">
-								<div
-									className={cn(
-										"w-8 h-8 rounded-full border flex items-center justify-center shrink-0",
-										palette.bg,
-										palette.border,
-									)}
-								>
-									{section.category.iconUrl ? (
-										<img
-											src={section.category.iconUrl}
-											alt=""
-											className="w-5 h-5 object-contain"
-											loading="lazy"
-										/>
-									) : (
-										<Icon
-											className={cn("w-4 h-4", palette.iconText)}
-											strokeWidth={2}
-											aria-hidden="true"
-										/>
-									)}
-								</div>
+								<CategoryIcon
+									name={section.category.name}
+									iconUrl={section.category.iconUrl}
+									className="w-9 h-9"
+								/>
 								<h2
 									id={`cat-section-${section.category.id}`}
 									className="text-base sm:text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] truncate"

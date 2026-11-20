@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { and, countDistinct, desc, eq, or, sql } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { db } from "#/db";
 import {
 	categories,
@@ -83,6 +84,11 @@ export const getHomeData = createServerFn({
 				.filter(Boolean);
 		}
 
+		const popularParentCategories = alias(
+			categories,
+			"popular_parent_categories",
+		);
+
 		const popularCategories = storeId
 			? await db
 					.select({
@@ -90,9 +96,15 @@ export const getHomeData = createServerFn({
 						name: categories.name,
 						iconUrl: categories.iconUrl,
 						parentId: categories.parentId,
+						parentName: popularParentCategories.name,
+						parentIconUrl: popularParentCategories.iconUrl,
 						productCount: countDistinct(products.id),
 					})
 					.from(categories)
+					.leftJoin(
+						popularParentCategories,
+						eq(categories.parentId, popularParentCategories.id),
+					)
 					.innerJoin(
 						productCategories,
 						eq(categories.id, productCategories.categoryId),
@@ -111,7 +123,11 @@ export const getHomeData = createServerFn({
 							eq(productStores.storeId, storeId),
 						),
 					)
-					.groupBy(categories.id)
+					.groupBy(
+						categories.id,
+						popularParentCategories.name,
+						popularParentCategories.iconUrl,
+					)
 					.orderBy(desc(countDistinct(products.id)))
 					.limit(6)
 			: await db
@@ -120,9 +136,15 @@ export const getHomeData = createServerFn({
 						name: categories.name,
 						iconUrl: categories.iconUrl,
 						parentId: categories.parentId,
+						parentName: popularParentCategories.name,
+						parentIconUrl: popularParentCategories.iconUrl,
 						productCount: countDistinct(products.id),
 					})
 					.from(categories)
+					.leftJoin(
+						popularParentCategories,
+						eq(categories.parentId, popularParentCategories.id),
+					)
 					.leftJoin(
 						productCategories,
 						eq(categories.id, productCategories.categoryId),
@@ -134,7 +156,11 @@ export const getHomeData = createServerFn({
 							eq(products.status, "approved"),
 						),
 					)
-					.groupBy(categories.id)
+					.groupBy(
+						categories.id,
+						popularParentCategories.name,
+						popularParentCategories.iconUrl,
+					)
 					.orderBy(desc(countDistinct(products.id)))
 					.limit(6);
 

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { z } from "zod";
+import { CategoryIcon } from "#/components/categories/category-icon";
 import {
 	CategorySectionsView,
 	EmptyProductsState,
@@ -419,8 +420,34 @@ function StoresPage() {
 															size="xs"
 														/>
 														<span className="truncate">
-															{mobileDrawerTriggerLabel}
+															{selectedStore.name}
 														</span>
+														{activeParentCategory && (
+															<>
+																<span
+																	className="opacity-60 shrink-0"
+																	aria-hidden="true"
+																>
+																	·
+																</span>
+																<CategoryIcon
+																	name={
+																		selectedSubcategory?.name ??
+																		activeParentCategory.name
+																	}
+																	parentName={activeParentCategory.name}
+																	iconUrl={
+																		selectedSubcategory?.iconUrl ??
+																		activeParentCategory.iconUrl
+																	}
+																	className="w-4.5 h-4.5"
+																/>
+																<span className="truncate">
+																	{selectedSubcategory?.name ||
+																		activeParentCategory.name}
+																</span>
+															</>
+														)}
 													</span>
 													<ChevronRight
 														className="w-4 h-4 shrink-0 opacity-70"
@@ -728,6 +755,20 @@ function StoresPage() {
 											/>
 											<span>{selectedStore.name}</span>
 										</Button>
+
+										{activeParentCategory && (
+											<CategoryIcon
+												name={
+													selectedSubcategory?.name ?? activeParentCategory.name
+												}
+												parentName={activeParentCategory.name}
+												iconUrl={
+													selectedSubcategory?.iconUrl ??
+													activeParentCategory.iconUrl
+												}
+												className="w-8 h-8"
+											/>
+										)}
 
 										{activeParentCategory && selectedSubcategory ? (
 											<Breadcrumb>

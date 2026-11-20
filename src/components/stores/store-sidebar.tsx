@@ -1,5 +1,6 @@
 import { ChevronDown, ChevronRight, LayoutGrid } from "lucide-react";
 import type * as React from "react";
+import { CategoryIcon } from "#/components/categories/category-icon";
 import type { CategoryItem } from "#/components/search/category-sidebar";
 import { StoreAvatar } from "#/components/stores/store-avatar";
 import { Badge } from "#/components/ui/badge";
@@ -203,8 +204,15 @@ export function StoreNavList({
 																			: "text-[#5C665E] dark:text-[#9AA89E] font-medium hover:text-[#1B3328] dark:hover:text-[#EDF2EE] hover:bg-[#F3EFE6]/60 dark:hover:bg-[#1E2C25]",
 																	)}
 																>
-																	<span className="truncate leading-snug">
-																		{cat.name}
+																	<span className="flex items-center gap-2 min-w-0">
+																		<CategoryIcon
+																			name={cat.name}
+																			iconUrl={cat.iconUrl}
+																			className="w-5 h-5"
+																		/>
+																		<span className="truncate leading-snug">
+																			{cat.name}
+																		</span>
 																	</span>
 																	<span
 																		className={cn(

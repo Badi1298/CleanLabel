@@ -1,20 +1,12 @@
 import {
 	Award,
-	Baby,
-	Beef,
-	Cookie,
-	CupSoda,
-	Droplets,
 	type LucideIcon,
-	Milk,
-	Package,
 	ShieldCheck,
 	Sparkles,
 	Store,
-	UtensilsCrossed,
-	Wheat,
 } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
+import type { CategoryIconKey } from "#/components/categories/category-icon";
 import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 
 export type StepId = "cauta" | "vezi" | "alege";
@@ -56,52 +48,52 @@ export const SAMPLE_STORES = [
 export const CATALOG_CATEGORIES: Array<{
 	name: string;
 	subcategoriesCount: number;
-	Icon: LucideIcon;
+	iconKey: CategoryIconKey;
 }> = [
 	{
 		name: "Cereale, paste și panificație",
 		subcategoriesCount: 4,
-		Icon: Wheat,
+		iconKey: "cereale-paste-panificatie",
 	},
 	{
 		name: "Lactate și alternative",
 		subcategoriesCount: 4,
-		Icon: Milk,
+		iconKey: "lactate-alternative",
 	},
 	{
 		name: "Sosuri și tartinabile",
 		subcategoriesCount: 4,
-		Icon: Droplets,
+		iconKey: "sosuri-tartinabile",
 	},
 	{
 		name: "Gustări și dulciuri",
 		subcategoriesCount: 6,
-		Icon: Cookie,
+		iconKey: "gustari-dulciuri",
 	},
 	{
 		name: "Băuturi",
 		subcategoriesCount: 4,
-		Icon: CupSoda,
+		iconKey: "bauturi",
 	},
 	{
 		name: "Ingrediente pentru gătit",
 		subcategoriesCount: 4,
-		Icon: UtensilsCrossed,
+		iconKey: "ingrediente-gatit",
 	},
 	{
 		name: "Conserve, Mâncăruri Semipreparate/Congelate",
 		subcategoriesCount: 2,
-		Icon: Package,
+		iconKey: "conserve-mancaruri-gata",
 	},
 	{
 		name: "Carne și mezeluri",
 		subcategoriesCount: 2,
-		Icon: Beef,
+		iconKey: "carne-mezeluri",
 	},
 	{
 		name: "Alimente pentru copii",
 		subcategoriesCount: 2,
-		Icon: Baby,
+		iconKey: "alimente-copii",
 	},
 ];
 

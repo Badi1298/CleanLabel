@@ -1,5 +1,6 @@
 import { Calendar, Flag, Search, Store } from "lucide-react";
 import { useState } from "react";
+import { CategoryIcon } from "#/components/categories/category-icon";
 import {
 	CATALOG_CATEGORIES,
 	SAMPLE_STORES,
@@ -144,33 +145,28 @@ function StepSearchVisual() {
 				</Badge>
 			</div>
 
-			{/* All 9 Categories with golden-styled icons */}
+			{/* All 9 Categories with PickItWell icons */}
 			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-				{CATALOG_CATEGORIES.map((category) => {
-					const { Icon } = category;
-					return (
-						<li
-							key={category.name}
-							className="rounded-xl bg-card border border-border p-2.5 flex items-center gap-2.5 shadow-[0_1px_4px_rgba(27,67,50,0.03)]"
-						>
-							<span className="w-9 h-9 rounded-full bg-[#FBF4E6] dark:bg-amber-950/50 border border-[#D4AF6A]/45 text-[#A67C37] dark:text-[#D4AF6A] flex items-center justify-center shrink-0">
-								<Icon
-									className="w-4 h-4"
-									strokeWidth={1.9}
-									aria-hidden="true"
-								/>
-							</span>
-							<div className="min-w-0">
-								<p className="text-xs font-bold text-foreground leading-snug line-clamp-2">
-									{category.name}
-								</p>
-								<p className="text-[11px] text-muted-foreground">
-									{category.subcategoriesCount} subcategorii
-								</p>
-							</div>
-						</li>
-					);
-				})}
+				{CATALOG_CATEGORIES.map((category) => (
+					<li
+						key={category.name}
+						className="rounded-xl bg-card border border-border p-2.5 flex items-center gap-2.5 shadow-[0_1px_4px_rgba(27,67,50,0.03)]"
+					>
+						<CategoryIcon
+							iconKey={category.iconKey}
+							name={category.name}
+							className="w-10 h-10"
+						/>
+						<div className="min-w-0">
+							<p className="text-xs font-bold text-foreground leading-snug line-clamp-2">
+								{category.name}
+							</p>
+							<p className="text-[11px] text-muted-foreground">
+								{category.subcategoriesCount} subcategorii
+							</p>
+						</div>
+					</li>
+				))}
 			</ul>
 		</div>
 	);

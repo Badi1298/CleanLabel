@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<radialGradient id="bg" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="#157050"/><stop offset=".6" stop-color="#0A4231"/><stop offset="1" stop-color="#042A20"/></radialGradient>
+<linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="70" y1="50" x2="190" y2="210"><stop offset="0" stop-color="#F7E1A0"/><stop offset=".35" stop-color="#E2B04E"/><stop offset=".65" stop-color="#B98429"/><stop offset="1" stop-color="#EBC56E"/></linearGradient>
+</defs>
+<rect x="8" y="8" width="240" height="240" rx="56" fill="url(#bg)"/>
+<rect x="8" y="8" width="240" height="240" rx="56" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+<rect x="17" y="17" width="222" height="222" rx="48" fill="none" stroke="url(#gold)" stroke-opacity=".35" stroke-width="1"/>
+<g transform="translate(128 128) scale(1.12) translate(-128 -128)"><path d="M96.5 118 C106 112 114 124 125 118 C136 112 144 124 153.5 118 L148 190 C147.5 196 144 200 138 200 H112 C106 200 102.5 196 102 190 Z" fill="url(#gold)" fill-opacity=".17" stroke="none"/>
+<path d="M94 86 H156 L148 190 C147.5 196 144 200 138 200 H112 C106 200 102.5 196 102 190 Z" fill="none" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M96.5 118 C106 112 114 124 125 118 C136 112 144 124 153.5 118" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="116" cy="150" r="2.5" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="130" cy="140" r="2" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="136" cy="166" r="3" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="118" cy="176" r="2" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="156" cy="84" r="17" fill="#0E4A38" fill-opacity=".96" stroke="url(#gold)" stroke-width="4.5"/>
+<circle cx="156" cy="84" r="12" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M156 84 L168.0 84.0 M156 84 L162.0 94.4 M156 84 L150.0 94.4 M156 84 L144.0 84.0 M156 84 L150.0 73.6 M156 84 L162.0 73.6 " fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

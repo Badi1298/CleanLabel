@@ -3,6 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Check, SlidersHorizontal, Store as StoreIcon, X } from "lucide-react";
 import { useState } from "react";
 
+import { CategoryIcon } from "#/components/categories/category-icon";
 import { ProductCard } from "#/components/home/product-card";
 import { SearchBar } from "#/components/search/search-bar";
 import { StoreAvatar } from "#/components/stores/store-avatar";
@@ -14,36 +15,6 @@ import {
 } from "#/components/ui/popover";
 import { cn } from "#/lib/utils";
 import { homeQueryOptions } from "#/queries/home-queries";
-
-const CATEGORY_PALETTES = [
-	{
-		bg: "bg-emerald-50 dark:bg-emerald-950/40",
-		border: "border-emerald-200/70 dark:border-emerald-900/40",
-	},
-	{
-		bg: "bg-amber-50 dark:bg-amber-950/40",
-		border: "border-amber-200/70 dark:border-amber-900/40",
-	},
-	{
-		bg: "bg-rose-50 dark:bg-rose-950/40",
-		border: "border-rose-200/70 dark:border-rose-900/40",
-	},
-	{
-		bg: "bg-sky-50 dark:bg-sky-950/40",
-		border: "border-sky-200/70 dark:border-sky-900/40",
-	},
-	{
-		bg: "bg-purple-50 dark:bg-purple-950/40",
-		border: "border-purple-200/70 dark:border-purple-900/40",
-	},
-	{
-		bg: "bg-orange-50 dark:bg-orange-950/40",
-		border: "border-orange-200/70 dark:border-orange-900/40",
-	},
-];
-
-const DEFAULT_CATEGORY_PLACEHOLDER =
-	"/images/categories/placeholder-groceries.svg";
 
 export const Route = createFileRoute("/_protected/_public/")({
 	validateSearch: (search: Record<string, unknown>): { storeId?: string } => {
@@ -241,51 +212,37 @@ function Home() {
 
 					{data?.popularCategories && data.popularCategories.length > 0 ? (
 						<div className="flex gap-3.5 overflow-x-auto no-scrollbar -mx-4 px-4 scroll-px-4 pb-1 snap-x snap-proximity md:mx-0 md:px-0 md:scroll-px-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-6 md:gap-4">
-							{data.popularCategories.map((category, index) => {
-								const palette =
-									CATEGORY_PALETTES[index % CATEGORY_PALETTES.length];
-								const imageSrc =
-									category.iconUrl || DEFAULT_CATEGORY_PLACEHOLDER;
-
-								return (
-									<Link
-										key={category.id}
-										to="/search"
-										search={{
-											categoryId: category.parentId || category.id,
-											...(category.parentId
-												? { subCategoryIds: [category.id] }
-												: {}),
-											...(storeId ? { storeId } : {}),
-										}}
-										className="group snap-start shrink-0 w-21.5 md:w-auto flex flex-col items-center gap-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] rounded-2xl"
-									>
-										<div
-											className={cn(
-												"w-21 h-21 md:w-24 md:h-24 rounded-full flex items-center justify-center border transition-all duration-200 group-hover:scale-105 group-hover:shadow-sm",
-												palette.bg,
-												palette.border,
-											)}
-										>
-											<img
-												src={imageSrc}
-												alt={category.name}
-												className="w-16 h-16 md:w-18 md:h-18 object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-200"
-												loading="lazy"
-											/>
-										</div>
-										<div className="flex flex-col items-center gap-0.5 w-full">
-											<span className="text-[13px] font-semibold text-[#1B3328] dark:text-[#EDF2EE] group-hover:text-[#1B4332] dark:group-hover:text-emerald-300 transition-colors line-clamp-2 leading-tight">
-												{category.name}
-											</span>
-											<span className="hidden md:block text-[11px] text-[#5C665E] dark:text-[#9AA89E] font-medium">
-												{category.productCount}{" "}
-												{category.productCount === 1 ? "product" : "products"}
-											</span>
-										</div>
-									</Link>
-								);
-							})}
+							{data.popularCategories.map((category) => (
+								<Link
+									key={category.id}
+									to="/search"
+									search={{
+										categoryId: category.parentId || category.id,
+										...(category.parentId
+											? { subCategoryIds: [category.id] }
+											: {}),
+										...(storeId ? { storeId } : {}),
+									}}
+									className="group snap-start shrink-0 w-21.5 md:w-auto flex flex-col items-center gap-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] rounded-2xl"
+								>
+									<CategoryIcon
+										name={category.name}
+										parentName={category.parentName}
+										iconUrl={category.iconUrl ?? category.parentIconUrl}
+										loading="eager"
+										className="w-20 h-20 md:w-22 md:h-22 drop-shadow-[0_6px_14px_rgba(4,42,32,0.16)] transition-transform duration-200 group-hover:scale-105"
+									/>
+									<div className="flex flex-col items-center gap-0.5 w-full">
+										<span className="text-[13px] font-semibold text-[#1B3328] dark:text-[#EDF2EE] group-hover:text-[#1B4332] dark:group-hover:text-emerald-300 transition-colors line-clamp-2 leading-tight">
+											{category.name}
+										</span>
+										<span className="hidden md:block text-[11px] text-[#5C665E] dark:text-[#9AA89E] font-medium">
+											{category.productCount}{" "}
+											{category.productCount === 1 ? "product" : "products"}
+										</span>
+									</div>
+								</Link>
+							))}
 							<div className="w-0.5 shrink-0 md:hidden" aria-hidden="true" />
 						</div>
 					) : (

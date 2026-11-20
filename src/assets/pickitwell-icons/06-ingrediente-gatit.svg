@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<radialGradient id="bg" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="#157050"/><stop offset=".6" stop-color="#0A4231"/><stop offset="1" stop-color="#042A20"/></radialGradient>
+<linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="70" y1="50" x2="190" y2="210"><stop offset="0" stop-color="#F7E1A0"/><stop offset=".35" stop-color="#E2B04E"/><stop offset=".65" stop-color="#B98429"/><stop offset="1" stop-color="#EBC56E"/></linearGradient>
+</defs>
+<rect x="8" y="8" width="240" height="240" rx="56" fill="url(#bg)"/>
+<rect x="8" y="8" width="240" height="240" rx="56" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+<rect x="17" y="17" width="222" height="222" rx="48" fill="none" stroke="url(#gold)" stroke-opacity=".35" stroke-width="1"/>
+<g transform="translate(128 128) scale(1.12) translate(-128 -128)"><path d="M100 122 C94 110 98 98 108 92 C112 104 108 116 100 122 Z" fill="url(#gold)" fill-opacity=".17" stroke="none"/><path d="M100 122 C94 110 98 98 108 92 C112 104 108 116 100 122 Z" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M112 122 C112 108 119 98 129 95 C129 107 123 118 112 122 Z" fill="url(#gold)" fill-opacity=".17" stroke="none"/><path d="M112 122 C112 108 119 98 129 95 C129 107 123 118 112 122 Z" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M136 124 L162 76 A8 8 0 0 1 175 84 L148 124" fill="none" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M86 124 H170 C170 160 154 186 128 186 C102 186 86 160 86 124 Z" fill="#0E4A38" fill-opacity=".9"/>
+<path d="M86 124 H170 C170 160 154 186 128 186 C102 186 86 160 86 124 Z" fill="url(#gold)" fill-opacity=".17" stroke="none"/>
+<path d="M86 124 H170 C170 160 154 186 128 186 C102 186 86 160 86 124 Z" fill="none" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M82 124 H174" fill="none" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M116 186 V196 H140 V186" fill="none" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M104 142 C112 158 144 158 152 142" fill="none" stroke="url(#gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>
