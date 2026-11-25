@@ -82,13 +82,9 @@ export function LandingLegalLayout({
 			{/* Forest Green Document Hero */}
 			<section
 				aria-labelledby={headingId}
-				className="relative overflow-hidden bg-[#1B4332] text-[#FBF4E6] rounded-b-3xl md:rounded-b-[2.5rem] shadow-[0_12px_32px_rgba(27,67,50,0.16)]"
+				className="bg-[#1B4332] dark:bg-[#112A1F] text-[#FBF4E6] rounded-b-3xl md:rounded-b-[2.5rem] shadow-[0_12px_32px_rgba(27,67,50,0.16)]"
 			>
-				<div
-					className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,244,230,0.12),transparent_58%)]"
-					aria-hidden="true"
-				/>
-				<div className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 pt-6 pb-9 sm:pt-8 sm:pb-12 space-y-5">
+				<div className="max-w-6xl mx-auto px-4 md:px-6 pt-6 pb-9 sm:pt-8 sm:pb-12 space-y-5">
 					<Breadcrumb aria-label="Traseu pagină">
 						<BreadcrumbList className="text-xs sm:text-sm text-[#FCE8C6]/80">
 							<BreadcrumbItem>
@@ -125,7 +121,7 @@ export function LandingLegalLayout({
 						</Badge>
 						<h1
 							id={headingId}
-							className="text-3xl sm:text-4xl md:text-[2.75rem] font-extrabold tracking-tight leading-tight text-[#FCE8C6] text-balance"
+							className="display-title text-3xl sm:text-4xl md:text-[2.75rem] font-bold tracking-tight leading-tight text-[#FCE8C6] text-balance"
 						>
 							{title}
 						</h1>

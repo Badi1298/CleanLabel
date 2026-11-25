@@ -1,19 +1,16 @@
-import {
-	Award,
-	type LucideIcon,
-	ShieldCheck,
-	Sparkles,
-	Store,
-} from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import type { CategoryIconKey } from "#/components/categories/category-icon";
 import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 
 export type StepId = "cauta" | "vezi" | "alege";
+export type WhyIconKey = "criterii" | "grupe" | "magazine" | "alegere";
 
 export const LEGAL_LAST_UPDATED_DATE = "20 noiembrie 2026";
 export const LEGAL_LAST_UPDATED_ISO = "2026-11-20";
+// TODO: Replace [x] with client-confirmed number of working days for methodology contestations
 export const METHODOLOGY_REVIEW_SLA_DAYS = "[x]";
+// TODO: Replace [e-mail] with client support email address
+export const SUPPORT_EMAIL = "[e-mail]";
 
 export type InfoModalTopic =
 	| "raporteaza"
@@ -36,7 +33,38 @@ export const HEADER_LINKS = [
 	{ href: "#recenzii", hash: "recenzii", label: "Recenzii" },
 ] as const;
 
+export const FOOTER_EXPLORE_LINKS = [
+	{
+		href: "#cum-functioneaza",
+		hash: "cum-functioneaza",
+		label: "Cum funcționează",
+	},
+	{
+		href: "#de-ce-pickitwell",
+		hash: "de-ce-pickitwell",
+		label: "De ce PickItWell?",
+	},
+] as const;
+
 export const HERO_STORES = ["Kaufland", "Mega Image", "Lidl"] as const;
+
+export const HERO_TIER_EXAMPLES = [
+	{
+		score: "gold",
+		name: "Ovăz integral bio",
+		additives: "0 aditivi marcați",
+	},
+	{
+		score: "silver",
+		name: "Crackers cu semințe",
+		additives: "1–2 aditivi marcați",
+	},
+	{
+		score: "bronze",
+		name: "Sos pesto clasic",
+		additives: "3–4 aditivi marcați",
+	},
+] as const;
 
 export const SAMPLE_STORES = [
 	"Kaufland",
@@ -133,7 +161,7 @@ export const WHY_CARDS: Array<{
 	id: string;
 	title: string;
 	description: string;
-	Icon: LucideIcon;
+	iconKey: WhyIconKey;
 	hasMethodologyLink: boolean;
 }> = [
 	{
@@ -141,7 +169,7 @@ export const WHY_CARDS: Array<{
 		title: "Selecție după criterii clare",
 		description:
 			"Alegem produsele după aditivii marcați pe etichetă, așa cum facem cumpărăturile pentru familia noastră.",
-		Icon: ShieldCheck,
+		iconKey: "criterii",
 		hasMethodologyLink: true,
 	},
 	{
@@ -149,14 +177,14 @@ export const WHY_CARDS: Array<{
 		title: "Grupe ușor de urmărit",
 		description:
 			"Gold, Silver sau Bronze, în funcție de numărul de aditivi marcați pe etichetă.",
-		Icon: Award,
+		iconKey: "grupe",
 		hasMethodologyLink: false,
 	},
 	{
 		id: "magazine",
 		title: "Vezi unde au fost găsite",
 		description: "Afli în ce magazine a fost găsit fiecare produs.",
-		Icon: Store,
+		iconKey: "magazine",
 		hasMethodologyLink: false,
 	},
 	{
@@ -164,32 +192,34 @@ export const WHY_CARDS: Array<{
 		title: "Alegerea îți aparține",
 		description:
 			"Consulți ingredientele declarate de producător și alternativele din aceeași categorie.",
-		Icon: Sparkles,
+		iconKey: "alegere",
 		hasMethodologyLink: false,
 	},
 ];
 
+// TODO: Replace placeholder reviews with real user testimonials from Gabi
 export const REVIEWS = [
 	{
 		id: "elena",
 		name: "Elena",
 		rating: 5,
-		text: "De când folosesc PickItWell, cumpărăturile săptămânale durează mult mai puțin. Văd imediat grupa produsului și lista de aditivi marcați pe etichetă, fără să stau să descifrez scrisul minuscul la raft.",
+		text: "Stăteam mereu cu lupa pe etichetele de la raionul de iaurturi și sosuri. Acum deschid aplicația din drum spre magazin, văd din prima câți aditivi are produsul și știu ce pun în coș.",
 	},
 	{
 		id: "andrei",
 		name: "Andrei",
 		rating: 5,
-		text: "Îmi place foarte mult că pot verifica rapid în ce supermarketuri a fost găsit un produs și ce alternative există în aceeași categorie. Este exact instrumentul simplu de care aveam nevoie pentru familie.",
+		text: "Cel mai util lucru pentru mine e că văd direct în ce supermarket a fost găsit produsul. Când nu găsesc o variantă Gold, am imediat alternative curate din aceeași categorie.",
 	},
 	{
 		id: "ioana",
 		name: "Ioana",
 		rating: 5,
-		text: "Transparența m-a convins din prima zi: vezi exact ingredientele declarate de producător și poți compara ușor produsele între ele. Economisesc timp și iau decizii mai informate la fiecare vizită în magazin.",
+		text: "Apreciez că nu încearcă să-ți spună ce e bun sau rău, ci îți arată clar lista de ingrediente și aditivii marcați. Economisesc mult timp la cumpărăturile pentru cei mici.",
 	},
 ] as const;
 
+// TODO: Add WhatsApp community link once URL is provided by client
 export const SOCIAL_LINKS: Array<{
 	id: string;
 	label: string;
@@ -284,8 +314,8 @@ export type FooterLegalLink =
 export const FOOTER_LEGAL_LINKS: readonly FooterLegalLink[] = [
 	{ kind: "modal", topicId: "contact", label: "Contact" },
 	{ kind: "modal", topicId: "raporteaza", label: "Raportează o greșeală" },
-	{ kind: "route", to: "/metodologie", label: "Metodologie" },
-	{ kind: "route", to: "/disclaimer", label: "Disclaimer" },
+	{ kind: "route", to: "/metodologie", label: "Cum selectăm" },
+	{ kind: "route", to: "/disclaimer", label: "Declinarea răspunderii" },
 	{
 		kind: "modal",
 		topicId: "confidentialitate",

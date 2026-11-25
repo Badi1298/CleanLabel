@@ -27,16 +27,16 @@ export function LandingHeader({
 	const ctaLabel = isSignedIn ? "Deschide aplicația" : "Începe acum";
 
 	const brandClassName =
-		"inline-flex items-center rounded-xl px-0.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332] dark:focus-visible:ring-[#FCE8C6] shrink-0";
-	const brandContent = <BrandLogo surface="adaptive" size="md" />;
+		"inline-flex items-center rounded-lg px-0.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8AB54] shrink-0";
+	const brandContent = <BrandLogo surface="dark" size="md" />;
 
 	const desktopNavLinkClassName =
-		"inline-flex items-center min-h-9 px-3.5 py-1.5 rounded-xl text-sm font-semibold text-muted-foreground hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:bg-secondary/85 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]";
+		"inline-flex items-center min-h-9 px-3.5 py-1.5 rounded-xl text-sm font-semibold text-[#FCE8C6]/82 hover:text-[#FCE8C6] hover:bg-[#FBF4E6]/10 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54]";
 	const mobileNavLinkClassName =
-		"flex items-center min-h-11 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-muted-foreground hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:bg-secondary transition-colors";
+		"flex items-center min-h-11 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-[#FCE8C6]/85 hover:text-[#FCE8C6] hover:bg-[#FBF4E6]/10 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54]";
 
 	return (
-		<header className="sticky top-0 z-40 bg-sidebar/92 backdrop-blur-md border-b border-border">
+		<header className="sticky top-0 z-40 bg-[#1B4332]/95 dark:bg-[#112A1F]/95 backdrop-blur-md border-b border-[#FCE8C6]/12">
 			<div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
 				{isLandingPage ? (
 					<a href="#top" className={brandClassName}>
@@ -74,7 +74,7 @@ export function LandingHeader({
 
 					<Button
 						asChild
-						className="h-auto min-h-10 px-4 sm:px-5 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-xs sm:text-sm font-bold shadow-xs shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
+						className="h-auto min-h-10 px-4 sm:px-5 py-2 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-xs sm:text-sm font-extrabold shadow-xs shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 					>
 						<Link to={ctaTarget}>{ctaLabel}</Link>
 					</Button>
@@ -86,18 +86,18 @@ export function LandingHeader({
 								variant="outline"
 								size="icon"
 								aria-label="Deschide meniul"
-								className="md:hidden w-11 h-11 rounded-xl border-border bg-card text-foreground hover:bg-secondary touch-manipulation"
+								className="md:hidden w-11 h-11 rounded-xl border-[#FCE8C6]/22 bg-[#FBF4E6]/8 text-[#FCE8C6] hover:bg-[#FBF4E6]/15 hover:text-[#FCE8C6] touch-manipulation"
 							>
 								<Menu className="w-5 h-5" aria-hidden="true" />
 							</Button>
 						</SheetTrigger>
 						<SheetContent
 							side="right"
-							className="bg-sidebar text-foreground border-border p-0 gap-0"
+							className="bg-[#1B4332] dark:bg-[#112A1F] text-[#FBF4E6] border-[#FCE8C6]/15 p-0 gap-0"
 						>
-							<SheetHeader className="p-5 pb-4 border-b border-border text-left">
-								<SheetTitle className="flex items-center gap-2.5 text-lg font-extrabold tracking-tight text-[#1B4332] dark:text-[#FBF4E6]">
-									<BrandLogo surface="adaptive" size="sm" />
+							<SheetHeader className="p-5 pb-4 border-b border-[#FCE8C6]/12 text-left">
+								<SheetTitle className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-[#FCE8C6]">
+									<BrandLogo surface="dark" size="sm" />
 									<span className="sr-only">PickItWell</span>
 								</SheetTitle>
 								<SheetDescription className="sr-only">
@@ -132,11 +132,11 @@ export function LandingHeader({
 									),
 								)}
 
-								<Separator className="my-3" />
+								<Separator className="my-3 bg-[#FCE8C6]/14" />
 
 								<Button
 									asChild
-									className="w-full h-auto min-h-11 px-5 py-2.5 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-sm font-bold shadow-xs"
+									className="w-full h-auto min-h-11 px-5 py-2.5 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-sm font-extrabold shadow-xs"
 								>
 									<Link to={ctaTarget} onClick={() => setMobileNavOpen(false)}>
 										{ctaLabel}

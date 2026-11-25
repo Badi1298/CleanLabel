@@ -15,6 +15,17 @@ export const auth = betterAuth({
 	secret: getBetterAuthSecret(),
 	emailAndPassword: {
 		enabled: true,
+		revokeSessionsOnPasswordReset: true,
+		sendResetPassword: async ({ user, url }) => {
+			// TODO: Wire up transactional email provider (e.g. Resend / Postmark) to send reset password emails
+			if (process.env.NODE_ENV !== "production") {
+				console.info(`[auth] Password reset link for ${user.email}: ${url}`);
+				return;
+			}
+			console.warn(
+				`[auth] Password reset requested for ${user.email}, but no transactional email provider is configured yet.`,
+			);
+		},
 	},
 	socialProviders: {
 		google: {

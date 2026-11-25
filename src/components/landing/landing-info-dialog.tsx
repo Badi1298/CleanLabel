@@ -6,6 +6,7 @@ import {
 	INFO_MODAL_TOPICS,
 	type InfoModalTopic,
 	SOCIAL_LINKS,
+	SUPPORT_EMAIL,
 } from "#/components/landing/landing-data";
 import { Button } from "#/components/ui/button";
 import {
@@ -233,8 +234,9 @@ export function LandingInfoDialog({
 										);
 									})}
 								</ul>
+								{/* TODO: Confirm client support email before launch */}
 								<p className="text-xs text-muted-foreground">
-									E-mail suport: [e-mail]
+									E-mail suport: {SUPPORT_EMAIL}
 								</p>
 							</TabsContent>
 
