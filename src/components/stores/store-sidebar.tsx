@@ -29,27 +29,33 @@ export type StoreItem = {
 	productCount?: number | null;
 };
 
+export type StoreCategoriesData = {
+	categories: CategoryItem[];
+	counts: Map<string, number>;
+	isLoading: boolean;
+};
+
 type StoreNavListProps = {
 	stores: StoreItem[];
 	selectedStoreId?: string;
-	activeCategories: CategoryItem[];
-	categoryCounts: Map<string, number>;
+	expandedStoreIds: ReadonlySet<string>;
+	storeCategoriesByStoreId: ReadonlyMap<string, StoreCategoriesData>;
 	activeParentCategoryId?: string;
-	isLoadingCategories?: boolean;
 	onSelectAllStores: () => void;
 	onSelectStore: (storeId: string) => void;
+	onToggleStoreExpand: (storeId: string, open: boolean) => void;
 	onSelectCategory: (storeId: string, categoryId: string) => void;
 };
 
 export function StoreNavList({
 	stores,
 	selectedStoreId,
-	activeCategories,
-	categoryCounts,
+	expandedStoreIds,
+	storeCategoriesByStoreId,
 	activeParentCategoryId,
-	isLoadingCategories,
 	onSelectAllStores,
 	onSelectStore,
+	onToggleStoreExpand,
 	onSelectCategory,
 }: StoreNavListProps) {
 	const isAllSelected = !selectedStoreId;
@@ -105,29 +111,20 @@ export function StoreNavList({
 					{stores.map((store) => {
 						const count = store.productCount ?? 0;
 						const isSelected = selectedStoreId === store.id;
+						const storeCategoryData = storeCategoriesByStoreId.get(store.id);
+						const storeCategories = storeCategoryData?.categories ?? [];
+						const storeCategoryCounts =
+							storeCategoryData?.counts ?? new Map<string, number>();
+						const isLoadingStoreCategories =
+							storeCategoryData?.isLoading ?? false;
 						const canExpand =
-							count > 0 || (isSelected && activeCategories.length > 0);
-						const isExpanded =
-							isSelected &&
-							(activeCategories.length > 0 || Boolean(isLoadingCategories));
+							count > 0 || (isSelected && storeCategories.length > 0);
+						const isExpanded = canExpand && expandedStoreIds.has(store.id);
 						const isStoreDirectlySelected =
 							isSelected && !activeParentCategoryId;
 
-						const storeButton = (
-							<Button
-								type="button"
-								variant="ghost"
-								onClick={() => onSelectStore(store.id)}
-								aria-current={isStoreDirectlySelected ? "page" : undefined}
-								className={cn(
-									"h-auto w-full justify-between gap-2 px-2.5 py-2 rounded-xl text-left text-[13.5px] transition-colors",
-									isStoreDirectlySelected
-										? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] font-bold"
-										: isSelected
-											? "bg-[#F3EFE6]/70 dark:bg-[#1A2922] text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE] font-semibold"
-											: "text-[#1B3328] dark:text-[#EDF2EE] font-medium hover:bg-[#F3EFE6]/70 dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
-								)}
-							>
+						const rowContent = (
+							<>
 								<span className="flex items-center gap-2.5 min-w-0">
 									<StoreAvatar
 										name={store.name}
@@ -138,53 +135,100 @@ export function StoreNavList({
 									<span className="truncate leading-snug">{store.name}</span>
 								</span>
 
-								<span className="flex items-center gap-1.5 shrink-0">
-									<Badge
-										variant="secondary"
-										className={cn(
-											"min-w-5.5 px-1.5 py-0.5 text-[11px] font-bold rounded-full tabular-nums",
-											isStoreDirectlySelected
-												? "bg-white/90 dark:bg-[#16221C] text-[#1B4332] dark:text-[#CBE3D4]"
-												: "bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E]",
-										)}
-									>
-										{count}
-									</Badge>
-									{canExpand &&
-										(isExpanded ? (
-											<ChevronDown
-												className="w-3.5 h-3.5 text-[#5C665E] dark:text-[#9AA89E]"
-												aria-hidden="true"
-											/>
-										) : (
-											<ChevronRight
-												className="w-3.5 h-3.5 text-[#7D857E] dark:text-[#8E9B92]"
-												aria-hidden="true"
-											/>
-										))}
-								</span>
-							</Button>
+								<Badge
+									variant="secondary"
+									className={cn(
+										"min-w-5.5 px-1.5 py-0.5 text-[11px] font-bold rounded-full tabular-nums shrink-0",
+										isStoreDirectlySelected
+											? "bg-white/90 dark:bg-[#16221C] text-[#1B4332] dark:text-[#CBE3D4]"
+											: "bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E]",
+									)}
+								>
+									{count}
+								</Badge>
+							</>
 						);
+
+						const rowContainerClass = cn(
+							"flex items-center rounded-xl transition-colors",
+							isStoreDirectlySelected
+								? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4]"
+								: isSelected
+									? "bg-[#F3EFE6]/70 dark:bg-[#1A2922] text-[#1B3328] dark:text-[#EDF2EE]"
+									: "text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6]/70 dark:hover:bg-[#1E2C25]",
+						);
+
+						const rowFontWeightClass = isStoreDirectlySelected
+							? "font-bold"
+							: isSelected
+								? "font-semibold"
+								: "font-medium";
 
 						return (
 							<li key={store.id} className="flex flex-col">
 								{canExpand ? (
-									<Collapsible open={isExpanded}>
-										<CollapsibleTrigger asChild>
-											{storeButton}
-										</CollapsibleTrigger>
+									<Collapsible
+										open={isExpanded}
+										onOpenChange={(open) => onToggleStoreExpand(store.id, open)}
+									>
+										<div className={rowContainerClass}>
+											<Button
+												type="button"
+												variant="ghost"
+												onClick={() => onSelectStore(store.id)}
+												aria-current={
+													isStoreDirectlySelected ? "page" : undefined
+												}
+												className={cn(
+													"flex-1 min-w-0 h-auto justify-between gap-2 pl-2.5 pr-1.5 py-2 rounded-xl text-left text-[13.5px] transition-colors hover:bg-transparent dark:hover:bg-transparent hover:text-inherit",
+													rowFontWeightClass,
+												)}
+											>
+												{rowContent}
+											</Button>
+											<CollapsibleTrigger asChild>
+												<Button
+													type="button"
+													variant="ghost"
+													aria-label={`${store.name} aisles`}
+													className={cn(
+														"h-auto min-w-7 min-h-7 pointer-coarse:min-w-10 pointer-coarse:min-h-10 p-1 mr-1 rounded-lg shrink-0 hover:bg-black/5 dark:hover:bg-white/10",
+														isStoreDirectlySelected
+															? "text-[#1B4332] dark:text-[#CBE3D4] hover:text-[#1B4332] dark:hover:text-[#CBE3D4]"
+															: "text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
+													)}
+												>
+													{isExpanded ? (
+														<ChevronDown
+															className="size-3.5"
+															aria-hidden="true"
+														/>
+													) : (
+														<ChevronRight
+															className="size-3.5"
+															aria-hidden="true"
+														/>
+													)}
+												</Button>
+											</CollapsibleTrigger>
+										</div>
 										<CollapsibleContent>
 											<ul className="mt-1 ml-4 pl-3 border-l border-[#EAE4D7] dark:border-[#24362D] flex flex-col gap-0.5">
-												{isLoadingCategories &&
-												activeCategories.length === 0 ? (
+												{isLoadingStoreCategories &&
+												storeCategories.length === 0 ? (
 													<li className="px-2.5 py-1.5 text-xs text-[#7D857E] dark:text-[#8E9B92]">
 														Loading aisles...
 													</li>
+												) : storeCategories.length === 0 ? (
+													<li className="px-2.5 py-1.5 text-xs text-[#7D857E] dark:text-[#8E9B92]">
+														No matching aisles
+													</li>
 												) : (
-													activeCategories.map((cat) => {
+													storeCategories.map((cat) => {
 														const isCatSelected =
-															activeParentCategoryId === cat.id;
-														const catCount = categoryCounts.get(cat.id) ?? 0;
+															isSelected && activeParentCategoryId === cat.id;
+														const catCount =
+															storeCategoryCounts.get(cat.id) ?? 0;
 
 														return (
 															<li key={cat.id}>
@@ -233,7 +277,23 @@ export function StoreNavList({
 										</CollapsibleContent>
 									</Collapsible>
 								) : (
-									storeButton
+									<Button
+										type="button"
+										variant="ghost"
+										onClick={() => onSelectStore(store.id)}
+										aria-current={isStoreDirectlySelected ? "page" : undefined}
+										className={cn(
+											"h-auto w-full justify-between gap-2 px-2.5 py-2 rounded-xl text-left text-[13.5px] transition-colors",
+											rowFontWeightClass,
+											isStoreDirectlySelected
+												? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4]"
+												: isSelected
+													? "bg-[#F3EFE6]/70 dark:bg-[#1A2922] text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]"
+													: "text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6]/70 dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
+										)}
+									>
+										{rowContent}
+									</Button>
 								)}
 							</li>
 						);
@@ -251,12 +311,12 @@ type MobileStoreDrawerProps = {
 	trigger?: React.ReactNode;
 	stores: StoreItem[];
 	selectedStoreId?: string;
-	activeCategories: CategoryItem[];
-	categoryCounts: Map<string, number>;
+	expandedStoreIds: ReadonlySet<string>;
+	storeCategoriesByStoreId: ReadonlyMap<string, StoreCategoriesData>;
 	activeParentCategoryId?: string;
-	isLoadingCategories?: boolean;
 	onSelectAllStores: () => void;
 	onSelectStore: (storeId: string) => void;
+	onToggleStoreExpand: (storeId: string, open: boolean) => void;
 	onSelectCategory: (storeId: string, categoryId: string) => void;
 };
 
@@ -267,12 +327,12 @@ export function MobileStoreDrawer({
 	trigger,
 	stores,
 	selectedStoreId,
-	activeCategories,
-	categoryCounts,
+	expandedStoreIds,
+	storeCategoriesByStoreId,
 	activeParentCategoryId,
-	isLoadingCategories,
 	onSelectAllStores,
 	onSelectStore,
+	onToggleStoreExpand,
 	onSelectCategory,
 }: MobileStoreDrawerProps) {
 	const selectedStore = selectedStoreId
@@ -300,23 +360,18 @@ export function MobileStoreDrawer({
 					<StoreNavList
 						stores={stores}
 						selectedStoreId={selectedStoreId}
-						activeCategories={activeCategories}
-						categoryCounts={categoryCounts}
+						expandedStoreIds={expandedStoreIds}
+						storeCategoriesByStoreId={storeCategoriesByStoreId}
 						activeParentCategoryId={activeParentCategoryId}
-						isLoadingCategories={isLoadingCategories}
 						onSelectAllStores={() => {
 							onSelectAllStores();
 							onOpenChange(false);
 						}}
 						onSelectStore={(storeId) => {
-							const clickedStore = stores.find((s) => s.id === storeId);
-							const isAlreadySelected = selectedStoreId === storeId;
-							const hasProducts = (clickedStore?.productCount ?? 0) > 0;
 							onSelectStore(storeId);
-							if (isAlreadySelected || !hasProducts) {
-								onOpenChange(false);
-							}
+							onOpenChange(false);
 						}}
+						onToggleStoreExpand={onToggleStoreExpand}
 						onSelectCategory={(storeId, categoryId) => {
 							onSelectCategory(storeId, categoryId);
 							onOpenChange(false);

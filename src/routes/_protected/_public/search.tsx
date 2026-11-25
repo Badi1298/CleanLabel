@@ -13,7 +13,7 @@ import {
 	SlidersHorizontal,
 	X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { CategoryIcon } from "#/components/categories/category-icon";
 import {
@@ -182,6 +182,34 @@ function SearchPage() {
 				? allCategories?.find((c) => c.id === activeParentId)
 				: undefined;
 
+	const [expandedCategoryIds, setExpandedCategoryIds] = useState<Set<string>>(
+		() => new Set(activeParentId ? [activeParentId] : []),
+	);
+
+	useEffect(() => {
+		if (!activeParentId) return;
+		setExpandedCategoryIds((prev) => {
+			if (prev.has(activeParentId)) return prev;
+			const next = new Set(prev);
+			next.add(activeParentId);
+			return next;
+		});
+	}, [activeParentId]);
+
+	const handleToggleCategoryExpand = (categoryId: string, open: boolean) => {
+		setExpandedCategoryIds((prev) => {
+			const has = prev.has(categoryId);
+			if (open === has) return prev;
+			const next = new Set(prev);
+			if (open) {
+				next.add(categoryId);
+			} else {
+				next.delete(categoryId);
+			}
+			return next;
+		});
+	};
+
 	const { data: sectionsData, isFetching: isFetchingSections } = useQuery({
 		...searchCategorySectionsQueryOptions({
 			q: searchParams.q,
@@ -330,9 +358,11 @@ function SearchPage() {
 									activeParentId={activeParentId}
 									selectedCategoryId={searchParams.categoryId}
 									selectedSubCategoryId={selectedSubCategoryId}
+									expandedCategoryIds={expandedCategoryIds}
 									totalProductsCount={activeCategoriesData.totalProductsCount}
 									onSelectAll={handleSelectAllCategories}
 									onSelectCategory={(catId) => handleSelectCategory(catId)}
+									onToggleCategoryExpand={handleToggleCategoryExpand}
 									onSelectSubcategory={handleSelectSubcategory}
 								/>
 							</div>
@@ -424,9 +454,11 @@ function SearchPage() {
 							activeParentId={activeParentId}
 							selectedCategoryId={searchParams.categoryId}
 							selectedSubCategoryId={selectedSubCategoryId}
+							expandedCategoryIds={expandedCategoryIds}
 							totalProductsCount={activeCategoriesData.totalProductsCount}
 							onSelectAll={handleSelectAllCategories}
 							onSelectCategory={(catId) => handleSelectCategory(catId)}
+							onToggleCategoryExpand={handleToggleCategoryExpand}
 							onSelectSubcategory={handleSelectSubcategory}
 						/>
 					</aside>
