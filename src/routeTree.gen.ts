@@ -15,6 +15,7 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LandingRouteImport } from './routes/landing'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MetodologieRouteImport } from './routes/metodologie'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProtectedPublicRouteRouteImport } from './routes/_protected/_public/route'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
@@ -63,6 +64,11 @@ const LoginRoute = LoginRouteImport.update({
 const MetodologieRoute = MetodologieRouteImport.update({
   id: '/metodologie',
   path: '/metodologie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/metodologie': typeof MetodologieRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/add-product': typeof ProtectedPublicAddProductRoute
@@ -209,6 +216,7 @@ export interface FileRoutesByTo {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/metodologie': typeof MetodologieRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/add-product': typeof ProtectedPublicAddProductRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/metodologie': typeof MetodologieRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_protected/_public': typeof ProtectedPublicRouteRouteWithChildren
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
@@ -266,6 +275,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/metodologie'
+    | '/reset-password'
     | '/signup'
     | '/admin'
     | '/add-product'
@@ -292,6 +302,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/metodologie'
+    | '/reset-password'
     | '/signup'
     | '/admin'
     | '/add-product'
@@ -318,6 +329,7 @@ export interface FileRouteTypes {
     | '/landing'
     | '/login'
     | '/metodologie'
+    | '/reset-password'
     | '/signup'
     | '/_protected/_public'
     | '/_protected/admin'
@@ -347,6 +359,7 @@ export interface RootRouteChildren {
   LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
   MetodologieRoute: typeof MetodologieRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -393,6 +406,13 @@ declare module '@tanstack/react-router' {
       path: '/metodologie'
       fullPath: '/metodologie'
       preLoaderRoute: typeof MetodologieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -610,6 +630,7 @@ const rootRouteChildren: RootRouteChildren = {
   LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
   MetodologieRoute: MetodologieRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

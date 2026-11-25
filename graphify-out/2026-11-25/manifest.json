@@ -882,9 +882,9 @@
     "semantic_hash": ""
   },
   "src/components/search/category-sidebar.tsx": {
-    "mtime": 1795604803.2082708,
-    "seen": 1795604826.77299,
-    "ast_hash": "bb62e218f77d66e15a45b32eba8a9488",
+    "mtime": 1795604838.6744924,
+    "seen": 1795604861.158519,
+    "ast_hash": "0c7e2b1ac4eeedd2e2c8d1a6a0cf0b99",
     "semantic_hash": ""
   },
   "src/routes/landing.tsx": {
@@ -1020,9 +1020,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/stores.tsx": {
-    "mtime": 1795604799.86466,
-    "seen": 1795604826.773031,
-    "ast_hash": "112e1d0f668dbeb3153260b65f5adcfd",
+    "mtime": 1795604838.6806126,
+    "seen": 1795604861.158561,
+    "ast_hash": "84067cca528751c8a31435de5017e010",
     "semantic_hash": ""
   },
   ".agents/rules/shadcn-ui.md": {

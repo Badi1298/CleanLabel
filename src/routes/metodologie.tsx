@@ -309,6 +309,7 @@ function MetodologiePage() {
 					</button>
 					. PickItWell se angajează să reverifice sesizarea și, dacă e
 					confirmată, să actualizeze clasificarea produsului în termen de{" "}
+					{/* TODO: Confirm SLA working days with client */}
 					{METHODOLOGY_REVIEW_SLA_DAYS} zile lucrătoare de la primirea
 					sesizării, cu menționarea datei noii verificări.
 				</p>

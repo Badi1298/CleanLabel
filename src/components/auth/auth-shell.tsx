@@ -11,6 +11,7 @@ type AuthShellProps = {
 	subtitle: string;
 	children: ReactNode;
 	footer: ReactNode;
+	showSocialAuth?: boolean;
 };
 
 function GoogleMark() {
@@ -50,6 +51,7 @@ export function AuthShell({
 	subtitle,
 	children,
 	footer,
+	showSocialAuth = true,
 }: AuthShellProps) {
 	const [isGooglePending, setIsGooglePending] = useState(false);
 
@@ -100,33 +102,37 @@ export function AuthShell({
 				<div className="w-full rounded-2xl sm:rounded-3xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_12px_32px_rgba(27,67,50,0.08)] p-5 sm:p-7">
 					{children}
 
-					<div className="relative my-6">
-						<div
-							className="absolute inset-0 flex items-center"
-							aria-hidden="true"
-						>
-							<span className="w-full border-t border-[#EAE4D7] dark:border-[#24362D]" />
-						</div>
-						<div className="relative flex justify-center">
-							<span className="bg-white dark:bg-[#16221C] px-3 text-[11px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-								Or continue with
-							</span>
-						</div>
-					</div>
+					{showSocialAuth && (
+						<>
+							<div className="relative my-6">
+								<div
+									className="absolute inset-0 flex items-center"
+									aria-hidden="true"
+								>
+									<span className="w-full border-t border-[#EAE4D7] dark:border-[#24362D]" />
+								</div>
+								<div className="relative flex justify-center">
+									<span className="bg-white dark:bg-[#16221C] px-3 text-[11px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
+										Or continue with
+									</span>
+								</div>
+							</div>
 
-					<button
-						type="button"
-						disabled={isGooglePending}
-						onClick={handleGoogleSignIn}
-						className="w-full min-h-12 px-4 rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#2B3D33] text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2E26] hover:border-[#C9B382] dark:hover:border-[#365043] font-semibold text-sm transition-colors cursor-pointer flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A44] dark:focus-visible:ring-[#6EC89A]"
-					>
-						<GoogleMark />
-						<span>
-							{isGooglePending
-								? "Connecting to Google..."
-								: "Continue with Google"}
-						</span>
-					</button>
+							<button
+								type="button"
+								disabled={isGooglePending}
+								onClick={handleGoogleSignIn}
+								className="w-full min-h-12 px-4 rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#2B3D33] text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2E26] hover:border-[#C9B382] dark:hover:border-[#365043] font-semibold text-sm transition-colors cursor-pointer flex items-center justify-center gap-2.5 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A44] dark:focus-visible:ring-[#6EC89A]"
+							>
+								<GoogleMark />
+								<span>
+									{isGooglePending
+										? "Connecting to Google..."
+										: "Continue with Google"}
+								</span>
+							</button>
+						</>
+					)}
 
 					<div className="mt-6 pt-5 border-t border-[#F0EAE0] dark:border-[#22332A] text-center text-sm text-[#5C665E] dark:text-[#9AA89E]">
 						{footer}

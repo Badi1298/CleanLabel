@@ -768,7 +768,7 @@
       "file_type": "code",
       "norm_label": "mobilecategorydrawerprops",
       "source_file": "src/components/search/category-sidebar.tsx",
-      "source_location": "L291"
+      "source_location": "L289"
     },
     {
       "id": "src_components_stores_store_sidebar_mobilestoredrawerprops",
@@ -4290,7 +4290,7 @@
       "file_type": "code",
       "norm_label": "mobilecategorydrawer()",
       "source_file": "src/components/search/category-sidebar.tsx",
-      "source_location": "L310"
+      "source_location": "L308"
     },
     {
       "id": "src_components_stores_store_sidebar_mobilestoredrawer",
@@ -4782,7 +4782,7 @@
       "file_type": "code",
       "norm_label": "storespage()",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L153"
+      "source_location": "L155"
     },
     {
       "id": "src_server_off_functions_getorcreateuncategorized",
@@ -46033,7 +46033,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L163",
+      "source_location": "L165",
       "weight": 1.0
     },
     {
@@ -46045,7 +46045,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L191",
+      "source_location": "L193",
       "weight": 1.0
     },
     {
@@ -46057,7 +46057,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L200",
+      "source_location": "L202",
       "weight": 1.0
     },
     {
@@ -46069,7 +46069,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L273",
+      "source_location": "L274",
       "weight": 1.0
     },
     {
@@ -46081,7 +46081,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L329",
+      "source_location": "L330",
       "weight": 1.0
     },
     {
@@ -46093,7 +46093,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L347",
+      "source_location": "L348",
       "weight": 1.0
     },
     {
@@ -46105,7 +46105,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/stores.tsx",
-      "source_location": "L529",
+      "source_location": "L530",
       "weight": 1.0
     },
     {
@@ -94549,7 +94549,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/search/category-sidebar.tsx",
-      "source_location": "L291",
+      "source_location": "L289",
       "weight": 1.0
     },
     {
@@ -94571,7 +94571,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/search/category-sidebar.tsx",
-      "source_location": "L310",
+      "source_location": "L308",
       "weight": 1.0
     },
     {

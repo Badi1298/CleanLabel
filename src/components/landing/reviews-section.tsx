@@ -43,16 +43,16 @@ export function ReviewsSection() {
 		<section
 			id="recenzii"
 			aria-labelledby="recenzii-heading"
-			className="scroll-mt-20 max-w-6xl mx-auto px-4 md:px-6 py-14 md:py-20"
+			className="scroll-mt-20 max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24"
 		>
 			<div className="max-w-2xl mx-auto text-center">
 				<h2
 					id="recenzii-heading"
-					className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-foreground dark:text-[#FBF4E6]"
+					className="display-title text-3xl sm:text-4xl md:text-[2.65rem] font-bold tracking-tight text-foreground dark:text-[#FBF4E6] text-balance"
 				>
 					Ce spun utilizatorii PickItWell?
 				</h2>
-				<p className="mt-3 text-sm sm:text-base text-muted-foreground font-medium">
+				<p className="mt-3 text-sm sm:text-base text-muted-foreground font-medium text-pretty">
 					Opinii trimise de utilizatori despre experiența lor cu PickItWell.
 				</p>
 			</div>
@@ -65,7 +65,7 @@ export function ReviewsSection() {
 					breakpoints: { "(min-width: 768px)": { active: false } },
 				}}
 				aria-label="Recenzii utilizatori PickItWell"
-				className="mt-8 md:mt-11"
+				className="mt-9 md:mt-12"
 			>
 				{/* Mobile Previous / Next controls placed before track in DOM order */}
 				<div className="md:hidden flex items-center justify-between gap-3 mb-3">
@@ -106,24 +106,32 @@ export function ReviewsSection() {
 							aria-label={`${index + 1} din ${REVIEWS.length}`}
 							className="pl-4 md:pl-0 flex"
 						>
-							<Card className="w-full rounded-3xl bg-card border-border shadow-[0_2px_12px_rgba(27,67,50,0.04)] p-6 justify-between gap-5">
+							<Card className="w-full rounded-3xl bg-sidebar dark:bg-card border-border shadow-none p-6 sm:p-7 justify-between gap-5">
 								<div className="space-y-4">
-									<div
-										role="img"
-										aria-label={`Evaluare ${review.rating} din 5 stele`}
-										className="flex items-center gap-1 text-[#A67C37] dark:text-[#D4AF6A]"
-									>
-										{[1, 2, 3, 4, 5].map((starNumber) => (
-											<Star
-												key={`${review.id}-star-${starNumber}`}
-												className="w-4.5 h-4.5 fill-current"
-												aria-hidden="true"
-											/>
-										))}
+									<div className="flex items-center justify-between gap-3">
+										<div
+											role="img"
+											aria-label={`Evaluare ${review.rating} din 5 stele`}
+											className="flex items-center gap-1 text-[#A67C37] dark:text-[#D8AB54]"
+										>
+											{[1, 2, 3, 4, 5].map((starNumber) => (
+												<Star
+													key={`${review.id}-star-${starNumber}`}
+													className="w-4 h-4 fill-current"
+													aria-hidden="true"
+												/>
+											))}
+										</div>
+										<span
+											aria-hidden="true"
+											className="display-title text-3xl leading-none font-bold text-[#D8AB54]/65 select-none"
+										>
+											&bdquo;
+										</span>
 									</div>
 
 									<blockquote className="text-sm sm:text-[15px] text-foreground leading-relaxed">
-										&ldquo;{review.text}&rdquo;
+										&bdquo;{review.text}&rdquo;
 									</blockquote>
 								</div>
 
