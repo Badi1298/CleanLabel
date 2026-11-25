@@ -34,9 +34,11 @@ type CategoryNavListProps = {
 	activeParentId?: string;
 	selectedCategoryId?: string;
 	selectedSubCategoryId?: string;
+	expandedCategoryIds: ReadonlySet<string>;
 	totalProductsCount?: number;
 	onSelectAll: () => void;
 	onSelectCategory: (categoryId: string, hasSubcategories: boolean) => void;
+	onToggleCategoryExpand: (categoryId: string, open: boolean) => void;
 	onSelectSubcategory: (parentId: string, subcatId: string) => void;
 };
 
@@ -47,9 +49,11 @@ export function CategoryNavList({
 	activeParentId,
 	selectedCategoryId,
 	selectedSubCategoryId,
+	expandedCategoryIds,
 	totalProductsCount,
 	onSelectAll,
 	onSelectCategory,
+	onToggleCategoryExpand,
 	onSelectSubcategory,
 }: CategoryNavListProps) {
 	const isAllSelected = !selectedCategoryId && !selectedSubCategoryId;
@@ -109,26 +113,15 @@ export function CategoryNavList({
 							(c) => c.parentId === parentCat.id,
 						);
 						const hasSubcats = subcats.length > 0;
-						const isExpanded = activeParentId === parentCat.id;
+						const isParentActive = activeParentId === parentCat.id;
 						const isParentDirectlySelected =
-							isExpanded && !selectedSubCategoryId;
+							isParentActive && !selectedSubCategoryId;
+						const isExpanded =
+							hasSubcats && expandedCategoryIds.has(parentCat.id);
 						const count = categoryCounts.get(parentCat.id) || 0;
 
-						const parentButton = (
-							<Button
-								type="button"
-								variant="ghost"
-								onClick={() => onSelectCategory(parentCat.id, hasSubcats)}
-								aria-current={isParentDirectlySelected ? "page" : undefined}
-								className={cn(
-									"h-auto w-full justify-between gap-2 px-2.5 py-2 rounded-xl text-left text-[13.5px] transition-colors",
-									isParentDirectlySelected
-										? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4] font-bold"
-										: isExpanded
-											? "bg-[#F3EFE6]/70 dark:bg-[#1A2922] text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE] font-semibold"
-											: "text-[#1B3328] dark:text-[#EDF2EE] font-medium hover:bg-[#F3EFE6]/70 dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
-								)}
-							>
+						const rowContent = (
+							<>
 								<span className="flex items-center gap-2.5 min-w-0">
 									<CategoryIcon
 										name={parentCat.name}
@@ -140,41 +133,87 @@ export function CategoryNavList({
 									</span>
 								</span>
 
-								<span className="flex items-center gap-1.5 shrink-0">
-									<Badge
-										variant="secondary"
-										className={cn(
-											"min-w-5.5 px-1.5 py-0.5 text-[11px] font-bold rounded-full tabular-nums",
-											isParentDirectlySelected
-												? "bg-white/90 dark:bg-[#16221C] text-[#1B4332] dark:text-[#CBE3D4]"
-												: "bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E]",
-										)}
-									>
-										{count}
-									</Badge>
-									{hasSubcats &&
-										(isExpanded ? (
-											<ChevronDown
-												className="w-3.5 h-3.5 text-[#5C665E] dark:text-[#9AA89E]"
-												aria-hidden="true"
-											/>
-										) : (
-											<ChevronRight
-												className="w-3.5 h-3.5 text-[#7D857E] dark:text-[#8E9B92]"
-												aria-hidden="true"
-											/>
-										))}
-								</span>
-							</Button>
+								<Badge
+									variant="secondary"
+									className={cn(
+										"min-w-5.5 px-1.5 py-0.5 text-[11px] font-bold rounded-full tabular-nums shrink-0",
+										isParentDirectlySelected
+											? "bg-white/90 dark:bg-[#16221C] text-[#1B4332] dark:text-[#CBE3D4]"
+											: "bg-[#F3EFE6] dark:bg-[#1E2E26] text-[#5C665E] dark:text-[#9AA89E]",
+									)}
+								>
+									{count}
+								</Badge>
+							</>
 						);
+
+						const rowContainerClass = cn(
+							"flex items-center rounded-xl transition-colors",
+							isParentDirectlySelected
+								? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4]"
+								: isParentActive
+									? "bg-[#F3EFE6]/70 dark:bg-[#1A2922] text-[#1B3328] dark:text-[#EDF2EE]"
+									: "text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6]/70 dark:hover:bg-[#1E2C25]",
+						);
+
+						const rowFontWeightClass = isParentDirectlySelected
+							? "font-bold"
+							: isParentActive
+								? "font-semibold"
+								: "font-medium";
 
 						return (
 							<li key={parentCat.id} className="flex flex-col">
 								{hasSubcats ? (
-									<Collapsible open={isExpanded}>
-										<CollapsibleTrigger asChild>
-											{parentButton}
-										</CollapsibleTrigger>
+									<Collapsible
+										open={isExpanded}
+										onOpenChange={(open) =>
+											onToggleCategoryExpand(parentCat.id, open)
+										}
+									>
+										<div className={rowContainerClass}>
+											<Button
+												type="button"
+												variant="ghost"
+												onClick={() =>
+													onSelectCategory(parentCat.id, hasSubcats)
+												}
+												aria-current={
+													isParentDirectlySelected ? "page" : undefined
+												}
+												className={cn(
+													"flex-1 min-w-0 h-auto justify-between gap-2 pl-2.5 pr-1.5 py-2 rounded-xl text-left text-[13.5px] transition-colors hover:bg-transparent dark:hover:bg-transparent hover:text-inherit",
+													rowFontWeightClass,
+												)}
+											>
+												{rowContent}
+											</Button>
+											<CollapsibleTrigger asChild>
+												<Button
+													type="button"
+													variant="ghost"
+													aria-label={`${parentCat.name} subcategories`}
+													className={cn(
+														"h-auto min-w-7 min-h-7 pointer-coarse:min-w-10 pointer-coarse:min-h-10 p-1 mr-1 rounded-lg shrink-0 hover:bg-black/5 dark:hover:bg-white/10",
+														isParentDirectlySelected
+															? "text-[#1B4332] dark:text-[#CBE3D4] hover:text-[#1B4332] dark:hover:text-[#CBE3D4]"
+															: "text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
+													)}
+												>
+													{isExpanded ? (
+														<ChevronDown
+															className="size-3.5"
+															aria-hidden="true"
+														/>
+													) : (
+														<ChevronRight
+															className="size-3.5"
+															aria-hidden="true"
+														/>
+													)}
+												</Button>
+											</CollapsibleTrigger>
+										</div>
 										<CollapsibleContent>
 											<ul className="mt-1 ml-4 pl-3 border-l border-[#EAE4D7] dark:border-[#24362D] flex flex-col gap-0.5">
 												{subcats.map((subcat) => {
@@ -220,7 +259,23 @@ export function CategoryNavList({
 										</CollapsibleContent>
 									</Collapsible>
 								) : (
-									parentButton
+									<Button
+										type="button"
+										variant="ghost"
+										onClick={() => onSelectCategory(parentCat.id, hasSubcats)}
+										aria-current={isParentDirectlySelected ? "page" : undefined}
+										className={cn(
+											"h-auto w-full justify-between gap-2 px-2.5 py-2 rounded-xl text-left text-[13.5px] transition-colors",
+											rowFontWeightClass,
+											isParentDirectlySelected
+												? "bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C] hover:text-[#1B4332] dark:hover:text-[#CBE3D4]"
+												: isParentActive
+													? "bg-[#F3EFE6]/70 dark:bg-[#1A2922] text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]"
+													: "text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6]/70 dark:hover:bg-[#1E2C25] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
+										)}
+									>
+										{rowContent}
+									</Button>
 								)}
 							</li>
 						);
@@ -242,9 +297,11 @@ type MobileCategoryDrawerProps = {
 	activeParentId?: string;
 	selectedCategoryId?: string;
 	selectedSubCategoryId?: string;
+	expandedCategoryIds: ReadonlySet<string>;
 	totalProductsCount?: number;
 	onSelectAll: () => void;
 	onSelectCategory: (categoryId: string, hasSubcategories: boolean) => void;
+	onToggleCategoryExpand: (categoryId: string, open: boolean) => void;
 	onSelectSubcategory: (parentId: string, subcatId: string) => void;
 };
 
@@ -259,9 +316,11 @@ export function MobileCategoryDrawer({
 	activeParentId,
 	selectedCategoryId,
 	selectedSubCategoryId,
+	expandedCategoryIds,
 	totalProductsCount,
 	onSelectAll,
 	onSelectCategory,
+	onToggleCategoryExpand,
 	onSelectSubcategory,
 }: MobileCategoryDrawerProps) {
 	const activeParent = activeParentId
@@ -281,7 +340,7 @@ export function MobileCategoryDrawer({
 						Categories
 					</SheetTitle>
 					<SheetDescription className="text-[11px] text-[#5C665E] dark:text-[#9AA89E]">
-						Tap a category to explore subcategories
+						Tap a category or expand subcategories
 					</SheetDescription>
 				</SheetHeader>
 
@@ -293,6 +352,7 @@ export function MobileCategoryDrawer({
 						activeParentId={activeParentId}
 						selectedCategoryId={selectedCategoryId}
 						selectedSubCategoryId={selectedSubCategoryId}
+						expandedCategoryIds={expandedCategoryIds}
 						totalProductsCount={totalProductsCount}
 						onSelectAll={() => {
 							onSelectAll();
@@ -300,10 +360,9 @@ export function MobileCategoryDrawer({
 						}}
 						onSelectCategory={(categoryId, hasSubcategories) => {
 							onSelectCategory(categoryId, hasSubcategories);
-							if (!hasSubcategories) {
-								onOpenChange(false);
-							}
+							onOpenChange(false);
 						}}
+						onToggleCategoryExpand={onToggleCategoryExpand}
 						onSelectSubcategory={(parentId, subcatId) => {
 							onSelectSubcategory(parentId, subcatId);
 							onOpenChange(false);

@@ -1,6 +1,7 @@
 import {
 	keepPreviousData,
 	useInfiniteQuery,
+	useQueries,
 	useQuery,
 	useSuspenseQuery,
 } from "@tanstack/react-query";
@@ -13,7 +14,7 @@ import {
 	Store as StoreIcon,
 	X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { CategoryIcon } from "#/components/categories/category-icon";
 import {
@@ -24,11 +25,13 @@ import {
 	PaginatedProductsGrid,
 	ScoreFilterSelect,
 } from "#/components/search/catalog-views";
+import type { CategoryItem } from "#/components/search/category-sidebar";
 import { SearchBar } from "#/components/search/search-bar";
 import { StoreAvatar } from "#/components/stores/store-avatar";
 import { StoreCard } from "#/components/stores/store-card";
 import {
 	MobileStoreDrawer,
+	type StoreCategoriesData,
 	StoreNavList,
 } from "#/components/stores/store-sidebar";
 import { Badge } from "#/components/ui/badge";
@@ -126,11 +129,37 @@ export const Route = createFileRoute("/_protected/_public/stores")({
 	component: StoresPage,
 });
 
+function buildStoreCategoriesData(
+	allCategories: CategoryItem[] | undefined,
+	activeRows: Array<{ id: string; count: number }> | undefined,
+	isLoading: boolean,
+): StoreCategoriesData {
+	if (!allCategories || !activeRows) {
+		return {
+			categories: [],
+			counts: new Map<string, number>(),
+			isLoading,
+		};
+	}
+	const counts = new Map(activeRows.map((c) => [c.id, c.count]));
+	const categories = allCategories.filter(
+		(c) => !c.parentId && counts.has(c.id),
+	);
+	return {
+		categories,
+		counts,
+		isLoading,
+	};
+}
+
 function StoresPage() {
 	const navigate = useNavigate();
 	const searchParams = Route.useSearch();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [storeSearchQuery, setStoreSearchQuery] = useState("");
+	const [expandedStoreIds, setExpandedStoreIds] = useState<Set<string>>(
+		() => new Set(searchParams.storeId ? [searchParams.storeId] : []),
+	);
 
 	const { data: stores } = useSuspenseQuery(
 		storesQueryOptions({ score: searchParams.score }),
@@ -144,26 +173,61 @@ function StoresPage() {
 		[stores, searchParams.storeId],
 	);
 
+	useEffect(() => {
+		const storeId = selectedStore?.id;
+		if (!storeId) return;
+		setExpandedStoreIds((prev) => {
+			if (prev.has(storeId)) return prev;
+			const next = new Set(prev);
+			next.add(storeId);
+			return next;
+		});
+	}, [selectedStore?.id]);
+
 	const isUnknownStore = Boolean(searchParams.storeId) && !selectedStore;
 
 	const hasCategoryFilter =
 		Boolean(searchParams.categoryId) || Boolean(searchParams.subCategoryId);
 
-	const { data: allCategories } = useQuery({
+	const { data: allCategories, isPending: isPendingAllCategories } = useQuery({
 		...categoriesQueryOptions(),
-		enabled: Boolean(selectedStore),
+		enabled: Boolean(selectedStore) || expandedStoreIds.size > 0,
 	});
 
-	const { data: activeCategoriesData, isFetching: isFetchingCategories } =
-		useQuery({
+	const {
+		data: activeCategoriesData,
+		isPending: isPendingSelectedCategories,
+		isFetching: isFetchingCategories,
+	} = useQuery({
+		...activeCategoriesQueryOptions({
+			q: searchParams.q,
+			storeId: selectedStore?.id,
+			score: searchParams.score,
+		}),
+		enabled: Boolean(selectedStore),
+		placeholderData: (previousData, previousQuery) => {
+			const prevFilters = previousQuery?.queryKey[1] as
+				| { storeId?: string }
+				| undefined;
+			return prevFilters?.storeId === selectedStore?.id
+				? previousData
+				: undefined;
+		},
+	});
+
+	const nonSelectedExpandedStoreIds = useMemo(
+		() => Array.from(expandedStoreIds).filter((id) => id !== selectedStore?.id),
+		[expandedStoreIds, selectedStore?.id],
+	);
+
+	const nonSelectedStoreCategoryQueries = useQueries({
+		queries: nonSelectedExpandedStoreIds.map((storeId) => ({
 			...activeCategoriesQueryOptions({
-				q: searchParams.q,
-				storeId: selectedStore?.id,
+				storeId,
 				score: searchParams.score,
 			}),
-			enabled: Boolean(selectedStore),
-			placeholderData: keepPreviousData,
-		});
+		})),
+	});
 
 	const categoryCounts = useMemo(
 		() =>
@@ -187,6 +251,46 @@ function StoresPage() {
 		() => categories.filter((c) => !c.parentId),
 		[categories],
 	);
+
+	const storeCategoriesByStoreId = useMemo(() => {
+		const map = new Map<string, StoreCategoriesData>();
+
+		if (selectedStore) {
+			map.set(selectedStore.id, {
+				categories: topLevelCategories,
+				counts: categoryCounts,
+				isLoading:
+					isPendingAllCategories ||
+					isPendingSelectedCategories ||
+					(isFetchingCategories && topLevelCategories.length === 0),
+			});
+		}
+
+		for (let i = 0; i < nonSelectedExpandedStoreIds.length; i += 1) {
+			const storeId = nonSelectedExpandedStoreIds[i];
+			const query = nonSelectedStoreCategoryQueries[i];
+			map.set(
+				storeId,
+				buildStoreCategoriesData(
+					allCategories,
+					query?.data?.categories,
+					isPendingAllCategories || Boolean(query?.isPending),
+				),
+			);
+		}
+
+		return map;
+	}, [
+		selectedStore,
+		topLevelCategories,
+		categoryCounts,
+		isPendingAllCategories,
+		isPendingSelectedCategories,
+		isFetchingCategories,
+		nonSelectedExpandedStoreIds,
+		nonSelectedStoreCategoryQueries,
+		allCategories,
+	]);
 
 	const categoryParam = searchParams.categoryId
 		? allCategories?.find((c) => c.id === searchParams.categoryId)
@@ -320,11 +424,26 @@ function StoresPage() {
 		});
 	};
 
+	const handleToggleStoreExpand = (storeId: string, open: boolean) => {
+		setExpandedStoreIds((prev) => {
+			const has = prev.has(storeId);
+			if (open === has) return prev;
+			const next = new Set(prev);
+			if (open) {
+				next.add(storeId);
+			} else {
+				next.delete(storeId);
+			}
+			return next;
+		});
+	};
+
 	const handleSelectCategory = (storeId: string, categoryId: string) => {
+		const isSameStore = storeId === selectedStore?.id;
 		navigate({
 			to: "/stores",
 			search: (prev) => ({
-				...prev,
+				...(isSameStore ? prev : { score: prev.score }),
 				storeId,
 				categoryId,
 				subCategoryId: undefined,
@@ -457,12 +576,12 @@ function StoresPage() {
 											}
 											stores={sidebarStores}
 											selectedStoreId={selectedStore.id}
-											activeCategories={topLevelCategories}
-											categoryCounts={categoryCounts}
+											expandedStoreIds={expandedStoreIds}
+											storeCategoriesByStoreId={storeCategoriesByStoreId}
 											activeParentCategoryId={activeParentId}
-											isLoadingCategories={isFetchingCategories}
 											onSelectAllStores={handleSelectAllStores}
 											onSelectStore={handleSelectStore}
+											onToggleStoreExpand={handleToggleStoreExpand}
 											onSelectCategory={handleSelectCategory}
 										/>
 									</div>
@@ -548,11 +667,12 @@ function StoresPage() {
 									}
 									stores={stores}
 									selectedStoreId={undefined}
-									activeCategories={[]}
-									categoryCounts={categoryCounts}
+									expandedStoreIds={expandedStoreIds}
+									storeCategoriesByStoreId={storeCategoriesByStoreId}
 									activeParentCategoryId={undefined}
 									onSelectAllStores={handleSelectAllStores}
 									onSelectStore={handleSelectStore}
+									onToggleStoreExpand={handleToggleStoreExpand}
 									onSelectCategory={handleSelectCategory}
 								/>
 							</div>
@@ -581,12 +701,12 @@ function StoresPage() {
 						<StoreNavList
 							stores={sidebarStores}
 							selectedStoreId={selectedStore?.id}
-							activeCategories={topLevelCategories}
-							categoryCounts={categoryCounts}
+							expandedStoreIds={expandedStoreIds}
+							storeCategoriesByStoreId={storeCategoriesByStoreId}
 							activeParentCategoryId={activeParentId}
-							isLoadingCategories={isFetchingCategories}
 							onSelectAllStores={handleSelectAllStores}
 							onSelectStore={handleSelectStore}
+							onToggleStoreExpand={handleToggleStoreExpand}
 							onSelectCategory={handleSelectCategory}
 						/>
 					</aside>
