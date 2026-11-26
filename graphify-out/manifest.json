@@ -42,8 +42,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1795425753.8170052,
-    "seen": 1795603622.037411,
+    "mtime": 1795716042.384209,
+    "seen": 1795716052.355506,
     "ast_hash": "aac7c73bb84a7b4fed3afabc2185450c",
     "semantic_hash": ""
   },
@@ -420,15 +420,15 @@
     "semantic_hash": ""
   },
   "src/routes/login.tsx": {
-    "mtime": 1795425753.8652732,
-    "seen": 1795603622.0374799,
-    "ast_hash": "f0992ded4674712c8df24fffc4f527b6",
+    "mtime": 1795715551.8898818,
+    "seen": 1795715757.882427,
+    "ast_hash": "9258a7cae03f87ed35d1adc342743b97",
     "semantic_hash": ""
   },
   "src/routes/signup.tsx": {
-    "mtime": 1795425753.8657281,
-    "seen": 1795603622.037481,
-    "ast_hash": "892c71e621cf89cb7c9e70b2c8444be9",
+    "mtime": 1795715568.0628529,
+    "seen": 1795715757.882429,
+    "ast_hash": "86bf43e4d6a1cc7f782ddfb4a934a51f",
     "semantic_hash": ""
   },
   "src/server/auth-functions.ts": {
@@ -858,9 +858,9 @@
     "semantic_hash": ""
   },
   "src/components/auth/auth-shell.tsx": {
-    "mtime": 1795619762.3619926,
-    "seen": 1795619857.743642,
-    "ast_hash": "016bf5cc37eba81bcd526fcc9b19b4a2",
+    "mtime": 1795715739.3790917,
+    "seen": 1795715757.8823628,
+    "ast_hash": "b5467d185591fbfdc18ae6ed8e299864",
     "semantic_hash": ""
   },
   "src/assets/bronze-badge.png": {

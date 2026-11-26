@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
 import {
 	AuthEmailField,
 	AuthPasswordField,
@@ -15,11 +16,17 @@ import {
 import { AuthShell } from "#/components/auth/auth-shell";
 import { authClient } from "#/lib/auth-client";
 
+const searchSchema = z.object({
+	error: z.string().optional(),
+});
+
 export const Route = createFileRoute("/signup")({
+	validateSearch: searchSchema,
 	component: Signup,
 });
 
 function Signup() {
+	const search = Route.useSearch();
 	const formRef = useRef<HTMLFormElement>(null);
 	const { announceError, clearAnnouncement, liveRegion } =
 		useAuthErrorAnnouncer();
@@ -59,6 +66,9 @@ function Signup() {
 		<AuthShell
 			title="Create Account"
 			subtitle="Join PickItWell to save favorites and flag ingredients you avoid."
+			callbackURL="/"
+			errorCallbackURL="/signup"
+			oauthError={search.error}
 			footer={
 				<>
 					Already have an account?{" "}

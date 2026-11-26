@@ -13,11 +13,12 @@ import {
 	validateEmail,
 	validatePassword,
 } from "#/components/auth/auth-fields";
-import { AuthShell } from "#/components/auth/auth-shell";
+import { AuthShell, getSafeRelativePath } from "#/components/auth/auth-shell";
 import { authClient } from "#/lib/auth-client";
 
 const searchSchema = z.object({
 	redirect: z.string().optional(),
+	error: z.string().optional(),
 });
 
 export const Route = createFileRoute("/login")({
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/login")({
 
 function Login() {
 	const search = Route.useSearch();
+	const safeRedirect = getSafeRelativePath(search.redirect, "/");
 	const formRef = useRef<HTMLFormElement>(null);
 	const { announceError, clearAnnouncement, liveRegion } =
 		useAuthErrorAnnouncer();
@@ -48,7 +50,7 @@ function Login() {
 				password: value.password,
 			});
 			if (!error) {
-				window.location.href = search.redirect || "/";
+				window.location.href = safeRedirect;
 			} else {
 				toast.error(error.message || "Failed to login");
 			}
@@ -59,6 +61,9 @@ function Login() {
 		<AuthShell
 			title="Welcome Back"
 			subtitle="Sign in to your account to continue making clean grocery choices."
+			callbackURL={safeRedirect}
+			errorCallbackURL="/login"
+			oauthError={search.error}
 			footer={
 				<>
 					Don&apos;t have an account?{" "}

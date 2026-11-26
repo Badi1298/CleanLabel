@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { AlertTriangle, ArrowRight } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { BrandLogo } from "#/components/brand-logo";
@@ -12,7 +12,36 @@ type AuthShellProps = {
 	children: ReactNode;
 	footer: ReactNode;
 	showSocialAuth?: boolean;
+	callbackURL?: string;
+	errorCallbackURL?: string;
+	oauthError?: string;
 };
+
+export function getSafeRelativePath(path?: string, fallback = "/") {
+	return path?.startsWith("/") && !path.startsWith("//") ? path : fallback;
+}
+
+const OAUTH_ERROR_MESSAGES: Record<string, string> = {
+	unable_to_link_account:
+		"We couldn't link your Google account. Please try again or sign in with your email and password.",
+	access_denied:
+		"Google sign-in was cancelled. You can try again whenever you're ready.",
+	state_mismatch:
+		"Your sign-in session expired. Please try continuing with Google again.",
+	account_not_linked:
+		"An account with this email already exists using a different sign-in method.",
+	signup_disabled:
+		"New account sign-ups are currently disabled. Please contact support.",
+	email_not_verified:
+		"Please verify your Google email address before signing in.",
+};
+
+function getOAuthErrorMessage(code: string) {
+	return (
+		OAUTH_ERROR_MESSAGES[code] ??
+		"Google sign-in could not be completed. Please try again."
+	);
+}
 
 function GoogleMark() {
 	return (
@@ -52,6 +81,9 @@ export function AuthShell({
 	children,
 	footer,
 	showSocialAuth = true,
+	callbackURL = "/",
+	errorCallbackURL = "/login",
+	oauthError,
 }: AuthShellProps) {
 	const [isGooglePending, setIsGooglePending] = useState(false);
 
@@ -60,6 +92,8 @@ export function AuthShell({
 		try {
 			const result = await authClient.signIn.social({
 				provider: "google",
+				callbackURL: getSafeRelativePath(callbackURL, "/"),
+				errorCallbackURL: getSafeRelativePath(errorCallbackURL, "/login"),
 			});
 			if (result?.error) {
 				toast.error(result.error.message || "Failed to continue with Google");
@@ -100,6 +134,19 @@ export function AuthShell({
 			{/* Centered Auth Card */}
 			<main className="relative z-10 flex-1 w-full max-w-md mx-auto px-4 -mt-8 sm:-mt-9 pb-10 flex flex-col items-center">
 				<div className="w-full rounded-2xl sm:rounded-3xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_12px_32px_rgba(27,67,50,0.08)] p-5 sm:p-7">
+					{oauthError && (
+						<div
+							role="alert"
+							className="mb-4 flex items-start gap-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 px-3.5 py-3 text-xs sm:text-sm font-medium text-rose-700 dark:text-rose-300"
+						>
+							<AlertTriangle
+								className="w-4 h-4 shrink-0 mt-0.5"
+								aria-hidden="true"
+							/>
+							<span>{getOAuthErrorMessage(oauthError)}</span>
+						</div>
+					)}
+
 					{children}
 
 					{showSocialAuth && (
