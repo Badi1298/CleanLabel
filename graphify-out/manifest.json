@@ -372,9 +372,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
-    "mtime": 1795425753.8640387,
-    "seen": 1795603622.0374699,
-    "ast_hash": "28845d43a2963f135912f1525f19f291",
+    "mtime": 1795716695.0438244,
+    "seen": 1795716716.164758,
+    "ast_hash": "d538bfde23a93513f85c477ebeeaf6e5",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
@@ -780,9 +780,9 @@
     "semantic_hash": ""
   },
   "src/components/Onboarding.tsx": {
-    "mtime": 1795425753.854613,
-    "seen": 1795603622.037418,
-    "ast_hash": "470a88f9478da47d024eb70b1579299b",
+    "mtime": 1795716696.0066607,
+    "seen": 1795716716.1646981,
+    "ast_hash": "583b71a904272bd311633027a2b1ccc0",
     "semantic_hash": ""
   },
   "drizzle/0006_known_tusk.sql": {

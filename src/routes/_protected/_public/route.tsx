@@ -25,6 +25,8 @@ function RouteComponent() {
 
 	return (
 		<div className="relative min-h-screen pb-20 md:pb-10 bg-[#FAF8F5] dark:bg-[#0E1612] text-[#1B3328] dark:text-[#EDF2EE]">
+			<Onboarding user={session.user} />
+
 			{/* Desktop & Tablet Slim Top Navigation */}
 			<header className="hidden md:block sticky top-0 z-40 bg-[#FDFBF7]/92 dark:bg-[#131F19]/92 backdrop-blur-md border-b border-[#EAE4D7] dark:border-[#24362D]">
 				<div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
@@ -58,14 +60,13 @@ function RouteComponent() {
 				</div>
 			</header>
 
-			<Onboarding user={session.user} />
 			<Outlet />
 
 			{/* Mobile Sticky Bottom Navigation */}
 			<div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FDFBF7]/95 dark:bg-[#131F19]/95 backdrop-blur-md border-t border-[#EAE4D7] dark:border-[#24362D] shadow-[0_-4px_20px_rgba(27,67,50,0.06)] pb-[env(safe-area-inset-bottom)]">
 				<nav
 					aria-label="Mobile navigation"
-					className="grid grid-cols-5 items-center max-w-md mx-auto px-2 py-1.5 h-[66px]"
+					className="grid grid-cols-5 items-center max-w-md mx-auto px-2 py-1.5 h-16.5"
 				>
 					{NAV_ITEMS.map(({ to, label, Icon, exact }) => (
 						<Link

@@ -73,7 +73,7 @@ export function Onboarding({ user }: { user: any }) {
 		<>
 			{/* Non-intrusive warning banner */}
 
-			<div className="bg-emerald-500 text-white px-4 py-2 flex items-center justify-between text-sm shadow-sm z-40 relative">
+			<div className="bg-emerald-500 text-white px-4 py-2 flex items-center justify-between text-sm shadow-sm">
 				<div className="flex items-center gap-2">
 					<AlertCircle className="w-4 h-4" />
 					<span>
