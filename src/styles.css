@@ -359,6 +359,111 @@ dialog::backdrop {
   }
 }
 
+/* Landing hero phone walkthrough (compositor-only, opt-in to motion) */
+.hero-demo-outro-so,
+.hero-demo-outro-logo {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-demo-tap-ripple {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-demo-progress-bar {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.hero-demo-screen-transition {
+  transition: opacity 0.2s ease-out;
+}
+
+.hero-demo-scroll-track {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-demo-outro-so {
+    animation: hero-demo-outro-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero-demo-outro-logo {
+    animation: hero-demo-outro-logo-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+  }
+
+  .hero-demo-outro-so[data-paused="true"],
+  .hero-demo-outro-logo[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
+  .hero-demo-tap-ripple {
+    animation: hero-demo-tap-ripple-kf 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .hero-demo-progress-bar {
+    transform: scaleX(0);
+    animation: hero-demo-progress-fill var(--demo-duration, 4500ms) linear forwards;
+  }
+
+  .hero-demo-progress-bar[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
+  .hero-demo-screen-transition {
+    transition:
+      transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.32s ease-out;
+  }
+
+  .hero-demo-scroll-track {
+    transition: transform 1.6s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+}
+
+@keyframes hero-demo-outro-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes hero-demo-outro-logo-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hero-demo-tap-ripple-kf {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.75);
+  }
+}
+
+@keyframes hero-demo-progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

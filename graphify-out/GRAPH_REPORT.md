@@ -1,17 +1,17 @@
 # Graph Report - CleanLabel  (2026-11-27)
 
 ## Corpus Check
-- 405 files · ~543,609 words
+- 406 files · ~560,882 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
 ## Summary
-- 4691 nodes · 6533 edges · 304 communities (289 shown, 15 thin omitted)
+- 4705 nodes · 6561 edges · 298 communities (283 shown, 15 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 76 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e78ab72e`
+- Built from commit: `6daf1128`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,7 +20,7 @@
 - auth-fields.tsx
 - stores.tsx
 - dependencies
-- sidebar.tsx
+- cn
 - organization-best-practices/SKILL.md
 - better-auth-security-best-practices/SKILL.md
 - routeTree.gen.ts
@@ -42,8 +42,8 @@
 - email-and-password-best-practices/SKILL.md
 - ro.json
 - Performance
-- lucide-react
 - $productId.tsx
+- store-sidebar.tsx
 - During the session
 - index.ts
 - additive-highlighting.ts
@@ -51,13 +51,12 @@
 - safe-envs.ts
 - 0001_nice_rockslide.sql
 - category-icon.tsx
-- Use Existing & Official shadcn/ui Components
-- language-switcher.tsx
+- i18n.ts
 - AGENTS.md
 - JavaScript
-- how-it-works-section.tsx
+- hero-phone-demo.tsx
 - Ask Questions & Challenge Assumptions
-- drizzle-orm
+- seed-off.ts
 - Dos and Don'ts
 - vite.config.ts
 - rules/graphify.md
@@ -73,12 +72,12 @@
 - Language Model
 - Dos and Don'ts
 - HTML
-- ensureSession
+- ingredient-functions.ts
 - search-functions.ts
 - .prompt
 - store-submissions.tsx
 - Detailed Guidelines
-- src_paraglide_messages
+- lucide-react
 - Language Model
 - Dark mode
 - How to implement
@@ -87,7 +86,7 @@
 - settings.json
 - Agentic JavaScript Tools
 - Guidelines
-- @tanstack/react-query
+- admin/add-product.tsx
 - 0001. Bilingual i18n with Paraglide JS and Cookie-Only Locale Routing
 - Implementation with `<dialog>`
 - How to implement
@@ -100,7 +99,7 @@
 - Build a carousel
 - Fallback strategies
 - Custom text decorations
-- store-submission-functions.ts
+- ensureSession
 - Implementation Steps
 - Fallback strategies
 - Scrollability Affordance Hints
@@ -214,7 +213,7 @@
 - Implementation steps
 - Implementation
 - PickItWell
-- cn
+- profile.tsx
 - 1. Content Navigability and Structure
 - 5. Keyboard and Focus Management
 - Semantic Component Adaptation
@@ -287,7 +286,7 @@
 - Fallback strategies
 - Theming browser-generated UI
 - Customize the color or thickness of a scrollbar
-- store-functions.ts
+- category-functions.ts
 - 12. Modals and Native Dialogs
 - 7. Forms and Input Controls
 - 8. Live Regions
@@ -307,17 +306,12 @@
 - Anchor Positioning Tab Underline
 - Platform Controls Dismiss Dialog
 - 3. Advanced Session Management
-- landing-legal-layout.tsx
-- __root.tsx
-- why-section.tsx
-- zod
-- _public/route.tsx
-- home-queries.ts
+- product-functions.ts
 
 ## God Nodes (most connected - your core abstractions)
-1. `cn()` - 167 edges
-2. `react` - 75 edges
-3. `lucide-react` - 49 edges
+1. `cn()` - 170 edges
+2. `react` - 76 edges
+3. `lucide-react` - 50 edges
 4. `@tanstack/react-router` - 43 edges
 5. `Button()` - 38 edges
 6. `ensureSession` - 38 edges
@@ -327,8 +321,6 @@
 10. `sonner` - 25 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `1. Reuse Existing Project Components First` --references--> `cn()`  [INFERRED]
-  .agents/rules/shadcn-ui.md → src/lib/utils.ts
 - `4. Manage Focus and Scroll Container Semantics` --references--> `Home()`  [INFERRED]
   .agents/skills/modern-web-guidance/guides/ui-atoms/scroll-position-aware-elements.md → src/routes/_protected/_public/index.tsx
 - `Commands, links, and what makes a menu` --references--> `Home()`  [INFERRED]
@@ -337,31 +329,33 @@
   .agents/skills/modern-web-guidance/guides/ui-components/menu.md → src/routes/_protected/_public/index.tsx
 - `Fallbacks & browser support for `focusgroup`` --references--> `Home()`  [INFERRED]
   .agents/skills/modern-web-guidance/guides/ui-components/toolbar.md → src/routes/_protected/_public/index.tsx
+- `Integrating the WebOTP API into your verification flow` --references--> `fetch()`  [INFERRED]
+  .agents/skills/modern-web-guidance/guides/forms/sms-otp-form.md → src/server.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (304 total, 15 thin omitted)
+## Communities (298 total, 15 thin omitted)
 
 ### Community 0 - "react"
-Cohesion: 0.08
-Nodes (37): @base-ui/react, cn, react, sonner, @tanstack/react-start, AddCategoryDialog(), AddIngredientDialog(), ProductFormValues (+29 more)
+Cohesion: 0.09
+Nodes (36): class-variance-authority, react, AddIngredientDialog(), AddStoreDialog(), ProductFormValues, GuideStep, ScannerDialogProps, SearchBarProps (+28 more)
 
 ### Community 1 - "auth-fields.tsx"
-Cohesion: 0.18
-Nodes (28): ref_better_auth_client_plugins, ref_better_auth_react, @tanstack/react-form, AuthEmailField(), AuthEmailFieldProps, AuthFieldBaseProps, AuthPasswordField(), AuthPasswordFieldProps (+20 more)
+Cohesion: 0.15
+Nodes (31): ref_better_auth_client_plugins, ref_better_auth_react, @tanstack/react-form, AuthEmailField(), AuthEmailFieldProps, AuthFieldBaseProps, AuthPasswordField(), AuthPasswordFieldProps (+23 more)
 
 ### Community 2 - "stores.tsx"
-Cohesion: 0.07
-Nodes (49): AppSidebar(), CategoryIcon(), StoreInfo, CatalogCategorySection, CatalogProductResult, CategorySectionsView(), CategorySectionsViewProps, EmptyProductsState() (+41 more)
+Cohesion: 0.10
+Nodes (32): StoreInfo, CatalogCategorySection, CatalogProductResult, CategorySectionsView(), CategorySectionsViewProps, EmptyProductsState(), EmptyProductsStateProps, FILTER_TRIGGER_ACTIVE_CLASS (+24 more)
 
 ### Community 3 - "dependencies"
 Cohesion: 0.05
 Nodes (39): dependencies, @aws-sdk/client-s3, @aws-sdk/s3-request-presigner, @base-ui/react, better-auth, browser-image-compression, class-variance-authority, clsx (+31 more)
 
-### Community 4 - "sidebar.tsx"
-Cohesion: 0.08
-Nodes (35): class-variance-authority, SidebarGroupData, SidebarItem, DropdownMenuItem(), Sidebar(), SidebarContent(), SidebarContext, SidebarContextProps (+27 more)
+### Community 4 - "cn"
+Cohesion: 0.04
+Nodes (74): 1. Reuse Existing Project Components First, 2. Install Missing Official Components via CLI, 3. When Custom Components Are Acceptable, Use Existing & Official shadcn/ui Components, cmdk, AppSidebar(), SidebarGroupData, SidebarItem (+66 more)
 
 ### Community 5 - "organization-best-practices/SKILL.md"
 Cohesion: 0.06
@@ -372,12 +366,12 @@ Cohesion: 0.06
 Nodes (30): Account Enumeration Prevention, Background Tasks, Complete Security Configuration Example, Configuration, Configuring the Secret, Configuring Trusted Origins, Cookie Security, Cross-Subdomain Cookies (+22 more)
 
 ### Community 7 - "routeTree.gen.ts"
-Cohesion: 0.05
-Nodes (53): auth, Route, Route, Route, Route, Route, Route, Route (+45 more)
+Cohesion: 0.04
+Nodes (66): @tanstack/react-router-ssr-query, getContext(), TanstackQueryProvider(), auth, isStandalonePwa(), getRouter(), Register, @tanstack/react-router (+58 more)
 
 ### Community 8 - "package.json"
-Cohesion: 0.06
-Nodes (34): imports, name, pnpm, onlyBuiltDependencies, private, type, @aws-sdk/client-s3, @aws-sdk/s3-request-presigner (+26 more)
+Cohesion: 0.05
+Nodes (35): imports, name, pnpm, onlyBuiltDependencies, private, type, @aws-sdk/client-s3, @aws-sdk/s3-request-presigner (+27 more)
 
 ### Community 9 - "Neon"
 Cohesion: 0.07
@@ -385,7 +379,7 @@ Nodes (28): Architecture: How to Use Neon, Backend Primitives, Branch configurat
 
 ### Community 10 - "en.json"
 Cohesion: 0.00
-Nodes (500): add_store_header_title, add_store_summary_aria, app_name, auth_confirm_password_label, auth_connecting_google, auth_continue_google, auth_email_invalid, auth_email_label (+492 more)
+Nodes (500): app_name, auth_confirm_password_label, auth_connecting_google, auth_continue_google, auth_email_invalid, auth_email_label, auth_email_placeholder, auth_email_required (+492 more)
 
 ### Community 11 - "two-factor-authentication-best-practices/SKILL.md"
 Cohesion: 0.08
@@ -396,8 +390,8 @@ Cohesion: 0.09
 Nodes (22): source, assist, actions, files, ignoreUnknown, includes, formatter, enabled (+14 more)
 
 ### Community 13 - "app-schema.ts"
-Cohesion: 0.07
-Nodes (37): ref_drizzle_orm_pg_core, categories, categoriesRelations, ingredients, ingredientsRelations, offCategoryMappings, offCategoryMappingsRelations, offIngredientMappingsRelations (+29 more)
+Cohesion: 0.10
+Nodes (22): categoriesRelations, ingredients, ingredientsRelations, offCategoryMappingsRelations, offIngredientMappingsRelations, productCategoriesRelations, productIngredientsRelations, products (+14 more)
 
 ### Community 14 - "Create Auth Skill"
 Cohesion: 0.10
@@ -428,8 +422,8 @@ Cohesion: 0.11
 Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 more)
 
 ### Community 21 - "carousel.tsx"
-Cohesion: 0.18
-Nodes (16): embla-carousel-react, getReviews(), ReviewsSection(), Carousel(), CarouselApi, CarouselConfig, CarouselContent(), CarouselCtx (+8 more)
+Cohesion: 0.16
+Nodes (17): embla-carousel-react, getReviews(), ReviewsSection(), Card(), Carousel(), CarouselApi, CarouselConfig, CarouselContent() (+9 more)
 
 ### Community 22 - "scripts"
 Cohesion: 0.12
@@ -441,19 +435,19 @@ Nodes (13): Callback URLs, Client Side Validation, Custom Hashing Algorithm, Ema
 
 ### Community 24 - "ro.json"
 Cohesion: 0.00
-Nodes (500): add_store_header_title, add_store_summary_aria, app_name, auth_confirm_password_label, auth_connecting_google, auth_continue_google, auth_email_invalid, auth_email_label (+492 more)
+Nodes (500): app_name, auth_confirm_password_label, auth_connecting_google, auth_continue_google, auth_email_invalid, auth_email_label, auth_email_placeholder, auth_email_required (+492 more)
 
 ### Community 26 - "Performance"
 Cohesion: 0.05
 Nodes (42): Code Examples, Code Examples, Code Examples, Code Examples, Code Examples, Code Examples, Code Examples, Code Examples (+34 more)
 
-### Community 27 - "lucide-react"
-Cohesion: 0.20
-Nodes (17): lucide-react, AddStoreDialog(), GuideStep, ScannerDialogProps, Dialog(), DialogClose(), DialogContent(), DialogDescription() (+9 more)
+### Community 27 - "$productId.tsx"
+Cohesion: 0.12
+Nodes (25): ProductReportErrorDialog(), validateDetails(), validateEmail(), getPaletteForStore(), getStoreInitials(), SIZE_CLASSES, STORE_AVATAR_PALETTES, StoreAvatar() (+17 more)
 
-### Community 28 - "$productId.tsx"
-Cohesion: 0.10
-Nodes (29): HighlightedIngredientsText(), ProductCard(), ProductReportErrorDialog(), validateDetails(), validateEmail(), Skeleton(), isPhraseFoundInText(), splitTextWithHighlights() (+21 more)
+### Community 28 - "store-sidebar.tsx"
+Cohesion: 0.11
+Nodes (29): radix-ui, CategoryIcon(), StepSearchVisual(), getCatalogCategories(), SAMPLE_STORES, StepId, CategoryItem, CategoryNavListProps (+21 more)
 
 ### Community 29 - "During the session"
 Cohesion: 0.09
@@ -461,51 +455,47 @@ Nodes (19): ADR Format, Numbering, Optional sections, Template, What qualifies, 
 
 ### Community 30 - "index.ts"
 Cohesion: 0.15
-Nodes (15): account, accountRelations, roleEnum, session, sessionRelations, user, userRelations, verification (+7 more)
+Nodes (16): drizzle-orm, account, accountRelations, roleEnum, session, sessionRelations, user, userRelations (+8 more)
 
 ### Community 31 - "additive-highlighting.ts"
-Cohesion: 0.18
-Nodes (19): ProductForm(), detectAdditiveCandidates(), escapeRegex(), expandECodeInterval(), findBoundarySafeMatches(), FOLD_CHAR_MAP, foldDiacritics1To1(), FUNCTIONAL_CLASS_PATTERNS (+11 more)
+Cohesion: 0.16
+Nodes (21): HighlightedIngredientsText(), ProductForm(), detectAdditiveCandidates(), escapeRegex(), expandECodeInterval(), findBoundarySafeMatches(), FOLD_CHAR_MAP, foldDiacritics1To1() (+13 more)
 
 ### Community 32 - "generate-sw.mjs"
 Cohesion: 0.40
 Nodes (3): ref_node_path, workbox-build, clientDist
 
 ### Community 33 - "safe-envs.ts"
-Cohesion: 0.15
-Nodes (23): ref_better_auth_adapters_drizzle, ref_better_auth_tanstack_start, getServerEnv(), TODO: Wire up transactional email provider (e.g. Resend / Postmark) to send…, getProductUploadUrls, getUploadUrlsSchema, generatePresignedUploadUrl(), s3 (+15 more)
+Cohesion: 0.14
+Nodes (24): ref_better_auth_adapters_drizzle, ref_better_auth_tanstack_start, browser-image-compression, getServerEnv(), TODO: Wire up transactional email provider (e.g. Resend / Postmark) to send…, getProductUploadUrls, getUploadUrlsSchema, generatePresignedUploadUrl() (+16 more)
 
 ### Community 34 - "0001_nice_rockslide.sql"
 Cohesion: 0.13
 Nodes (21): "account", account_issuer_accountId_uidx, account_userId_idx, "categories", "ingredients", "product_categories", "product_ingredients", "product_stores" (+13 more)
 
 ### Community 35 - "category-icon.tsx"
-Cohesion: 0.11
-Nodes (20): src_assets_pickitwell_icons_01_cereale_paste_panificatie, src_assets_pickitwell_icons_02_lactate_alternative, src_assets_pickitwell_icons_03_sosuri_tartinabile, src_assets_pickitwell_icons_04_gustari_dulciuri, src_assets_pickitwell_icons_05_bauturi, src_assets_pickitwell_icons_06_ingrediente_gatit, src_assets_pickitwell_icons_07_conserve_mancaruri_gata, src_assets_pickitwell_icons_08_carne_mezeluri (+12 more)
+Cohesion: 0.12
+Nodes (19): src_assets_pickitwell_icons_01_cereale_paste_panificatie, src_assets_pickitwell_icons_02_lactate_alternative, src_assets_pickitwell_icons_03_sosuri_tartinabile, src_assets_pickitwell_icons_04_gustari_dulciuri, src_assets_pickitwell_icons_05_bauturi, src_assets_pickitwell_icons_06_ingrediente_gatit, src_assets_pickitwell_icons_07_conserve_mancaruri_gata, src_assets_pickitwell_icons_08_carne_mezeluri (+11 more)
 
-### Community 36 - "Use Existing & Official shadcn/ui Components"
-Cohesion: 0.40
-Nodes (4): 1. Reuse Existing Project Components First, 2. Install Missing Official Components via CLI, 3. When Custom Components Are Acceptable, Use Existing & Official shadcn/ui Components
-
-### Community 37 - "language-switcher.tsx"
-Cohesion: 0.18
-Nodes (15): RomaniaFlagIcon(), UkFlagIcon(), AppLocale, AuthErrorLike, formatLocalizedNumber(), getIntlLocale(), hasLocaleCookie(), isAppLocale() (+7 more)
+### Community 37 - "i18n.ts"
+Cohesion: 0.19
+Nodes (14): LanguageSwitcher(), AppLocale, AuthErrorLike, formatLocalizedNumber(), getIntlLocale(), hasLocaleCookie(), isAppLocale(), LOCALE_COOKIE_NAME (+6 more)
 
 ### Community 39 - "JavaScript"
 Cohesion: 0.05
 Nodes (37): 1. Immutable Data, Deep Cloning, and Grouping, 2. Asynchronous Coordination, Cancellation, and Error Chaining, 3. URL Query Manipulation and Binary Text Encoding, 4. DOM Child Replacement and Custom Events, Atomic Child Replacement and Clearing (`Element.prototype.replaceChildren()`), Binary UTF-8 Text Decoding and Encoding (`TextDecoder` and `TextEncoder`), Chaining Error Causes with Error Cause Options, Code Example (+29 more)
 
-### Community 41 - "how-it-works-section.tsx"
-Cohesion: 0.13
-Nodes (15): src_assets_bronze_badge, src_assets_gold_badge, src_assets_silver_badge, HowItWorksSection(), StepSearchVisual(), getCatalogCategories(), getStepItems(), SAMPLE_STORES (+7 more)
+### Community 41 - "hero-phone-demo.tsx"
+Cohesion: 0.14
+Nodes (16): src_assets_bronze_badge, src_assets_gold_badge, src_assets_silver_badge, DemoPhase, DemoState, getChapterIndex(), getNextDemoState(), HeroPhoneDemo() (+8 more)
 
 ### Community 43 - "Ask Questions & Challenge Assumptions"
 Cohesion: 0.50
 Nodes (3): 1. Ask Whenever Anything Is Unclear, 2. Challenge Suboptimal Approaches & Propose Alternatives, Ask Questions & Challenge Assumptions
 
-### Community 44 - "drizzle-orm"
-Cohesion: 0.27
-Nodes (9): drizzle-orm, ref_drizzle_orm_node_postgres, pg, db, getOrCreateUncategorized(), main(), mapNutriscore(), pool (+1 more)
+### Community 44 - "seed-off.ts"
+Cohesion: 0.31
+Nodes (8): ref_drizzle_orm_node_postgres, pg, db, getOrCreateUncategorized(), main(), mapNutriscore(), pool, resolveOffCategory()
 
 ### Community 45 - "Dos and Don'ts"
 Cohesion: 0.15
@@ -555,29 +545,29 @@ Nodes (13): Align with the user's mental model of time and work, Allow users to 
 Cohesion: 0.06
 Nodes (30): 1. Fundamental Semantics and Validation, 2. Content Grouping and Attribution, 3. Resource Prioritization and Performance, 4. Native Overlays: Dialogs and Popovers, 5. Disclosures: Details and Summary, 6. Focus Boundaries and Visibility, 7. HTML APIs and Forms Grouping, 8. Native Media Elements (+22 more)
 
-### Community 61 - "ensureSession"
-Cohesion: 0.11
-Nodes (24): offIngredientMappings, productIngredients, unmappedOffIngredients, sanitizeHighlightedAdditives(), ensureSession, addIngredient, addIngredientSchema, deleteIngredient (+16 more)
+### Community 61 - "ingredient-functions.ts"
+Cohesion: 0.15
+Nodes (12): offIngredientMappings, unmappedOffIngredients, addIngredient, addIngredientSchema, deleteIngredient, deleteIngredientSchema, getIngredient, getIngredientsSchema (+4 more)
 
 ### Community 62 - "search-functions.ts"
-Cohesion: 0.21
-Nodes (15): SearchCategorySectionsArgs, SearchOptionsArgs, searchQueryOptions(), buildSearchWhereConditions(), categorySectionsSchema, getPaginatedSearchResults, getSearchCategorySections, getSearchResults (+7 more)
+Cohesion: 0.16
+Nodes (17): ref_drizzle_orm_pg_core, categories, productCategories, productStores, stores, searchQueryOptions(), buildSearchWhereConditions(), categorySectionsSchema (+9 more)
 
 ### Community 63 - ".prompt"
 Cohesion: 0.20
 Nodes (9): 2. Core Prompting Capabilities, Basic and Streamed Output, Multimodal Input, Set initial prompts during creation, 2. Core Prompting Capabilities, Basic and Streamed Output, Multimodal Input, Set initial prompts during creation (+1 more)
 
 ### Community 64 - "store-submissions.tsx"
-Cohesion: 0.09
-Nodes (43): @tanstack/react-table, AlertDialog(), AlertDialogAction(), AlertDialogCancel(), AlertDialogContent(), AlertDialogDescription(), AlertDialogFooter(), AlertDialogHeader() (+35 more)
+Cohesion: 0.08
+Nodes (53): sonner, @tanstack/react-start, @tanstack/react-table, AddCategoryDialog(), AlertDialog(), AlertDialogAction(), AlertDialogCancel(), AlertDialogContent() (+45 more)
 
 ### Community 65 - "Detailed Guidelines"
 Cohesion: 0.07
 Nodes (29): 1. Data Minimization and Purpose Limitation, 2. Transparency and Trust, 3. Security and Data Handling for Privacy, 4. Third-Party Audits and Mitigations, 5. Privacy-Preserving Headers, 6. Fingerprinting and User-Agent Reduction, 7. Data Rights and User Control, Code Examples: (+21 more)
 
-### Community 66 - "src_paraglide_messages"
-Cohesion: 0.22
-Nodes (15): ADAPTIVE_IMG_SIZE, BrandLogo(), BrandLogoProps, DARK_IMG_SIZE, PILL_PADDING, FinalCtaSection(), HeroSection(), getHeaderLinks() (+7 more)
+### Community 66 - "lucide-react"
+Cohesion: 0.14
+Nodes (24): lucide-react, @tanstack/react-router, ADAPTIVE_IMG_SIZE, BrandLogo(), BrandLogoProps, DARK_IMG_SIZE, PILL_PADDING, FinalCtaSection() (+16 more)
 
 ### Community 67 - "Language Model"
 Cohesion: 0.20
@@ -611,9 +601,9 @@ Nodes (16): Agentic JavaScript Tools, API Notes, Controlling cross-origin tool e
 Cohesion: 0.10
 Nodes (20): Accessibility, Accessible name and initial focus, Backdrop and styling, Choose how it can be dismissed, Choose the overlay type, `closedby` (`dialog-closedby`), Closing, Dialog (+12 more)
 
-### Community 77 - "@tanstack/react-query"
-Cohesion: 0.09
-Nodes (37): react-zoom-pan-pinch, @tanstack/react-query, ingredientsQueryOptions(), unmappedIngredientsQueryOptions(), ActiveCategoriesFilters, activeCategoriesQueryOptions(), categoriesQueryOptions(), ProductQueryArgs (+29 more)
+### Community 77 - "admin/add-product.tsx"
+Cohesion: 0.08
+Nodes (41): react-zoom-pan-pinch, ingredientsQueryOptions(), unmappedIngredientsQueryOptions(), ActiveCategoriesFilters, activeCategoriesQueryOptions(), allProductsQueryOptions(), categoriesQueryOptions(), ProductQueryArgs (+33 more)
 
 ### Community 78 - "0001. Bilingual i18n with Paraglide JS and Cookie-Only Locale Routing"
 Cohesion: 0.33
@@ -663,9 +653,9 @@ Nodes (15): 1. Triggering the hovercard, 2. Positioning with Anchor Positioning,
 Cohesion: 0.12
 Nodes (15): Border area, Border shape, Choose a technique, Control where the line is skipped, Custom text decorations, Draw a custom line with a pseudo-element, Fallback Strategies, Ink skipping (+7 more)
 
-### Community 90 - "store-submission-functions.ts"
-Cohesion: 0.15
-Nodes (16): productStoreSubmissions, pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), Route, RouteComponent(), Route, StoreSubmissionsAdminPage(), approveStoreSubmission (+8 more)
+### Community 90 - "ensureSession"
+Cohesion: 0.11
+Nodes (25): ref_tanstack_react_start_server, pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), Route, RouteComponent(), Route, StoreSubmissionsAdminPage(), ensureSession (+17 more)
 
 ### Community 91 - "Implementation Steps"
 Cohesion: 0.13
@@ -960,8 +950,8 @@ Cohesion: 0.20
 Nodes (9): 1. **Identify text elements**:, 2. **Apply the chosen wrapping**:, Choosing the Right Wrapping Method, Critical Constraints and Performance, Fallback strategies, Implementation, Improve Text Layout and Legibility, text-wrap: balance (+1 more)
 
 ### Community 164 - "landing-data.ts"
-Cohesion: 0.17
-Nodes (17): FooterLegalLink, getFooterExploreLinks(), getFooterLegalLinks(), getInfoModalTopicMap(), getInfoModalTopics(), getSocialLinks(), InfoModalTopicConfig, TODO: Replace [x] with client-confirmed number of working days for methodology… (+9 more)
+Cohesion: 0.07
+Nodes (43): zod, src_assets_demo_demo_bronze_product, src_assets_demo_demo_gold_product, src_assets_demo_demo_silver_product, CategoryIconKey, HowItWorksSection(), FooterLegalLink, getHeaderLinks() (+35 more)
 
 ### Community 165 - "Language Detection"
 Cohesion: 0.22
@@ -1115,9 +1105,9 @@ Nodes (7): 1. Identify the aspect ratio of your preferred font, 2. Apply font-si
 Cohesion: 0.25
 Nodes (7): Alpha vs Luminance Masking Modes, Fallback strategies, Implementation, Method 1: Using a repeating raster image (Recommended for realistic textures), Method 2: Using CSS Gradients for geometric patterns, Overview, Visually Texture Content
 
-### Community 204 - "cn"
-Cohesion: 0.06
-Nodes (55): radix-ui, @tanstack/react-router, ProductCardProps, StoreChip(), LanguageSwitcher(), SearchBar(), SearchBarProps, getPaletteForStore() (+47 more)
+### Community 204 - "profile.tsx"
+Cohesion: 0.14
+Nodes (24): @tanstack/react-query, ProductCard(), ProductCardProps, StoreCard(), Popover(), PopoverContent(), PopoverTrigger(), Skeleton() (+16 more)
 
 ### Community 206 - "1. Content Navigability and Structure"
 Cohesion: 0.29
@@ -1407,9 +1397,9 @@ Nodes (4): Multiple choice controls (select, radios, checkboxes), Non-textual `<
 Cohesion: 0.40
 Nodes (4): Apply `scrollbar-color` and `scrollbar-width`, Customize the color or thickness of a scrollbar, Fallback strategies, Fallbacks & browser support for scrollbar-color
 
-### Community 278 - "store-functions.ts"
-Cohesion: 0.22
-Nodes (8): addStore, addStoreSchema, deleteStore, deleteStoreSchema, getStoresSchema, storeIdSchema, updateStore, updateStoreSchema
+### Community 278 - "category-functions.ts"
+Cohesion: 0.15
+Nodes (12): offCategoryMappings, unmappedOffTags, addCategory, addCategorySchema, deleteCategory, deleteCategorySchema, getActiveCategoriesSchema, getCategoriesSchema (+4 more)
 
 ### Community 279 - "12. Modals and Native Dialogs"
 Cohesion: 0.50
@@ -1468,56 +1458,36 @@ Cohesion: 0.50
 Nodes (3): Fallback strategies, Persistent Top Layer UI, Reparenting open top-layer elements
 
 ### Community 293 - "pwa-install.tsx"
-Cohesion: 0.12
-Nodes (20): 0002. Unified PWA Scope with Client-Side Standalone Gating and Progressive Install, Consequences, Considered Options, Context, Decision, getGuideContent(), PwaInstallDialog(), detectIosDevice() (+12 more)
+Cohesion: 0.08
+Nodes (25): 0002. Unified PWA Scope with Client-Side Standalone Gating and Progressive Install, Consequences, Considered Options, Context, Decision, next-themes, ref_styles_css_url, @tanstack/react-devtools (+17 more)
 
 ### Community 297 - "3. Advanced Session Management"
 Cohesion: 0.50
 Nodes (4): 3. Advanced Session Management, Cloning Sessions, Context and Quota, Restoring Past Sessions
 
-### Community 298 - "landing-legal-layout.tsx"
-Cohesion: 0.14
-Nodes (20): ref_tanstack_react_start_server, getLegalLastUpdatedDate(), InfoModalTopic, LEGAL_LAST_UPDATED_ISO, METHODOLOGY_REVIEW_SLA_DAYS, LandingLegalLayout(), LandingLegalLayoutProps, LegalSection() (+12 more)
-
-### Community 299 - "__root.tsx"
-Cohesion: 0.11
-Nodes (16): next-themes, ref_styles_css_url, @tanstack/react-devtools, @tanstack/react-query-devtools, @tanstack/react-router-devtools, @tanstack/react-router-ssr-query, NotFound(), Toaster() (+8 more)
-
-### Community 300 - "why-section.tsx"
-Cohesion: 0.38
-Nodes (5): getWhyCards(), WhyIconKey, WhyBenefitIcon(), WhySection(), Card()
-
-### Community 301 - "zod"
-Cohesion: 0.40
-Nodes (4): zod, clientEnv, clientEnvSchema, serverEnvSchema
-
-### Community 302 - "_public/route.tsx"
-Cohesion: 0.50
-Nodes (4): Onboarding(), getNavItems(), Route, RouteComponent()
-
-### Community 303 - "home-queries.ts"
-Cohesion: 0.67
-Nodes (3): homeQueryOptions(), Route, getHomeData
+### Community 300 - "product-functions.ts"
+Cohesion: 0.24
+Nodes (9): productIngredients, sanitizeHighlightedAdditives(), addProduct, addProductSchema, deleteProduct, deleteProductSchema, getProductsSchema, updateProduct (+1 more)
 
 ## Knowledge Gaps
-- **2995 isolated node(s):** `$schema`, `enabled`, `clientKind`, `useIgnoreFile`, `ignoreUnknown` (+2990 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 3312 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **3000 isolated node(s):** `$schema`, `enabled`, `clientKind`, `useIgnoreFile`, `ignoreUnknown` (+2995 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 3320 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `store-submissions.tsx`, `auth-fields.tsx`, `src_paraglide_messages`, `stores.tsx`, `sidebar.tsx`, `landing-data.ts`, `language-switcher.tsx`, `pwa-install.tsx`, `package.json`, `how-it-works-section.tsx`, `landing-legal-layout.tsx`, `__root.tsx`, `cn`, `carousel.tsx`, `lucide-react`, `$productId.tsx`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `cn()` connect `cn` to `store-submissions.tsx`, `auth-fields.tsx`, `stores.tsx`, `src_paraglide_messages`, `category-icon.tsx`, `Use Existing & Official shadcn/ui Components`, `language-switcher.tsx`, `sidebar.tsx`, `react`, `how-it-works-section.tsx`, `why-section.tsx`, `@tanstack/react-query`, `Home`, `carousel.tsx`, `lucide-react`, `$productId.tsx`?**
+- **Why does `cn()` connect `cn` to `react`, `auth-fields.tsx`, `lucide-react`, `category-icon.tsx`, `stores.tsx`, `i18n.ts`, `store-submissions.tsx`, `hero-phone-demo.tsx`, `profile.tsx`, `admin/add-product.tsx`, `Home`, `carousel.tsx`, `$productId.tsx`, `store-sidebar.tsx`, `additive-highlighting.ts`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **Why does `Home()` connect `Home` to `Accordion`, `Fallback strategies`, `cn`, `Implementing the interaction`, `Implementation`, `profile.tsx`, `Build a popup menu`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `@tanstack/react-start` connect `react` to `store-submissions.tsx`, `safe-envs.ts`, `routeTree.gen.ts`, `package.json`, `landing-legal-layout.tsx`, `cn`, `@tanstack/react-query`, `app-schema.ts`, `store-functions.ts`, `search-functions.ts`, `store-submission-functions.ts`, `lucide-react`, `$productId.tsx`, `ensureSession`, `index.ts`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `store-submissions.tsx`, `auth-fields.tsx`, `stores.tsx`, `lucide-react`, `cn`, `landing-data.ts`, `pwa-install.tsx`, `routeTree.gen.ts`, `package.json`, `hero-phone-demo.tsx`, `i18n.ts`, `profile.tsx`, `carousel.tsx`, `$productId.tsx`, `store-sidebar.tsx`, `additive-highlighting.ts`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **What connects `$schema`, `enabled`, `clientKind` to the rest of the system?**
-  _2995 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _3000 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `react` be split into smaller, more focused modules?**
-  _Cohesion score 0.07650273224043716 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
 - **Should `stores.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.07005649717514124 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1021021021021021 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._

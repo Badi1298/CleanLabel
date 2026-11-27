@@ -694,14 +694,6 @@ function ProductDetails() {
 								)}
 							>
 								<div className="flex items-start gap-3.5 min-w-0">
-									<div
-										className={cn(
-											"w-12 h-12 rounded-2xl border flex items-center justify-center shrink-0 shadow-2xs",
-											spotlight.emblemClass,
-										)}
-									>
-										<SpotlightIcon className="w-6 h-6" aria-hidden="true" />
-									</div>
 									<div className="min-w-0">
 										<div className="flex items-center gap-2 flex-wrap">
 											{product.score && product.score !== "none" ? (
