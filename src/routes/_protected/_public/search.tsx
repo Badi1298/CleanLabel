@@ -47,6 +47,7 @@ import {
 	SelectValue,
 } from "#/components/ui/select";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import {
 	activeCategoriesQueryOptions,
 	categoriesQueryOptions,
@@ -177,7 +178,11 @@ function SearchPage() {
 
 	const activeParentCategory =
 		activeParentId === UNCATEGORIZED_CATEGORY_ID
-			? { id: UNCATEGORIZED_CATEGORY_ID, name: "Other", iconUrl: null }
+			? {
+					id: UNCATEGORIZED_CATEGORY_ID,
+					name: m.common_other_category(),
+					iconUrl: null,
+				}
 			: activeParentId
 				? allCategories?.find((c) => c.id === activeParentId)
 				: undefined;
@@ -286,7 +291,9 @@ function SearchPage() {
 	};
 
 	const mobileCategoryLabel =
-		selectedSubcategory?.name || activeParentCategory?.name || "Categories";
+		selectedSubcategory?.name ||
+		activeParentCategory?.name ||
+		m.search_categories_label();
 
 	const trimmedQuery = searchParams.q?.trim();
 
@@ -298,15 +305,18 @@ function SearchPage() {
 					<SearchBar
 						key={searchParams.q || "empty"}
 						initialQuery={searchParams.q}
-						placeholder="Search products, brands..."
+						placeholder={m.home_search_placeholder()}
 					/>
 
 					{/* Responsive Filters */}
-					<section aria-label="Search filters" className="flex flex-col gap-2">
+					<section
+						aria-label={m.search_filters_aria()}
+						className="flex flex-col gap-2"
+					>
 						<div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-2">
 							<div className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E] mr-1">
 								<SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
-								<span>Filters</span>
+								<span>{m.common_filters()}</span>
 							</div>
 
 							<div className="col-span-2 lg:hidden">
@@ -379,7 +389,7 @@ function SearchPage() {
 								}
 							>
 								<SelectTrigger
-									aria-label="Filter by store"
+									aria-label={m.search_filter_by_store_aria()}
 									className={cn(
 										"w-full sm:w-auto sm:min-w-35 h-10 data-[size=default]:h-10 pointer-coarse:h-11 pointer-coarse:data-[size=default]:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
 										searchParams.storeId
@@ -387,10 +397,10 @@ function SearchPage() {
 											: FILTER_TRIGGER_INACTIVE_CLASS,
 									)}
 								>
-									<SelectValue placeholder="Store" />
+									<SelectValue placeholder={m.search_store_placeholder()} />
 								</SelectTrigger>
 								<SelectContent className="rounded-xl border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C]">
-									<SelectItem value="all">Any Store</SelectItem>
+									<SelectItem value="all">{m.search_any_store()}</SelectItem>
 									{stores?.map((store) => (
 										<SelectItem key={store.id} value={store.id}>
 											{store.name}
@@ -407,7 +417,7 @@ function SearchPage() {
 									className="hidden sm:inline-flex items-center gap-1.5 h-10 px-3 rounded-xl text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/40 dark:hover:text-rose-300 sm:ml-auto"
 								>
 									<X className="w-3.5 h-3.5" aria-hidden="true" />
-									<span>Clear all</span>
+									<span>{m.common_clear_all()}</span>
 								</Button>
 							)}
 						</div>
@@ -416,8 +426,10 @@ function SearchPage() {
 							<div className="flex sm:hidden items-center justify-between pt-0.5">
 								<span className="text-xs font-medium text-[#5C665E] dark:text-[#9AA89E]">
 									{activeFilterCount > 0
-										? `${activeFilterCount} ${activeFilterCount === 1 ? "filter" : "filters"} active`
-										: "Search active"}
+										? m.common_filters_active_count({
+												count: activeFilterCount,
+											})
+										: m.search_active()}
 								</span>
 								<Button
 									type="button"
@@ -427,7 +439,7 @@ function SearchPage() {
 									className="h-auto min-h-8 gap-1 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/50 border-rose-200/80 dark:border-rose-800/50 text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-100 hover:text-rose-700 dark:hover:bg-rose-950/70 shadow-none"
 								>
 									<X className="w-3.5 h-3.5" aria-hidden="true" />
-									<span>Clear all</span>
+									<span>{m.common_clear_all()}</span>
 								</Button>
 							</div>
 						)}
@@ -439,12 +451,12 @@ function SearchPage() {
 			<div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8">
 				<div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-7">
 					<aside
-						aria-label="Browse by category"
+						aria-label={m.search_browse_by_category_aria()}
 						className="hidden lg:block w-64 shrink-0 lg:sticky lg:top-44 lg:max-h-[calc(100dvh-12rem)] lg:overflow-y-auto rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] p-3 shadow-[0_2px_10px_rgba(27,67,50,0.03)]"
 					>
 						<div className="px-2.5 pt-1 pb-2">
 							<h2 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-								Categories
+								{m.search_categories_label()}
 							</h2>
 						</div>
 						<CategoryNavList
@@ -473,11 +485,11 @@ function SearchPage() {
 											className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] text-balance"
 										>
 											{trimmedQuery
-												? `Results for "${trimmedQuery}"`
-												: "All Products"}
+												? m.search_results_for({ query: trimmedQuery })
+												: m.common_all_products_title()}
 										</h1>
 										<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-											Browse by aisle or pick a category to see all items
+											{m.search_subtitle()}
 										</p>
 									</div>
 
@@ -493,10 +505,9 @@ function SearchPage() {
 												/>
 											)}
 											<span>
-												{sectionsData.totalProductsCount}{" "}
-												{sectionsData.totalProductsCount === 1
-													? "product"
-													: "products"}
+												{m.common_products_count({
+													count: sectionsData.totalProductsCount,
+												})}
 											</span>
 										</Badge>
 									)}
@@ -523,7 +534,7 @@ function SearchPage() {
 											className="h-auto min-h-9 gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] hover:text-[#1B3328] dark:hover:text-[#EDF2EE] shadow-none"
 										>
 											<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-											<span>All Products</span>
+											<span>{m.common_all_products_title()}</span>
 										</Button>
 
 										{activeParentCategory && (
@@ -575,7 +586,8 @@ function SearchPage() {
 												id="search-results-heading"
 												className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 											>
-												{activeParentCategory?.name || "Category Results"}
+												{activeParentCategory?.name ||
+													m.search_category_results_fallback()}
 											</h1>
 										)}
 									</div>
@@ -591,8 +603,7 @@ function SearchPage() {
 											/>
 										)}
 										<span>
-											{filteredTotalCount}{" "}
-											{filteredTotalCount === 1 ? "Result" : "Results"}
+											{m.common_results_count({ count: filteredTotalCount })}
 										</span>
 									</Badge>
 								</div>

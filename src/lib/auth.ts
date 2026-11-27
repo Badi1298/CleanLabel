@@ -60,6 +60,11 @@ export const auth = betterAuth({
 				required: false,
 				defaultValue: false,
 			},
+			preferredLocale: {
+				type: "string",
+				required: false,
+				input: false,
+			},
 		},
 	},
 	plugins: [tanstackStartCookies()],

@@ -3,8 +3,11 @@ import { ArrowRight } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { BrandLogo } from "#/components/brand-logo";
+import { LanguageSwitcher } from "#/components/language-switcher";
 import { ScoreBadge } from "#/components/ui/score-badge";
 import { authClient } from "#/lib/auth-client";
+import { getLocalizedAuthError } from "#/lib/i18n";
+import { m } from "#/paraglide/messages.js";
 
 type AuthShellProps = {
 	title: string;
@@ -62,11 +65,13 @@ export function AuthShell({
 				provider: "google",
 			});
 			if (result?.error) {
-				toast.error(result.error.message || "Failed to continue with Google");
+				toast.error(
+					getLocalizedAuthError(result.error, m.auth_error_google_failed()),
+				);
 				setIsGooglePending(false);
 			}
 		} catch {
-			toast.error("Failed to continue with Google");
+			toast.error(m.auth_error_google_failed());
 			setIsGooglePending(false);
 		}
 	};
@@ -79,6 +84,10 @@ export function AuthShell({
 					className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,244,230,0.12),transparent_58%)]"
 					aria-hidden="true"
 				/>
+
+				<div className="relative z-10 max-w-5xl mx-auto flex justify-end mb-2 sm:mb-0 sm:absolute sm:top-5 sm:right-6">
+					<LanguageSwitcher surface="dark" isSignedIn={false} />
+				</div>
 
 				<div className="relative z-10 max-w-md mx-auto text-center">
 					<Link
@@ -113,7 +122,7 @@ export function AuthShell({
 								</div>
 								<div className="relative flex justify-center">
 									<span className="bg-white dark:bg-[#16221C] px-3 text-[11px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-										Or continue with
+										{m.auth_or_continue_with()}
 									</span>
 								</div>
 							</div>
@@ -127,8 +136,8 @@ export function AuthShell({
 								<GoogleMark />
 								<span>
 									{isGooglePending
-										? "Connecting to Google..."
-										: "Continue with Google"}
+										? m.auth_connecting_google()
+										: m.auth_continue_google()}
 								</span>
 							</button>
 						</>
@@ -141,7 +150,7 @@ export function AuthShell({
 
 				{/* Secondary scoring cue placed below the form so mobile keyboards never cover submit */}
 				<div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-[#5C665E] dark:text-[#9AA89E]">
-					<span className="font-medium">Transparent ingredient scoring</span>
+					<span className="font-medium">{m.auth_scoring_cue()}</span>
 					<span aria-hidden="true" className="text-[#C9B382]">
 						&bull;
 					</span>
@@ -157,7 +166,7 @@ export function AuthShell({
 						to="/landing"
 						className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#2D5A44] dark:text-emerald-400 hover:text-[#1B4332] dark:hover:text-emerald-300 hover:underline underline-offset-4 transition-colors"
 					>
-						<span>Vezi prezentarea aplicației</span>
+						<span>{m.auth_view_landing()}</span>
 						<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
 					</Link>
 				</div>

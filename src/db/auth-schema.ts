@@ -22,6 +22,7 @@ export const user = pgTable("user", {
 	hasCompletedOnboarding: boolean("has_completed_onboarding")
 		.default(false)
 		.notNull(),
+	preferredLocale: text("preferred_locale"),
 	createdAt: timestamp("created_at").defaultNow().notNull(),
 	updatedAt: timestamp("updated_at")
 		.defaultNow()

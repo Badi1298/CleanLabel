@@ -14,6 +14,8 @@ import {
 } from "#/components/auth/auth-fields";
 import { AuthShell } from "#/components/auth/auth-shell";
 import { authClient } from "#/lib/auth-client";
+import { getLocalizedAuthError } from "#/lib/i18n";
+import { m } from "#/paraglide/messages.js";
 
 export const Route = createFileRoute("/signup")({
 	component: Signup,
@@ -38,7 +40,7 @@ function Signup() {
 		onSubmit: async ({ value }) => {
 			clearAnnouncement();
 			if (value.password !== value.confirmPassword) {
-				toast.error("Passwords do not match");
+				toast.error(m.auth_passwords_mismatch());
 				return;
 			}
 
@@ -50,23 +52,23 @@ function Signup() {
 			if (!error) {
 				window.location.href = "/";
 			} else {
-				toast.error(error.message || "Failed to sign up");
+				toast.error(getLocalizedAuthError(error, m.auth_signup_failed()));
 			}
 		},
 	});
 
 	return (
 		<AuthShell
-			title="Create Account"
-			subtitle="Join PickItWell to save favorites and flag ingredients you avoid."
+			title={m.auth_signup_title()}
+			subtitle={m.auth_signup_subtitle()}
 			footer={
 				<>
-					Already have an account?{" "}
+					{m.auth_signup_has_account()}{" "}
 					<Link
 						to="/login"
 						className="font-bold text-[#1B4332] dark:text-emerald-300 hover:underline underline-offset-4"
 					>
-						Sign in
+						{m.auth_signup_login_link()}
 					</Link>
 				</>
 			}
@@ -93,7 +95,7 @@ function Signup() {
 						<AuthEmailField
 							field={field}
 							id="email"
-							label="Email Address"
+							label={m.auth_email_label()}
 							autoComplete="username"
 							enterKeyHint="next"
 							onBlurError={announceError}
@@ -112,7 +114,7 @@ function Signup() {
 						<AuthPasswordField
 							field={field}
 							id="new-password"
-							label="Password"
+							label={m.auth_password_label()}
 							autoComplete="new-password"
 							enterKeyHint="next"
 							minLength={6}
@@ -126,9 +128,9 @@ function Signup() {
 					name="confirmPassword"
 					validators={{
 						onDynamic: ({ value, fieldApi }) => {
-							if (!value) return "Please confirm your password";
+							if (!value) return m.auth_password_confirm_required();
 							if (value !== fieldApi.form.getFieldValue("password")) {
-								return "Passwords do not match";
+								return m.auth_passwords_mismatch();
 							}
 							return undefined;
 						},
@@ -138,7 +140,7 @@ function Signup() {
 						<AuthPasswordField
 							field={field}
 							id="confirm-password"
-							label="Confirm Password"
+							label={m.auth_confirm_password_label()}
 							autoComplete="new-password"
 							enterKeyHint="done"
 							minLength={6}
@@ -152,8 +154,8 @@ function Signup() {
 					{(isSubmitting) => (
 						<AuthSubmitButton
 							isSubmitting={isSubmitting}
-							idleLabel="Create Account"
-							submittingLabel="Creating account..."
+							idleLabel={m.auth_signup_submit()}
+							submittingLabel={m.auth_signup_submitting()}
 						/>
 					)}
 				</form.Subscribe>

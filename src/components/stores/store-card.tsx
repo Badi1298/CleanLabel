@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { StoreAvatar } from "#/components/stores/store-avatar";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 
 type StoreCardProps = {
 	store: {
@@ -42,8 +43,8 @@ export function StoreCard({ store, className }: StoreCardProps) {
 					</h3>
 					<p className="text-xs font-medium text-[#5C665E] dark:text-[#9AA89E] mt-1 tabular-nums">
 						{count > 0
-							? `${count} ${count === 1 ? "product" : "products"}`
-							: "Browse aisles"}
+							? m.common_products_count({ count })
+							: m.stores_card_browse_aisles()}
 					</p>
 				</div>
 			</article>

@@ -3,24 +3,20 @@ import { useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { cn } from "#/lib/utils";
-
-const emailSchema = z
-	.string()
-	.trim()
-	.refine(
-		(val) => val === "" || z.email().safeParse(val).success,
-		"Please enter a valid email address.",
-	);
+import { m } from "#/paraglide/messages.js";
 
 function validateDetails(value: string): string | undefined {
 	return value.trim().length === 0
-		? "Please describe what needs to be corrected."
+		? m.report_dialog_details_required()
 		: undefined;
 }
 
 function validateEmail(value: string): string | undefined {
-	const result = emailSchema.safeParse(value);
-	return result.success ? undefined : result.error.issues[0]?.message;
+	const trimmed = value.trim();
+	if (trimmed === "") return undefined;
+	return z.email().safeParse(trimmed).success
+		? undefined
+		: m.report_dialog_email_invalid();
 }
 
 export function ProductReportErrorDialog({
@@ -134,7 +130,7 @@ export function ProductReportErrorDialog({
 			return;
 		}
 
-		toast.success("Thank you! Your report has been submitted for review.");
+		toast.success(m.report_dialog_success());
 		setDetails("");
 		setDetailsTouched(false);
 		setDetailsError(undefined);
@@ -160,10 +156,10 @@ export function ProductReportErrorDialog({
 							id={titleId}
 							className="text-base sm:text-lg font-extrabold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 						>
-							Report an error
+							{m.report_dialog_title()}
 						</h2>
 						<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-							Spotted a recipe change or label discrepancy? Let us know.
+							{m.report_dialog_subtitle()}
 						</p>
 					</div>
 				</div>
@@ -171,7 +167,7 @@ export function ProductReportErrorDialog({
 				<button
 					type="button"
 					onClick={() => dialogRef.current?.close()}
-					aria-label="Close dialog"
+					aria-label={m.common_close_dialog()}
 					className="w-9 h-9 rounded-full flex items-center justify-center bg-white dark:bg-[#1E2C25] border border-[#EAE4D7] dark:border-[#2B3D33] text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B3328] dark:hover:text-[#EDF2EE] hover:border-[#2D5A44] transition-colors cursor-pointer touch-manipulation shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 				>
 					<X className="w-4 h-4" aria-hidden="true" />
@@ -186,7 +182,7 @@ export function ProductReportErrorDialog({
 			>
 				<div className="rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#24362D] px-3.5 py-2.5">
 					<p className="text-[10px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-						Product
+						{m.report_dialog_product_label()}
 					</p>
 					<p className="text-xs sm:text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE] mt-0.5">
 						{productBrand ? `${productBrand} — ${productName}` : productName}
@@ -198,7 +194,7 @@ export function ProductReportErrorDialog({
 						htmlFor={detailsId}
 						className="block text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
 					>
-						What needs to be corrected?{" "}
+						{m.report_dialog_details_label()}{" "}
 						<span aria-hidden="true" className="text-rose-600">
 							*
 						</span>
@@ -229,7 +225,7 @@ export function ProductReportErrorDialog({
 								? `${detailsHelpId} ${detailsErrorId}`
 								: detailsHelpId
 						}
-						placeholder="Describe the ingredient change, missing additive, or store discrepancy..."
+						placeholder={m.report_dialog_details_placeholder()}
 						className={cn(
 							"w-full rounded-xl border bg-[#FAF8F5] dark:bg-[#121D17] px-3.5 py-2.5 text-base md:text-sm text-[#1B3328] dark:text-[#EDF2EE] placeholder:text-[#7D857E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]",
 							detailsError
@@ -241,7 +237,7 @@ export function ProductReportErrorDialog({
 						id={detailsHelpId}
 						className="text-[11px] text-[#5C665E] dark:text-[#9AA89E]"
 					>
-						Include details from the current package label if available.
+						{m.report_dialog_details_help()}
 					</p>
 					{detailsError && (
 						<p
@@ -259,7 +255,7 @@ export function ProductReportErrorDialog({
 						htmlFor={emailId}
 						className="block text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
 					>
-						Email (optional)
+						{m.report_dialog_email_label()}
 					</label>
 					<input
 						ref={emailRef}
@@ -288,7 +284,7 @@ export function ProductReportErrorDialog({
 						}}
 						aria-invalid={Boolean(emailError)}
 						aria-describedby={emailError ? emailErrorId : undefined}
-						placeholder="name@example.com"
+						placeholder={m.report_dialog_email_placeholder()}
 						className={cn(
 							"w-full min-h-11 rounded-xl border bg-[#FAF8F5] dark:bg-[#121D17] px-3.5 py-2 text-base md:text-sm text-[#1B3328] dark:text-[#EDF2EE] placeholder:text-[#7D857E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]",
 							emailError
@@ -313,14 +309,14 @@ export function ProductReportErrorDialog({
 						onClick={() => dialogRef.current?.close()}
 						className="min-h-10 px-4 py-2 rounded-full border border-[#EAE4D7] dark:border-[#2B3D33] bg-white dark:bg-[#1E2C25] text-xs font-bold text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#24362D] transition-colors cursor-pointer touch-manipulation"
 					>
-						Cancel
+						{m.common_cancel()}
 					</button>
 					<button
 						type="submit"
 						className="inline-flex items-center gap-1.5 min-h-10 px-5 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-xs font-bold transition-colors cursor-pointer touch-manipulation"
 					>
 						<CheckCircle2 className="w-4 h-4" aria-hidden="true" />
-						<span>Submit report</span>
+						<span>{m.report_dialog_submit()}</span>
 					</button>
 				</div>
 			</form>

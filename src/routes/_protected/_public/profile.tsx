@@ -16,7 +16,6 @@ import {
 	Pencil,
 	Plus,
 	ShieldAlert,
-	Sparkles,
 	Store,
 	Trash2,
 	Users,
@@ -25,6 +24,7 @@ import {
 import { useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ProductCard } from "#/components/home/product-card";
+import { LanguageSwitcher } from "#/components/language-switcher";
 import {
 	Command,
 	CommandEmpty,
@@ -43,6 +43,7 @@ import { Skeleton } from "#/components/ui/skeleton";
 import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
 import {
 	userExcludedIngredientsQueryOptions,
@@ -73,62 +74,66 @@ type SampleFavoriteProduct = {
 	storeName: string;
 };
 
-const SAMPLE_FAVORITES: SampleFavoriteProduct[] = [
-	{
-		id: "sample-1",
-		name: "Organic Rolled Oats",
-		brand: "BioNature",
-		score: "gold",
-		storeName: "Mega Image",
-	},
-	{
-		id: "sample-2",
-		name: "Greek Strained Yogurt 2%",
-		brand: "Olympus",
-		score: "gold",
-		storeName: "Kaufland",
-	},
-	{
-		id: "sample-3",
-		name: "Whole Grain Rye Crackers",
-		brand: "NordicBake",
-		score: "silver",
-		storeName: "Lidl",
-	},
-];
+function getSampleFavorites(): SampleFavoriteProduct[] {
+	return [
+		{
+			id: "sample-1",
+			name: m.profile_sample1_name(),
+			brand: "BioNature",
+			score: "gold",
+			storeName: "Mega Image",
+		},
+		{
+			id: "sample-2",
+			name: m.profile_sample2_name(),
+			brand: "Olympus",
+			score: "gold",
+			storeName: "Kaufland",
+		},
+		{
+			id: "sample-3",
+			name: m.profile_sample3_name(),
+			brand: "NordicBake",
+			score: "silver",
+			storeName: "Lidl",
+		},
+	];
+}
 
-const COMMUNITY_LINKS = [
-	{
-		id: "instagram",
-		label: "Instagram",
-		description: "@pickitwell — daily label checks & tips",
-		href: "https://www.instagram.com/pickitwell?obrf=bDU5MWdqY3VjaTE4",
-		Icon: InstagramIcon,
-		iconStyle:
-			"bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/50",
-		badge: null,
-	},
-	{
-		id: "fb-group",
-		label: "Facebook Members Group",
-		description: "Share finds & ask the community",
-		href: "https://www.facebook.com/groups/773704136519369",
-		Icon: Users,
-		iconStyle:
-			"bg-sky-50 text-sky-700 border-sky-200/80 dark:bg-sky-950/50 dark:text-sky-300 dark:border-sky-800/50",
-		badge: null,
-	},
-	{
-		id: "fb-page",
-		label: "Facebook Page",
-		description: "News, updates & PickItWell highlights",
-		href: "https://www.facebook.com/profile.php?id=61595898309388",
-		Icon: FacebookIcon,
-		iconStyle:
-			"bg-indigo-50 text-indigo-700 border-indigo-200/80 dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-800/50",
-		badge: null,
-	},
-] as const;
+function getCommunityLinks() {
+	return [
+		{
+			id: "instagram",
+			label: "Instagram",
+			description: m.profile_community_instagram_desc(),
+			href: "https://www.instagram.com/pickitwell?obrf=bDU5MWdqY3VjaTE4",
+			Icon: InstagramIcon,
+			iconStyle:
+				"bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/50",
+			badge: null,
+		},
+		{
+			id: "fb-group",
+			label: m.profile_community_fb_group_title(),
+			description: m.profile_community_fb_group_desc(),
+			href: "https://www.facebook.com/groups/773704136519369",
+			Icon: Users,
+			iconStyle:
+				"bg-sky-50 text-sky-700 border-sky-200/80 dark:bg-sky-950/50 dark:text-sky-300 dark:border-sky-800/50",
+			badge: null,
+		},
+		{
+			id: "fb-page",
+			label: m.profile_community_fb_page_title(),
+			description: m.profile_community_fb_page_desc(),
+			href: "https://www.facebook.com/profile.php?id=61595898309388",
+			Icon: FacebookIcon,
+			iconStyle:
+				"bg-indigo-50 text-indigo-700 border-indigo-200/80 dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-800/50",
+			badge: null,
+		},
+	] as const;
+}
 
 function getInitials(displayName: string, email?: string | null): string {
 	const cleaned = displayName.trim();
@@ -304,6 +309,9 @@ function ProfilePage() {
 	const favoritesCount = favoriteProducts?.length ?? 0;
 	const excludedCount = excludedIngredients?.length ?? 0;
 
+	const sampleFavorites = getSampleFavorites();
+	const communityLinks = getCommunityLinks();
+
 	const handleOpenEditName = () => {
 		const fallbackParts = displayName.split(/\s+/);
 		setDraftFirstName(
@@ -326,32 +334,32 @@ function ProfilePage() {
 		const first = draftFirstName.trim();
 		const last = draftLastName.trim();
 		if (!first) {
-			toast.error("Please enter at least a first name");
+			toast.error(m.profile_toast_first_name_required());
 			return;
 		}
 		setPreviewNameOverride({ firstName: first, lastName: last });
 		setIsEditNameOpen(false);
-		toast.success("Name updated (design preview)");
+		toast.success(m.profile_toast_name_updated());
 	};
 
 	const handleSelectIngredient = async (ingredientId: string) => {
 		setIsIngredientPickerOpen(false);
 		try {
 			await toggleIngredientFn({ data: { ingredientId } });
-			toast.success("Ingredient added to excluded list");
+			toast.success(m.profile_toast_excluded_added());
 			refetchExcluded();
 		} catch {
-			toast.error("Failed to add ingredient");
+			toast.error(m.profile_toast_excluded_add_failed());
 		}
 	};
 
 	const handleRemoveIngredient = async (ingredientId: string) => {
 		try {
 			await toggleIngredientFn({ data: { ingredientId } });
-			toast.success("Ingredient removed from excluded list");
+			toast.success(m.profile_toast_excluded_removed());
 			refetchExcluded();
 		} catch {
-			toast.error("Failed to remove ingredient");
+			toast.error(m.profile_toast_excluded_remove_failed());
 		}
 	};
 
@@ -362,7 +370,7 @@ function ProfilePage() {
 
 	const handleConfirmDeleteAccount = () => {
 		setIsDeleteDialogOpen(false);
-		toast.info("Account deletion will be connected soon.");
+		toast.info(m.profile_toast_delete_soon());
 	};
 
 	return (
@@ -406,11 +414,11 @@ function ProfilePage() {
 									<button
 										type="button"
 										onClick={handleOpenEditName}
-										aria-label="Edit display name"
+										aria-label={m.profile_edit_name_aria()}
 										className="inline-flex items-center gap-1 rounded-full bg-[#FBF4E6]/12 hover:bg-[#FBF4E6]/22 border border-[#FBF4E6]/20 px-2.5 py-1 text-[11px] font-semibold text-[#FCE8C6] transition-colors cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 									>
 										<Pencil className="w-3 h-3" aria-hidden="true" />
-										<span>Edit</span>
+										<span>{m.profile_edit_btn()}</span>
 									</button>
 								</div>
 
@@ -430,7 +438,7 @@ function ProfilePage() {
 										to="/admin/all-products"
 										className="inline-flex items-center gap-1.5 min-h-9 px-3.5 py-1.5 rounded-full bg-[#FCE8C6] text-[#1B4332] text-xs font-bold shadow-xs hover:bg-[#F7DDA9] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 									>
-										<span>Admin Panel</span>
+										<span>{m.profile_admin_panel()}</span>
 										<ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
 									</Link>
 								)
@@ -449,8 +457,7 @@ function ProfilePage() {
 								aria-hidden="true"
 							/>
 							<span className="tabular-nums">
-								{favoritesCount}{" "}
-								{favoritesCount === 1 ? "Favorite" : "Favorites"}
+								{m.profile_favorites_pill({ count: favoritesCount })}
 							</span>
 						</Link>
 
@@ -463,8 +470,7 @@ function ProfilePage() {
 								aria-hidden="true"
 							/>
 							<span className="tabular-nums">
-								{excludedCount} Excluded{" "}
-								{excludedCount === 1 ? "ingredient" : "ingredients"}
+								{m.profile_excluded_pill({ count: excludedCount })}
 							</span>
 						</a>
 					</div>
@@ -481,7 +487,7 @@ function ProfilePage() {
 								id="profile-favorites-heading"
 								className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 							>
-								My Favorites
+								{m.profile_my_favorites()}
 							</h2>
 							{favoritesCount > 0 ? (
 								<span className="inline-flex items-center rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-0.5 text-xs font-semibold tabular-nums">
@@ -490,7 +496,7 @@ function ProfilePage() {
 							) : (
 								!isFavoritesPending && (
 									<span className="inline-flex items-center rounded-full bg-[#FEF3C7] dark:bg-amber-950/70 text-[#92400E] dark:text-amber-200 border border-[#F59E0B]/30 px-2.5 py-0.5 text-[11px] font-semibold">
-										Sample preview
+										{m.profile_sample_preview()}
 									</span>
 								)
 							)}
@@ -501,7 +507,7 @@ function ProfilePage() {
 								<button
 									type="button"
 									onClick={() => scrollFavoritesBy("prev")}
-									aria-label="Scroll favorites left"
+									aria-label={m.profile_scroll_left()}
 									className="w-8 h-8 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:border-[#C9B382] flex items-center justify-center transition-colors cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 								>
 									<ChevronLeft className="w-4 h-4" aria-hidden="true" />
@@ -509,7 +515,7 @@ function ProfilePage() {
 								<button
 									type="button"
 									onClick={() => scrollFavoritesBy("next")}
-									aria-label="Scroll favorites right"
+									aria-label={m.profile_scroll_right()}
 									className="w-8 h-8 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:border-[#C9B382] flex items-center justify-center transition-colors cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 								>
 									<ChevronRight className="w-4 h-4" aria-hidden="true" />
@@ -520,7 +526,7 @@ function ProfilePage() {
 								to="/favorites"
 								className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors shrink-0"
 							>
-								See all
+								{m.common_see_all()}
 							</Link>
 						</div>
 					</div>
@@ -557,7 +563,7 @@ function ProfilePage() {
 								ref={favoritesTrackRef}
 								className="flex gap-3.5 overflow-x-auto no-scrollbar -mx-4 px-4 scroll-px-4 pb-2 snap-x snap-proximity motion-safe:scroll-smooth touch-pan-x md:mx-0 md:px-0 md:scroll-px-0 md:pb-1 md:gap-4"
 							>
-								{SAMPLE_FAVORITES.map((item) => (
+								{sampleFavorites.map((item) => (
 									<article
 										key={item.id}
 										className="w-[45vw] min-w-41.5 max-w-51.25 md:w-48 lg:w-52 md:min-w-0 md:max-w-none shrink-0 snap-start rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_8px_rgba(27,67,50,0.03)] overflow-hidden flex flex-col"
@@ -608,14 +614,13 @@ function ProfilePage() {
 
 							<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 rounded-2xl bg-[#F3EFE6]/70 dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] px-4 py-3">
 								<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E]">
-									You haven&apos;t saved any real products yet. Tap the heart on
-									any product to build your personal list.
+									{m.profile_no_real_favorites()}
 								</p>
 								<Link
 									to="/search"
 									className="inline-flex items-center justify-center gap-1.5 self-start sm:self-auto px-3.5 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors shrink-0"
 								>
-									<span>Browse products</span>
+									<span>{m.profile_browse_products()}</span>
 									<ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
 								</Link>
 							</div>
@@ -643,15 +648,14 @@ function ProfilePage() {
 												id="excluded-ingredients-heading"
 												className="text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 											>
-												Excluded Ingredients
+												{m.profile_excluded_title()}
 											</h2>
 											<span className="inline-flex items-center rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2 py-0.5 text-[11px] font-semibold tabular-nums">
-												{excludedCount} active
+												{m.profile_excluded_active({ count: excludedCount })}
 											</span>
 										</div>
 										<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-											Add ingredients you want to avoid. We&apos;ll flag
-											products containing them while you browse.
+											{m.profile_excluded_subtitle()}
 										</p>
 									</div>
 								</div>
@@ -673,7 +677,7 @@ function ProfilePage() {
 													className="w-4 h-4 text-[#1B4332] dark:text-[#CBE3D4] shrink-0"
 													aria-hidden="true"
 												/>
-												<span>Search and add an ingredient to avoid...</span>
+												<span>{m.profile_excluded_picker_btn()}</span>
 											</span>
 											<ChevronDown
 												className="w-4 h-4 text-[#7D857E] shrink-0"
@@ -687,10 +691,12 @@ function ProfilePage() {
 										className="w-[var(--radix-popover-trigger-width)] p-0 rounded-2xl border border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C] shadow-xl overflow-hidden"
 									>
 										<Command className="bg-transparent">
-											<CommandInput placeholder="Type ingredient name (e.g. palm oil, E621)..." />
+											<CommandInput
+												placeholder={m.profile_excluded_search_placeholder()}
+											/>
 											<CommandList className="max-h-60">
 												<CommandEmpty>
-													No matching ingredients found.
+													{m.profile_excluded_empty_search()}
 												</CommandEmpty>
 												<CommandGroup>
 													{availableIngredients.map((ingredient) => (
@@ -728,7 +734,9 @@ function ProfilePage() {
 												<button
 													type="button"
 													onClick={() => handleRemoveIngredient(ingredient.id)}
-													aria-label={`Remove ${ingredient.name} from excluded ingredients`}
+													aria-label={m.profile_excluded_remove_aria({
+														name: ingredient.name,
+													})}
 													className="w-6 h-6 rounded-full flex items-center justify-center text-[#7D857E] hover:text-rose-700 hover:bg-rose-50 dark:hover:text-rose-300 dark:hover:bg-rose-950/50 transition-colors cursor-pointer"
 												>
 													<X className="w-3.5 h-3.5" aria-hidden="true" />
@@ -740,19 +748,44 @@ function ProfilePage() {
 							) : (
 								<div className="text-center py-6 px-3 rounded-xl border border-dashed border-[#DCD4C3] dark:border-[#2A3D33] bg-white/60 dark:bg-[#16221C]/40">
 									<p className="text-sm font-semibold text-[#1B3328] dark:text-[#EDF2EE]">
-										No excluded ingredients yet
+										{m.profile_excluded_empty_title()}
 									</p>
 									<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-1">
-										Use the search bar above to pick additives or ingredients
-										you prefer to avoid.
+										{m.profile_excluded_empty_desc()}
 									</p>
 								</div>
 							)}
 						</div>
 					</section>
 
-					{/* Right Column: Methodology + Disclaimer, Community Links, Account Actions */}
+					{/* Right Column: Language Preferences, Methodology + Disclaimer, Community Links, Account Actions */}
 					<div className="lg:col-span-5 space-y-6">
+						{/* Language Preference Card (accessible on mobile & desktop) */}
+						<section
+							aria-labelledby="language-preference-heading"
+							className="rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] overflow-hidden"
+						>
+							<div className="px-4 py-3.5 sm:px-5 border-b border-[#F0EAE0] dark:border-[#22332A] bg-[#FAF8F5]/70 dark:bg-[#121D17]/70">
+								<h2
+									id="language-preference-heading"
+									className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
+								>
+									{m.profile_language_heading()}
+								</h2>
+							</div>
+							<div className="px-4 py-3.5 sm:px-5 flex items-center justify-between gap-3">
+								<div className="min-w-0">
+									<p className="text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
+										{m.profile_language_label()}
+									</p>
+									<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
+										{m.profile_language_desc()}
+									</p>
+								</div>
+								<LanguageSwitcher surface="light" isSignedIn showNativeLabel />
+							</div>
+						</section>
+
 						{/* 3. Methodology & Disclaimer grouped in the same zone */}
 						<section
 							aria-labelledby="transparency-heading"
@@ -763,7 +796,7 @@ function ProfilePage() {
 									id="transparency-heading"
 									className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
 								>
-									Methodology &amp; Legal
+									{m.profile_transparency_heading()}
 								</h2>
 							</div>
 
@@ -777,10 +810,10 @@ function ProfilePage() {
 											</span>
 											<div className="min-w-0">
 												<span className="block text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-													Methodology
+													{m.profile_methodology_title()}
 												</span>
 												<span className="block text-xs text-[#5C665E] dark:text-[#9AA89E] truncate">
-													How Gold, Silver &amp; Bronze tiers are grouped
+													{m.profile_methodology_subtitle()}
 												</span>
 											</div>
 										</div>
@@ -791,32 +824,23 @@ function ProfilePage() {
 									</summary>
 
 									<div className="px-4 pb-4 pt-1 sm:px-5 text-xs sm:text-[13px] leading-relaxed text-[#4A554E] dark:text-[#B8C4BC] space-y-3 bg-[#FAF8F5]/45 dark:bg-[#121D17]/40">
-										<p>
-											PickItWell selects everyday grocery products with few
-											additives declared on the label (E-codes or functional
-											classes), using the same label-reading criteria we use for
-											our own family.
-										</p>
+										<p>{m.profile_methodology_intro()}</p>
 										<ul className="space-y-2">
 											<li className="flex items-center gap-2.5">
 												<ScoreBadge score="gold" size="sm" />
-												<span>
-													Cleanest picks with minimal or no marked additives.
-												</span>
+												<span>{m.profile_methodology_gold()}</span>
 											</li>
 											<li className="flex items-center gap-2.5">
 												<ScoreBadge score="silver" size="sm" />
-												<span>Low number of marked label additives.</span>
+												<span>{m.profile_methodology_silver()}</span>
 											</li>
 											<li className="flex items-center gap-2.5">
 												<ScoreBadge score="bronze" size="sm" />
-												<span>Moderate additives declared on the label.</span>
+												<span>{m.profile_methodology_bronze()}</span>
 											</li>
 										</ul>
 										<p className="text-[11px] text-[#687069] dark:text-[#8E9B92] pt-1 border-t border-[#EAE4D7]/70 dark:border-[#24362D]">
-											Tiers reflect only the number of ingredients marked as
-											additives on the label and are not an overall nutritional
-											or quality evaluation.
+											{m.profile_methodology_note()}
 										</p>
 									</div>
 								</details>
@@ -830,10 +854,10 @@ function ProfilePage() {
 											</span>
 											<div className="min-w-0">
 												<span className="block text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-													Disclaimer
+													{m.profile_disclaimer_title()}
 												</span>
 												<span className="block text-xs text-[#5C665E] dark:text-[#9AA89E] truncate">
-													Informational use, labels &amp; store stock
+													{m.profile_disclaimer_subtitle()}
 												</span>
 											</div>
 										</div>
@@ -844,18 +868,8 @@ function ProfilePage() {
 									</summary>
 
 									<div className="px-4 pb-4 pt-1 sm:px-5 text-xs sm:text-[13px] leading-relaxed text-[#4A554E] dark:text-[#B8C4BC] space-y-2.5 bg-[#FAF8F5]/45 dark:bg-[#121D17]/40">
-										<p>
-											All product information and groupings shown in PickItWell
-											are for informational purposes only — the purchasing
-											decision always belongs to you.
-										</p>
-										<p>
-											Store tags show supermarkets where a product has been
-											found; real-time shelf stock is not verified. Recipes can
-											also change over time, so please double-check the physical
-											label before buying or consuming, especially for
-											allergies.
-										</p>
+										<p>{m.profile_disclaimer_p1()}</p>
+										<p>{m.profile_disclaimer_p2()}</p>
 									</div>
 								</details>
 							</div>
@@ -871,12 +885,12 @@ function ProfilePage() {
 									id="community-links-heading"
 									className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
 								>
-									PickItWell Community
+									{m.profile_community_heading()}
 								</h2>
 							</div>
 
 							<ul className="divide-y divide-[#F0EAE0] dark:divide-[#22332A]">
-								{COMMUNITY_LINKS.map((item) => {
+								{communityLinks.map((item) => {
 									const { Icon } = item;
 									return (
 										<li key={item.id}>
@@ -918,9 +932,7 @@ function ProfilePage() {
 									<button
 										type="button"
 										onClick={() =>
-											toast.info(
-												"WhatsApp group invite link will be added soon.",
-											)
+											toast.info(m.profile_community_whatsapp_toast())
 										}
 										className="w-full flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5 min-h-14 text-left hover:bg-[#FAF8F5] dark:hover:bg-[#1A2821] transition-colors group cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#1B4332]"
 									>
@@ -933,15 +945,15 @@ function ProfilePage() {
 											</span>
 											<div className="min-w-0">
 												<span className="block text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-													WhatsApp Group
+													{m.profile_community_whatsapp_title()}
 												</span>
 												<span className="block text-xs text-[#5C665E] dark:text-[#9AA89E] truncate">
-													Quick alerts &amp; community chat
+													{m.profile_community_whatsapp_desc()}
 												</span>
 											</div>
 										</div>
 										<span className="inline-flex items-center rounded-full bg-[#F3EFE6] dark:bg-[#1E2E26] border border-[#EAE4D7] dark:border-[#2B3D33] px-2.5 py-0.5 text-[11px] font-semibold text-[#5C665E] dark:text-[#9AA89E] shrink-0">
-											Soon
+											{m.profile_community_soon()}
 										</span>
 									</button>
 								</li>
@@ -954,7 +966,7 @@ function ProfilePage() {
 							className="space-y-3 pt-1"
 						>
 							<h2 id="account-actions-heading" className="sr-only">
-								Account Actions
+								{m.profile_actions_aria()}
 							</h2>
 
 							<button
@@ -963,16 +975,16 @@ function ProfilePage() {
 								className="w-full min-h-12 px-4 py-3 rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] hover:border-[#C9B382] dark:hover:border-[#365043] hover:bg-[#FAF8F5] dark:hover:bg-[#1A2821] shadow-[0_2px_10px_rgba(27,67,50,0.03)] flex items-center justify-center gap-2.5 text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE] transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 							>
 								<LogOut className="w-4 h-4 shrink-0" aria-hidden="true" />
-								<span>Log out</span>
+								<span>{m.profile_logout()}</span>
 							</button>
 
 							<div className="rounded-2xl border border-rose-200/70 dark:border-rose-900/40 bg-rose-50/40 dark:bg-rose-950/15 px-4 py-3.5 flex items-center justify-between gap-3">
 								<div className="min-w-0">
 									<p className="text-xs font-bold text-rose-800 dark:text-rose-300">
-										Delete account
+										{m.profile_delete_account_title()}
 									</p>
 									<p className="text-[11px] text-rose-700/80 dark:text-rose-300/75 mt-0.5">
-										Permanently remove your profile and saved lists.
+										{m.profile_delete_account_desc()}
 									</p>
 								</div>
 								<button
@@ -981,7 +993,7 @@ function ProfilePage() {
 									className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-xl bg-white dark:bg-[#16221C] border border-rose-200 dark:border-rose-800/60 text-xs font-bold text-rose-700 dark:text-rose-300 hover:bg-rose-600 hover:text-white hover:border-rose-600 dark:hover:bg-rose-700 transition-colors cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
 								>
 									<Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-									<span>Delete</span>
+									<span>{m.profile_delete_btn()}</span>
 								</button>
 							</div>
 						</section>
@@ -1002,16 +1014,16 @@ function ProfilePage() {
 								id={editDialogTitleId}
 								className="text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 							>
-								Edit your name
+								{m.profile_edit_dialog_title()}
 							</h3>
 							<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1">
-								Preview how your name appears on your profile.
+								{m.profile_edit_dialog_desc()}
 							</p>
 						</div>
 						<button
 							type="button"
 							onClick={() => setIsEditNameOpen(false)}
-							aria-label="Close dialog"
+							aria-label={m.common_close_dialog()}
 							className="w-8 h-8 rounded-full flex items-center justify-center text-[#7D857E] hover:text-[#1B3328] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer"
 						>
 							<X className="w-4 h-4" aria-hidden="true" />
@@ -1024,7 +1036,7 @@ function ProfilePage() {
 								htmlFor={firstNameInputId}
 								className="block text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
 							>
-								First name
+								{m.profile_edit_first_name()}
 							</label>
 							<input
 								id={firstNameInputId}
@@ -1043,7 +1055,7 @@ function ProfilePage() {
 								htmlFor={lastNameInputId}
 								className="block text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
 							>
-								Last name
+								{m.profile_edit_last_name()}
 							</label>
 							<input
 								id={lastNameInputId}
@@ -1062,13 +1074,13 @@ function ProfilePage() {
 								onClick={() => setIsEditNameOpen(false)}
 								className="min-h-10 px-4 py-2 rounded-xl border border-[#EAE4D7] dark:border-[#2B3D33] text-xs font-bold text-[#5C665E] dark:text-[#9AA89E] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer"
 							>
-								Cancel
+								{m.common_cancel()}
 							</button>
 							<button
 								type="submit"
 								className="min-h-10 px-5 py-2 rounded-xl bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors cursor-pointer"
 							>
-								Save name
+								{m.profile_edit_save()}
 							</button>
 						</div>
 					</form>
@@ -1093,18 +1105,17 @@ function ProfilePage() {
 									id={deleteDialogTitleId}
 									className="text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 								>
-									Delete your account?
+									{m.profile_delete_dialog_title()}
 								</h3>
 								<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 leading-relaxed">
-									This will permanently delete your profile, favorite products,
-									and excluded ingredient list. This action cannot be undone.
+									{m.profile_delete_dialog_desc()}
 								</p>
 							</div>
 						</div>
 						<button
 							type="button"
 							onClick={() => setIsDeleteDialogOpen(false)}
-							aria-label="Close dialog"
+							aria-label={m.common_close_dialog()}
 							className="w-8 h-8 rounded-full flex items-center justify-center text-[#7D857E] hover:text-[#1B3328] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer shrink-0"
 						>
 							<X className="w-4 h-4" aria-hidden="true" />
@@ -1118,14 +1129,14 @@ function ProfilePage() {
 							onClick={() => setIsDeleteDialogOpen(false)}
 							className="min-h-10 px-4 py-2 rounded-xl border border-[#EAE4D7] dark:border-[#2B3D33] bg-[#FAF8F5] dark:bg-[#1E2C25] text-xs font-bold text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#25362D] transition-colors cursor-pointer"
 						>
-							Keep account
+							{m.profile_delete_keep()}
 						</button>
 						<button
 							type="button"
 							onClick={handleConfirmDeleteAccount}
 							className="min-h-10 px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 transition-colors cursor-pointer"
 						>
-							Delete account
+							{m.profile_delete_confirm()}
 						</button>
 					</div>
 				</div>

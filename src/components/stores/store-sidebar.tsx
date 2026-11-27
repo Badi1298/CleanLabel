@@ -21,6 +21,7 @@ import {
 	SheetTrigger,
 } from "#/components/ui/sheet";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 
 export type StoreItem = {
 	id: string;
@@ -61,7 +62,7 @@ export function StoreNavList({
 	const isAllSelected = !selectedStoreId;
 
 	return (
-		<nav aria-label="Supermarkets" className="flex flex-col gap-1">
+		<nav aria-label={m.stores_nav_aria()} className="flex flex-col gap-1">
 			<Button
 				type="button"
 				variant="ghost"
@@ -85,7 +86,7 @@ export function StoreNavList({
 					>
 						<LayoutGrid className="w-3.5 h-3.5" aria-hidden="true" />
 					</span>
-					<span className="truncate">All Stores</span>
+					<span className="truncate">{m.common_all_stores_title()}</span>
 				</span>
 				<Badge
 					variant="secondary"
@@ -104,7 +105,7 @@ export function StoreNavList({
 
 			{stores.length === 0 ? (
 				<p className="px-3 py-4 text-xs text-[#5C665E] dark:text-[#9AA89E]">
-					No stores available.
+					{m.stores_none_available()}
 				</p>
 			) : (
 				<ul className="flex flex-col gap-1">
@@ -190,7 +191,9 @@ export function StoreNavList({
 												<Button
 													type="button"
 													variant="ghost"
-													aria-label={`${store.name} aisles`}
+													aria-label={m.stores_aisles_aria({
+														store: store.name,
+													})}
 													className={cn(
 														"h-auto min-w-7 min-h-7 pointer-coarse:min-w-10 pointer-coarse:min-h-10 p-1 mr-1 rounded-lg shrink-0 hover:bg-black/5 dark:hover:bg-white/10",
 														isStoreDirectlySelected
@@ -217,11 +220,11 @@ export function StoreNavList({
 												{isLoadingStoreCategories &&
 												storeCategories.length === 0 ? (
 													<li className="px-2.5 py-1.5 text-xs text-[#7D857E] dark:text-[#8E9B92]">
-														Loading aisles...
+														{m.stores_loading_aisles()}
 													</li>
 												) : storeCategories.length === 0 ? (
 													<li className="px-2.5 py-1.5 text-xs text-[#7D857E] dark:text-[#8E9B92]">
-														No matching aisles
+														{m.stores_no_matching_aisles()}
 													</li>
 												) : (
 													storeCategories.map((cat) => {
@@ -349,10 +352,10 @@ export function MobileStoreDrawer({
 			>
 				<SheetHeader className="px-4 py-3.5 pr-12 border-b border-[#EAE4D7] dark:border-[#24362D] text-left gap-0.5 shrink-0">
 					<SheetTitle className="text-base font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]">
-						Stores
+						{m.nav_stores()}
 					</SheetTitle>
 					<SheetDescription className="text-[11px] text-[#5C665E] dark:text-[#9AA89E]">
-						Select a supermarket to browse its aisles
+						{m.stores_drawer_subtitle()}
 					</SheetDescription>
 				</SheetHeader>
 
@@ -386,7 +389,7 @@ export function MobileStoreDrawer({
 							onClick={() => onOpenChange(false)}
 							className="w-full h-10 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540]"
 						>
-							Show {selectedStore.name} products
+							{m.stores_drawer_show_store({ store: selectedStore.name })}
 						</Button>
 					</SheetFooter>
 				)}

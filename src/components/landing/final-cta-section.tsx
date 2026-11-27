@@ -5,10 +5,13 @@ import { SAMPLE_STORES } from "#/components/landing/landing-data";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { ScoreBadge } from "#/components/ui/score-badge";
+import { m } from "#/paraglide/messages.js";
 
 export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 	const ctaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
-	const ctaLabel = isSignedIn ? "Deschide aplicația" : "Creează cont gratuit";
+	const ctaLabel = isSignedIn
+		? m.landing_header_cta_signed_in()
+		: m.landing_final_cta_signed_out();
 
 	return (
 		<section
@@ -29,21 +32,22 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 									</div>
 									<div className="p-3.5 space-y-2.5">
 										<p className="text-[10px] font-bold uppercase tracking-wider text-[#2D5A44] dark:text-emerald-400">
-											Ingrediente marcate
+											{m.landing_final_marked_ingredients()}
 										</p>
 										<p className="text-sm font-extrabold text-foreground dark:text-[#FBF4E6] leading-snug">
-											Pâine integrală cu semințe
+											{m.landing_final_bread_name()}
 										</p>
 										<p className="text-xs leading-relaxed text-[#4A554E] dark:text-[#B8C4BC]">
-											Făină integrală de grâu, apă, semințe de floarea-soarelui,
-											drojdie, sare,{" "}
+											{m.landing_final_bread_ingredients_prefix()}{" "}
 											<mark className="rounded bg-[#FBF4E6] dark:bg-[#2A2416] border border-[#D8AB54]/55 text-[#1B3328] dark:text-[#FCE8C6] px-1 py-0.5 font-semibold">
-												acid ascorbic (E300)
+												{m.landing_final_bread_ingredients_mark()}
 											</mark>
 											.
 										</p>
 										<div className="pt-2 border-t border-border flex items-center justify-between text-[10px] text-muted-foreground">
-											<span>1 aditiv marcat</span>
+											<span>
+												{m.common_additives_marked_count({ count: 1 })}
+											</span>
 											<span>18.11.2026</span>
 										</div>
 									</div>
@@ -55,18 +59,18 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 								<div className="rounded-[1.35rem] bg-background dark:bg-sidebar text-foreground overflow-hidden">
 									<div className="bg-[#1B4332] px-3 py-2 flex items-center justify-between">
 										<span className="text-[10px] font-bold uppercase tracking-wider text-[#FCE8C6]/85">
-											Disponibilitate
+											{m.landing_final_availability()}
 										</span>
 										<Badge
 											variant="secondary"
 											className="bg-[#D8AB54]/20 text-[#FCE8C6] border-0 px-2 py-0 text-[10px] font-bold"
 										>
-											{SAMPLE_STORES.length} magazine
+											{m.common_stores_count({ count: SAMPLE_STORES.length })}
 										</Badge>
 									</div>
 									<div className="p-3.5 space-y-2.5">
 										<p className="text-[10px] font-bold uppercase tracking-wider text-[#2D5A44] dark:text-emerald-400">
-											Unde a fost găsit
+											{m.landing_final_where_found()}
 										</p>
 										<ul className="space-y-1.5">
 											{SAMPLE_STORES.map((storeName) => (
@@ -94,12 +98,10 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 							id="final-cta-heading"
 							className="display-title text-3xl sm:text-4xl md:text-[2.65rem] font-bold tracking-tight text-[#FCE8C6] text-balance"
 						>
-							Gata să încerci PickItWell?
+							{m.landing_final_title()}
 						</h2>
 						<p className="text-sm sm:text-base text-[#FBF4E6]/88 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0 text-pretty">
-							Produse selectate după aditivii marcați pe etichetă, cu
-							ingredientele declarate de producător și magazinele în care au
-							fost găsite.
+							{m.landing_final_subtitle()}
 						</p>
 
 						<div className="pt-2 flex flex-col items-center lg:items-start gap-2.5">
@@ -111,7 +113,7 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 							</Button>
 
 							<p className="text-xs font-semibold text-[#FCE8C6]/85">
-								Decizia îți aparține.
+								{m.landing_final_note()}
 							</p>
 
 							<Button
@@ -119,7 +121,9 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 								variant="link"
 								className="mt-1 h-auto p-0 gap-1 text-xs font-bold text-[#FCE8C6]/90 hover:text-white underline underline-offset-4 decoration-[#D8AB54]/70 hover:decoration-[#D8AB54]"
 							>
-								<Link to="/metodologie">Vezi cum selectăm</Link>
+								<Link to="/metodologie">
+									{m.landing_why_methodology_link()}
+								</Link>
 							</Button>
 						</div>
 					</div>

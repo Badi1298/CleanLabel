@@ -23,7 +23,9 @@ import {
 	SelectValue,
 } from "#/components/ui/select";
 import { useImageUploadMutation } from "#/hooks/use-image-upload-mutation";
+import { getLocalizedServerError } from "#/lib/i18n";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import { productDetailsQueryOptions } from "#/queries/product-queries";
 import { storesQueryOptions } from "#/queries/store-queries";
 import { submitProductStore } from "#/server/store-submission-functions";
@@ -94,16 +96,16 @@ function AddStoreToProductPage() {
 						<Package className="w-6 h-6" aria-hidden="true" />
 					</div>
 					<h1 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-						Product not found
+						{m.product_not_found_title()}
 					</h1>
 					<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1">
-						This product may have been removed or is not yet available.
+						{m.product_not_found_desc()}
 					</p>
 					<Link
 						to="/"
 						className="mt-5 inline-flex items-center px-5 py-2.5 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors"
 					>
-						Return to Home
+						{m.product_return_home()}
 					</Link>
 				</div>
 			</div>
@@ -148,14 +150,13 @@ function AddStoreToProductPage() {
 		} = {};
 
 		if (!selectedStoreId) {
-			newErrors.store = "Please select a store or choose 'Other'.";
+			newErrors.store = m.add_store_error_select();
 		} else if (selectedStoreId === "other" && !otherStoreName.trim()) {
-			newErrors.otherStoreName = "Please enter the store name.";
+			newErrors.otherStoreName = m.add_store_error_name();
 		}
 
 		if (!photoFile) {
-			newErrors.photo =
-				"Please take or upload a photo of the front of the product.";
+			newErrors.photo = m.add_store_error_photo();
 		}
 
 		setErrors(newErrors);
@@ -177,14 +178,14 @@ function AddStoreToProductPage() {
 
 		try {
 			setIsSubmitting(true);
-			setStatusMessage("Uploading verification photo...");
+			setStatusMessage(m.add_store_uploading_photo());
 
 			const publicUrl = await imageUploadMutation.mutateAsync({
 				file: photoFile,
 				type: "front",
 			});
 
-			setStatusMessage("Submitting store report...");
+			setStatusMessage(m.add_store_submitting_report());
 
 			await submitProductStoreFn({
 				data: {
@@ -203,17 +204,11 @@ function AddStoreToProductPage() {
 				queryKey: ["pendingStoreSubmissionsCount"],
 			});
 
-			toast.success(
-				"Store submission received! An admin will review and verify it shortly.",
-			);
+			toast.success(m.add_store_success());
 			router.history.back();
 		} catch (error: unknown) {
 			console.error("Failed to submit store report:", error);
-			const message =
-				error instanceof Error
-					? error.message
-					: "Failed to submit store report. Please try again.";
-			toast.error(message);
+			toast.error(getLocalizedServerError(error, m.add_store_error_submit()));
 		} finally {
 			setIsSubmitting(false);
 			setStatusMessage("");
@@ -232,10 +227,10 @@ function AddStoreToProductPage() {
 							className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] transition-colors cursor-pointer touch-manipulation shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 						>
 							<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-							<span>Back</span>
+							<span>{m.common_back()}</span>
 						</button>
 						<span className="text-sm font-semibold text-[#5C665E] dark:text-[#9AA89E] truncate">
-							Report Store Availability
+							{m.add_store_header_title()}
 						</span>
 					</div>
 
@@ -246,7 +241,7 @@ function AddStoreToProductPage() {
 			<main className="max-w-2xl mx-auto px-4 md:px-6 py-6 md:py-9 space-y-6">
 				{/* Product Summary Card */}
 				<section
-					aria-label="Product summary"
+					aria-label={m.add_store_summary_aria()}
 					className="rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] p-4 sm:p-5 flex gap-4 items-center"
 				>
 					{product.imageFrontUrl ? (
@@ -275,7 +270,7 @@ function AddStoreToProductPage() {
 
 						<div className="mt-2 flex flex-wrap items-center gap-1.5">
 							<span className="text-[11px] font-semibold text-[#5C665E] dark:text-[#9AA89E]">
-								Listed at:
+								{m.add_store_listed_at()}
 							</span>
 							{product.productStores && product.productStores.length > 0 ? (
 								product.productStores.map(({ store }) => (
@@ -294,7 +289,7 @@ function AddStoreToProductPage() {
 								))
 							) : (
 								<span className="text-xs italic text-[#7D857E] dark:text-[#8E9B92]">
-									No stores yet
+									{m.add_store_no_stores_yet()}
 								</span>
 							)}
 						</div>
@@ -315,11 +310,10 @@ function AddStoreToProductPage() {
 								id="report-store-heading"
 								className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 							>
-								Where did you find this product?
+								{m.add_store_heading()}
 							</h1>
 							<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 leading-relaxed">
-								Select the supermarket where you spotted this item and attach a
-								quick front photo so our team can verify it.
+								{m.add_store_subtitle()}
 							</p>
 						</div>
 					</div>
@@ -335,7 +329,7 @@ function AddStoreToProductPage() {
 								htmlFor={storeSelectId}
 								className="block text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E] mb-2"
 							>
-								Select Store{" "}
+								{m.add_store_select_label()}{" "}
 								<span
 									className="text-rose-600 dark:text-rose-400"
 									aria-hidden="true"
@@ -366,7 +360,7 @@ function AddStoreToProductPage() {
 											"border-rose-500 dark:border-rose-500 focus-visible:ring-rose-500/30",
 									)}
 								>
-									<SelectValue placeholder="Choose a store..." />
+									<SelectValue placeholder={m.add_store_select_placeholder()} />
 								</SelectTrigger>
 								<SelectContent className="max-h-64 rounded-xl border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C] shadow-xl">
 									{availableStores.map((store) => (
@@ -391,7 +385,7 @@ function AddStoreToProductPage() {
 									>
 										<div className="flex items-center gap-2">
 											<Plus className="w-4 h-4" aria-hidden="true" />
-											<span>Other (Store not in list)</span>
+											<span>{m.add_store_other_option()}</span>
 										</div>
 									</SelectItem>
 								</SelectContent>
@@ -414,7 +408,7 @@ function AddStoreToProductPage() {
 									htmlFor={otherStoreId}
 									className="block text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E] mb-2"
 								>
-									Store Name{" "}
+									{m.add_store_name_label()}{" "}
 									<span
 										className="text-rose-600 dark:text-rose-400"
 										aria-hidden="true"
@@ -431,7 +425,7 @@ function AddStoreToProductPage() {
 									autoComplete="organization"
 									enterKeyHint="done"
 									maxLength={120}
-									placeholder="e.g., Kaufland, Mega Image, Local Market..."
+									placeholder={m.add_store_name_placeholder()}
 									value={otherStoreName}
 									aria-invalid={Boolean(errors.otherStoreName)}
 									aria-describedby={
@@ -467,8 +461,7 @@ function AddStoreToProductPage() {
 									id={otherStoreHelpId}
 									className="mt-1.5 text-xs text-[#5C665E] dark:text-[#9AA89E]"
 								>
-									An admin will review this store name and add it to the
-									platform.
+									{m.add_store_name_help()}
 								</p>
 							</div>
 						)}
@@ -479,7 +472,7 @@ function AddStoreToProductPage() {
 								htmlFor={photoInputId}
 								className="block text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
 							>
-								Front Photo of Product{" "}
+								{m.add_store_photo_label()}{" "}
 								<span
 									className="text-rose-600 dark:text-rose-400"
 									aria-hidden="true"
@@ -491,21 +484,20 @@ function AddStoreToProductPage() {
 								id={photoHelpId}
 								className="mt-1 mb-2.5 text-xs text-[#5C665E] dark:text-[#9AA89E]"
 							>
-								Take or upload a quick front photo of the product at the store
-								to validate availability.
+								{m.add_store_photo_help()}
 							</p>
 
 							{photoPreview ? (
 								<div className="relative rounded-2xl overflow-hidden border border-[#EAE4D7] dark:border-[#24362D] bg-[#F5F1E8] dark:bg-[#1A2821] aspect-4/3 max-h-72 w-full flex items-center justify-center p-3">
 									<img
 										src={photoPreview}
-										alt="Selected front verification preview"
+										alt={m.add_store_photo_preview_alt()}
 										className="w-full h-full object-contain"
 									/>
 									<button
 										type="button"
 										onClick={removePhoto}
-										aria-label="Remove verification photo"
+										aria-label={m.add_store_photo_remove()}
 										className="absolute top-2.5 right-2.5 w-9 h-9 rounded-full bg-white/95 dark:bg-[#16221C]/95 border border-[#EAE4D7] dark:border-[#2C4035] text-[#1B3328] dark:text-[#EDF2EE] hover:text-rose-700 hover:border-rose-300 shadow-md flex items-center justify-center transition-colors cursor-pointer touch-manipulation"
 									>
 										<X className="w-4 h-4" aria-hidden="true" />
@@ -545,10 +537,10 @@ function AddStoreToProductPage() {
 										<CameraIcon className="w-7 h-7" aria-hidden="true" />
 									</div>
 									<p className="font-bold text-sm text-[#1B3328] dark:text-[#EDF2EE]">
-										Tap to take photo or choose image
+										{m.add_store_photo_tap()}
 									</p>
 									<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-1">
-										Supports Camera or Gallery upload (JPEG, PNG)
+										{m.add_store_photo_formats()}
 									</p>
 								</div>
 							)}
@@ -576,12 +568,14 @@ function AddStoreToProductPage() {
 										className="w-4.5 h-4.5 animate-spin"
 										aria-hidden="true"
 									/>
-									<span>{statusMessage || "Submitting..."}</span>
+									<span>
+										{statusMessage || m.add_store_submitting_default()}
+									</span>
 								</>
 							) : (
 								<>
 									<CheckCircle2 className="w-4.5 h-4.5" aria-hidden="true" />
-									<span>Submit Store Availability</span>
+									<span>{m.add_store_submit()}</span>
 								</>
 							)}
 						</button>

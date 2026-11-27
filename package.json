@@ -9,6 +9,7 @@
     "dev": "vite dev --port 3000",
     "generate-routes": "tsr generate",
     "build": "vite build && node scripts/generate-sw.mjs",
+    "i18n:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide --emit-ts-declarations",
     "preview": "vite preview",
     "format": "biome format",
     "lint": "biome lint",
@@ -63,6 +64,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
+    "@inlang/paraglide-js": "^3.2.2",
+    "@inlang/plugin-message-format": "^4.6.2",
     "@rolldown/plugin-babel": "^0.2.3",
     "@tanstack/devtools-event-client": "^0.5.0",
     "@tanstack/devtools-vite": "^0.8.5",

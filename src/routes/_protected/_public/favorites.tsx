@@ -6,6 +6,7 @@ import { ProductCard } from "#/components/home/product-card";
 import { Skeleton } from "#/components/ui/skeleton";
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import { userFavoriteProductsQueryOptions } from "#/queries/profile-queries";
 
 export const Route = createFileRoute("/_protected/_public/favorites")({
@@ -14,12 +15,14 @@ export const Route = createFileRoute("/_protected/_public/favorites")({
 
 type ScoreFilter = "all" | "gold" | "silver" | "bronze";
 
-const SCORE_FILTER_OPTIONS: Array<{ value: ScoreFilter; label: string }> = [
-	{ value: "all", label: "All" },
-	{ value: "gold", label: "Gold" },
-	{ value: "silver", label: "Silver" },
-	{ value: "bronze", label: "Bronze" },
-];
+function getScoreFilterOptions(): Array<{ value: ScoreFilter; label: string }> {
+	return [
+		{ value: "all", label: m.favorites_filter_all() },
+		{ value: "gold", label: "Gold" },
+		{ value: "silver", label: "Silver" },
+		{ value: "bronze", label: "Bronze" },
+	];
+}
 
 const SKELETON_KEYS = [
 	"fav-sk-1",
@@ -38,6 +41,7 @@ function FavoritesPage() {
 	const { data: session } = authClient.useSession();
 	const [searchQuery, setSearchQuery] = useState("");
 	const [scoreFilter, setScoreFilter] = useState<ScoreFilter>("all");
+	const scoreFilterOptions = getScoreFilterOptions();
 
 	const { data: favorites, isPending } = useQuery({
 		...userFavoriteProductsQueryOptions(),
@@ -82,10 +86,10 @@ function FavoritesPage() {
 				<div className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-8 pb-6 md:pt-10 md:pb-8">
 					<div className="max-w-2xl">
 						<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-[#FCE8C6] text-balance">
-							My Favorites
+							{m.favorites_title()}
 						</h1>
 						<p className="mt-1.5 text-sm md:text-base text-[#FCE8C6]/80 font-medium">
-							Your saved PickItWell picks for quick shelf checks while shopping.
+							{m.favorites_subtitle()}
 						</p>
 					</div>
 
@@ -103,17 +107,17 @@ function FavoritesPage() {
 						</span>
 						<input
 							type="search"
-							placeholder="Search favorites by product, brand, or store..."
+							placeholder={m.favorites_search_placeholder()}
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
-							aria-label="Search favorites"
+							aria-label={m.favorites_search_aria()}
 							className="flex-1 min-w-0 h-full bg-transparent text-sm md:text-[15px] text-[#1B3328] dark:text-[#EDF2EE] placeholder:text-[#7D857E] dark:placeholder:text-[#8E9B92] focus:outline-none pr-3 [&::-webkit-search-cancel-button]:hidden"
 						/>
 						{searchQuery.length > 0 && (
 							<button
 								type="button"
 								onClick={() => setSearchQuery("")}
-								aria-label="Clear favorites search"
+								aria-label={m.favorites_clear_search()}
 								className="p-2 mr-1.5 rounded-full text-[#7D857E] hover:text-[#1B3328] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer shrink-0"
 							>
 								<X className="w-4 h-4" aria-hidden="true" />
@@ -124,8 +128,8 @@ function FavoritesPage() {
 					{/* Score Filter Pills */}
 					{favorites && favorites.length > 0 && (
 						<fieldset className="mt-4 flex flex-wrap items-center gap-2 border-0 p-0 m-0">
-							<legend className="sr-only">Filter favorites by score</legend>
-							{SCORE_FILTER_OPTIONS.map((option) => {
+							<legend className="sr-only">{m.favorites_filter_legend()}</legend>
+							{scoreFilterOptions.map((option) => {
 								const isActive = scoreFilter === option.value;
 								return (
 									<button
@@ -157,12 +161,15 @@ function FavoritesPage() {
 							id="favorites-list-heading"
 							className="text-lg md:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 						>
-							{hasActiveFilters ? "Matching Favorites" : "Saved Products"}
+							{hasActiveFilters
+								? m.favorites_matching_heading()
+								: m.favorites_saved_heading()}
 						</h2>
 						{!isPending && (
 							<span className="inline-flex items-center rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
-								{filteredFavorites.length}{" "}
-								{filteredFavorites.length === 1 ? "product" : "products"}
+								{m.common_products_count({
+									count: filteredFavorites.length,
+								})}
 							</span>
 						)}
 					</div>
@@ -185,17 +192,17 @@ function FavoritesPage() {
 								<SearchX className="w-5 h-5" aria-hidden="true" />
 							</div>
 							<h3 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-								No matching favorites
+								{m.favorites_no_match_title()}
 							</h3>
 							<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 max-w-sm mx-auto">
-								Try clearing your search or selecting a different score tier.
+								{m.favorites_no_match_desc()}
 							</p>
 							<button
 								type="button"
 								onClick={clearFilters}
 								className="mt-5 inline-flex items-center px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors cursor-pointer"
 							>
-								Clear filters
+								{m.favorites_clear_filters()}
 							</button>
 						</div>
 					) : (
@@ -204,17 +211,16 @@ function FavoritesPage() {
 								<Heart className="w-5 h-5" aria-hidden="true" />
 							</div>
 							<h3 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-								No favorites yet
+								{m.favorites_empty_title()}
 							</h3>
 							<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 max-w-md mx-auto">
-								You haven&apos;t added any products to your favorites yet. Tap
-								the heart icon while browsing to save products here.
+								{m.favorites_empty_desc()}
 							</p>
 							<Link
 								to="/search"
 								className="mt-5 inline-flex items-center px-5 py-2.5 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors"
 							>
-								Browse Products
+								{m.favorites_browse_cta()}
 							</Link>
 						</div>
 					)}

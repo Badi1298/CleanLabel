@@ -19,6 +19,7 @@ import {
 	SheetTrigger,
 } from "#/components/ui/sheet";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 
 export type CategoryItem = {
 	id: string;
@@ -59,7 +60,10 @@ export function CategoryNavList({
 	const isAllSelected = !selectedCategoryId && !selectedSubCategoryId;
 
 	return (
-		<nav aria-label="Product categories" className="flex flex-col gap-1">
+		<nav
+			aria-label={m.search_categories_nav_aria()}
+			className="flex flex-col gap-1"
+		>
 			<Button
 				type="button"
 				variant="ghost"
@@ -83,7 +87,7 @@ export function CategoryNavList({
 					>
 						<LayoutGrid className="w-3.5 h-3.5" aria-hidden="true" />
 					</span>
-					<span className="truncate">All Products</span>
+					<span className="truncate">{m.common_all_products_title()}</span>
 				</span>
 				{typeof totalProductsCount === "number" && (
 					<Badge
@@ -104,7 +108,7 @@ export function CategoryNavList({
 
 			{topLevelCategories.length === 0 ? (
 				<p className="px-3 py-4 text-xs text-[#5C665E] dark:text-[#9AA89E]">
-					No categories match the current filters.
+					{m.search_no_categories_match()}
 				</p>
 			) : (
 				<ul className="flex flex-col gap-1">
@@ -192,7 +196,9 @@ export function CategoryNavList({
 												<Button
 													type="button"
 													variant="ghost"
-													aria-label={`${parentCat.name} subcategories`}
+													aria-label={m.search_subcategories_aria({
+														category: parentCat.name,
+													})}
 													className={cn(
 														"h-auto min-w-7 min-h-7 pointer-coarse:min-w-10 pointer-coarse:min-h-10 p-1 mr-1 rounded-lg shrink-0 hover:bg-black/5 dark:hover:bg-white/10",
 														isParentDirectlySelected
@@ -337,10 +343,10 @@ export function MobileCategoryDrawer({
 			>
 				<SheetHeader className="px-4 py-3.5 pr-12 border-b border-[#EAE4D7] dark:border-[#24362D] text-left gap-0.5 shrink-0">
 					<SheetTitle className="text-base font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]">
-						Categories
+						{m.search_categories_label()}
 					</SheetTitle>
 					<SheetDescription className="text-[11px] text-[#5C665E] dark:text-[#9AA89E]">
-						Tap a category or expand subcategories
+						{m.search_drawer_subtitle()}
 					</SheetDescription>
 				</SheetHeader>
 
@@ -377,7 +383,7 @@ export function MobileCategoryDrawer({
 							onClick={() => onOpenChange(false)}
 							className="w-full h-10 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540]"
 						>
-							Show {activeParent.name} products
+							{m.search_drawer_show_category({ category: activeParent.name })}
 						</Button>
 					</SheetFooter>
 				)}

@@ -13,6 +13,7 @@ import {
 	SelectValue,
 } from "#/components/ui/select";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 
 export type ScoreFilterValue = "gold" | "silver" | "bronze" | "none";
 
@@ -65,21 +66,21 @@ export function ScoreFilterSelect({
 			}
 		>
 			<SelectTrigger
-				aria-label="Filter by score"
+				aria-label={m.search_score_filter_aria()}
 				className={cn(
 					"w-full sm:w-auto sm:min-w-33 h-10 data-[size=default]:h-10 pointer-coarse:h-11 pointer-coarse:data-[size=default]:h-11 rounded-xl text-[13px] shadow-none transition-colors cursor-pointer",
 					value ? FILTER_TRIGGER_ACTIVE_CLASS : FILTER_TRIGGER_INACTIVE_CLASS,
 					className,
 				)}
 			>
-				<SelectValue placeholder="Score" />
+				<SelectValue placeholder={m.search_score_placeholder()} />
 			</SelectTrigger>
 			<SelectContent className="rounded-xl border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C]">
-				<SelectItem value="all">Any Score</SelectItem>
+				<SelectItem value="all">{m.search_any_score()}</SelectItem>
 				<SelectItem value="gold">Gold</SelectItem>
 				<SelectItem value="silver">Silver</SelectItem>
 				<SelectItem value="bronze">Bronze</SelectItem>
-				<SelectItem value="none">Unrated</SelectItem>
+				<SelectItem value="none">{m.common_unrated()}</SelectItem>
 			</SelectContent>
 		</Select>
 	);
@@ -134,8 +135,8 @@ export function CategorySectionsView({
 							>
 								<span>
 									{hasMoreInCategory
-										? `View all (${section.totalCount})`
-										: "Open"}
+										? m.search_view_all_count({ count: section.totalCount })
+										: m.search_open()}
 								</span>
 								<ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
 							</Button>
@@ -204,8 +205,11 @@ export function PaginatedProductsGrid({
 						)}
 						<span>
 							{isFetchingNextPage
-								? "Loading more..."
-								: `Load more (${products.length} of ${totalCount})`}
+								? m.common_loading_more()
+								: m.search_load_more({
+										loaded: products.length,
+										total: totalCount,
+									})}
 						</span>
 					</Button>
 				</div>
@@ -224,11 +228,15 @@ type EmptyProductsStateProps = {
 
 export function EmptyProductsState({
 	icon,
-	title = "No products found",
-	description = "Try adjusting your filters or search query.",
-	actionLabel = "Clear all filters",
+	title,
+	description,
+	actionLabel,
 	onAction,
 }: EmptyProductsStateProps) {
+	const resolvedTitle = title ?? m.search_empty_title();
+	const resolvedDescription = description ?? m.search_empty_desc();
+	const resolvedActionLabel = actionLabel ?? m.common_clear_all_filters();
+
 	return (
 		<Card className="py-16 px-4 text-center rounded-2xl bg-white dark:bg-[#16221C] border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] gap-0">
 			<CardContent className="px-0">
@@ -236,10 +244,10 @@ export function EmptyProductsState({
 					{icon ?? <SearchX className="w-5 h-5" aria-hidden="true" />}
 				</div>
 				<h2 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-					{title}
+					{resolvedTitle}
 				</h2>
 				<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1 max-w-sm mx-auto">
-					{description}
+					{resolvedDescription}
 				</p>
 				{onAction && (
 					<Button
@@ -247,7 +255,7 @@ export function EmptyProductsState({
 						onClick={onAction}
 						className="mt-5 h-auto px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540]"
 					>
-						{actionLabel}
+						{resolvedActionLabel}
 					</Button>
 				)}
 			</CardContent>

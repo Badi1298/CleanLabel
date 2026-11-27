@@ -13,6 +13,8 @@ import {
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { authClient } from "#/lib/auth-client";
+import { getLocalizedAuthError } from "#/lib/i18n";
+import { m } from "#/paraglide/messages.js";
 
 export function Onboarding({ user }: { user: any }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +42,7 @@ export function Onboarding({ user }: { user: any }) {
 
 	const handleSave = async () => {
 		if (!firstName || !lastName) {
-			toast.error("Please fill in both first and last name");
+			toast.error(m.onboarding_validation_names());
 			return;
 		}
 
@@ -55,9 +57,9 @@ export function Onboarding({ user }: { user: any }) {
 		setIsSubmitting(false);
 
 		if (error) {
-			toast.error(error.message || "Failed to update profile");
+			toast.error(getLocalizedAuthError(error, m.onboarding_update_failed()));
 		} else {
-			toast.success("Profile updated successfully!");
+			toast.success(m.onboarding_update_success());
 			setIsOpen(false);
 			// Force refresh session to remove banner/dialog
 			window.location.reload();
@@ -76,9 +78,7 @@ export function Onboarding({ user }: { user: any }) {
 			<div className="bg-emerald-500 text-white px-4 py-2 flex items-center justify-between text-sm shadow-sm z-40 relative">
 				<div className="flex items-center gap-2">
 					<AlertCircle className="w-4 h-4" />
-					<span>
-						Please complete your profile to get the most out of our app.
-					</span>
+					<span>{m.onboarding_banner_text()}</span>
 				</div>
 				<Button
 					variant="secondary"
@@ -86,7 +86,7 @@ export function Onboarding({ user }: { user: any }) {
 					onClick={() => setIsOpen(true)}
 					className="h-7 text-xs bg-white text-emerald-700 hover:bg-white/90"
 				>
-					Complete Now
+					{m.onboarding_banner_cta()}
 				</Button>
 			</div>
 
@@ -94,28 +94,29 @@ export function Onboarding({ user }: { user: any }) {
 				<DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
 					<DialogHeader>
 						<DialogTitle className="text-xl">
-							Welcome to PickItWell! 🎉
+							{m.onboarding_dialog_title()}
 						</DialogTitle>
 						<DialogDescription className="text-slate-500 dark:text-slate-400">
-							Let's get to know you better. Please provide your first and last
-							name to complete your profile.
+							{m.onboarding_dialog_desc()}
 						</DialogDescription>
 					</DialogHeader>
 					<div className="space-y-4 py-4">
 						<div className="space-y-2">
-							<Label htmlFor="firstName">First Name</Label>
+							<Label htmlFor="firstName">
+								{m.onboarding_first_name_label()}
+							</Label>
 							<Input
 								id="firstName"
-								placeholder="John"
+								placeholder={m.onboarding_first_name_placeholder()}
 								value={firstName}
 								onChange={(e) => setFirstName(e.target.value)}
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="lastName">Last Name</Label>
+							<Label htmlFor="lastName">{m.onboarding_last_name_label()}</Label>
 							<Input
 								id="lastName"
-								placeholder="Doe"
+								placeholder={m.onboarding_last_name_placeholder()}
 								value={lastName}
 								onChange={(e) => setLastName(e.target.value)}
 							/>
@@ -128,7 +129,7 @@ export function Onboarding({ user }: { user: any }) {
 							onClick={handleDismiss}
 							className="text-slate-500"
 						>
-							I'll do this later
+							{m.onboarding_later()}
 						</Button>
 						<Button
 							type="button"
@@ -136,7 +137,7 @@ export function Onboarding({ user }: { user: any }) {
 							disabled={isSubmitting}
 							className="bg-emerald-600 hover:bg-emerald-700 text-white"
 						>
-							{isSubmitting ? "Saving..." : "Save Profile"}
+							{isSubmitting ? m.onboarding_saving() : m.onboarding_save()}
 						</Button>
 					</DialogFooter>
 				</DialogContent>

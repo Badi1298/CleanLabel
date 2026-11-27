@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { REVIEWS } from "#/components/landing/landing-data";
+import { getReviews } from "#/components/landing/landing-data";
 import { Button } from "#/components/ui/button";
 import { Card } from "#/components/ui/card";
 import {
@@ -10,11 +10,13 @@ import {
 	CarouselItem,
 } from "#/components/ui/carousel";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 
 export function ReviewsSection() {
 	const [api, setApi] = useState<CarouselApi>();
 	const [activeSlide, setActiveSlide] = useState(0);
 	const [announcement, setAnnouncement] = useState("");
+	const reviews = getReviews();
 
 	useEffect(() => {
 		if (!api) return;
@@ -26,7 +28,12 @@ export function ReviewsSection() {
 		const handleSelect = () => {
 			const next = api.selectedScrollSnap();
 			setActiveSlide(next);
-			setAnnouncement(`Recenzia ${next + 1} din ${REVIEWS.length}`);
+			setAnnouncement(
+				m.landing_reviews_announcement({
+					current: next + 1,
+					total: reviews.length,
+				}),
+			);
 		};
 
 		syncInitial();
@@ -37,7 +44,7 @@ export function ReviewsSection() {
 			api.off("select", handleSelect);
 			api.off("reInit", syncInitial);
 		};
-	}, [api]);
+	}, [api, reviews.length]);
 
 	return (
 		<section
@@ -50,10 +57,10 @@ export function ReviewsSection() {
 					id="recenzii-heading"
 					className="display-title text-3xl sm:text-4xl md:text-[2.65rem] font-bold tracking-tight text-foreground dark:text-[#FBF4E6] text-balance"
 				>
-					Ce spun utilizatorii PickItWell?
+					{m.landing_reviews_title()}
 				</h2>
 				<p className="mt-3 text-sm sm:text-base text-muted-foreground font-medium text-pretty">
-					Opinii trimise de utilizatori despre experiența lor cu PickItWell.
+					{m.landing_reviews_subtitle()}
 				</p>
 			</div>
 
@@ -64,13 +71,13 @@ export function ReviewsSection() {
 					align: "start",
 					breakpoints: { "(min-width: 768px)": { active: false } },
 				}}
-				aria-label="Recenzii utilizatori PickItWell"
+				aria-label={m.landing_reviews_carousel_aria()}
 				className="mt-9 md:mt-12"
 			>
 				{/* Mobile Previous / Next controls placed before track in DOM order */}
 				<div className="md:hidden flex items-center justify-between gap-3 mb-3">
 					<span className="text-xs font-bold text-muted-foreground tabular-nums">
-						{activeSlide + 1} / {REVIEWS.length}
+						{activeSlide + 1} / {reviews.length}
 					</span>
 					<div className="flex items-center gap-2">
 						<Button
@@ -78,7 +85,7 @@ export function ReviewsSection() {
 							variant="outline"
 							size="icon"
 							onClick={() => api?.scrollPrev()}
-							aria-label="Recenzia anterioară"
+							aria-label={m.landing_reviews_prev()}
 							className="w-11 h-11 rounded-full bg-card border-border text-foreground hover:border-[#2D5A44] shadow-2xs touch-manipulation"
 						>
 							<ChevronLeft className="w-5 h-5" aria-hidden="true" />
@@ -88,7 +95,7 @@ export function ReviewsSection() {
 							variant="outline"
 							size="icon"
 							onClick={() => api?.scrollNext()}
-							aria-label="Recenzia următoare"
+							aria-label={m.landing_reviews_next()}
 							className="w-11 h-11 rounded-full bg-card border-border text-foreground hover:border-[#2D5A44] shadow-2xs touch-manipulation"
 						>
 							<ChevronRight className="w-5 h-5" aria-hidden="true" />
@@ -100,10 +107,13 @@ export function ReviewsSection() {
 					viewportClassName="py-1 -my-1 md:overflow-visible"
 					className="md:ml-0 md:grid md:grid-cols-3 md:gap-6"
 				>
-					{REVIEWS.map((review, index) => (
+					{reviews.map((review, index) => (
 						<CarouselItem
 							key={review.id}
-							aria-label={`${index + 1} din ${REVIEWS.length}`}
+							aria-label={m.landing_reviews_slide_of({
+								current: index + 1,
+								total: reviews.length,
+							})}
 							className="pl-4 md:pl-0 flex"
 						>
 							<Card className="w-full rounded-3xl bg-sidebar dark:bg-card border-border shadow-none p-6 sm:p-7 justify-between gap-5">
@@ -111,7 +121,9 @@ export function ReviewsSection() {
 									<div className="flex items-center justify-between gap-3">
 										<div
 											role="img"
-											aria-label={`Evaluare ${review.rating} din 5 stele`}
+											aria-label={m.landing_reviews_rating_aria({
+												rating: review.rating,
+											})}
 											className="flex items-center gap-1 text-[#A67C37] dark:text-[#D8AB54]"
 										>
 											{[1, 2, 3, 4, 5].map((starNumber) => (
@@ -150,16 +162,16 @@ export function ReviewsSection() {
 
 				{/* Mobile Marker Controls */}
 				<nav
-					aria-label="Alege o recenzie"
+					aria-label={m.landing_reviews_nav_aria()}
 					className="md:hidden mt-4 flex items-center justify-center gap-1.5"
 				>
-					{REVIEWS.map((review, index) => {
+					{reviews.map((review, index) => {
 						const isCurrent = activeSlide === index;
 						return (
 							<button
 								key={review.id}
 								type="button"
-								aria-label={`Mergi la recenzia ${index + 1}`}
+								aria-label={m.landing_reviews_goto({ number: index + 1 })}
 								aria-current={isCurrent ? "true" : undefined}
 								onClick={() => api?.scrollTo(index)}
 								className="min-w-9 min-h-9 flex items-center justify-center p-2 cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332] rounded-full"

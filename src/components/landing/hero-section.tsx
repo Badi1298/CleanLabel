@@ -2,12 +2,13 @@ import { Link } from "@tanstack/react-router";
 import { Calendar, Store } from "lucide-react";
 import { BrandLogo } from "#/components/brand-logo";
 import {
+	getHeroTierExamples,
 	HERO_STORES,
-	HERO_TIER_EXAMPLES,
 } from "#/components/landing/landing-data";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { ScoreBadge } from "#/components/ui/score-badge";
+import { m } from "#/paraglide/messages.js";
 
 export function HeroSection({
 	heroHeadingId,
@@ -18,8 +19,9 @@ export function HeroSection({
 }) {
 	const primaryCtaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
 	const primaryCtaLabel = isSignedIn
-		? "Deschide aplicația"
-		: "Creează-ți contul gratuit";
+		? m.landing_header_cta_signed_in()
+		: m.landing_hero_cta_signed_out();
+	const heroTierExamples = getHeroTierExamples();
 
 	const secondaryLinkClassName =
 		"inline-flex items-center justify-center sm:justify-start min-h-10 text-sm font-semibold text-[#FCE8C6]/90 hover:text-[#FCE8C6] underline underline-offset-4 decoration-[#D8AB54]/70 hover:decoration-[#D8AB54] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54] rounded-sm";
@@ -38,13 +40,11 @@ export function HeroSection({
 							tabIndex={-1}
 							className="display-title text-[2.5rem] sm:text-5xl lg:text-[3.65rem] font-bold tracking-tight leading-[1.04] text-[#FCE8C6] text-balance outline-none"
 						>
-							<span lang="en">Good things SAVE Time!</span>
+							<span lang="en">{m.landing_hero_slogan()}</span>
 						</h1>
 
 						<p className="text-base md:text-[17px] text-[#FBF4E6]/88 font-medium leading-relaxed max-w-xl text-pretty">
-							Produse alimentare cu puțini aditivi marcați pe etichetă, alese
-							după criteriile cu care facem cumpărăturile pentru familia
-							noastră. Vezi unde au fost găsite. Decizia îți aparține.
+							{m.landing_hero_subtitle()}
 						</p>
 
 						<div className="pt-1 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
@@ -57,11 +57,11 @@ export function HeroSection({
 
 							{isSignedIn ? (
 								<Link to="/search" className={secondaryLinkClassName}>
-									Descoperă produsele din PickItWell
+									{m.landing_hero_secondary_cta()}
 								</Link>
 							) : (
 								<a href="#cum-functioneaza" className={secondaryLinkClassName}>
-									Descoperă produsele din PickItWell
+									{m.landing_hero_secondary_cta()}
 								</a>
 							)}
 						</div>
@@ -90,36 +90,35 @@ export function HeroSection({
 													variant="outline"
 													className="bg-white/90 dark:bg-card border-[#D8AB54]/40 px-2 py-0.5 text-[10px] font-bold text-[#1B4332] dark:text-[#FCE8C6]"
 												>
-													0 aditivi marcați
+													{m.landing_hero_phone_additives_badge()}
 												</Badge>
 											</div>
 											<p className="mt-1 text-base font-extrabold tracking-tight text-foreground dark:text-[#FBF4E6] leading-snug">
-												Iaurt Grecesc Străvechi 10%
+												{m.landing_hero_phone_product_name()}
 											</p>
 										</div>
 
 										{/* Declared Ingredients */}
 										<div className="rounded-2xl bg-card border border-border p-3 space-y-1.5">
 											<p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-												Ingrediente declarate
+												{m.landing_hero_phone_ingredients_label()}
 											</p>
 											<p className="text-xs leading-relaxed text-foreground">
-												Lapte de vacă pasteurizat, smântână din lapte de vacă,
-												culturi lactice selecționate.
+												{m.landing_hero_phone_ingredients_sample()}
 											</p>
 											<div className="pt-1 flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground">
 												<Calendar
 													className="w-3 h-3 shrink-0"
 													aria-hidden="true"
 												/>
-												<span>Etichetă consultată la: 18.11.2026</span>
+												<span>{m.landing_hero_phone_checked_at()}</span>
 											</div>
 										</div>
 
 										{/* Available Stores */}
 										<div className="rounded-2xl bg-card border border-border p-3 space-y-2">
 											<p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-												Găsit în magazine
+												{m.landing_hero_phone_stores_label()}
 											</p>
 											<div className="flex flex-wrap gap-1.5">
 												{HERO_STORES.map((store) => (
@@ -143,7 +142,7 @@ export function HeroSection({
 
 							{/* Balanced 3-Tier Strip Underneath Phone */}
 							<div className="mt-5 w-full grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-								{HERO_TIER_EXAMPLES.map((tier) => (
+								{heroTierExamples.map((tier) => (
 									<div
 										key={tier.score}
 										className="rounded-2xl bg-[#FBF4E6]/8 border border-[#FCE8C6]/16 px-3 py-2.5 flex sm:flex-col items-center sm:items-start justify-between gap-2"

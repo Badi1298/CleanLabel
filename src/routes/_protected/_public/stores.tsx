@@ -45,6 +45,7 @@ import {
 } from "#/components/ui/breadcrumb";
 import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import {
 	activeCategoriesQueryOptions,
 	categoriesQueryOptions,
@@ -309,7 +310,11 @@ function StoresPage() {
 
 	const activeParentCategory =
 		activeParentId === UNCATEGORIZED_CATEGORY_ID
-			? { id: UNCATEGORIZED_CATEGORY_ID, name: "Other", iconUrl: null }
+			? {
+					id: UNCATEGORIZED_CATEGORY_ID,
+					name: m.common_other_category(),
+					iconUrl: null,
+				}
 			: activeParentId
 				? allCategories?.find((c) => c.id === activeParentId)
 				: undefined;
@@ -489,7 +494,7 @@ function StoresPage() {
 			: activeParentCategory?.name
 				? `${selectedStore.name} · ${activeParentCategory.name}`
 				: selectedStore.name
-		: "All Stores";
+		: m.common_all_stores_title();
 
 	return (
 		<div className="bg-[#FAF8F5] dark:bg-[#0E1612]">
@@ -501,13 +506,17 @@ function StoresPage() {
 							<SearchBar
 								key={`${selectedStore.id}:${searchParams.q || "empty"}`}
 								initialQuery={searchParams.q}
-								placeholder={`Search products in ${selectedStore.name}...`}
-								ariaLabel={`Search products in ${selectedStore.name}`}
+								placeholder={m.stores_search_in_placeholder({
+									store: selectedStore.name,
+								})}
+								ariaLabel={m.stores_search_in_aria({
+									store: selectedStore.name,
+								})}
 								onSubmitQuery={(q) => updateFilters({ q })}
 							/>
 
 							<section
-								aria-label="Store filters"
+								aria-label={m.stores_filters_aria()}
 								className="flex flex-col gap-2"
 							>
 								<div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-2">
@@ -516,7 +525,7 @@ function StoresPage() {
 											className="w-3.5 h-3.5"
 											aria-hidden="true"
 										/>
-										<span>Filters</span>
+										<span>{m.common_filters()}</span>
 									</div>
 
 									<div className="col-span-2 lg:hidden">
@@ -599,7 +608,7 @@ function StoresPage() {
 											className="hidden sm:inline-flex items-center gap-1.5 h-10 px-3 rounded-xl text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-50 hover:text-rose-700 dark:hover:bg-rose-950/40 dark:hover:text-rose-300 sm:ml-auto"
 										>
 											<X className="w-3.5 h-3.5" aria-hidden="true" />
-											<span>Clear all</span>
+											<span>{m.common_clear_all()}</span>
 										</Button>
 									)}
 								</div>
@@ -608,8 +617,10 @@ function StoresPage() {
 									<div className="flex sm:hidden items-center justify-between pt-0.5">
 										<span className="text-xs font-medium text-[#5C665E] dark:text-[#9AA89E]">
 											{activeStoreFilterCount > 0
-												? `${activeStoreFilterCount} ${activeStoreFilterCount === 1 ? "filter" : "filters"} active`
-												: "Search active"}
+												? m.common_filters_active_count({
+														count: activeStoreFilterCount,
+													})
+												: m.search_active()}
 										</span>
 										<Button
 											type="button"
@@ -619,7 +630,7 @@ function StoresPage() {
 											className="h-auto min-h-8 gap-1 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/50 border-rose-200/80 dark:border-rose-800/50 text-xs font-semibold text-rose-700 dark:text-rose-300 hover:bg-rose-100 hover:text-rose-700 dark:hover:bg-rose-950/70 shadow-none"
 										>
 											<X className="w-3.5 h-3.5" aria-hidden="true" />
-											<span>Clear all</span>
+											<span>{m.common_clear_all()}</span>
 										</Button>
 									</div>
 								)}
@@ -630,8 +641,8 @@ function StoresPage() {
 							<SearchBar
 								key="stores-search"
 								initialQuery={storeSearchQuery}
-								placeholder="Search stores..."
-								ariaLabel="Search stores"
+								placeholder={m.stores_search_placeholder()}
+								ariaLabel={m.stores_search_aria()}
 								showSubmitButton={false}
 								onChangeQuery={setStoreSearchQuery}
 								onSubmitQuery={(val) => setStoreSearchQuery(val ?? "")}
@@ -685,7 +696,7 @@ function StoresPage() {
 			<div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-8">
 				<div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-7">
 					<aside
-						aria-label="Browse by store"
+						aria-label={m.stores_browse_by_store_aria()}
 						className={cn(
 							"hidden lg:block w-64 shrink-0 lg:sticky lg:overflow-y-auto rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] p-3 shadow-[0_2px_10px_rgba(27,67,50,0.03)]",
 							selectedStore
@@ -695,7 +706,7 @@ function StoresPage() {
 					>
 						<div className="px-2.5 pt-1 pb-2">
 							<h2 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-								Stores
+								{m.nav_stores()}
 							</h2>
 						</div>
 						<StoreNavList
@@ -715,9 +726,9 @@ function StoresPage() {
 						{isUnknownStore ? (
 							<EmptyProductsState
 								icon={<StoreIcon className="w-5 h-5" aria-hidden="true" />}
-								title="Store not found"
-								description="This store link may be outdated or no longer available."
-								actionLabel="View all stores"
+								title={m.stores_not_found_title()}
+								description={m.stores_not_found_desc()}
+								actionLabel={m.stores_view_all()}
 								onAction={handleSelectAllStores}
 							/>
 						) : !selectedStore ? (
@@ -729,12 +740,11 @@ function StoresPage() {
 											className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] text-balance"
 										>
 											{trimmedStoreQuery
-												? "Matching Stores"
-												: "All Supermarkets"}
+												? m.stores_matching_title()
+												: m.common_all_stores_title()}
 										</h1>
 										<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-											Select a supermarket to explore its curated aisles and
-											scored products
+											{m.stores_subtitle()}
 										</p>
 									</div>
 
@@ -742,8 +752,7 @@ function StoresPage() {
 										variant="secondary"
 										className="rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0"
 									>
-										{filteredStores.length}{" "}
-										{filteredStores.length === 1 ? "store" : "stores"}
+										{m.common_stores_count({ count: filteredStores.length })}
 									</Badge>
 								</div>
 
@@ -756,13 +765,15 @@ function StoresPage() {
 								) : (
 									<EmptyProductsState
 										icon={<StoreIcon className="w-5 h-5" aria-hidden="true" />}
-										title="No stores found"
+										title={m.stores_no_stores_title()}
 										description={
 											trimmedStoreQuery
-												? `No stores match "${trimmedStoreQuery}".`
-												: "No stores have been added yet."
+												? m.stores_no_stores_match({ query: trimmedStoreQuery })
+												: m.stores_no_stores_yet()
 										}
-										actionLabel={trimmedStoreQuery ? "Clear search" : undefined}
+										actionLabel={
+											trimmedStoreQuery ? m.common_clear_search() : undefined
+										}
 										onAction={
 											trimmedStoreQuery
 												? () => setStoreSearchQuery("")
@@ -786,12 +797,16 @@ function StoresPage() {
 												className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6] text-balance truncate"
 											>
 												{trimmedProductQuery
-													? `Results for "${trimmedProductQuery}" in ${selectedStore.name}`
+													? m.stores_results_in_store({
+															query: trimmedProductQuery,
+															store: selectedStore.name,
+														})
 													: selectedStore.name}
 											</h1>
 											<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-												Browse by aisle or pick a category to see all items at{" "}
-												{selectedStore.name}
+												{m.stores_overview_subtitle({
+													store: selectedStore.name,
+												})}
 											</p>
 										</div>
 									</div>
@@ -808,10 +823,9 @@ function StoresPage() {
 												/>
 											)}
 											<span>
-												{sectionsData.totalProductsCount}{" "}
-												{sectionsData.totalProductsCount === 1
-													? "product"
-													: "products"}
+												{m.common_products_count({
+													count: sectionsData.totalProductsCount,
+												})}
 											</span>
 										</Badge>
 									)}
@@ -821,7 +835,7 @@ function StoresPage() {
 									<div className="py-16 flex justify-center">
 										<Loader2
 											className="w-6 h-6 animate-spin text-[#2D5A44]"
-											aria-label="Loading products"
+											aria-label={m.common_loading_products()}
 										/>
 									</div>
 								) : sectionsData && sectionsData.sections.length > 0 ? (
@@ -835,18 +849,18 @@ function StoresPage() {
 									<EmptyProductsState
 										title={
 											hasActiveStoreFilters
-												? "No products found"
-												: `No products in ${selectedStore.name} yet`
+												? m.search_empty_title()
+												: m.stores_none_in_store({ store: selectedStore.name })
 										}
 										description={
 											hasActiveStoreFilters
-												? "Try adjusting your filters or search query."
-												: "No scored products have been added for this store yet."
+												? m.search_empty_desc()
+												: m.stores_none_in_store_desc()
 										}
 										actionLabel={
 											hasActiveStoreFilters
-												? "Clear all filters"
-												: "View all stores"
+												? m.common_clear_all_filters()
+												: m.stores_view_all()
 										}
 										onAction={
 											hasActiveStoreFilters
@@ -928,7 +942,8 @@ function StoresPage() {
 												id="store-category-heading"
 												className="text-lg sm:text-xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 											>
-												{activeParentCategory?.name || "Category Results"}
+												{activeParentCategory?.name ||
+													m.search_category_results_fallback()}
 											</h1>
 										)}
 									</div>
@@ -944,15 +959,16 @@ function StoresPage() {
 											/>
 										)}
 										<span>
-											{filteredTotalCount}{" "}
-											{filteredTotalCount === 1 ? "Result" : "Results"}
+											{m.common_results_count({ count: filteredTotalCount })}
 										</span>
 									</Badge>
 								</div>
 
 								{activeSubcategories.length > 0 && activeParentCategory && (
 									<nav
-										aria-label={`Subcategories in ${activeParentCategory.name}`}
+										aria-label={m.stores_subcategories_in({
+											category: activeParentCategory.name,
+										})}
 										className="flex flex-wrap items-center gap-2 mb-5"
 									>
 										{activeSubcategories.map((subcat) => {
@@ -1009,7 +1025,7 @@ function StoresPage() {
 									<div className="py-16 flex justify-center">
 										<Loader2
 											className="w-6 h-6 animate-spin text-[#2D5A44]"
-											aria-label="Loading products"
+											aria-label={m.common_loading_products()}
 										/>
 									</div>
 								) : filteredProducts.length > 0 ? (

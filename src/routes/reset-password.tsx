@@ -13,6 +13,8 @@ import {
 } from "#/components/auth/auth-fields";
 import { AuthShell } from "#/components/auth/auth-shell";
 import { authClient } from "#/lib/auth-client";
+import { getLocalizedAuthError } from "#/lib/i18n";
+import { m } from "#/paraglide/messages.js";
 
 const searchSchema = z.object({
 	token: z.string().optional(),
@@ -25,8 +27,8 @@ export const Route = createFileRoute("/reset-password")({
 });
 
 function validateNewPassword(value: string) {
-	if (!value) return "Password is required";
-	if (value.length < 8) return "Password must be at least 8 characters";
+	if (!value) return m.auth_password_required();
+	if (value.length < 8) return m.auth_password_min_8();
 	return undefined;
 }
 
@@ -54,7 +56,7 @@ function ResetPassword() {
 			if (!search.token) return;
 
 			if (value.newPassword !== value.confirmPassword) {
-				toast.error("Passwords do not match");
+				toast.error(m.auth_passwords_mismatch());
 				return;
 			}
 
@@ -63,30 +65,27 @@ function ResetPassword() {
 				token: search.token,
 			});
 			if (!error) {
-				toast.success("Password updated. You can now sign in.");
+				toast.success(m.auth_reset_success());
 				navigate({ to: "/login" });
 			} else {
-				toast.error(
-					error.message ||
-						"Failed to reset password. Your link may have expired.",
-				);
+				toast.error(getLocalizedAuthError(error, m.auth_reset_failed()));
 			}
 		},
 	});
 
 	return (
 		<AuthShell
-			title="Reset Password"
-			subtitle="Choose a new password of at least 8 characters for your account."
+			title={m.auth_reset_title()}
+			subtitle={m.auth_reset_subtitle()}
 			showSocialAuth={false}
 			footer={
 				<>
-					Remember your password?{" "}
+					{m.auth_forgot_remember()}{" "}
 					<Link
 						to="/login"
 						className="font-bold text-[#1B4332] dark:text-emerald-300 hover:underline underline-offset-4"
 					>
-						Back to sign in
+						{m.auth_forgot_back_to_login()}
 					</Link>
 				</>
 			}
@@ -98,18 +97,17 @@ function ResetPassword() {
 					</div>
 					<div className="space-y-1.5">
 						<h2 className="text-lg font-extrabold text-[#1B3328] dark:text-[#EDF2EE]">
-							Invalid or expired link
+							{m.auth_reset_invalid_title()}
 						</h2>
 						<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] leading-relaxed">
-							This password reset link is missing or has expired. Please request
-							a new one.
+							{m.auth_reset_invalid_body()}
 						</p>
 					</div>
 					<Link
 						to="/forgot-password"
 						className="inline-flex w-full min-h-12 items-center justify-center px-5 py-3 rounded-xl bg-[#1B4332] text-[#FCE8C6] hover:bg-[#245540] dark:bg-[#CBE3D4] dark:text-[#12241B] dark:hover:bg-[#DCECE2] font-bold text-sm transition-colors"
 					>
-						Request New Reset Link
+						{m.auth_reset_request_new()}
 					</Link>
 				</output>
 			) : (
@@ -135,7 +133,7 @@ function ResetPassword() {
 							<AuthPasswordField
 								field={field}
 								id="reset-new-password"
-								label="New Password"
+								label={m.auth_reset_new_password_label()}
 								autoComplete="new-password"
 								enterKeyHint="next"
 								minLength={8}
@@ -149,9 +147,9 @@ function ResetPassword() {
 						name="confirmPassword"
 						validators={{
 							onDynamic: ({ value, fieldApi }) => {
-								if (!value) return "Please confirm your password";
+								if (!value) return m.auth_password_confirm_required();
 								if (value !== fieldApi.form.getFieldValue("newPassword")) {
-									return "Passwords do not match";
+									return m.auth_passwords_mismatch();
 								}
 								return undefined;
 							},
@@ -161,7 +159,7 @@ function ResetPassword() {
 							<AuthPasswordField
 								field={field}
 								id="reset-confirm-password"
-								label="Confirm Password"
+								label={m.auth_confirm_password_label()}
 								autoComplete="new-password"
 								enterKeyHint="done"
 								minLength={8}
@@ -175,8 +173,8 @@ function ResetPassword() {
 						{(isSubmitting) => (
 							<AuthSubmitButton
 								isSubmitting={isSubmitting}
-								idleLabel="Reset Password"
-								submittingLabel="Resetting password..."
+								idleLabel={m.auth_reset_submit()}
+								submittingLabel={m.auth_reset_submitting()}
 							/>
 						)}
 					</form.Subscribe>
