@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { z } from "zod";
 import type { InfoModalTopic } from "#/components/landing/landing-data";
 import {
 	LandingLegalLayout,
@@ -31,7 +32,12 @@ function getDisclaimerToc(): readonly LegalSectionTocItem[] {
 	];
 }
 
+const legalSearchSchema = z.object({
+	from: z.enum(["profile"]).optional(),
+});
+
 export const Route = createFileRoute("/disclaimer")({
+	validateSearch: legalSearchSchema,
 	loader: async () => {
 		try {
 			const session = await getSession();
@@ -59,12 +65,14 @@ export const Route = createFileRoute("/disclaimer")({
 
 function DisclaimerPage() {
 	const { isSignedIn } = Route.useLoaderData();
+	const { from } = Route.useSearch();
 	const [modalTopic, setModalTopic] = useState<InfoModalTopic | null>(null);
 	const tocItems = getDisclaimerToc();
 
 	return (
 		<LandingLegalLayout
 			isSignedIn={isSignedIn}
+			from={from}
 			currentPath="/disclaimer"
 			breadcrumbLabel={m.disclaimer_breadcrumb()}
 			badgeLabel={m.disclaimer_badge()}
@@ -128,6 +136,7 @@ function DisclaimerPage() {
 					{m.disclaimer_s6_body_prefix()}{" "}
 					<Link
 						to="/metodologie"
+						search={from ? { from } : undefined}
 						className="font-semibold text-[#1B4332] dark:text-[#FCE8C6] underline underline-offset-4 hover:text-[#2D5A44] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332] rounded-sm"
 					>
 						{m.disclaimer_s6_methodology_link()}

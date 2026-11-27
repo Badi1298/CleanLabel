@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { z } from "zod";
 import {
 	type InfoModalTopic,
 	METHODOLOGY_REVIEW_SLA_DAYS,
@@ -69,7 +70,12 @@ function getMethodologyExclusions() {
 	] as const;
 }
 
+const legalSearchSchema = z.object({
+	from: z.enum(["profile"]).optional(),
+});
+
 export const Route = createFileRoute("/metodologie")({
+	validateSearch: legalSearchSchema,
 	loader: async () => {
 		try {
 			const session = await getSession();
@@ -97,6 +103,7 @@ export const Route = createFileRoute("/metodologie")({
 
 function MetodologiePage() {
 	const { isSignedIn } = Route.useLoaderData();
+	const { from } = Route.useSearch();
 	const [modalTopic, setModalTopic] = useState<InfoModalTopic | null>(null);
 	const tocItems = getMetodologieToc();
 	const classificationLevels = getClassificationLevels();
@@ -105,6 +112,7 @@ function MetodologiePage() {
 	return (
 		<LandingLegalLayout
 			isSignedIn={isSignedIn}
+			from={from}
 			currentPath="/metodologie"
 			breadcrumbLabel={m.methodology_breadcrumb()}
 			badgeLabel={m.methodology_badge()}

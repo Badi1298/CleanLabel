@@ -9,6 +9,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { NotFound } from "#/components/NotFound";
 import { Toaster } from "#/components/ui/sonner";
 import { TooltipProvider } from "#/components/ui/tooltip";
+import { PwaInstallProvider } from "#/lib/pwa-install";
 import { getLocale } from "#/paraglide/runtime.js";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import TanstackQueryProvider from "../integrations/tanstack-query/root-provider";
@@ -33,6 +34,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "#1B4332",
 			},
 			{
+				name: "apple-mobile-web-app-capable",
+				content: "yes",
+			},
+			{
+				name: "apple-mobile-web-app-title",
+				content: "PickItWell",
+			},
+			{
 				title: "PickItWell",
 			},
 		],
@@ -47,7 +56,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			},
 			{
 				rel: "apple-touch-icon",
-				href: "/logo-192x192.png",
+				sizes: "180x180",
+				href: "/apple-touch-icon.png",
 			},
 			{
 				rel: "manifest",
@@ -55,6 +65,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			},
 		],
 		scripts: [
+			{
+				children:
+					"(function(){if(window.__pwaEarly)return;var s={prompt:null,installed:false};window.__pwaEarly=s;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();s.prompt=e;});window.addEventListener('appinstalled',function(){s.prompt=null;s.installed=true;});})();",
+			},
 			{
 				src: "/registerSW.js",
 				defer: true,
@@ -74,7 +88,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<TanstackQueryProvider queryClient={queryClient}>
-					<TooltipProvider>{children}</TooltipProvider>
+					<TooltipProvider>
+						<PwaInstallProvider>{children}</PwaInstallProvider>
+					</TooltipProvider>
 				</TanstackQueryProvider>
 				<Toaster />
 				{/* <TanStackDevtools

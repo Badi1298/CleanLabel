@@ -8,6 +8,7 @@ import {
 	ChevronDown,
 	ChevronLeft,
 	ChevronRight,
+	Download,
 	Heart,
 	Info,
 	LogOut,
@@ -16,6 +17,7 @@ import {
 	Pencil,
 	Plus,
 	ShieldAlert,
+	Smartphone,
 	Store,
 	Trash2,
 	Users,
@@ -25,6 +27,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ProductCard } from "#/components/home/product-card";
 import { LanguageSwitcher } from "#/components/language-switcher";
+import { Button } from "#/components/ui/button";
 import {
 	Command,
 	CommandEmpty,
@@ -42,6 +45,7 @@ import { ScoreBadge } from "#/components/ui/score-badge";
 import { Skeleton } from "#/components/ui/skeleton";
 import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 import { authClient } from "#/lib/auth-client";
+import { usePwaInstall } from "#/lib/pwa-install";
 import { cn } from "#/lib/utils";
 import { m } from "#/paraglide/messages.js";
 import { ingredientsQueryOptions } from "#/queries/ingredient-queries";
@@ -241,6 +245,7 @@ function NativeModalDialog({
 function ProfilePage() {
 	const navigate = useNavigate();
 	const { data: session, isPending } = authClient.useSession();
+	const { canInstall, isInstalling, triggerInstall } = usePwaInstall();
 	const user = session?.user as SessionUserProfile | undefined;
 
 	const [isIngredientPickerOpen, setIsIngredientPickerOpen] = useState(false);
@@ -760,36 +765,102 @@ function ProfilePage() {
 
 					{/* Right Column: Language Preferences, Methodology + Disclaimer, Community Links, Account Actions */}
 					<div className="lg:col-span-5 space-y-6">
-						{/* Language Preference Card (accessible on mobile & desktop) */}
-						<section
-							aria-labelledby="language-preference-heading"
-							className="rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] overflow-hidden"
-						>
-							<div className="px-4 py-3.5 sm:px-5 border-b border-[#F0EAE0] dark:border-[#22332A] bg-[#FAF8F5]/70 dark:bg-[#121D17]/70">
-								<h2
-									id="language-preference-heading"
-									className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
-								>
-									{m.profile_language_heading()}
-								</h2>
-							</div>
-							<div className="px-4 py-3.5 sm:px-5 flex items-center justify-between gap-3">
-								<div className="min-w-0">
-									<p className="text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-										{m.profile_language_label()}
-									</p>
-									<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-										{m.profile_language_desc()}
-									</p>
+						<div>
+							{/* Language Preference Card (accessible on mobile & desktop) */}
+							<section
+								aria-labelledby="language-preference-heading"
+								className="rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] overflow-hidden"
+							>
+								<div className="px-4 py-3.5 sm:px-5 border-b border-[#F0EAE0] dark:border-[#22332A] bg-[#FAF8F5]/70 dark:bg-[#121D17]/70">
+									<h2
+										id="language-preference-heading"
+										className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
+									>
+										{m.profile_language_heading()}
+									</h2>
 								</div>
-								<LanguageSwitcher surface="light" isSignedIn showNativeLabel />
+								<div className="px-4 py-3.5 sm:px-5 flex items-center justify-between gap-3">
+									<div className="min-w-0">
+										<p className="text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
+											{m.profile_language_label()}
+										</p>
+										<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
+											{m.profile_language_desc()}
+										</p>
+									</div>
+									<LanguageSwitcher
+										surface="light"
+										isSignedIn
+										showNativeLabel
+									/>
+								</div>
+							</section>
+
+							<div
+								className="pwa-install-expand -mx-1"
+								data-open={canInstall ? "true" : "false"}
+								aria-hidden={!canInstall}
+								inert={!canInstall || undefined}
+							>
+								<div className="pwa-install-expand-inner">
+									<div className="pt-6 px-1">
+										<section
+											aria-labelledby="install-app-heading"
+											className="rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] overflow-hidden"
+										>
+											<div className="px-4 py-3.5 sm:px-5 border-b border-[#F0EAE0] dark:border-[#22332A] bg-[#FAF8F5]/70 dark:bg-[#121D17]/70">
+												<h2
+													id="install-app-heading"
+													className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]"
+												>
+													{m.profile_install_heading()}
+												</h2>
+											</div>
+											<div className="px-4 py-3.5 sm:px-5 flex items-center justify-between gap-3">
+												<div className="flex items-center gap-3 min-w-0">
+													<span className="w-9 h-9 rounded-xl bg-[#E3EDE7] dark:bg-[#1E3A2C] border border-[#C8DBD0] dark:border-[#2E5440] text-[#1B4332] dark:text-[#CBE3D4] flex items-center justify-center shrink-0">
+														<Smartphone
+															className="w-4.5 h-4.5"
+															aria-hidden="true"
+														/>
+													</span>
+													<div className="min-w-0">
+														<p className="text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
+															{m.profile_install_title()}
+														</p>
+														<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-0.5 text-pretty">
+															{m.profile_install_desc()}
+														</p>
+													</div>
+												</div>
+												<Button
+													type="button"
+													tabIndex={canInstall ? undefined : -1}
+													aria-disabled={isInstalling || undefined}
+													onClick={triggerInstall}
+													className="h-auto min-h-10 px-4 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#D8AB54] dark:hover:bg-[#E2BA68] text-[#FCE8C6] dark:text-[#112A1F] text-xs font-bold shrink-0"
+												>
+													<Download
+														className="w-3.5 h-3.5 shrink-0"
+														aria-hidden="true"
+													/>
+													<span>
+														{isInstalling
+															? m.pwa_install_installing()
+															: m.pwa_install_button()}
+													</span>
+												</Button>
+											</div>
+										</section>
+									</div>
+								</div>
 							</div>
-						</section>
+						</div>
 
 						{/* 3. Methodology & Disclaimer grouped in the same zone */}
 						<section
 							aria-labelledby="transparency-heading"
-							className="profile-accordion rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] overflow-hidden"
+							className="rounded-2xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_2px_10px_rgba(27,67,50,0.03)] overflow-hidden"
 						>
 							<div className="px-4 py-3.5 sm:px-5 border-b border-[#F0EAE0] dark:border-[#22332A] bg-[#FAF8F5]/70 dark:bg-[#121D17]/70">
 								<h2
@@ -802,76 +873,54 @@ function ProfilePage() {
 
 							<div className="divide-y divide-[#F0EAE0] dark:divide-[#22332A]">
 								{/* Methodology */}
-								<details className="group">
-									<summary className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5 min-h-14 cursor-pointer hover:bg-[#FAF8F5] dark:hover:bg-[#1A2821] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#1B4332]">
-										<div className="flex items-center gap-3 min-w-0">
-											<span className="w-9 h-9 rounded-xl bg-[#FEF3C7] dark:bg-amber-950/60 border border-[#F59E0B]/30 text-[#92400E] dark:text-amber-300 flex items-center justify-center shrink-0">
-												<Award className="w-4.5 h-4.5" aria-hidden="true" />
+								<Link
+									to="/metodologie"
+									search={{ from: "profile" }}
+									className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5 min-h-14 hover:bg-[#FAF8F5] dark:hover:bg-[#1A2821] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#1B4332]"
+								>
+									<div className="flex items-center gap-3 min-w-0">
+										<span className="w-9 h-9 rounded-xl bg-[#FEF3C7] dark:bg-amber-950/60 border border-[#F59E0B]/30 text-[#92400E] dark:text-amber-300 flex items-center justify-center shrink-0">
+											<Award className="w-4.5 h-4.5" aria-hidden="true" />
+										</span>
+										<div className="min-w-0">
+											<span className="block text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
+												{m.profile_methodology_title()}
 											</span>
-											<div className="min-w-0">
-												<span className="block text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-													{m.profile_methodology_title()}
-												</span>
-												<span className="block text-xs text-[#5C665E] dark:text-[#9AA89E] truncate">
-													{m.profile_methodology_subtitle()}
-												</span>
-											</div>
+											<span className="block text-xs text-[#5C665E] dark:text-[#9AA89E] truncate">
+												{m.profile_methodology_subtitle()}
+											</span>
 										</div>
-										<ChevronDown
-											className="w-4 h-4 text-[#7D857E] shrink-0 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
-											aria-hidden="true"
-										/>
-									</summary>
-
-									<div className="px-4 pb-4 pt-1 sm:px-5 text-xs sm:text-[13px] leading-relaxed text-[#4A554E] dark:text-[#B8C4BC] space-y-3 bg-[#FAF8F5]/45 dark:bg-[#121D17]/40">
-										<p>{m.profile_methodology_intro()}</p>
-										<ul className="space-y-2">
-											<li className="flex items-center gap-2.5">
-												<ScoreBadge score="gold" size="sm" />
-												<span>{m.profile_methodology_gold()}</span>
-											</li>
-											<li className="flex items-center gap-2.5">
-												<ScoreBadge score="silver" size="sm" />
-												<span>{m.profile_methodology_silver()}</span>
-											</li>
-											<li className="flex items-center gap-2.5">
-												<ScoreBadge score="bronze" size="sm" />
-												<span>{m.profile_methodology_bronze()}</span>
-											</li>
-										</ul>
-										<p className="text-[11px] text-[#687069] dark:text-[#8E9B92] pt-1 border-t border-[#EAE4D7]/70 dark:border-[#24362D]">
-											{m.profile_methodology_note()}
-										</p>
 									</div>
-								</details>
+									<ChevronRight
+										className="w-4 h-4 text-[#7D857E] shrink-0"
+										aria-hidden="true"
+									/>
+								</Link>
 
 								{/* Disclaimer */}
-								<details className="group">
-									<summary className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5 min-h-14 cursor-pointer hover:bg-[#FAF8F5] dark:hover:bg-[#1A2821] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#1B4332]">
-										<div className="flex items-center gap-3 min-w-0">
-											<span className="w-9 h-9 rounded-xl bg-[#E3EDE7] dark:bg-[#1E3A2C] border border-[#C8DBD0] dark:border-[#2E5440] text-[#1B4332] dark:text-[#CBE3D4] flex items-center justify-center shrink-0">
-												<Info className="w-4.5 h-4.5" aria-hidden="true" />
+								<Link
+									to="/disclaimer"
+									search={{ from: "profile" }}
+									className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5 min-h-14 hover:bg-[#FAF8F5] dark:hover:bg-[#1A2821] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#1B4332]"
+								>
+									<div className="flex items-center gap-3 min-w-0">
+										<span className="w-9 h-9 rounded-xl bg-[#E3EDE7] dark:bg-[#1E3A2C] border border-[#C8DBD0] dark:border-[#2E5440] text-[#1B4332] dark:text-[#CBE3D4] flex items-center justify-center shrink-0">
+											<Info className="w-4.5 h-4.5" aria-hidden="true" />
+										</span>
+										<div className="min-w-0">
+											<span className="block text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
+												{m.profile_disclaimer_title()}
 											</span>
-											<div className="min-w-0">
-												<span className="block text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-													{m.profile_disclaimer_title()}
-												</span>
-												<span className="block text-xs text-[#5C665E] dark:text-[#9AA89E] truncate">
-													{m.profile_disclaimer_subtitle()}
-												</span>
-											</div>
+											<span className="block text-xs text-[#5C665E] dark:text-[#9AA89E] truncate">
+												{m.profile_disclaimer_subtitle()}
+											</span>
 										</div>
-										<ChevronDown
-											className="w-4 h-4 text-[#7D857E] shrink-0 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
-											aria-hidden="true"
-										/>
-									</summary>
-
-									<div className="px-4 pb-4 pt-1 sm:px-5 text-xs sm:text-[13px] leading-relaxed text-[#4A554E] dark:text-[#B8C4BC] space-y-2.5 bg-[#FAF8F5]/45 dark:bg-[#121D17]/40">
-										<p>{m.profile_disclaimer_p1()}</p>
-										<p>{m.profile_disclaimer_p2()}</p>
 									</div>
-								</details>
+									<ChevronRight
+										className="w-4 h-4 text-[#7D857E] shrink-0"
+										aria-hidden="true"
+									/>
+								</Link>
 							</div>
 						</section>
 

@@ -1,4 +1,7 @@
 import type { ComponentType, SVGProps } from "react";
+import demoBronzeProduct from "#/assets/demo/demo-bronze-product.jpeg";
+import demoGoldProduct from "#/assets/demo/demo-gold-product.jpeg";
+import demoSilverProduct from "#/assets/demo/demo-silver-product.jpeg";
 import type { CategoryIconKey } from "#/components/categories/category-icon";
 import { FacebookIcon, InstagramIcon } from "#/components/ui/social-icons";
 import { formatLocalizedDate } from "#/lib/i18n";
@@ -59,26 +62,98 @@ export function getFooterExploreLinks() {
 	] as const;
 }
 
-export const HERO_STORES = ["Kaufland", "Mega Image", "Lidl"] as const;
+export const HERO_STORES = [
+	"Carrefour",
+	"Kaufland",
+	"Mega Image",
+	"Auchan",
+] as const;
 
-export function getHeroTierExamples() {
-	return [
-		{
+export interface HeroDemoProduct {
+	id: string;
+	brand: string;
+	name: string;
+	score: "gold" | "silver" | "bronze";
+	additivesLabel: string;
+	stores: readonly string[];
+	categoryIconKey: CategoryIconKey;
+	categoryLabel?: string;
+	imageUrl?: string;
+	ingredients?: string;
+	updatedAt?: string;
+	checkedDate?: string;
+	submittedBy?: string;
+	isFavorited?: boolean;
+}
+
+export interface HeroDemoCategory {
+	iconKey: CategoryIconKey;
+	label: string;
+}
+
+export function getHeroDemoData(): {
+	featuredProduct: HeroDemoProduct;
+	secondaryProducts: readonly HeroDemoProduct[];
+	quickCategories: readonly HeroDemoCategory[];
+} {
+	return {
+		featuredProduct: {
+			id: "daucy-chickpeas",
+			brand: "d'aucy",
+			name: m.landing_hero_demo_gold_name(),
 			score: "gold",
-			name: m.landing_tier_example_gold_name(),
-			additives: m.landing_tier_example_gold_additives(),
+			additivesLabel: m.common_additives_marked_count({ count: 0 }),
+			stores: HERO_STORES,
+			categoryIconKey: "conserve-mancaruri-gata",
+			categoryLabel: m.landing_cat_canned(),
+			imageUrl: demoGoldProduct,
+			ingredients: m.landing_hero_demo_gold_ingredients(),
+			updatedAt: m.landing_hero_demo_gold_updated_at(),
+			checkedDate: m.landing_hero_demo_gold_checked_date(),
+			submittedBy: "PickItWell",
+			isFavorited: true,
 		},
-		{
-			score: "silver",
-			name: m.landing_tier_example_silver_name(),
-			additives: m.landing_tier_example_silver_additives(),
-		},
-		{
-			score: "bronze",
-			name: m.landing_tier_example_bronze_name(),
-			additives: m.landing_tier_example_bronze_additives(),
-		},
-	] as const;
+		secondaryProducts: [
+			{
+				id: "maxims-butter-beans",
+				brand: "Maxim's",
+				name: m.landing_hero_demo_silver_name(),
+				score: "silver",
+				additivesLabel: m.landing_tier_example_silver_additives(),
+				stores: ["Carrefour", "Lidl"],
+				categoryIconKey: "conserve-mancaruri-gata",
+				imageUrl: demoSilverProduct,
+			},
+			{
+				id: "sultanel-ginger-mustard",
+				brand: "Sultanel",
+				name: m.landing_hero_demo_bronze_name(),
+				score: "bronze",
+				additivesLabel: m.landing_tier_example_bronze_additives(),
+				stores: ["Kaufland", "Mega Image"],
+				categoryIconKey: "sosuri-tartinabile",
+				imageUrl: demoBronzeProduct,
+			},
+		],
+		quickCategories: [
+			{
+				iconKey: "conserve-mancaruri-gata",
+				label: m.landing_cat_canned(),
+			},
+			{
+				iconKey: "lactate-alternative",
+				label: m.landing_cat_dairy(),
+			},
+			{
+				iconKey: "gustari-dulciuri",
+				label: m.landing_cat_snacks(),
+			},
+			{
+				iconKey: "sosuri-tartinabile",
+				label: m.landing_cat_sauces(),
+			},
+		],
+	};
 }
 
 export const SAMPLE_STORES = [

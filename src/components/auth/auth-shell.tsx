@@ -7,6 +7,7 @@ import { LanguageSwitcher } from "#/components/language-switcher";
 import { ScoreBadge } from "#/components/ui/score-badge";
 import { authClient } from "#/lib/auth-client";
 import { getLocalizedAuthError } from "#/lib/i18n";
+import { usePwaInstall } from "#/lib/pwa-install";
 import { m } from "#/paraglide/messages.js";
 
 type AuthShellProps = {
@@ -57,6 +58,7 @@ export function AuthShell({
 	showSocialAuth = true,
 }: AuthShellProps) {
 	const [isGooglePending, setIsGooglePending] = useState(false);
+	const { isStandalone } = usePwaInstall();
 
 	const handleGoogleSignIn = async () => {
 		setIsGooglePending(true);
@@ -90,12 +92,18 @@ export function AuthShell({
 				</div>
 
 				<div className="relative z-10 max-w-md mx-auto text-center">
-					<Link
-						to="/landing"
-						className="inline-flex items-center justify-center rounded-2xl px-2 py-1 transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
-					>
-						<BrandLogo surface="dark" size="lg" />
-					</Link>
+					{isStandalone ? (
+						<div className="inline-flex items-center justify-center rounded-2xl px-2 py-1">
+							<BrandLogo surface="dark" size="lg" />
+						</div>
+					) : (
+						<Link
+							to="/landing"
+							className="inline-flex items-center justify-center rounded-2xl px-2 py-1 transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+						>
+							<BrandLogo surface="dark" size="lg" />
+						</Link>
+					)}
 
 					<h1 className="mt-3.5 text-[2rem] sm:text-4xl font-extrabold tracking-tight leading-[1.06] text-[#FCE8C6]">
 						{title}
@@ -161,15 +169,17 @@ export function AuthShell({
 					</div>
 				</div>
 
-				<div className="mt-3 text-center">
-					<Link
-						to="/landing"
-						className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#2D5A44] dark:text-emerald-400 hover:text-[#1B4332] dark:hover:text-emerald-300 hover:underline underline-offset-4 transition-colors"
-					>
-						<span>{m.auth_view_landing()}</span>
-						<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-					</Link>
-				</div>
+				{!isStandalone && (
+					<div className="mt-3 text-center">
+						<Link
+							to="/landing"
+							className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#2D5A44] dark:text-emerald-400 hover:text-[#1B4332] dark:hover:text-emerald-300 hover:underline underline-offset-4 transition-colors"
+						>
+							<span>{m.auth_view_landing()}</span>
+							<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+						</Link>
+					</div>
+				)}
 			</main>
 		</div>
 	);

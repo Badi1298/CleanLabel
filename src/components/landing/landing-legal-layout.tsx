@@ -20,6 +20,7 @@ import {
 import { Button } from "#/components/ui/button";
 import { Card } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
+import { usePwaInstall } from "#/lib/pwa-install";
 import { m } from "#/paraglide/messages.js";
 
 export interface LegalSectionTocItem {
@@ -30,6 +31,7 @@ export interface LegalSectionTocItem {
 
 interface LandingLegalLayoutProps {
 	isSignedIn: boolean;
+	from?: "profile";
 	currentPath: "/metodologie" | "/disclaimer";
 	breadcrumbLabel: string;
 	badgeLabel: string;
@@ -52,6 +54,7 @@ interface LandingLegalLayoutProps {
  */
 export function LandingLegalLayout({
 	isSignedIn,
+	from,
 	currentPath,
 	breadcrumbLabel,
 	badgeLabel,
@@ -65,6 +68,21 @@ export function LandingLegalLayout({
 }: LandingLegalLayoutProps) {
 	const headingId = useId();
 	const lastUpdatedDate = getLegalLastUpdatedDate();
+	const { isStandalone } = usePwaInstall();
+
+	const fromProfile = from === "profile";
+	const backTo = fromProfile
+		? ("/profile" as const)
+		: isStandalone
+			? ("/" as const)
+			: ("/landing" as const);
+	const breadcrumbRootLabel = fromProfile ? m.nav_profile() : m.nav_home();
+	const backButtonLabel = fromProfile
+		? m.legal_back_to_profile()
+		: isStandalone
+			? m.legal_back_to_app()
+			: m.legal_back_to_landing();
+	const companionSearch = from ? { from } : undefined;
 
 	return (
 		<div
@@ -91,10 +109,10 @@ export function LandingLegalLayout({
 							<BreadcrumbItem>
 								<BreadcrumbLink asChild>
 									<Link
-										to="/landing"
+										to={backTo}
 										className="text-[#FCE8C6]/80 hover:text-[#FCE8C6] hover:underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6] rounded-sm"
 									>
-										{m.nav_home()}
+										{breadcrumbRootLabel}
 									</Link>
 								</BreadcrumbLink>
 							</BreadcrumbItem>
@@ -145,6 +163,7 @@ export function LandingLegalLayout({
 
 						<Link
 							to={companionLink.to}
+							search={companionSearch}
 							className="inline-flex items-center gap-1.5 min-h-9 rounded-full bg-[#FCE8C6] hover:bg-[#F7DDA9] text-[#1B3328] px-4 py-1.5 text-xs font-extrabold shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 						>
 							<span>{companionLink.label}</span>
@@ -203,6 +222,7 @@ export function LandingLegalLayout({
 								<div className="pt-1">
 									<Link
 										to={companionLink.to}
+										search={companionSearch}
 										className="inline-flex items-center gap-1 text-xs font-bold text-[#1B4332] dark:text-[#FCE8C6] underline underline-offset-4 hover:text-[#2D5A44] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332] rounded-sm"
 									>
 										<span>{m.legal_open_document()}</span>
@@ -262,12 +282,12 @@ export function LandingLegalLayout({
 								variant="outline"
 								className="h-auto min-h-10 px-4 py-2 rounded-full border-border bg-card text-xs font-bold text-foreground hover:bg-secondary"
 							>
-								<Link to="/landing">
+								<Link to={backTo}>
 									<ArrowLeft
 										className="w-3.5 h-3.5 shrink-0"
 										aria-hidden="true"
 									/>
-									<span>{m.legal_back_to_landing()}</span>
+									<span>{backButtonLabel}</span>
 								</Link>
 							</Button>
 
@@ -275,7 +295,7 @@ export function LandingLegalLayout({
 								asChild
 								className="h-auto min-h-10 px-5 py-2 rounded-full bg-[#1B4332] hover:bg-[#245540] dark:bg-[#FCE8C6] dark:hover:bg-[#F7DDA9] text-[#FCE8C6] dark:text-[#1B3328] text-xs font-bold"
 							>
-								<Link to={companionLink.to}>
+								<Link to={companionLink.to} search={companionSearch}>
 									<span>{companionLink.label}</span>
 									<ArrowRight
 										className="w-3.5 h-3.5 shrink-0"
@@ -289,7 +309,9 @@ export function LandingLegalLayout({
 			</main>
 
 			<LandingFooter
+				isSignedIn={isSignedIn}
 				isLandingPage={false}
+				from={from}
 				onOpenInfoModal={(selected) => onSelectModalTopic(selected)}
 			/>
 

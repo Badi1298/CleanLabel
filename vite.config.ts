@@ -30,8 +30,11 @@ const config = defineConfig({
 			registerType: "autoUpdate",
 			includeAssets: [
 				"favicon.ico",
+				"apple-touch-icon.png",
 				"logo-192x192.png",
 				"logo-512x512.png",
+				"logo-maskable-192x192.png",
+				"logo-maskable-512x512.png",
 				"pickitwell-logo.png",
 			],
 			devOptions: {
@@ -53,11 +56,25 @@ const config = defineConfig({
 						src: "/logo-192x192.png",
 						sizes: "192x192",
 						type: "image/png",
+						purpose: "any",
 					},
 					{
 						src: "/logo-512x512.png",
 						sizes: "512x512",
 						type: "image/png",
+						purpose: "any",
+					},
+					{
+						src: "/logo-maskable-192x192.png",
+						sizes: "192x192",
+						type: "image/png",
+						purpose: "maskable",
+					},
+					{
+						src: "/logo-maskable-512x512.png",
+						sizes: "512x512",
+						type: "image/png",
+						purpose: "maskable",
 					},
 				],
 			},
