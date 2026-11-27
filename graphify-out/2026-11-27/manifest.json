@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
-    "mtime": 1795773435.9288805,
-    "seen": 1795776010.922139,
-    "ast_hash": "0299182e3ec8ffec432a65ee815084de",
+    "mtime": 1795787514.018542,
+    "seen": 1795790924.874735,
+    "ast_hash": "176a316931a5b04f3ab36979a1ccd06c",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "src/components/landing/hero-section.tsx": {
-    "mtime": 1795786229.443917,
-    "seen": 1795786309.289543,
-    "ast_hash": "2345baba97204b06b1a01fbdfccd4e0c",
+    "mtime": 1795787410.531959,
+    "seen": 1795790924.874681,
+    "ast_hash": "a25a7fc3bd74100be37e930c3214c1a6",
     "semantic_hash": ""
   },
   "src/components/landing/how-it-works-section.tsx": {
@@ -918,9 +918,9 @@
     "semantic_hash": ""
   },
   "src/components/landing/landing-data.ts": {
-    "mtime": 1795786158.2253711,
-    "seen": 1795786309.2895439,
-    "ast_hash": "74270f2a8ee5caee4ecfc4d39d90420b",
+    "mtime": 1795790823.462683,
+    "seen": 1795790924.874683,
+    "ast_hash": "fcff02a4f8649a8a42f11908abdfd48e",
     "semantic_hash": ""
   },
   "src/components/landing/landing-footer.tsx": {
@@ -2532,15 +2532,15 @@
     "semantic_hash": ""
   },
   "messages/en.json": {
-    "mtime": 1795786157.4435086,
-    "seen": 1795786309.289526,
-    "ast_hash": "4f9a270a9be357031004619a7ddc43d9",
+    "mtime": 1795790802.3217373,
+    "seen": 1795790924.874662,
+    "ast_hash": "ed64f4e6239fe7b489bfc87a393e0e1c",
     "semantic_hash": ""
   },
   "messages/ro.json": {
-    "mtime": 1795786156.6790261,
-    "seen": 1795786309.289527,
-    "ast_hash": "5d7280f8c291c070c75e5425a7ace682",
+    "mtime": 1795790801.3857532,
+    "seen": 1795790924.8746629,
+    "ast_hash": "5834e7f51453bf519e1339be8daf85d1",
     "semantic_hash": ""
   },
   "project.inlang/settings.json": {
@@ -2622,9 +2622,27 @@
     "semantic_hash": ""
   },
   "src/components/landing/hero-phone-demo.tsx": {
-    "mtime": 1795786258.612489,
-    "seen": 1795786309.289542,
-    "ast_hash": "e4806bc7fd05e3735f08ffcecbda348e",
+    "mtime": 1795790903.6489015,
+    "seen": 1795790924.874681,
+    "ast_hash": "1f9b5ae3b050fe93721d3bbf6e269a8b",
+    "semantic_hash": ""
+  },
+  "src/assets/demo/demo-bronze-product.jpeg": {
+    "mtime": 1795789061.4600904,
+    "seen": 1795790924.8749309,
+    "ast_hash": "a0ff023316faab0c84f42f146d3407c5",
+    "semantic_hash": ""
+  },
+  "src/assets/demo/demo-gold-product.jpeg": {
+    "mtime": 1795788837.5878127,
+    "seen": 1795790924.874932,
+    "ast_hash": "23d461390033fd6795ea1f01c474700f",
+    "semantic_hash": ""
+  },
+  "src/assets/demo/demo-silver-product.jpeg": {
+    "mtime": 1795788706.9065366,
+    "seen": 1795790924.874933,
+    "ast_hash": "5396c3c7b7255911222d2a106033c32a",
     "semantic_hash": ""
   }
 }
