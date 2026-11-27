@@ -342,9 +342,9 @@
     "semantic_hash": ""
   },
   "src/routes/__root.tsx": {
-    "mtime": 1795775806.5624065,
-    "seen": 1795776010.922136,
-    "ast_hash": "91e7023f266d0bb3aeb765296a9d79e5",
+    "mtime": 1795778194.2357852,
+    "seen": 1795778221.058251,
+    "ast_hash": "4b65ae627064d6c1b7b416c88e66cfc9",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/add-product.tsx": {
@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1795775972.6355042,
-    "seen": 1795776010.92214,
-    "ast_hash": "ba9657b5135e7e08c03a81cae325ada5",
+    "mtime": 1795778231.8834372,
+    "seen": 1795778263.194089,
+    "ast_hash": "75f39fcb1ec2a0a9568bd67f559705ff",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
@@ -900,15 +900,15 @@
     "semantic_hash": ""
   },
   "src/components/landing/final-cta-section.tsx": {
-    "mtime": 1795775872.4022667,
-    "seen": 1795776010.922084,
-    "ast_hash": "ad1f637e169f0e0b7dde89349980b9eb",
+    "mtime": 1795778197.3425503,
+    "seen": 1795778221.058204,
+    "ast_hash": "17cb8fe007669216d73eae4a7a019820",
     "semantic_hash": ""
   },
   "src/components/landing/hero-section.tsx": {
-    "mtime": 1795775870.301437,
-    "seen": 1795776010.922085,
-    "ast_hash": "d0c4a3c4ea2769e31f70c9ccbf8d9214",
+    "mtime": 1795778231.8800519,
+    "seen": 1795778263.194036,
+    "ast_hash": "89f9a4fbd446dc1254662fcc040fad48",
     "semantic_hash": ""
   },
   "src/components/landing/how-it-works-section.tsx": {
@@ -2592,9 +2592,9 @@
     "semantic_hash": ""
   },
   "src/lib/pwa-install.tsx": {
-    "mtime": 1795775972.6302865,
-    "seen": 1795776010.922128,
-    "ast_hash": "3f6734b7623b45de1f56aaadbbebdbf2",
+    "mtime": 1795778194.9416118,
+    "seen": 1795778221.058244,
+    "ast_hash": "af2c08cb0d5de75faa312aa0a28fc50d",
     "semantic_hash": ""
   },
   "docs/adr/0002-pwa-install-and-standalone-routing.md": {

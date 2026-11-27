@@ -107,7 +107,7 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 						</p>
 
 						<div className="pt-2 flex flex-col items-center lg:items-start gap-2.5">
-							<div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
+							<div className="flex flex-col items-center lg:items-start w-full sm:w-auto">
 								<Button
 									asChild
 									className="w-full sm:w-auto h-auto min-h-13 px-8 py-4 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-base font-extrabold shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
@@ -115,22 +115,35 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 									<Link to={ctaTarget}>{ctaLabel}</Link>
 								</Button>
 
-								{canInstall && (
-									<Button
-										type="button"
-										variant="outline"
-										aria-disabled={isInstalling || undefined}
-										onClick={triggerInstall}
-										className="w-full sm:w-auto h-auto min-h-13 px-6 py-4 rounded-full border-[#FCE8C6]/35 dark:border-[#FCE8C6]/35 bg-[#FBF4E6]/10 dark:bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 dark:hover:bg-[#FBF4E6]/18 hover:text-[#FCE8C6] text-[#FCE8C6] text-base font-bold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
-									>
-										<Download className="w-4 h-4 shrink-0" aria-hidden="true" />
-										<span>
-											{isInstalling
-												? m.pwa_install_installing()
-												: m.pwa_install_button()}
-										</span>
-									</Button>
-								)}
+								<div
+									className="pwa-install-expand self-stretch sm:self-auto -mx-1"
+									data-open={canInstall ? "true" : "false"}
+									aria-hidden={!canInstall}
+									inert={!canInstall || undefined}
+								>
+									<div className="pwa-install-expand-inner">
+										<div className="pt-3 px-1 pb-1 flex justify-center lg:justify-start">
+											<Button
+												type="button"
+												variant="outline"
+												tabIndex={canInstall ? undefined : -1}
+												aria-disabled={isInstalling || undefined}
+												onClick={triggerInstall}
+												className="w-full sm:w-auto h-auto min-h-13 px-6 py-4 rounded-full border-[#FCE8C6]/35 dark:border-[#FCE8C6]/35 bg-[#FBF4E6]/10 dark:bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 dark:hover:bg-[#FBF4E6]/18 hover:text-[#FCE8C6] text-[#FCE8C6] text-base font-bold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+											>
+												<Download
+													className="w-4 h-4 shrink-0"
+													aria-hidden="true"
+												/>
+												<span>
+													{isInstalling
+														? m.pwa_install_installing()
+														: m.pwa_install_button()}
+												</span>
+											</Button>
+										</div>
+									</div>
+								</div>
 							</div>
 
 							<p className="text-xs font-semibold text-[#FCE8C6]/85">

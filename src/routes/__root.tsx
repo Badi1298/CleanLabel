@@ -65,6 +65,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 		scripts: [
 			{
+				children:
+					"(function(){if(window.__pwaEarly)return;var s={prompt:null,installed:false};window.__pwaEarly=s;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();s.prompt=e;});window.addEventListener('appinstalled',function(){s.prompt=null;s.installed=true;});})();",
+			},
+			{
 				src: "/registerSW.js",
 				defer: true,
 			},

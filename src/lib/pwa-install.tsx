@@ -109,18 +109,37 @@ function resolveInstallMode(
 }
 
 // Capture ultra-early events before React mounts so nothing is missed across routes.
-let earlyDeferredPrompt: BeforeInstallPromptEvent | null = null;
-let earlyInstalled = false;
+interface PwaEarlyState {
+	prompt: BeforeInstallPromptEvent | null;
+	installed: boolean;
+}
+
+type WindowWithPwaEarly = Window & {
+	__pwaEarly?: PwaEarlyState;
+};
+
+function getEarlyState(): PwaEarlyState | null {
+	if (typeof window === "undefined") {
+		return null;
+	}
+	const win = window as WindowWithPwaEarly;
+	if (!win.__pwaEarly) {
+		const state: PwaEarlyState = { prompt: null, installed: false };
+		win.__pwaEarly = state;
+		window.addEventListener("beforeinstallprompt", (event) => {
+			event.preventDefault();
+			state.prompt = event as BeforeInstallPromptEvent;
+		});
+		window.addEventListener("appinstalled", () => {
+			state.prompt = null;
+			state.installed = true;
+		});
+	}
+	return win.__pwaEarly;
+}
 
 if (typeof window !== "undefined") {
-	window.addEventListener("beforeinstallprompt", (event) => {
-		event.preventDefault();
-		earlyDeferredPrompt = event as BeforeInstallPromptEvent;
-	});
-	window.addEventListener("appinstalled", () => {
-		earlyDeferredPrompt = null;
-		earlyInstalled = true;
-	});
+	getEarlyState();
 }
 
 interface PwaInstallContextValue {
@@ -143,30 +162,25 @@ const PwaInstallContext = createContext<PwaInstallContextValue>({
  * Provides PWA standalone detection, one-click installation, and guided install UI.
  */
 export function PwaInstallProvider({ children }: { children: ReactNode }) {
+	const [isReady, setIsReady] = useState(false);
 	const [isStandalone, setIsStandalone] = useState(false);
 	const [isInstalled, setIsInstalled] = useState(false);
 	const [deferredPrompt, setDeferredPrompt] =
 		useState<BeforeInstallPromptEvent | null>(null);
-	const [installMode, setInstallMode] = useState<PwaInstallMode>("hidden");
 	const [isInstalling, setIsInstalling] = useState(false);
 	const [guideOpen, setGuideOpen] = useState(false);
 	const installingRef = useRef(false);
 
 	useEffect(() => {
+		const early = getEarlyState();
 		const initialStandalone = isStandalonePwa();
-		const initialInstalled = earlyInstalled;
-		const initialPrompt = earlyDeferredPrompt;
+		const initialInstalled = Boolean(early?.installed);
+		const initialPrompt = early?.prompt ?? null;
 
 		setIsStandalone(initialStandalone);
 		setIsInstalled(initialInstalled);
 		setDeferredPrompt(initialPrompt);
-		setInstallMode(
-			resolveInstallMode(
-				initialStandalone,
-				initialInstalled,
-				Boolean(initialPrompt),
-			),
-		);
+		setIsReady(true);
 
 		const mediaQuery = window.matchMedia("(display-mode: standalone)");
 		const handleDisplayModeChange = () => {
@@ -176,13 +190,19 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
 		const handleBeforeInstallPrompt = (event: Event) => {
 			event.preventDefault();
 			const promptEvent = event as BeforeInstallPromptEvent;
-			earlyDeferredPrompt = promptEvent;
+			const currentEarly = getEarlyState();
+			if (currentEarly) {
+				currentEarly.prompt = promptEvent;
+			}
 			setDeferredPrompt(promptEvent);
 		};
 
 		const handleAppInstalled = () => {
-			earlyDeferredPrompt = null;
-			earlyInstalled = true;
+			const currentEarly = getEarlyState();
+			if (currentEarly) {
+				currentEarly.prompt = null;
+				currentEarly.installed = true;
+			}
 			setDeferredPrompt(null);
 			setIsInstalled(true);
 		};
@@ -201,11 +221,9 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
 		};
 	}, []);
 
-	useEffect(() => {
-		setInstallMode(
-			resolveInstallMode(isStandalone, isInstalled, Boolean(deferredPrompt)),
-		);
-	}, [isStandalone, isInstalled, deferredPrompt]);
+	const installMode: PwaInstallMode = isReady
+		? resolveInstallMode(isStandalone, isInstalled, Boolean(deferredPrompt))
+		: "hidden";
 
 	const triggerInstall = useCallback(async () => {
 		if (installingRef.current || isStandalone) {
@@ -226,30 +244,37 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
 
 		try {
 			const nav = navigator as NavigatorWithPwa;
+			const early = getEarlyState();
 			if (typeof nav.install === "function") {
 				// Call directly before any await to preserve transient user activation.
 				await nav.install();
-				earlyDeferredPrompt = null;
-				earlyInstalled = true;
+				if (early) {
+					early.prompt = null;
+					early.installed = true;
+				}
 				setDeferredPrompt(null);
 				setIsInstalled(true);
 				toast.success(m.pwa_install_success());
 				return;
 			}
 
-			const promptEvent = deferredPrompt ?? earlyDeferredPrompt;
+			const promptEvent = deferredPrompt ?? early?.prompt;
 			if (!promptEvent) {
 				return;
 			}
 
 			// Clear single-use prompt reference before awaiting user choice.
-			earlyDeferredPrompt = null;
+			if (early) {
+				early.prompt = null;
+			}
 			setDeferredPrompt(null);
 
 			await promptEvent.prompt();
 			const { outcome } = await promptEvent.userChoice;
 			if (outcome === "accepted") {
-				earlyInstalled = true;
+				if (early) {
+					early.installed = true;
+				}
 				setIsInstalled(true);
 				toast.success(m.pwa_install_success());
 			}

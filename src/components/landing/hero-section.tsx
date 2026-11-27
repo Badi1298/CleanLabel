@@ -34,7 +34,7 @@ export function HeroSection({
 			className="bg-[#1B4332] dark:bg-[#112A1F] text-[#FBF4E6]"
 		>
 			<div className="max-w-6xl mx-auto px-4 md:px-6 pt-10 pb-14 sm:pt-14 sm:pb-18 lg:py-20">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
 					{/* Left Column: Copy + CTAs */}
 					<div className="lg:col-span-6 space-y-6">
 						<h1
@@ -49,40 +49,53 @@ export function HeroSection({
 							{m.landing_hero_subtitle()}
 						</p>
 
-						<div className="pt-1 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
-							<Button
-								asChild
-								className="h-auto min-h-12 px-7 py-3.5 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-sm sm:text-base font-extrabold shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
-							>
-								<Link to={primaryCtaTarget}>{primaryCtaLabel}</Link>
-							</Button>
-
-							{canInstall && (
+						<div className="pt-1 space-y-3">
+							<div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
 								<Button
-									type="button"
-									variant="outline"
-									aria-disabled={isInstalling || undefined}
-									onClick={triggerInstall}
-									className="h-auto min-h-12 px-6 py-3.5 rounded-full border-[#FCE8C6]/35 dark:border-[#FCE8C6]/35 bg-[#FBF4E6]/10 dark:bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 dark:hover:bg-[#FBF4E6]/18 hover:text-[#FCE8C6] text-[#FCE8C6] text-sm sm:text-base font-bold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+									asChild
+									className="h-auto min-h-12 px-7 py-3.5 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-sm sm:text-base font-extrabold shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 								>
-									<Download className="w-4 h-4 shrink-0" aria-hidden="true" />
-									<span>
-										{isInstalling
-											? m.pwa_install_installing()
-											: m.pwa_install_button()}
-									</span>
+									<Link to={primaryCtaTarget}>{primaryCtaLabel}</Link>
 								</Button>
-							)}
 
-							{isSignedIn ? (
-								<Link to="/search" className={secondaryLinkClassName}>
-									{m.landing_hero_secondary_cta()}
-								</Link>
-							) : (
-								<a href="#cum-functioneaza" className={secondaryLinkClassName}>
-									{m.landing_hero_secondary_cta()}
-								</a>
-							)}
+								{isSignedIn ? (
+									<Link to="/search" className={secondaryLinkClassName}>
+										{m.landing_hero_secondary_cta()}
+									</Link>
+								) : (
+									<a
+										href="#cum-functioneaza"
+										className={secondaryLinkClassName}
+									>
+										{m.landing_hero_secondary_cta()}
+									</a>
+								)}
+							</div>
+
+							<div className="flex items-center">
+								<div
+									className="pwa-install-slot w-full sm:w-auto"
+									data-visible={canInstall ? "true" : "false"}
+									aria-hidden={!canInstall}
+									inert={!canInstall || undefined}
+								>
+									<Button
+										type="button"
+										variant="outline"
+										tabIndex={canInstall ? undefined : -1}
+										aria-disabled={isInstalling || undefined}
+										onClick={triggerInstall}
+										className="w-full sm:w-auto h-auto min-h-12 px-6 py-3.5 rounded-full border-[#FCE8C6]/35 dark:border-[#FCE8C6]/35 bg-[#FBF4E6]/10 dark:bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 dark:hover:bg-[#FBF4E6]/18 hover:text-[#FCE8C6] text-[#FCE8C6] text-sm sm:text-base font-bold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+									>
+										<Download className="w-4 h-4 shrink-0" aria-hidden="true" />
+										<span>
+											{isInstalling
+												? m.pwa_install_installing()
+												: m.pwa_install_button()}
+										</span>
+									</Button>
+								</div>
+							</div>
 						</div>
 					</div>
 

@@ -303,6 +303,62 @@ dialog::backdrop {
   }
 }
 
+/* Progressive PWA install reveal utilities */
+.pwa-install-slot {
+  opacity: 0;
+  translate: 0 6px;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.28s ease-out,
+    translate 0.28s ease-out,
+    visibility 0.28s ease-out;
+  transition-behavior: allow-discrete;
+}
+
+.pwa-install-slot[data-visible="true"] {
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.pwa-install-expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  translate: 0 6px;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    grid-template-rows 0.3s ease-out,
+    opacity 0.28s ease-out,
+    translate 0.28s ease-out,
+    visibility 0.3s ease-out;
+  transition-behavior: allow-discrete;
+}
+
+.pwa-install-expand[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.pwa-install-expand-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pwa-install-slot,
+  .pwa-install-expand {
+    translate: none;
+    transition-duration: 0.12s;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
