@@ -14,6 +14,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "#/components/ui/sheet";
+import { usePwaInstall } from "#/lib/pwa-install";
 import { m } from "#/paraglide/messages.js";
 
 export function LandingHeader({
@@ -24,6 +25,8 @@ export function LandingHeader({
 	isLandingPage?: boolean;
 }) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
+	const { isStandalone } = usePwaInstall();
+	const hideMarketingLinks = !isLandingPage && isStandalone;
 
 	const headerLinks = getHeaderLinks();
 	const ctaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
@@ -48,7 +51,10 @@ export function LandingHeader({
 						{brandContent}
 					</a>
 				) : (
-					<Link to="/landing" className={brandClassName}>
+					<Link
+						to={hideMarketingLinks ? "/" : "/landing"}
+						className={brandClassName}
+					>
 						{brandContent}
 					</Link>
 				)}
@@ -57,25 +63,27 @@ export function LandingHeader({
 					aria-label={m.landing_header_nav_aria()}
 					className="flex items-center gap-2 md:gap-4"
 				>
-					<ul className="hidden md:flex items-center gap-1">
-						{headerLinks.map((item) => (
-							<li key={item.href}>
-								{isLandingPage ? (
-									<a href={item.href} className={desktopNavLinkClassName}>
-										{item.label}
-									</a>
-								) : (
-									<Link
-										to="/landing"
-										hash={item.hash}
-										className={desktopNavLinkClassName}
-									>
-										{item.label}
-									</Link>
-								)}
-							</li>
-						))}
-					</ul>
+					{!hideMarketingLinks && (
+						<ul className="hidden md:flex items-center gap-1">
+							{headerLinks.map((item) => (
+								<li key={item.href}>
+									{isLandingPage ? (
+										<a href={item.href} className={desktopNavLinkClassName}>
+											{item.label}
+										</a>
+									) : (
+										<Link
+											to="/landing"
+											hash={item.hash}
+											className={desktopNavLinkClassName}
+										>
+											{item.label}
+										</Link>
+									)}
+								</li>
+							))}
+						</ul>
+					)}
 
 					<LanguageSwitcher
 						surface="dark"
@@ -120,30 +128,34 @@ export function LandingHeader({
 								aria-label={m.landing_header_mobile_nav_aria()}
 								className="flex flex-col p-4 gap-1"
 							>
-								{headerLinks.map((item) =>
-									isLandingPage ? (
-										<a
-											key={item.href}
-											href={item.href}
-											onClick={() => setMobileNavOpen(false)}
-											className={mobileNavLinkClassName}
-										>
-											{item.label}
-										</a>
-									) : (
-										<Link
-											key={item.href}
-											to="/landing"
-											hash={item.hash}
-											onClick={() => setMobileNavOpen(false)}
-											className={mobileNavLinkClassName}
-										>
-											{item.label}
-										</Link>
-									),
-								)}
+								{!hideMarketingLinks && (
+									<>
+										{headerLinks.map((item) =>
+											isLandingPage ? (
+												<a
+													key={item.href}
+													href={item.href}
+													onClick={() => setMobileNavOpen(false)}
+													className={mobileNavLinkClassName}
+												>
+													{item.label}
+												</a>
+											) : (
+												<Link
+													key={item.href}
+													to="/landing"
+													hash={item.hash}
+													onClick={() => setMobileNavOpen(false)}
+													className={mobileNavLinkClassName}
+												>
+													{item.label}
+												</Link>
+											),
+										)}
 
-								<Separator className="my-3 bg-[#FCE8C6]/14" />
+										<Separator className="my-3 bg-[#FCE8C6]/14" />
+									</>
+								)}
 
 								<div className="flex items-center justify-between px-3.5 py-2">
 									<span className="text-xs font-semibold text-[#FCE8C6]/80">

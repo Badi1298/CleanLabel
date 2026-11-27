@@ -9,6 +9,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { NotFound } from "#/components/NotFound";
 import { Toaster } from "#/components/ui/sonner";
 import { TooltipProvider } from "#/components/ui/tooltip";
+import { PwaInstallProvider } from "#/lib/pwa-install";
 import { getLocale } from "#/paraglide/runtime.js";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import TanstackQueryProvider from "../integrations/tanstack-query/root-provider";
@@ -31,6 +32,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			{
 				name: "theme-color",
 				content: "#1B4332",
+			},
+			{
+				name: "apple-mobile-web-app-capable",
+				content: "yes",
+			},
+			{
+				name: "apple-mobile-web-app-title",
+				content: "PickItWell",
 			},
 			{
 				title: "PickItWell",
@@ -74,7 +83,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<TanstackQueryProvider queryClient={queryClient}>
-					<TooltipProvider>{children}</TooltipProvider>
+					<TooltipProvider>
+						<PwaInstallProvider>{children}</PwaInstallProvider>
+					</TooltipProvider>
 				</TanstackQueryProvider>
 				<Toaster />
 				{/* <TanStackDevtools

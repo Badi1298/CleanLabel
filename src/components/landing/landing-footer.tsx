@@ -7,18 +7,23 @@ import {
 	type InfoModalTopic,
 } from "#/components/landing/landing-data";
 import { Separator } from "#/components/ui/separator";
+import { usePwaInstall } from "#/lib/pwa-install";
 import { m } from "#/paraglide/messages.js";
 
 export function LandingFooter({
 	onOpenInfoModal,
 	isLandingPage = true,
+	from,
 }: {
 	onOpenInfoModal: (topic: InfoModalTopic) => void;
 	isLandingPage?: boolean;
+	from?: "profile";
 }) {
 	const socialLinks = getSocialLinks();
 	const footerExploreLinks = getFooterExploreLinks();
 	const footerLegalLinks = getFooterLegalLinks();
+	const { isStandalone } = usePwaInstall();
+	const hideMarketingLinks = !isLandingPage && isStandalone;
 
 	const brandClassName =
 		"inline-flex items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54]";
@@ -39,7 +44,10 @@ export function LandingFooter({
 								{brandContent}
 							</a>
 						) : (
-							<Link to="/landing" className={brandClassName}>
+							<Link
+								to={hideMarketingLinks ? "/" : "/landing"}
+								className={brandClassName}
+							>
 								{brandContent}
 							</Link>
 						)}
@@ -77,23 +85,24 @@ export function LandingFooter({
 							{m.landing_footer_explore_heading()}
 						</h2>
 						<ul className="space-y-2 text-sm font-semibold">
-							{footerExploreLinks.map((item) => (
-								<li key={item.href}>
-									{isLandingPage ? (
-										<a href={item.href} className={exploreLinkClassName}>
-											{item.label}
-										</a>
-									) : (
-										<Link
-											to="/landing"
-											hash={item.hash}
-											className={exploreLinkClassName}
-										>
-											{item.label}
-										</Link>
-									)}
-								</li>
-							))}
+							{!hideMarketingLinks &&
+								footerExploreLinks.map((item) => (
+									<li key={item.href}>
+										{isLandingPage ? (
+											<a href={item.href} className={exploreLinkClassName}>
+												{item.label}
+											</a>
+										) : (
+											<Link
+												to="/landing"
+												hash={item.hash}
+												className={exploreLinkClassName}
+											>
+												{item.label}
+											</Link>
+										)}
+									</li>
+								))}
 							<li>
 								<Link
 									to="/"
@@ -116,6 +125,7 @@ export function LandingFooter({
 									{item.kind === "route" ? (
 										<Link
 											to={item.to}
+											search={from ? { from } : undefined}
 											className={legalLinkClassName}
 											activeProps={{
 												className:

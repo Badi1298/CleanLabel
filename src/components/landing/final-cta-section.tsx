@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { Store } from "lucide-react";
+import { Download, Store } from "lucide-react";
 import { BrandLogo } from "#/components/brand-logo";
 import { SAMPLE_STORES } from "#/components/landing/landing-data";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { ScoreBadge } from "#/components/ui/score-badge";
+import { usePwaInstall } from "#/lib/pwa-install";
 import { m } from "#/paraglide/messages.js";
 
 export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
@@ -12,6 +13,7 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 	const ctaLabel = isSignedIn
 		? m.landing_header_cta_signed_in()
 		: m.landing_final_cta_signed_out();
+	const { canInstall, isInstalling, triggerInstall } = usePwaInstall();
 
 	return (
 		<section
@@ -105,12 +107,31 @@ export function FinalCtaSection({ isSignedIn }: { isSignedIn: boolean }) {
 						</p>
 
 						<div className="pt-2 flex flex-col items-center lg:items-start gap-2.5">
-							<Button
-								asChild
-								className="h-auto min-h-13 px-8 py-4 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-base font-extrabold shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
-							>
-								<Link to={ctaTarget}>{ctaLabel}</Link>
-							</Button>
+							<div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3 w-full sm:w-auto">
+								<Button
+									asChild
+									className="w-full sm:w-auto h-auto min-h-13 px-8 py-4 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-base font-extrabold shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+								>
+									<Link to={ctaTarget}>{ctaLabel}</Link>
+								</Button>
+
+								{canInstall && (
+									<Button
+										type="button"
+										variant="outline"
+										aria-disabled={isInstalling || undefined}
+										onClick={triggerInstall}
+										className="w-full sm:w-auto h-auto min-h-13 px-6 py-4 rounded-full border-[#FCE8C6]/35 dark:border-[#FCE8C6]/35 bg-[#FBF4E6]/10 dark:bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 dark:hover:bg-[#FBF4E6]/18 hover:text-[#FCE8C6] text-[#FCE8C6] text-base font-bold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+									>
+										<Download className="w-4 h-4 shrink-0" aria-hidden="true" />
+										<span>
+											{isInstalling
+												? m.pwa_install_installing()
+												: m.pwa_install_button()}
+										</span>
+									</Button>
+								)}
+							</div>
 
 							<p className="text-xs font-semibold text-[#FCE8C6]/85">
 								{m.landing_final_note()}

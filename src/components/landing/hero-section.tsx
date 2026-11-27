@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Calendar, Store } from "lucide-react";
+import { Calendar, Download, Store } from "lucide-react";
 import { BrandLogo } from "#/components/brand-logo";
 import {
 	getHeroTierExamples,
@@ -8,6 +8,7 @@ import {
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { ScoreBadge } from "#/components/ui/score-badge";
+import { usePwaInstall } from "#/lib/pwa-install";
 import { m } from "#/paraglide/messages.js";
 
 export function HeroSection({
@@ -22,6 +23,7 @@ export function HeroSection({
 		? m.landing_header_cta_signed_in()
 		: m.landing_hero_cta_signed_out();
 	const heroTierExamples = getHeroTierExamples();
+	const { canInstall, isInstalling, triggerInstall } = usePwaInstall();
 
 	const secondaryLinkClassName =
 		"inline-flex items-center justify-center sm:justify-start min-h-10 text-sm font-semibold text-[#FCE8C6]/90 hover:text-[#FCE8C6] underline underline-offset-4 decoration-[#D8AB54]/70 hover:decoration-[#D8AB54] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54] rounded-sm";
@@ -47,13 +49,30 @@ export function HeroSection({
 							{m.landing_hero_subtitle()}
 						</p>
 
-						<div className="pt-1 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+						<div className="pt-1 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
 							<Button
 								asChild
 								className="h-auto min-h-12 px-7 py-3.5 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-sm sm:text-base font-extrabold shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 							>
 								<Link to={primaryCtaTarget}>{primaryCtaLabel}</Link>
 							</Button>
+
+							{canInstall && (
+								<Button
+									type="button"
+									variant="outline"
+									aria-disabled={isInstalling || undefined}
+									onClick={triggerInstall}
+									className="h-auto min-h-12 px-6 py-3.5 rounded-full border-[#FCE8C6]/35 dark:border-[#FCE8C6]/35 bg-[#FBF4E6]/10 dark:bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 dark:hover:bg-[#FBF4E6]/18 hover:text-[#FCE8C6] text-[#FCE8C6] text-sm sm:text-base font-bold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+								>
+									<Download className="w-4 h-4 shrink-0" aria-hidden="true" />
+									<span>
+										{isInstalling
+											? m.pwa_install_installing()
+											: m.pwa_install_button()}
+									</span>
+								</Button>
+							)}
 
 							{isSignedIn ? (
 								<Link to="/search" className={secondaryLinkClassName}>
