@@ -13,6 +13,8 @@ import {
 } from "#/components/auth/auth-fields";
 import { AuthShell } from "#/components/auth/auth-shell";
 import { authClient } from "#/lib/auth-client";
+import { getLocalizedAuthError } from "#/lib/i18n";
+import { m } from "#/paraglide/messages.js";
 
 export const Route = createFileRoute("/forgot-password")({
 	component: ForgotPassword,
@@ -42,26 +44,24 @@ function ForgotPassword() {
 			if (!error) {
 				setIsSubmitted(true);
 			} else {
-				toast.error(
-					error.message || "Could not send reset link. Please try again.",
-				);
+				toast.error(getLocalizedAuthError(error, m.auth_forgot_failed()));
 			}
 		},
 	});
 
 	return (
 		<AuthShell
-			title="Forgot Password"
-			subtitle="Enter your email address and we'll send you a link to reset your password."
+			title={m.auth_forgot_title()}
+			subtitle={m.auth_forgot_subtitle()}
 			showSocialAuth={false}
 			footer={
 				<>
-					Remember your password?{" "}
+					{m.auth_forgot_remember()}{" "}
 					<Link
 						to="/login"
 						className="font-bold text-[#1B4332] dark:text-emerald-300 hover:underline underline-offset-4"
 					>
-						Back to sign in
+						{m.auth_forgot_back_to_login()}
 					</Link>
 				</>
 			}
@@ -73,11 +73,10 @@ function ForgotPassword() {
 					</div>
 					<div className="space-y-1.5">
 						<h2 className="text-lg font-extrabold text-[#1B3328] dark:text-[#EDF2EE]">
-							Check your inbox
+							{m.auth_forgot_sent_title()}
 						</h2>
 						<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] leading-relaxed">
-							If an account exists for that email address, you&apos;ll receive a
-							password reset link shortly.
+							{m.auth_forgot_sent_body()}
 						</p>
 					</div>
 					<div className="pt-2 flex flex-col gap-2.5">
@@ -89,7 +88,7 @@ function ForgotPassword() {
 							}}
 							className="w-full min-h-11 px-4 py-2.5 rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#2B3D33] text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer"
 						>
-							Try another email
+							{m.auth_forgot_try_another()}
 						</button>
 					</div>
 				</output>
@@ -116,7 +115,7 @@ function ForgotPassword() {
 							<AuthEmailField
 								field={field}
 								id="forgot-email"
-								label="Email Address"
+								label={m.auth_email_label()}
 								autoComplete="username"
 								enterKeyHint="done"
 								onBlurError={announceError}
@@ -129,8 +128,8 @@ function ForgotPassword() {
 						{(isSubmitting) => (
 							<AuthSubmitButton
 								isSubmitting={isSubmitting}
-								idleLabel="Send Reset Link"
-								submittingLabel="Sending reset link..."
+								idleLabel={m.auth_forgot_submit()}
+								submittingLabel={m.auth_forgot_submitting()}
 							/>
 						)}
 					</form.Subscribe>

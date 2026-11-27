@@ -7,6 +7,7 @@ import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { Label } from "#/components/ui/label";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 
 const baseRevalidateLogic = revalidateLogic({
 	mode: "blur",
@@ -86,14 +87,14 @@ function getLatestFieldError(field: AnyFieldApi): string | undefined {
 }
 
 export function validateEmail(value: string) {
-	if (!value.trim()) return "Email is required";
-	if (!/^\S+@\S+\.\S+$/.test(value)) return "Invalid email format";
+	if (!value.trim()) return m.auth_email_required();
+	if (!/^\S+@\S+\.\S+$/.test(value)) return m.auth_email_invalid();
 	return undefined;
 }
 
 export function validatePassword(value: string) {
-	if (!value) return "Password is required";
-	if (value.length < 6) return "Password must be at least 6 characters";
+	if (!value) return m.auth_password_required();
+	if (value.length < 6) return m.auth_password_min_6();
 	return undefined;
 }
 
@@ -146,7 +147,7 @@ export function AuthEmailField({
 	id,
 	label,
 	labelRight,
-	placeholder = "you@example.com",
+	placeholder = m.auth_email_placeholder(),
 	autoComplete = "username",
 	enterKeyHint = "next",
 	required = true,
@@ -287,8 +288,8 @@ export function AuthPasswordField({
 					aria-pressed={showPassword}
 					aria-label={
 						showPassword
-							? `Hide ${label.toLowerCase()}`
-							: `Show ${label.toLowerCase()}`
+							? m.auth_hide_field({ field: label.toLowerCase() })
+							: m.auth_show_field({ field: label.toLowerCase() })
 					}
 					aria-describedby={warningId}
 					className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg flex items-center justify-center text-[#687069] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#FCE8C6] hover:bg-[#EAE4D7]/50 dark:hover:bg-[#1E2E26] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5A44] dark:focus-visible:ring-[#6EC89A]"
@@ -300,7 +301,7 @@ export function AuthPasswordField({
 					)}
 				</button>
 				<span id={warningId} className="sr-only">
-					Warning: this will display your password on the screen.
+					{m.auth_password_visibility_warning()}
 				</span>
 			</div>
 

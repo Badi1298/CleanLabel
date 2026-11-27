@@ -2,8 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, Calendar, ChevronDown } from "lucide-react";
 import { useId } from "react";
 import {
+	getLegalLastUpdatedDate,
 	type InfoModalTopic,
-	LEGAL_LAST_UPDATED_DATE,
 	LEGAL_LAST_UPDATED_ISO,
 } from "#/components/landing/landing-data";
 import { LandingFooter } from "#/components/landing/landing-footer";
@@ -20,6 +20,7 @@ import {
 import { Button } from "#/components/ui/button";
 import { Card } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
+import { m } from "#/paraglide/messages.js";
 
 export interface LegalSectionTocItem {
 	id: string;
@@ -63,10 +64,10 @@ export function LandingLegalLayout({
 	children,
 }: LandingLegalLayoutProps) {
 	const headingId = useId();
+	const lastUpdatedDate = getLegalLastUpdatedDate();
 
 	return (
 		<div
-			lang="ro"
 			id="top"
 			className="min-h-screen flex flex-col bg-background text-foreground"
 		>
@@ -74,7 +75,7 @@ export function LandingLegalLayout({
 				href="#main-content"
 				className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-[#1B4332] focus:text-[#FCE8C6] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:shadow-lg"
 			>
-				Sari la conținut
+				{m.common_skip_to_content()}
 			</a>
 
 			<LandingHeader isSignedIn={isSignedIn} isLandingPage={false} />
@@ -85,7 +86,7 @@ export function LandingLegalLayout({
 				className="bg-[#1B4332] dark:bg-[#112A1F] text-[#FBF4E6] rounded-b-3xl md:rounded-b-[2.5rem] shadow-[0_12px_32px_rgba(27,67,50,0.16)]"
 			>
 				<div className="max-w-6xl mx-auto px-4 md:px-6 pt-6 pb-9 sm:pt-8 sm:pb-12 space-y-5">
-					<Breadcrumb aria-label="Traseu pagină">
+					<Breadcrumb aria-label={m.legal_breadcrumb_aria()}>
 						<BreadcrumbList className="text-xs sm:text-sm text-[#FCE8C6]/80">
 							<BreadcrumbItem>
 								<BreadcrumbLink asChild>
@@ -93,7 +94,7 @@ export function LandingLegalLayout({
 										to="/landing"
 										className="text-[#FCE8C6]/80 hover:text-[#FCE8C6] hover:underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6] rounded-sm"
 									>
-										Acasă
+										{m.nav_home()}
 									</Link>
 								</BreadcrumbLink>
 							</BreadcrumbItem>
@@ -137,10 +138,8 @@ export function LandingLegalLayout({
 								aria-hidden="true"
 							/>
 							<span>
-								Ultima actualizare:{" "}
-								<time dateTime={LEGAL_LAST_UPDATED_ISO}>
-									{LEGAL_LAST_UPDATED_DATE}
-								</time>
+								{m.legal_last_updated()}{" "}
+								<time dateTime={LEGAL_LAST_UPDATED_ISO}>{lastUpdatedDate}</time>
 							</span>
 						</span>
 
@@ -165,14 +164,16 @@ export function LandingLegalLayout({
 					<div className="lg:hidden">
 						<details className="group rounded-2xl bg-card border border-border overflow-hidden shadow-[0_2px_10px_rgba(27,67,50,0.03)]">
 							<summary className="flex items-center justify-between gap-3 px-4 py-3.5 min-h-12 cursor-pointer text-sm font-bold text-foreground hover:bg-secondary/50 transition-colors list-none [&::-webkit-details-marker]:hidden">
-								<span>Cuprins ({tocItems.length} secțiuni)</span>
+								<span>
+									{m.legal_toc_mobile_summary({ count: tocItems.length })}
+								</span>
 								<ChevronDown
 									className="w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
 									aria-hidden="true"
 								/>
 							</summary>
 							<nav
-								aria-label="Cuprins document mobil"
+								aria-label={m.legal_toc_mobile_aria()}
 								className="px-4 pb-4 pt-2 border-t border-border"
 							>
 								<TocLinksList items={tocItems} />
@@ -184,9 +185,9 @@ export function LandingLegalLayout({
 					<aside className="hidden lg:block lg:col-span-4 lg:sticky lg:top-24 space-y-4">
 						<Card className="rounded-3xl bg-card border-border p-5 gap-3 shadow-[0_2px_10px_rgba(27,67,50,0.03)]">
 							<h2 className="text-sm font-extrabold tracking-tight text-foreground dark:text-[#FBF4E6] text-balance">
-								Cuprins document
+								{m.legal_toc_title()}
 							</h2>
-							<nav aria-label="Cuprins document">
+							<nav aria-label={m.legal_toc_aria()}>
 								<TocLinksList items={tocItems} />
 							</nav>
 						</Card>
@@ -204,7 +205,7 @@ export function LandingLegalLayout({
 										to={companionLink.to}
 										className="inline-flex items-center gap-1 text-xs font-bold text-[#1B4332] dark:text-[#FCE8C6] underline underline-offset-4 hover:text-[#2D5A44] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332] rounded-sm"
 									>
-										<span>Deschide documentul</span>
+										<span>{m.legal_open_document()}</span>
 										<ArrowRight
 											className="w-3.5 h-3.5 shrink-0"
 											aria-hidden="true"
@@ -217,14 +218,14 @@ export function LandingLegalLayout({
 
 							<div className="space-y-1.5">
 								<p className="text-xs font-semibold text-muted-foreground text-pretty">
-									Erori de verificare sau întrebări din partea producătorilor:
+									{m.legal_producer_note()}
 								</p>
 								<button
 									type="button"
 									onClick={() => onSelectModalTopic("contact")}
 									className="inline-flex items-center text-xs font-bold text-[#2D5A44] dark:text-emerald-400 underline underline-offset-4 hover:text-[#1B4332] dark:hover:text-emerald-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332] rounded-sm"
 								>
-									Contactează echipa PickItWell
+									{m.legal_contact_team()}
 								</button>
 							</div>
 						</Card>
@@ -237,12 +238,12 @@ export function LandingLegalLayout({
 
 							<div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-muted-foreground">
 								<p className="text-pretty">
-									Ultima actualizare:{" "}
+									{m.legal_last_updated()}{" "}
 									<time
 										dateTime={LEGAL_LAST_UPDATED_ISO}
 										className="font-semibold text-foreground"
 									>
-										{LEGAL_LAST_UPDATED_DATE}
+										{lastUpdatedDate}
 									</time>
 								</p>
 								<button
@@ -250,7 +251,7 @@ export function LandingLegalLayout({
 									onClick={() => onSelectModalTopic("contact")}
 									className="font-bold text-[#2D5A44] dark:text-emerald-400 hover:underline underline-offset-4 cursor-pointer text-left sm:text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332] rounded-sm"
 								>
-									Ai o întrebare sau o sesizare? Contactează-ne
+									{m.legal_question_contact()}
 								</button>
 							</div>
 						</article>
@@ -266,7 +267,7 @@ export function LandingLegalLayout({
 										className="w-3.5 h-3.5 shrink-0"
 										aria-hidden="true"
 									/>
-									<span>Înapoi la PickItWell</span>
+									<span>{m.legal_back_to_landing()}</span>
 								</Link>
 							</Button>
 

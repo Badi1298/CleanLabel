@@ -14,6 +14,7 @@ import {
 	PopoverTrigger,
 } from "#/components/ui/popover";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import { homeQueryOptions } from "#/queries/home-queries";
 
 export const Route = createFileRoute("/_protected/_public/")({
@@ -62,12 +63,11 @@ function Home() {
 				<div className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-10 pb-7 md:pt-12 md:pb-10">
 					<div className="max-w-2xl">
 						<h1 className="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] font-extrabold tracking-tight leading-[1.03] text-[#FCE8C6]">
-							Make Clean
-							<br className="sm:hidden" /> Choices
+							{m.home_hero_title_line1()}
+							<br className="sm:hidden" /> {m.home_hero_title_line2()}
 						</h1>
 						<p className="hidden sm:block mt-3 text-sm md:text-base text-[#FCE8C6]/80 font-medium max-w-xl">
-							Discover cleaner everyday groceries backed by transparent
-							ingredient scoring.
+							{m.home_hero_subtitle()}
 						</p>
 					</div>
 
@@ -75,7 +75,7 @@ function Home() {
 					<div className="mt-5 md:mt-6 max-w-2xl">
 						<SearchBar
 							variant="hero"
-							placeholder="Search products, brands..."
+							placeholder={m.home_search_placeholder()}
 							trailingSlot={
 								<Popover
 									open={isStoreFilterOpen}
@@ -84,7 +84,7 @@ function Home() {
 									<PopoverTrigger asChild>
 										<button
 											type="button"
-											aria-label="Filter categories by store"
+											aria-label={m.home_store_filter_aria()}
 											className={cn(
 												"relative h-full px-3.5 sm:px-4 flex items-center gap-2 text-xs font-semibold transition-colors cursor-pointer shrink-0 focus:outline-none focus-visible:bg-[#FAF8F5]",
 												selectedStore
@@ -98,7 +98,9 @@ function Home() {
 												aria-hidden="true"
 											/>
 											<span className="hidden sm:inline max-w-27.5 truncate">
-												{selectedStore ? selectedStore.name : "All stores"}
+												{selectedStore
+													? selectedStore.name
+													: m.common_all_stores()}
 											</span>
 											{selectedStore && (
 												<span
@@ -115,7 +117,7 @@ function Home() {
 									>
 										<div className="px-2.5 py-2 border-b border-[#F3EFE6] dark:border-[#24362D] mb-1">
 											<p className="text-[11px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-												Filter by store
+												{m.home_filter_by_store()}
 											</p>
 										</div>
 										<div className="max-h-64 overflow-y-auto space-y-0.5">
@@ -131,7 +133,7 @@ function Home() {
 											>
 												<span className="flex items-center gap-2">
 													<StoreIcon className="w-4 h-4 opacity-70" />
-													<span>All Stores</span>
+													<span>{m.common_all_stores_title()}</span>
 												</span>
 												{!storeId && <Check className="w-4 h-4 shrink-0" />}
 											</button>
@@ -174,11 +176,13 @@ function Home() {
 							<div className="mt-3 flex items-center gap-2">
 								<span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBF4E6]/15 border border-[#FBF4E6]/25 px-3 py-1 text-xs font-medium text-[#FBF4E6]">
 									<StoreIcon className="w-3.5 h-3.5" aria-hidden="true" />
-									<span>Store: {selectedStore.name}</span>
+									<span>
+										{m.home_active_store_pill({ store: selectedStore.name })}
+									</span>
 									<button
 										type="button"
 										onClick={() => handleStoreSelect("all")}
-										aria-label="Clear store filter"
+										aria-label={m.home_clear_store_filter()}
 										className="ml-0.5 rounded-full p-0.5 hover:bg-[#FBF4E6]/20 transition-colors cursor-pointer"
 									>
 										<X className="w-3 h-3" />
@@ -199,14 +203,14 @@ function Home() {
 							id="categories-heading"
 							className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 						>
-							Categories
+							{m.home_categories_heading()}
 						</h2>
 						<Link
 							to="/search"
 							search={{ ...(storeId ? { storeId } : {}) }}
 							className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
 						>
-							See all
+							{m.common_see_all()}
 						</Link>
 					</div>
 
@@ -237,8 +241,9 @@ function Home() {
 											{category.name}
 										</span>
 										<span className="hidden md:block text-[11px] text-[#5C665E] dark:text-[#9AA89E] font-medium">
-											{category.productCount}{" "}
-											{category.productCount === 1 ? "product" : "products"}
+											{m.common_products_count({
+												count: category.productCount,
+											})}
 										</span>
 									</div>
 								</Link>
@@ -248,7 +253,7 @@ function Home() {
 					) : (
 						<div className="text-center py-10 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D]">
 							<p className="text-[#5C665E] dark:text-[#9AA89E] text-sm font-medium">
-								No categories found for this store.
+								{m.home_no_categories_for_store()}
 							</p>
 							{storeId && (
 								<button
@@ -256,7 +261,7 @@ function Home() {
 									onClick={() => handleStoreSelect("all")}
 									className="mt-3 inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#E3EDE7] text-[#1B4332] text-xs font-semibold hover:bg-[#D5E5DC] transition-colors cursor-pointer"
 								>
-									Show all stores
+									{m.home_show_all_stores()}
 								</button>
 							)}
 						</div>
@@ -270,14 +275,14 @@ function Home() {
 							id="recent-heading"
 							className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 						>
-							Recently Added
+							{m.home_recent_heading()}
 						</h2>
 						<Link
 							to="/search"
 							search={{ ...(storeId ? { storeId } : {}) }}
 							className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
 						>
-							Browse all
+							{m.home_browse_all()}
 						</Link>
 					</div>
 
@@ -296,7 +301,7 @@ function Home() {
 					) : (
 						<div className="text-center py-10 px-4 bg-white dark:bg-[#16221C] rounded-2xl border border-[#EAE4D7] dark:border-[#24362D]">
 							<p className="text-[#5C665E] dark:text-[#9AA89E] text-sm font-medium">
-								No products added yet.
+								{m.home_no_products_yet()}
 							</p>
 						</div>
 					)}
@@ -310,13 +315,13 @@ function Home() {
 								id="stores-heading"
 								className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 							>
-								Browse by Store
+								{m.home_stores_heading()}
 							</h2>
 							<Link
 								to="/stores"
 								className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
 							>
-								All stores
+								{m.common_all_stores()}
 							</Link>
 						</div>
 

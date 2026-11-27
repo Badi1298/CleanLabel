@@ -2,7 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import { BrandLogo } from "#/components/brand-logo";
-import { HEADER_LINKS } from "#/components/landing/landing-data";
+import { getHeaderLinks } from "#/components/landing/landing-data";
+import { LanguageSwitcher } from "#/components/language-switcher";
 import { Button } from "#/components/ui/button";
 import { Separator } from "#/components/ui/separator";
 import {
@@ -13,6 +14,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "#/components/ui/sheet";
+import { m } from "#/paraglide/messages.js";
 
 export function LandingHeader({
 	isSignedIn,
@@ -23,8 +25,11 @@ export function LandingHeader({
 }) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
+	const headerLinks = getHeaderLinks();
 	const ctaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
-	const ctaLabel = isSignedIn ? "Deschide aplicația" : "Începe acum";
+	const ctaLabel = isSignedIn
+		? m.landing_header_cta_signed_in()
+		: m.landing_header_cta_signed_out();
 
 	const brandClassName =
 		"inline-flex items-center rounded-lg px-0.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8AB54] shrink-0";
@@ -49,11 +54,11 @@ export function LandingHeader({
 				)}
 
 				<nav
-					aria-label="Principală"
-					className="flex items-center gap-2 md:gap-6"
+					aria-label={m.landing_header_nav_aria()}
+					className="flex items-center gap-2 md:gap-4"
 				>
 					<ul className="hidden md:flex items-center gap-1">
-						{HEADER_LINKS.map((item) => (
+						{headerLinks.map((item) => (
 							<li key={item.href}>
 								{isLandingPage ? (
 									<a href={item.href} className={desktopNavLinkClassName}>
@@ -72,6 +77,12 @@ export function LandingHeader({
 						))}
 					</ul>
 
+					<LanguageSwitcher
+						surface="dark"
+						isSignedIn={isSignedIn}
+						className="hidden md:inline-flex"
+					/>
+
 					<Button
 						asChild
 						className="h-auto min-h-10 px-4 sm:px-5 py-2 rounded-full bg-[#D8AB54] hover:bg-[#E2BA68] text-[#112A1F] text-xs sm:text-sm font-extrabold shadow-xs shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
@@ -85,7 +96,7 @@ export function LandingHeader({
 								type="button"
 								variant="outline"
 								size="icon"
-								aria-label="Deschide meniul"
+								aria-label={m.landing_header_open_menu()}
 								className="md:hidden w-11 h-11 rounded-xl border-[#FCE8C6]/22 bg-[#FBF4E6]/8 text-[#FCE8C6] hover:bg-[#FBF4E6]/15 hover:text-[#FCE8C6] touch-manipulation"
 							>
 								<Menu className="w-5 h-5" aria-hidden="true" />
@@ -101,15 +112,15 @@ export function LandingHeader({
 									<span className="sr-only">PickItWell</span>
 								</SheetTitle>
 								<SheetDescription className="sr-only">
-									Meniu principal de navigare PickItWell
+									{m.landing_header_menu_description()}
 								</SheetDescription>
 							</SheetHeader>
 
 							<nav
-								aria-label="Navigare mobilă"
+								aria-label={m.landing_header_mobile_nav_aria()}
 								className="flex flex-col p-4 gap-1"
 							>
-								{HEADER_LINKS.map((item) =>
+								{headerLinks.map((item) =>
 									isLandingPage ? (
 										<a
 											key={item.href}
@@ -131,6 +142,19 @@ export function LandingHeader({
 										</Link>
 									),
 								)}
+
+								<Separator className="my-3 bg-[#FCE8C6]/14" />
+
+								<div className="flex items-center justify-between px-3.5 py-2">
+									<span className="text-xs font-semibold text-[#FCE8C6]/80">
+										{m.nav_language_switcher_label()}
+									</span>
+									<LanguageSwitcher
+										surface="dark"
+										isSignedIn={isSignedIn}
+										showNativeLabel
+									/>
+								</div>
 
 								<Separator className="my-3 bg-[#FCE8C6]/14" />
 

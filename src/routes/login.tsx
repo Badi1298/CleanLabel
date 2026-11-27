@@ -15,6 +15,8 @@ import {
 } from "#/components/auth/auth-fields";
 import { AuthShell } from "#/components/auth/auth-shell";
 import { authClient } from "#/lib/auth-client";
+import { getLocalizedAuthError } from "#/lib/i18n";
+import { m } from "#/paraglide/messages.js";
 
 const searchSchema = z.object({
 	redirect: z.string().optional(),
@@ -50,23 +52,23 @@ function Login() {
 			if (!error) {
 				window.location.href = search.redirect || "/";
 			} else {
-				toast.error(error.message || "Failed to login");
+				toast.error(getLocalizedAuthError(error, m.auth_login_failed()));
 			}
 		},
 	});
 
 	return (
 		<AuthShell
-			title="Welcome Back"
-			subtitle="Sign in to your account to continue making clean grocery choices."
+			title={m.auth_login_title()}
+			subtitle={m.auth_login_subtitle()}
 			footer={
 				<>
-					Don&apos;t have an account?{" "}
+					{m.auth_login_no_account()}{" "}
 					<Link
 						to="/signup"
 						className="font-bold text-[#1B4332] dark:text-emerald-300 hover:underline underline-offset-4"
 					>
-						Sign up
+						{m.auth_login_signup_link()}
 					</Link>
 				</>
 			}
@@ -93,7 +95,7 @@ function Login() {
 						<AuthEmailField
 							field={field}
 							id="email"
-							label="Email Address"
+							label={m.auth_email_label()}
 							autoComplete="username"
 							enterKeyHint="next"
 							onBlurError={announceError}
@@ -112,7 +114,7 @@ function Login() {
 						<AuthPasswordField
 							field={field}
 							id="password"
-							label="Password"
+							label={m.auth_password_label()}
 							autoComplete="current-password"
 							enterKeyHint="done"
 							minLength={6}
@@ -123,7 +125,7 @@ function Login() {
 									to="/forgot-password"
 									className="text-xs font-semibold text-[#2D5A44] dark:text-emerald-400 hover:text-[#1B4332] dark:hover:text-emerald-300 hover:underline underline-offset-4 transition-colors"
 								>
-									Forgot password?
+									{m.auth_forgot_password_link()}
 								</Link>
 							}
 						/>
@@ -134,8 +136,8 @@ function Login() {
 					{(isSubmitting) => (
 						<AuthSubmitButton
 							isSubmitting={isSubmitting}
-							idleLabel="Sign In"
-							submittingLabel="Signing in..."
+							idleLabel={m.auth_login_submit()}
+							submittingLabel={m.auth_login_submitting()}
 						/>
 					)}
 				</form.Subscribe>

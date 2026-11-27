@@ -18,6 +18,7 @@ import {
 import { ScoreBadge } from "#/components/ui/score-badge";
 import { authClient } from "#/lib/auth-client";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import {
 	userExcludedIngredientsQueryOptions,
 	userFavoriteProductsQueryOptions,
@@ -174,7 +175,9 @@ export function ProductCard({ product }: ProductCardProps) {
 							type="button"
 							onClick={handleFavoriteClick}
 							aria-label={
-								isFavorited ? "Remove from favorites" : "Add to favorites"
+								isFavorited
+									? m.product_card_remove_fav()
+									: m.product_card_add_fav()
 							}
 							className="absolute top-2.5 right-2.5 z-10 w-8 h-8 rounded-full bg-white/90 dark:bg-[#16221C]/90 backdrop-blur-xs border border-[#EAE4D7]/80 dark:border-[#2C4035] flex items-center justify-center shadow-sm hover:scale-105 transition-transform cursor-pointer"
 						>
@@ -199,7 +202,7 @@ export function ProductCard({ product }: ProductCardProps) {
 					) : (
 						<div className="text-[#9AA09A] dark:text-slate-500 flex flex-col items-center gap-1.5">
 							<Package className="w-8 h-8 opacity-60" strokeWidth={1.5} />
-							<span className="text-xs font-medium">No Image</span>
+							<span className="text-xs font-medium">{m.common_no_image()}</span>
 						</div>
 					)}
 				</div>
@@ -219,7 +222,9 @@ export function ProductCard({ product }: ProductCardProps) {
 										className="w-3 h-3 shrink-0"
 										aria-hidden="true"
 									/>
-									<span className="truncate">Excluded ingredient</span>
+									<span className="truncate">
+										{m.product_card_excluded_warning()}
+									</span>
 								</span>
 							</div>
 						)}
@@ -285,7 +290,7 @@ export function ProductCard({ product }: ProductCardProps) {
 													<Store className="w-3 h-3" />
 												</div>
 												<span className="text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE]">
-													Available Stores
+													{m.product_card_available_stores()}
 												</span>
 											</div>
 											<span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#E3EDE7] dark:bg-[#234332] text-[#1B4332] dark:text-[#CBE3D4]">
@@ -340,8 +345,10 @@ export function ProductCard({ product }: ProductCardProps) {
 										</div>
 
 										<div className="px-3 py-1.5 bg-[#FAF8F5] dark:bg-[#131F19] border-t border-[#EAE4D7] dark:border-[#24362D] text-[10px] text-[#687069] dark:text-[#9AA89E] flex items-center justify-between">
-											<span>Tap store to view</span>
-											<span className="hidden sm:inline">Esc to close</span>
+											<span>{m.product_card_tap_store()}</span>
+											<span className="hidden sm:inline">
+												{m.product_card_esc_close()}
+											</span>
 										</div>
 									</PopoverContent>
 								</Popover>

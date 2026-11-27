@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { BrandLogo } from "#/components/brand-logo";
 import {
-	FOOTER_EXPLORE_LINKS,
-	FOOTER_LEGAL_LINKS,
+	getFooterExploreLinks,
+	getFooterLegalLinks,
+	getSocialLinks,
 	type InfoModalTopic,
-	SOCIAL_LINKS,
 } from "#/components/landing/landing-data";
 import { Separator } from "#/components/ui/separator";
+import { m } from "#/paraglide/messages.js";
 
 export function LandingFooter({
 	onOpenInfoModal,
@@ -15,6 +16,10 @@ export function LandingFooter({
 	onOpenInfoModal: (topic: InfoModalTopic) => void;
 	isLandingPage?: boolean;
 }) {
+	const socialLinks = getSocialLinks();
+	const footerExploreLinks = getFooterExploreLinks();
+	const footerLegalLinks = getFooterLegalLinks();
+
 	const brandClassName =
 		"inline-flex items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54]";
 	const brandContent = <BrandLogo surface="dark" size="md" loading="lazy" />;
@@ -27,7 +32,7 @@ export function LandingFooter({
 		<footer className="bg-[#112A1F] dark:bg-[#09140F] text-[#FBF4E6] border-t border-[#FCE8C6]/10">
 			<div className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-16">
 				<div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
-					{/* Coloana 1 – PickItWell */}
+					{/* Column 1 – PickItWell */}
 					<div className="md:col-span-5 space-y-4">
 						{isLandingPage ? (
 							<a href="#top" className={brandClassName}>
@@ -40,12 +45,11 @@ export function LandingFooter({
 						)}
 
 						<p className="text-sm text-[#FBF4E6]/78 leading-relaxed max-w-sm">
-							Produse alimentare selectate după aditivii marcați pe etichetă.
-							Decizia îți aparține.
+							{m.landing_footer_tagline()}
 						</p>
 
 						<ul className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
-							{SOCIAL_LINKS.map((social) => {
+							{socialLinks.map((social) => {
 								const { Icon } = social;
 								return (
 									<li key={social.id}>
@@ -67,13 +71,13 @@ export function LandingFooter({
 						</ul>
 					</div>
 
-					{/* Coloana 2 – Explorează */}
+					{/* Column 2 – Explore */}
 					<div className="md:col-span-3 space-y-3">
 						<h2 className="text-xs font-bold uppercase tracking-wider text-[#FCE8C6]/65">
-							Explorează
+							{m.landing_footer_explore_heading()}
 						</h2>
 						<ul className="space-y-2 text-sm font-semibold">
-							{FOOTER_EXPLORE_LINKS.map((item) => (
+							{footerExploreLinks.map((item) => (
 								<li key={item.href}>
 									{isLandingPage ? (
 										<a href={item.href} className={exploreLinkClassName}>
@@ -95,19 +99,19 @@ export function LandingFooter({
 									to="/"
 									className="inline-flex items-center py-1 text-[#D8AB54] hover:text-[#E8C476] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54] rounded-sm"
 								>
-									Deschide aplicația
+									{m.landing_header_cta_signed_in()}
 								</Link>
 							</li>
 						</ul>
 					</div>
 
-					{/* Coloana 3 – Suport și informații legale */}
+					{/* Column 3 – Support & Legal */}
 					<div className="md:col-span-4 space-y-3">
 						<h2 className="text-xs font-bold uppercase tracking-wider text-[#FCE8C6]/65">
-							Suport și informații legale
+							{m.landing_footer_support_heading()}
 						</h2>
 						<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-1.5 text-sm font-semibold">
-							{FOOTER_LEGAL_LINKS.map((item) => (
+							{footerLegalLinks.map((item) => (
 								<li key={item.kind === "route" ? item.to : item.topicId}>
 									{item.kind === "route" ? (
 										<Link
@@ -140,7 +144,7 @@ export function LandingFooter({
 				{/* TODO: Add/replace with client legal entity details once provided:
 				© 2026 [denumirea firmei], CUI [număr], [sediul], [e-mail]. Toate drepturile rezervate. */}
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-[#FBF4E6]/68">
-					<p>© 2026 PickItWell. Toate drepturile rezervate.</p>
+					<p>{m.landing_footer_copyright()}</p>
 				</div>
 			</div>
 		</footer>

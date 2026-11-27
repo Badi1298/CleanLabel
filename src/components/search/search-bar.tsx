@@ -5,6 +5,7 @@ import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Separator } from "#/components/ui/separator";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 
 type SearchBarProps = {
 	initialQuery?: string;
@@ -22,8 +23,8 @@ export function SearchBar({
 	initialQuery = "",
 	className = "",
 	variant = "default",
-	placeholder = "Search products, brands, or ingredients...",
-	ariaLabel = "Search products, brands, or ingredients",
+	placeholder,
+	ariaLabel,
 	showSubmitButton = true,
 	trailingSlot,
 	onSubmitQuery,
@@ -31,6 +32,8 @@ export function SearchBar({
 }: SearchBarProps) {
 	const navigate = useNavigate();
 	const [searchQuery, setSearchQuery] = useState(initialQuery);
+	const resolvedPlaceholder = placeholder ?? m.search_bar_placeholder();
+	const resolvedAriaLabel = ariaLabel ?? m.search_bar_aria();
 
 	const submitQuery = (nextQuery: string | undefined) => {
 		if (onSubmitQuery) {
@@ -74,7 +77,7 @@ export function SearchBar({
 				type="submit"
 				variant="ghost"
 				size="icon"
-				aria-label="Search"
+				aria-label={m.common_search()}
 				className="w-auto h-full rounded-none pl-4 pr-2 py-0 text-[#687069] hover:text-[#1B4332] hover:bg-transparent dark:text-[#9AA89E] dark:hover:text-[#FCE8C6] dark:hover:bg-transparent shrink-0"
 			>
 				<Search className="w-4.5 h-4.5" strokeWidth={2} aria-hidden="true" />
@@ -82,10 +85,10 @@ export function SearchBar({
 
 			<Input
 				type="search"
-				placeholder={placeholder}
+				placeholder={resolvedPlaceholder}
 				value={searchQuery}
 				onChange={handleInputChange}
-				aria-label={ariaLabel}
+				aria-label={resolvedAriaLabel}
 				className={cn(
 					"flex-1 min-w-0 h-full rounded-none border-0 bg-transparent dark:bg-transparent px-0 py-0 shadow-none focus-visible:ring-0 focus-visible:border-transparent text-sm md:text-[15px] text-[#1B3328] dark:text-[#EDF2EE] placeholder:text-[#7D857E] dark:placeholder:text-[#8E9B92] [&::-webkit-search-cancel-button]:hidden",
 					showSubmitButton ? "pr-2" : "pr-3",
@@ -98,7 +101,7 @@ export function SearchBar({
 					variant="ghost"
 					size="icon-sm"
 					onClick={handleClear}
-					aria-label="Clear search"
+					aria-label={m.common_clear_search()}
 					className="size-7 mr-1.5 rounded-full text-[#7D857E] hover:text-[#1B3328] hover:bg-[#FAF8F5] dark:hover:bg-[#1E2E26] shrink-0"
 				>
 					<X className="w-4 h-4" aria-hidden="true" />
@@ -115,7 +118,7 @@ export function SearchBar({
 							: "inline-flex px-4 sm:px-5 h-8 md:h-9",
 					)}
 				>
-					Search
+					{m.common_search()}
 				</Button>
 			)}
 		</>

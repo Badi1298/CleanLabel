@@ -38,7 +38,9 @@ import { StoreAvatar } from "#/components/stores/store-avatar";
 import { ScoreBadge } from "#/components/ui/score-badge";
 import { isPhraseFoundInText } from "#/lib/additive-highlighting";
 import { authClient } from "#/lib/auth-client";
+import { formatLocalizedDate } from "#/lib/i18n";
 import { cn } from "#/lib/utils";
+import { m } from "#/paraglide/messages.js";
 import {
 	productAlternativesQueryOptions,
 	productDetailsQueryOptions,
@@ -67,16 +69,16 @@ export const Route = createFileRoute("/_protected/_public/products/$productId")(
 						<Package className="w-6 h-6" aria-hidden="true" />
 					</div>
 					<h1 className="text-lg font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-						Product not found
+						{m.product_not_found_title()}
 					</h1>
 					<p className="text-sm text-[#5C665E] dark:text-[#9AA89E] mt-1">
-						This product may have been removed or is not yet available.
+						{m.product_not_found_desc()}
 					</p>
 					<Link
 						to="/"
 						className="mt-5 inline-flex items-center px-5 py-2.5 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors"
 					>
-						Return to Home
+						{m.product_return_home()}
 					</Link>
 				</div>
 			</div>
@@ -91,8 +93,8 @@ function getScoreSpotlightConfig(score: string | null | undefined) {
 	switch (score) {
 		case "gold":
 			return {
-				title: "Gold Tier — Cleanest Pick",
-				description: "Minimal or no marked additives declared on the label.",
+				title: m.product_tier_gold_title(),
+				description: m.product_tier_gold_desc(),
 				cardClass:
 					"bg-gradient-to-br from-[#FFFBEB] via-[#FEF3C7]/70 to-[#FBF4E6] dark:from-amber-950/50 dark:via-amber-950/30 dark:to-[#16221C] border-[#F59E0B]/40 dark:border-amber-700/50",
 				emblemClass:
@@ -102,8 +104,8 @@ function getScoreSpotlightConfig(score: string | null | undefined) {
 			};
 		case "silver":
 			return {
-				title: "Silver Tier — Clean Pick",
-				description: "Low number of marked label additives.",
+				title: m.product_tier_silver_title(),
+				description: m.product_tier_silver_desc(),
 				cardClass:
 					"bg-gradient-to-br from-[#F8FAFC] via-[#F1F5F9]/80 to-white dark:from-slate-900/80 dark:via-slate-800/40 dark:to-[#16221C] border-[#CBD5E1] dark:border-slate-700",
 				emblemClass:
@@ -113,8 +115,8 @@ function getScoreSpotlightConfig(score: string | null | undefined) {
 			};
 		case "bronze":
 			return {
-				title: "Bronze Tier",
-				description: "Moderate additives declared on the label.",
+				title: m.product_tier_bronze_title(),
+				description: m.product_tier_bronze_desc(),
 				cardClass:
 					"bg-gradient-to-br from-[#FFF7ED] via-[#FFEDD5]/70 to-[#FAF8F5] dark:from-orange-950/50 dark:via-orange-950/30 dark:to-[#16221C] border-[#FDBA74]/60 dark:border-orange-800/50",
 				emblemClass:
@@ -124,9 +126,8 @@ function getScoreSpotlightConfig(score: string | null | undefined) {
 			};
 		default:
 			return {
-				title: "Score Pending",
-				description:
-					"This product has not been assigned a PickItWell tier yet.",
+				title: m.product_tier_pending_title(),
+				description: m.product_tier_pending_desc(),
 				cardClass:
 					"bg-[#FAF8F5] dark:bg-[#121D17] border-[#EAE4D7] dark:border-[#24362D]",
 				emblemClass:
@@ -148,7 +149,7 @@ function formatProductDate(value: Date | string | null | undefined) {
 
 	return {
 		iso: date.toISOString(),
-		formatted: date.toLocaleDateString(undefined, {
+		formatted: formatLocalizedDate(date, {
 			year: "numeric",
 			month: "short",
 			day: "numeric",
@@ -261,8 +262,8 @@ function ProductImageLightbox({
 					</h2>
 					<p className="text-[11px] font-medium text-[#5C665E] dark:text-[#9AA89E]">
 						{resolvedSide === "front"
-							? "Front Packaging"
-							: "Back & Ingredients Label"}
+							? m.product_lightbox_front_subtitle()
+							: m.product_lightbox_back_subtitle()}
 					</p>
 				</div>
 
@@ -280,7 +281,7 @@ function ProductImageLightbox({
 										: "text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
 								)}
 							>
-								Front
+								{m.product_lightbox_front_tab()}
 							</button>
 							<button
 								type="button"
@@ -293,7 +294,7 @@ function ProductImageLightbox({
 										: "text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B3328] dark:hover:text-[#EDF2EE]",
 								)}
 							>
-								Back
+								{m.product_lightbox_back_tab()}
 							</button>
 						</div>
 					)}
@@ -301,7 +302,7 @@ function ProductImageLightbox({
 					<button
 						type="button"
 						onClick={onClose}
-						aria-label="Close image viewer"
+						aria-label={m.product_lightbox_close()}
 						className="w-9 h-9 rounded-full flex items-center justify-center bg-[#FAF8F5] dark:bg-[#1E2C25] border border-[#EAE4D7] dark:border-[#2B3D33] text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B3328] dark:hover:text-[#EDF2EE] hover:border-[#2D5A44] transition-colors cursor-pointer touch-manipulation"
 					>
 						<X className="w-4 h-4" aria-hidden="true" />
@@ -333,7 +334,11 @@ function ProductImageLightbox({
 								>
 									<img
 										src={activeUrl}
-										alt={`${productName} ${resolvedSide === "front" ? "front" : "back label"}`}
+										alt={
+											resolvedSide === "front"
+												? m.product_photo_front_alt({ name: productName })
+												: m.product_photo_back_alt({ name: productName })
+										}
 										className="max-h-[66dvh] max-w-full w-auto object-contain select-none p-3 sm:p-6"
 									/>
 								</TransformComponent>
@@ -342,7 +347,7 @@ function ProductImageLightbox({
 									<button
 										type="button"
 										onClick={() => zoomOut()}
-										aria-label="Zoom out"
+										aria-label={m.product_lightbox_zoom_out()}
 										className="w-8 h-8 rounded-full flex items-center justify-center text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer touch-manipulation"
 									>
 										<ZoomOut className="w-4 h-4" aria-hidden="true" />
@@ -350,16 +355,16 @@ function ProductImageLightbox({
 									<button
 										type="button"
 										onClick={() => resetTransform()}
-										aria-label="Reset zoom"
+										aria-label={m.product_lightbox_zoom_reset()}
 										className="inline-flex items-center gap-1 h-8 px-2.5 rounded-full text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer touch-manipulation"
 									>
 										<RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-										<span>Reset</span>
+										<span>{m.product_lightbox_zoom_reset()}</span>
 									</button>
 									<button
 										type="button"
 										onClick={() => zoomIn()}
-										aria-label="Zoom in"
+										aria-label={m.product_lightbox_zoom_in()}
 										className="w-8 h-8 rounded-full flex items-center justify-center text-[#1B3328] dark:text-[#EDF2EE] hover:bg-[#F3EFE6] dark:hover:bg-[#1E2E26] transition-colors cursor-pointer touch-manipulation"
 									>
 										<ZoomIn className="w-4 h-4" aria-hidden="true" />
@@ -372,8 +377,7 @@ function ProductImageLightbox({
 			</div>
 
 			<div className="px-4 py-2.5 border-t border-[#EAE4D7] dark:border-[#24362D] bg-white dark:bg-[#16221C] text-[11px] font-medium text-[#5C665E] dark:text-[#9AA89E] text-center shrink-0">
-				Pinch, scroll, or use + / − to zoom · Drag to pan · Esc or tap outside
-				to close
+				{m.product_lightbox_help()}
 			</div>
 		</dialog>
 	);
@@ -472,7 +476,9 @@ function ProductDetails() {
 			updatedInfo &&
 			updatedInfo.timestamp - createdInfo.timestamp > 60_000,
 	);
-	const primaryDateLabel = hasMeaningfulUpdate ? "Last Updated" : "Date Added";
+	const primaryDateLabel = hasMeaningfulUpdate
+		? m.product_last_updated()
+		: m.product_date_added();
 	const primaryDate = hasMeaningfulUpdate
 		? updatedInfo
 		: (createdInfo ?? updatedInfo);
@@ -513,7 +519,7 @@ function ProductDetails() {
 							className="inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] text-xs font-semibold text-[#1B3328] dark:text-[#EDF2EE] hover:border-[#2D5A44] hover:bg-[#E3EDE7]/50 dark:hover:bg-[#1E3A2C] transition-colors cursor-pointer touch-manipulation shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 						>
 							<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-							<span>Back</span>
+							<span>{m.common_back()}</span>
 						</button>
 						<span className="text-sm font-semibold text-[#5C665E] dark:text-[#9AA89E] truncate">
 							{product.name}
@@ -529,7 +535,9 @@ function ProductDetails() {
 								onClick={handleFavoriteClick}
 								aria-pressed={Boolean(isFavorited)}
 								aria-label={
-									isFavorited ? "Remove from favorites" : "Save to favorites"
+									isFavorited
+										? m.product_card_remove_fav()
+										: m.product_card_add_fav()
 								}
 								className={cn(
 									"inline-flex items-center gap-1.5 min-h-9 px-3 py-1.5 rounded-full border text-xs font-semibold transition-colors cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]",
@@ -548,7 +556,7 @@ function ProductDetails() {
 									aria-hidden="true"
 								/>
 								<span className="hidden sm:inline">
-									{isFavorited ? "Saved" : "Save"}
+									{isFavorited ? m.product_saved() : m.product_save()}
 								</span>
 							</button>
 						)}
@@ -559,7 +567,7 @@ function ProductDetails() {
 			<main className="max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-9 space-y-7 md:space-y-9">
 				{/* Hero Card: Photos + Score Spotlight + Identity + Metadata */}
 				<section
-					aria-label="Product overview"
+					aria-label={m.product_overview_aria()}
 					className="rounded-3xl bg-white dark:bg-[#16221C] border border-[#EAE4D7] dark:border-[#24362D] shadow-[0_4px_20px_rgba(27,67,50,0.04)] p-4 sm:p-6 md:p-7"
 				>
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
@@ -570,15 +578,17 @@ function ProductDetails() {
 									<button
 										type="button"
 										onClick={() => openLightbox("front")}
-										aria-label={`Inspect ${product.name} front photo`}
+										aria-label={m.product_inspect_front_aria({
+											name: product.name,
+										})}
 										className="aspect-4/5 max-h-52 sm:max-h-60 w-full rounded-2xl bg-[#F5F1E8] dark:bg-[#1A2821] border border-[#EAE4D7] dark:border-[#24362D] hover:border-[#2D5A44] dark:hover:border-[#3D6E54] p-2.5 flex items-center justify-center relative overflow-hidden group cursor-pointer touch-manipulation transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 									>
 										<span className="absolute top-2 left-2 z-10 rounded-full bg-white/90 dark:bg-[#16221C]/90 backdrop-blur-xs border border-[#EAE4D7] dark:border-[#2C4035] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#1B3328] dark:text-[#EDF2EE] shadow-2xs">
-											Front
+											{m.product_photo_front_badge()}
 										</span>
 										<img
 											src={product.imageFrontUrl ?? undefined}
-											alt={`${product.name} front`}
+											alt={m.product_photo_front_alt({ name: product.name })}
 											fetchPriority="high"
 											className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-300"
 										/>
@@ -593,15 +603,17 @@ function ProductDetails() {
 									<button
 										type="button"
 										onClick={() => openLightbox("back")}
-										aria-label={`Inspect ${product.name} back label photo`}
+										aria-label={m.product_inspect_back_aria({
+											name: product.name,
+										})}
 										className="aspect-4/5 max-h-52 sm:max-h-60 w-full rounded-2xl bg-[#F5F1E8] dark:bg-[#1A2821] border border-[#EAE4D7] dark:border-[#24362D] hover:border-[#2D5A44] dark:hover:border-[#3D6E54] p-2.5 flex items-center justify-center relative overflow-hidden group cursor-pointer touch-manipulation transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 									>
 										<span className="absolute top-2 left-2 z-10 rounded-full bg-white/90 dark:bg-[#16221C]/90 backdrop-blur-xs border border-[#EAE4D7] dark:border-[#2C4035] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#1B3328] dark:text-[#EDF2EE] shadow-2xs">
-											Back · Label
+											{m.product_photo_back_badge()}
 										</span>
 										<img
 											src={product.imageBackUrl ?? undefined}
-											alt={`${product.name} back label`}
+											alt={m.product_photo_back_alt({ name: product.name })}
 											loading="lazy"
 											className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-300"
 										/>
@@ -617,11 +629,15 @@ function ProductDetails() {
 								<button
 									type="button"
 									onClick={() => openLightbox(hasFront ? "front" : "back")}
-									aria-label={`Inspect ${product.name} photo`}
+									aria-label={m.product_inspect_photo_aria({
+										name: product.name,
+									})}
 									className="aspect-square max-h-56 sm:max-h-64 max-w-[260px] sm:max-w-[300px] mx-auto w-full rounded-2xl bg-[#F5F1E8] dark:bg-[#1A2821] border border-[#EAE4D7] dark:border-[#24362D] hover:border-[#2D5A44] dark:hover:border-[#3D6E54] p-3 flex items-center justify-center relative overflow-hidden group cursor-pointer touch-manipulation transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 								>
 									<span className="absolute top-2.5 left-2.5 z-10 rounded-full bg-white/90 dark:bg-[#16221C]/90 backdrop-blur-xs border border-[#EAE4D7] dark:border-[#2C4035] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#1B3328] dark:text-[#EDF2EE] shadow-2xs">
-										{hasFront ? "Front" : "Back · Label"}
+										{hasFront
+											? m.product_photo_front_badge()
+											: m.product_photo_back_badge()}
 									</span>
 									<img
 										src={
@@ -629,7 +645,11 @@ function ProductDetails() {
 												? product.imageFrontUrl
 												: product.imageBackUrl) ?? undefined
 										}
-										alt={`${product.name} ${hasFront ? "front" : "back label"}`}
+										alt={
+											hasFront
+												? m.product_photo_front_alt({ name: product.name })
+												: m.product_photo_back_alt({ name: product.name })
+										}
 										fetchPriority="high"
 										className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-300"
 									/>
@@ -648,7 +668,7 @@ function ProductDetails() {
 										aria-hidden="true"
 									/>
 									<span className="text-xs font-medium">
-										No product photos yet
+										{m.product_no_photos_yet()}
 									</span>
 								</div>
 							)}
@@ -659,7 +679,7 @@ function ProductDetails() {
 										className="w-3.5 h-3.5 text-[#2D5A44] dark:text-emerald-400"
 										aria-hidden="true"
 									/>
-									<span>Tap a photo to open &amp; zoom</span>
+									<span>{m.product_tap_to_zoom()}</span>
 								</p>
 							)}
 						</div>
@@ -688,7 +708,7 @@ function ProductDetails() {
 												<ScoreBadge score={product.score} size="md" />
 											) : (
 												<span className="inline-flex items-center rounded-full border border-[#EAE4D7] dark:border-[#2B3D33] bg-white dark:bg-[#16221C] px-2.5 py-1 text-xs font-bold text-[#5C665E] dark:text-[#9AA89E] leading-none">
-													Unrated
+													{m.common_unrated()}
 												</span>
 											)}
 											<p
@@ -727,8 +747,10 @@ function ProductDetails() {
 									/>
 									<span>
 										{additiveCountToDisplay !== null
-											? `${additiveCountToDisplay} marked ${additiveCountToDisplay === 1 ? "additive" : "additives"}`
-											: "View ingredients"}
+											? m.common_additives_marked_count({
+													count: additiveCountToDisplay,
+												})
+											: m.product_view_ingredients()}
 									</span>
 								</button>
 							</div>
@@ -787,10 +809,9 @@ function ProductDetails() {
 										/>
 										<div className="min-w-0">
 											<p className="text-xs sm:text-sm font-bold text-rose-800 dark:text-rose-200">
-												Contains {matchedExcludedIngredients.length} excluded{" "}
-												{matchedExcludedIngredients.length === 1
-													? "ingredient"
-													: "ingredients"}
+												{m.product_excluded_contains({
+													count: matchedExcludedIngredients.length,
+												})}
 											</p>
 											<div className="mt-1.5 flex flex-wrap gap-1.5">
 												{matchedExcludedIngredients.map((ing) => (
@@ -811,10 +832,9 @@ function ProductDetails() {
 											aria-hidden="true"
 										/>
 										<span>
-											Free from your {excludedIngredients.length} excluded{" "}
-											{excludedIngredients.length === 1
-												? "ingredient"
-												: "ingredients"}
+											{m.product_excluded_free({
+												count: excludedIngredients.length,
+											})}
 										</span>
 									</div>
 								) : (
@@ -824,13 +844,9 @@ function ProductDetails() {
 											aria-hidden="true"
 										/>
 										<span>
-											Ingredient tags are not mapped for this product yet
-											&mdash; please check the declared label below for your{" "}
-											{excludedIngredients.length} excluded{" "}
-											{excludedIngredients.length === 1
-												? "ingredient"
-												: "ingredients"}
-											.
+											{m.product_excluded_unmapped({
+												count: excludedIngredients.length,
+											})}
 										</span>
 									</div>
 								))}
@@ -856,7 +872,9 @@ function ProductDetails() {
 												</time>
 												{showAddedSubnote && createdInfo && (
 													<p className="text-[11px] text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-														Added {createdInfo.formatted}
+														{m.product_added_subnote({
+															date: createdInfo.formatted,
+														})}
 													</p>
 												)}
 											</div>
@@ -871,7 +889,7 @@ function ProductDetails() {
 											/>
 											<div className="min-w-0">
 												<p className="text-[10px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-													Barcode / EAN
+													{m.product_barcode_label()}
 												</p>
 												<p className="font-mono text-xs sm:text-[13px] font-semibold text-[#1B3328] dark:text-[#EDF2EE] truncate">
 													{product.barcode}
@@ -888,10 +906,11 @@ function ProductDetails() {
 											/>
 											<div className="min-w-0">
 												<p className="text-[10px] font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-													Added by
+													{m.product_added_by()}
 												</p>
 												<p className="text-xs sm:text-[13px] font-semibold text-[#1B3328] dark:text-[#EDF2EE] truncate">
-													{product.submittedBy.name || "Community member"}
+													{product.submittedBy.name ||
+														m.product_community_member()}
 												</p>
 											</div>
 										</div>
@@ -920,11 +939,10 @@ function ProductDetails() {
 										id="ingredients-heading"
 										className="text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 									>
-										Declared Ingredients
+										{m.product_declared_ingredients_title()}
 									</h2>
 									<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-										Ingredients declared by the producer, with marked additives
-										highlighted
+										{m.product_declared_ingredients_subtitle()}
 									</p>
 								</div>
 							</div>
@@ -938,8 +956,9 @@ function ProductDetails() {
 											: "bg-[#E3EDE7] dark:bg-[#1E3A2C] border-[#C8DBD0] dark:border-[#2E5440] text-[#1B4332] dark:text-[#CBE3D4]",
 									)}
 								>
-									{additiveCountToDisplay} marked{" "}
-									{additiveCountToDisplay === 1 ? "additive" : "additives"}
+									{m.common_additives_marked_count({
+										count: additiveCountToDisplay,
+									})}
 								</span>
 							)}
 						</div>
@@ -948,7 +967,7 @@ function ProductDetails() {
 							{product.rawIngredientsText ? (
 								<div className="space-y-2.5">
 									<h3 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E]">
-										Label Ingredients
+										{m.product_label_ingredients()}
 									</h3>
 									<div className="rounded-xl bg-[#FAF8F5] dark:bg-[#121D17] border border-[#EAE4D7] dark:border-[#24362D] p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed text-[#1B3328] dark:text-[#EDF2EE]">
 										<HighlightedIngredientsText
@@ -960,17 +979,15 @@ function ProductDetails() {
 									{activeMarkedAdditives.length > 0 ? (
 										<p className="flex flex-wrap items-center gap-1.5 text-xs text-[#5C665E] dark:text-[#9AA89E]">
 											<mark className="inline rounded-md bg-amber-100/95 dark:bg-amber-950/75 border border-amber-400/75 dark:border-amber-600/70 text-[#78350F] dark:text-amber-200 px-1.5 py-0.5 text-[11px] font-semibold">
-												Additive
+												{m.product_additive_pill()}
 											</mark>
-											<span>
-												Highlighted items are additives marked on the label.
-											</span>
+											<span>{m.product_additive_legend()}</span>
 										</p>
 									) : (
 										hasReviewedAdditives &&
 										markedAdditives.length === 0 && (
 											<p className="text-xs text-[#5C665E] dark:text-[#9AA89E]">
-												No additives marked on this label.
+												{m.product_no_additives_marked()}
 											</p>
 										)
 									)}
@@ -978,12 +995,12 @@ function ProductDetails() {
 							) : (
 								<div className="rounded-xl border border-dashed border-[#DCD4C3] dark:border-[#2A3D33] bg-[#FAF8F5]/65 dark:bg-[#121D17]/50 p-6 text-center">
 									<p className="text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-										Label text not yet added
+										{m.product_label_not_added_title()}
 									</p>
 									<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-1">
 										{product.score === "gold"
-											? "This product earned Gold with minimal or no marked additives."
-											: "Detailed label ingredients are not yet available for this product."}
+											? m.product_label_not_added_gold()
+											: m.product_label_not_added_default()}
 									</p>
 								</div>
 							)}
@@ -991,7 +1008,7 @@ function ProductDetails() {
 							{sortedIngredients.length > 0 && (
 								<div className="space-y-2.5 pt-1 border-t border-[#F0EAE0] dark:border-[#22332A]">
 									<h3 className="text-xs font-bold uppercase tracking-wider text-[#5C665E] dark:text-[#9AA89E] pt-2">
-										Tagged Ingredients
+										{m.product_tagged_ingredients()}
 									</h3>
 									<ul className="space-y-2.5">
 										{sortedIngredients.map(({ ingredient }) => {
@@ -1027,7 +1044,7 @@ function ProductDetails() {
 														</div>
 														{isExcluded && (
 															<span className="inline-flex items-center rounded-full bg-rose-100 dark:bg-rose-900/60 border border-rose-200 dark:border-rose-700/60 px-2.5 py-0.5 text-[11px] font-bold text-rose-800 dark:text-rose-200 shrink-0">
-																Excluded
+																{m.product_excluded_badge()}
 															</span>
 														)}
 													</div>
@@ -1052,7 +1069,7 @@ function ProductDetails() {
 											aria-hidden="true"
 										/>
 										<span>
-											Label checked on:{" "}
+											{m.product_label_checked_on()}{" "}
 											<time dateTime={checkedDateInfo.iso}>
 												{checkedDateInfo.ddmmyyyy}
 											</time>
@@ -1068,7 +1085,7 @@ function ProductDetails() {
 									className="inline-flex items-center gap-1.5 font-bold text-[#A67C37] dark:text-[#D4AF6A] hover:underline underline-offset-4 cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B4332]"
 								>
 									<Flag className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-									<span>Report an error</span>
+									<span>{m.product_report_error()}</span>
 								</button>
 							</div>
 						</div>
@@ -1089,16 +1106,16 @@ function ProductDetails() {
 										id="stores-heading"
 										className="text-lg font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 									>
-										Available at
+										{m.product_available_at()}
 									</h2>
 									<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-										Stores where this product was spotted
+										{m.product_stores_spotted_subtitle()}
 									</p>
 								</div>
 							</div>
 
 							<span className="inline-flex items-center rounded-full bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] px-2.5 py-1 text-xs font-semibold tabular-nums shrink-0">
-								{storeCount} {storeCount === 1 ? "store" : "stores"}
+								{m.common_stores_count({ count: storeCount })}
 							</span>
 						</div>
 
@@ -1138,7 +1155,7 @@ function ProductDetails() {
 										className="w-full min-h-10 px-4 py-2 rounded-xl border border-dashed border-[#2D5A44]/45 dark:border-[#3D6E54] bg-[#E3EDE7]/35 dark:bg-[#1E3A2C]/35 hover:bg-[#E3EDE7]/70 dark:hover:bg-[#1E3A2C]/65 text-xs font-bold text-[#1B4332] dark:text-[#CBE3D4] flex items-center justify-center gap-1.5 transition-colors"
 									>
 										<Plus className="w-3.5 h-3.5" aria-hidden="true" />
-										<span>Found in another store? Report availability</span>
+										<span>{m.product_report_another_store()}</span>
 									</Link>
 								</>
 							) : (
@@ -1148,10 +1165,10 @@ function ProductDetails() {
 									</div>
 									<div>
 										<p className="text-sm font-bold text-[#1B3328] dark:text-[#EDF2EE]">
-											No stores listed yet
+											{m.product_no_stores_title()}
 										</p>
 										<p className="text-xs text-[#5C665E] dark:text-[#9AA89E] mt-1">
-											Spotted this product on a shelf? Let the community know!
+											{m.product_no_stores_desc()}
 										</p>
 									</div>
 									<Link
@@ -1160,7 +1177,7 @@ function ProductDetails() {
 										className="inline-flex items-center gap-1.5 min-h-9 px-4 py-2 rounded-full bg-[#1B4332] text-[#FCE8C6] text-xs font-bold hover:bg-[#245540] transition-colors"
 									>
 										<Plus className="w-3.5 h-3.5" aria-hidden="true" />
-										<span>Report Store</span>
+										<span>{m.product_report_store_cta()}</span>
 									</Link>
 								</div>
 							)}
@@ -1177,10 +1194,10 @@ function ProductDetails() {
 									id="alternatives-heading"
 									className="text-xl md:text-2xl font-bold tracking-tight text-[#1B3328] dark:text-[#FBF4E6]"
 								>
-									Cleaner Alternatives
+									{m.product_alternatives_title()}
 								</h2>
 								<p className="text-xs sm:text-sm text-[#5C665E] dark:text-[#9AA89E] mt-0.5">
-									Similar products in this category
+									{m.product_alternatives_subtitle()}
 								</p>
 							</div>
 							{alternativesSearchLink && (
@@ -1189,7 +1206,7 @@ function ProductDetails() {
 									search={alternativesSearchLink}
 									className="text-sm font-semibold text-[#2D5A44] hover:text-[#1B4332] dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors shrink-0"
 								>
-									See all
+									{m.common_see_all()}
 								</Link>
 							)}
 						</div>

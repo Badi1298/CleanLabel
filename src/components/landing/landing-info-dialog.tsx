@@ -2,10 +2,10 @@ import { Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowRight, ExternalLink, Flag, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import {
-	INFO_MODAL_TOPIC_MAP,
-	INFO_MODAL_TOPICS,
+	getInfoModalTopicMap,
+	getInfoModalTopics,
+	getSocialLinks,
 	type InfoModalTopic,
-	SOCIAL_LINKS,
 	SUPPORT_EMAIL,
 } from "#/components/landing/landing-data";
 import { Button } from "#/components/ui/button";
@@ -19,6 +19,7 @@ import {
 	DialogTitle,
 } from "#/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "#/components/ui/tabs";
+import { m } from "#/paraglide/messages.js";
 
 export function LandingInfoDialog({
 	topic,
@@ -31,12 +32,16 @@ export function LandingInfoDialog({
 	onSelectTopic: (topic: InfoModalTopic) => void;
 	onClose: () => void;
 }) {
+	const infoModalTopics = getInfoModalTopics();
+	const infoModalTopicMap = getInfoModalTopicMap();
+	const socialLinks = getSocialLinks();
+
 	const activeTopic: InfoModalTopic = topic ?? "contact";
-	const activeConfig = INFO_MODAL_TOPIC_MAP[activeTopic];
+	const activeConfig = infoModalTopicMap[activeTopic];
 	const appCtaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
 	const appCtaLabel = isSignedIn
-		? "Deschide aplicația"
-		: "Creează cont gratuit";
+		? m.landing_header_cta_signed_in()
+		: m.landing_final_cta_signed_out();
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -73,7 +78,7 @@ export function LandingInfoDialog({
 							type="button"
 							variant="outline"
 							size="icon"
-							aria-label="Închide fereastra"
+							aria-label={m.common_close_dialog()}
 							className="w-9 h-9 rounded-full bg-card border-border dark:border-[#2B3D33] text-muted-foreground hover:text-foreground shrink-0"
 						>
 							<X className="w-4 h-4" aria-hidden="true" />
@@ -89,10 +94,10 @@ export function LandingInfoDialog({
 				>
 					<div className="px-5 py-2.5 sm:px-6 border-b border-[#F0EAE0] dark:border-[#22332A] bg-card shrink-0">
 						<TabsList
-							aria-label="Subiecte informative PickItWell"
+							aria-label={m.landing_modal_tabs_aria()}
 							className="h-auto w-full justify-start bg-transparent p-0 rounded-none flex items-center gap-1.5 overflow-x-auto no-scrollbar"
 						>
-							{INFO_MODAL_TOPICS.map((item) => (
+							{infoModalTopics.map((item) => (
 								<TabsTrigger
 									key={item.id}
 									value={item.id}
@@ -116,16 +121,13 @@ export function LandingInfoDialog({
 										aria-hidden="true"
 									/>
 									<p className="text-xs sm:text-sm text-foreground">
-										Sesizările privind rețetele, aditivii sau magazinele se
-										trimit direct de pe pagina fiecărui produs din aplicația
-										PickItWell, astfel încât raportarea să fie asociată
-										produsului exact.
+										{m.landing_modal_report_callout()}
 									</p>
 								</div>
 
 								<div className="space-y-2.5">
 									<h3 className="text-sm font-extrabold text-foreground dark:text-[#FBF4E6]">
-										Cum poți raporta o greșeală
+										{m.landing_modal_report_steps_title()}
 									</h3>
 									<ol className="space-y-2.5">
 										<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-start gap-3">
@@ -135,10 +137,7 @@ export function LandingInfoDialog({
 											>
 												1
 											</span>
-											<span>
-												Deschide PickItWell și caută produsul la care ai
-												observat o diferență pe etichetă sau în magazin.
-											</span>
+											<span>{m.landing_modal_report_step1()}</span>
 										</li>
 										<li className="rounded-2xl bg-background dark:bg-[#121D17] border border-border p-3.5 flex items-start gap-3">
 											<span
@@ -148,10 +147,9 @@ export function LandingInfoDialog({
 												2
 											</span>
 											<span>
-												Pe pagina produsului, sub lista de ingrediente
-												declarate, apasă pe{" "}
+												{m.landing_modal_report_step2_prefix()}{" "}
 												<strong className="font-bold text-foreground">
-													Raportează o greșeală
+													{m.landing_modal_report_label()}
 												</strong>
 												.
 											</span>
@@ -163,18 +161,13 @@ export function LandingInfoDialog({
 											>
 												3
 											</span>
-											<span>
-												Descrie diferența observată (ingrediente, aditivi
-												marcați sau disponibilitatea în magazin), iar echipa
-												noastră verifică și actualizează informațiile.
-											</span>
+											<span>{m.landing_modal_report_step3()}</span>
 										</li>
 									</ol>
 								</div>
 
 								<p className="text-xs text-muted-foreground">
-									Pentru întrebări generale care nu țin de un produs anume, ne
-									poți contacta prin canalele oficiale de comunitate.
+									{m.landing_modal_report_general()}
 								</p>
 
 								<div className="flex flex-wrap items-center gap-2.5 pt-1">
@@ -196,19 +189,15 @@ export function LandingInfoDialog({
 										onClick={() => onSelectTopic("contact")}
 										className="h-auto min-h-10 px-4 py-2 rounded-full border-border dark:border-[#2B3D33] bg-background dark:bg-[#121D17] text-xs font-bold text-foreground hover:bg-secondary"
 									>
-										Vezi canalele de contact
+										{m.landing_modal_report_contact_btn()}
 									</Button>
 								</div>
 							</TabsContent>
 
 							<TabsContent value="contact" className="space-y-4">
-								<p>
-									Ne poți scrie pentru întrebări despre catalog, propuneri de
-									produse sau colaborări prin canalele noastre oficiale de
-									comunitate:
-								</p>
+								<p>{m.landing_modal_contact_intro()}</p>
 								<ul className="space-y-2">
-									{SOCIAL_LINKS.map((item) => {
+									{socialLinks.map((item) => {
 										const { Icon } = item;
 										return (
 											<li key={item.id}>
@@ -236,41 +225,24 @@ export function LandingInfoDialog({
 								</ul>
 								{/* TODO: Confirm client support email before launch */}
 								<p className="text-xs text-muted-foreground">
-									E-mail suport: {SUPPORT_EMAIL}
+									{m.landing_modal_contact_support_email({
+										email: SUPPORT_EMAIL,
+									})}
 								</p>
 							</TabsContent>
 
 							<TabsContent value="confidentialitate" className="space-y-3">
-								<p>
-									PickItWell colectează exclusiv datele necesare funcționării
-									contului tău: adresa de e-mail, numele afișat, lista de
-									produse favorite și ingredientele pe care alegi să le eviți.
-								</p>
-								<p>
-									Poți modifica sau șterge oricând contul și datele asociate
-									direct din pagina de Profil din aplicație.
-								</p>
+								<p>{m.landing_modal_privacy_p1()}</p>
+								<p>{m.landing_modal_privacy_p2()}</p>
 							</TabsContent>
 
 							<TabsContent value="termeni" className="space-y-3">
-								<p>
-									Accesarea și utilizarea aplicației PickItWell presupun
-									acceptarea caracterului informativ al datelor despre
-									etichetele produselor alimentare și disponibilitatea acestora
-									în magazine.
-								</p>
-								<p>
-									PickItWell nu comercializează produse alimentare și nu oferă
-									recomandări medicale sau nutriționale personalizate.
-								</p>
+								<p>{m.landing_modal_terms_p1()}</p>
+								<p>{m.landing_modal_terms_p2()}</p>
 							</TabsContent>
 
 							<TabsContent value="cookies" className="space-y-3">
-								<p>
-									PickItWell utilizează cookie-uri strict necesare pentru
-									autentificare, menținerea sesiunii și salvarea preferințelor
-									esențiale de navigare.
-								</p>
+								<p>{m.landing_modal_cookies_p1()}</p>
 							</TabsContent>
 						</div>
 					</div>
@@ -283,7 +255,7 @@ export function LandingInfoDialog({
 							className="w-3.5 h-3.5 shrink-0"
 							aria-hidden="true"
 						/>
-						<span>Informațiile sunt orientative</span>
+						<span>{m.landing_modal_indicative_note()}</span>
 					</span>
 					<DialogClose asChild>
 						<Button
@@ -292,7 +264,7 @@ export function LandingInfoDialog({
 							size="sm"
 							className="h-auto min-h-9 px-4 py-1.5 rounded-full border-border dark:border-[#2B3D33] bg-card text-xs font-bold text-foreground hover:bg-secondary"
 						>
-							Închide
+							{m.common_close()}
 						</Button>
 					</DialogClose>
 				</DialogFooter>

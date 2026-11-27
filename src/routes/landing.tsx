@@ -9,6 +9,7 @@ import { LandingHeader } from "#/components/landing/landing-header";
 import { LandingInfoDialog } from "#/components/landing/landing-info-dialog";
 import { ReviewsSection } from "#/components/landing/reviews-section";
 import { WhySection } from "#/components/landing/why-section";
+import { m } from "#/paraglide/messages.js";
 import { getSession } from "#/server/auth-functions";
 
 export const Route = createFileRoute("/landing")({
@@ -26,13 +27,11 @@ export const Route = createFileRoute("/landing")({
 	head: () => ({
 		meta: [
 			{
-				title:
-					"PickItWell — Produse alimentare selectate după aditivii marcați pe etichetă",
+				title: m.landing_meta_title(),
 			},
 			{
 				name: "description",
-				content:
-					"PickItWell selectează produse alimentare cu puțini aditivi marcați pe etichetă, le grupează în Gold, Silver sau Bronze și îți arată în ce magazine au fost găsite.",
+				content: m.landing_meta_description(),
 			},
 		],
 	}),
@@ -47,7 +46,6 @@ function LandingPage() {
 
 	return (
 		<div
-			lang="ro"
 			id="top"
 			className="min-h-screen flex flex-col bg-background text-foreground"
 		>
@@ -55,7 +53,7 @@ function LandingPage() {
 				href={`#${heroHeadingId}`}
 				className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-[#1B4332] focus:text-[#FCE8C6] focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:shadow-lg"
 			>
-				Sari la conținut
+				{m.common_skip_to_content()}
 			</a>
 
 			<LandingHeader isSignedIn={isSignedIn} />
