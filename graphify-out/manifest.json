@@ -342,9 +342,9 @@
     "semantic_hash": ""
   },
   "src/routes/__root.tsx": {
-    "mtime": 1795778194.2357852,
-    "seen": 1795778221.058251,
-    "ast_hash": "4b65ae627064d6c1b7b416c88e66cfc9",
+    "mtime": 1795782184.833963,
+    "seen": 1795782288.4805582,
+    "ast_hash": "7505104f2dbf6132c21731d0c6d195e2",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/add-product.tsx": {
@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   "vite.config.ts": {
-    "mtime": 1795773435.9426746,
-    "seen": 1795776010.922167,
-    "ast_hash": "3d2957f6e86671a3200cbfceac7db7b6",
+    "mtime": 1795782184.1475396,
+    "seen": 1795782288.480586,
+    "ast_hash": "6180720e12ebead1bbc9f7dbcd4a1839",
     "semantic_hash": ""
   },
   ".agents/skills/better-auth-best-practices/SKILL.md": {
@@ -570,15 +570,15 @@
     "semantic_hash": ""
   },
   "public/logo-192x192.png": {
-    "mtime": 1795425753.8178213,
-    "seen": 1795603622.0376298,
-    "ast_hash": "ae7d893e2e14d248808c50a4dc30816e",
+    "mtime": 1795782227.5081186,
+    "seen": 1795782288.480737,
+    "ast_hash": "644618dd2a9da7381f8359c9af195d96",
     "semantic_hash": ""
   },
   "public/logo-512x512.png": {
-    "mtime": 1795425753.820011,
-    "seen": 1795603622.0376298,
-    "ast_hash": "5dfa5d4a202ee5282cf5a988ac115720",
+    "mtime": 1795782230.2146626,
+    "seen": 1795782288.4807382,
+    "ast_hash": "c649111c3c1167fe037840a593dcbac4",
     "semantic_hash": ""
   },
   "drizzle/0000_next_ben_urich.sql": {
@@ -2601,6 +2601,24 @@
     "mtime": 1795775782.20576,
     "seen": 1795776010.922334,
     "ast_hash": "0720797a6388e6ae3d4511bdd85e8ede",
+    "semantic_hash": ""
+  },
+  "public/apple-touch-icon.png": {
+    "mtime": 1795782237.7362945,
+    "seen": 1795782288.480736,
+    "ast_hash": "063130088863f968f3440b198a5d0f2f",
+    "semantic_hash": ""
+  },
+  "public/logo-maskable-192x192.png": {
+    "mtime": 1795782232.514851,
+    "seen": 1795782288.4807382,
+    "ast_hash": "34a2614021bb358c053b41c7768e07f2",
+    "semantic_hash": ""
+  },
+  "public/logo-maskable-512x512.png": {
+    "mtime": 1795782235.3331459,
+    "seen": 1795782288.480739,
+    "ast_hash": "f5ff7cf6fad93868a26d959812bc2e72",
     "semantic_hash": ""
   }
 }

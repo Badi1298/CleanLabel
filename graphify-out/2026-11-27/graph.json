@@ -17,32 +17,6 @@
       "source_location": "L50"
     },
     {
-      "id": "src_queries_category_queries_categoryqueryargs",
-      "label": "CategoryQueryArgs",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "categoryqueryargs",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_unmappedtagdata",
-      "label": "UnmappedTagData",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "unmappedtagdata",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L58"
-    },
-    {
       "id": "src_routes_protected_admin_ingredient_mappings_unmappedtagdata",
       "label": "UnmappedTagData",
       "_callable": true,
@@ -132,6 +106,19 @@
       "norm_label": "infomodaltopicconfig",
       "source_file": "src/components/landing/landing-data.ts",
       "source_location": "L268"
+    },
+    {
+      "id": "src_components_landing_landing_data_stepid",
+      "label": "StepId",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "stepid",
+      "source_file": "src/components/landing/landing-data.ts",
+      "source_location": "L7"
     },
     {
       "id": "src_components_home_product_card_storeinfo",
@@ -277,19 +264,6 @@
       "source_location": "L295"
     },
     {
-      "id": "src_components_search_search_bar_searchbarprops",
-      "label": "SearchBarProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "stores.tsx",
-      "file_type": "code",
-      "norm_label": "searchbarprops",
-      "source_file": "src/components/search/search-bar.tsx",
-      "source_location": "L10"
-    },
-    {
       "id": "src_components_stores_store_sidebar_mobilestoredrawerprops",
       "label": "MobileStoreDrawerProps",
       "_callable": true,
@@ -381,6 +355,19 @@
       "source_location": "L34"
     },
     {
+      "id": "src_components_search_search_bar_searchbarprops",
+      "label": "SearchBarProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "searchbarprops",
+      "source_file": "src/components/search/search-bar.tsx",
+      "source_location": "L10"
+    },
+    {
       "id": "src_components_stores_store_avatar_storeavatarprops",
       "label": "StoreAvatarProps",
       "_callable": true,
@@ -405,19 +392,6 @@
       "norm_label": "storecardprops",
       "source_file": "src/components/stores/store-card.tsx",
       "source_location": "L7"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_scorefilter",
-      "label": "ScoreFilter",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "scorefilter",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L16"
     },
     {
       "id": "src_routes_protected_public_profile_samplefavoriteproduct",
@@ -550,6 +524,19 @@
       "source_location": "L10"
     },
     {
+      "id": "src_routes_protected_public_favorites_scorefilter",
+      "label": "ScoreFilter",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "scorefilter",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L16"
+    },
+    {
       "id": "src_routes_protected_public_products_productid_imageside",
       "label": "ImageSide",
       "_callable": true,
@@ -634,7 +621,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "infomodaltopic",
       "source_file": "src/components/landing/landing-data.ts",
@@ -647,7 +634,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "landinglegallayoutprops",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
@@ -660,11 +647,24 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "legalsectiontocitem",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
       "source_location": "L26"
+    },
+    {
+      "id": "src_router_register",
+      "label": "Register",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "register",
+      "source_file": "src/router.tsx",
+      "source_location": "L23"
     },
     {
       "id": "src_routes_root_myroutercontext",
@@ -680,43 +680,30 @@
       "source_location": "L18"
     },
     {
+      "id": "src_routetree_gen_register",
+      "label": "Register",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "register",
+      "source_file": "src/routeTree.gen.ts",
+      "source_location": "L644"
+    },
+    {
       "id": "src_components_landing_landing_data_whyiconkey",
       "label": "WhyIconKey",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 300,
-      "community_name": "why-section.tsx",
+      "community_name": "src_paraglide_messages",
       "file_type": "code",
       "norm_label": "whyiconkey",
       "source_file": "src/components/landing/landing-data.ts",
       "source_location": "L8"
-    },
-    {
-      "id": "src_router_register",
-      "label": "Register",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "code",
-      "norm_label": "register",
-      "source_file": "src/router.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "src_routetree_gen_register",
-      "label": "Register",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "code",
-      "norm_label": "register",
-      "source_file": "src/routeTree.gen.ts",
-      "source_location": "L644"
     },
     {
       "id": "src_lib_additive_highlighting_highlightsegment",
@@ -849,17 +836,17 @@
       "source_location": "L34"
     },
     {
-      "id": "src_components_landing_landing_data_stepid",
-      "label": "StepId",
+      "id": "src_components_brand_logo_brandlogoprops",
+      "label": "BrandLogoProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
-      "norm_label": "stepid",
-      "source_file": "src/components/landing/landing-data.ts",
-      "source_location": "L7"
+      "norm_label": "brandlogoprops",
+      "source_file": "src/components/brand-logo.tsx",
+      "source_location": "L3"
     },
     {
       "id": "src_components_ui_score_badge_productscoretier",
@@ -868,7 +855,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "productscoretier",
       "source_file": "src/components/ui/score-badge.tsx",
@@ -881,7 +868,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "scorebadgeprops",
       "source_file": "src/components/ui/score-badge.tsx",
@@ -927,6 +914,19 @@
       "source_location": "L22"
     },
     {
+      "id": "src_queries_category_queries_categoryqueryargs",
+      "label": "CategoryQueryArgs",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "categoryqueryargs",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L8"
+    },
+    {
       "id": "src_routes_protected_admin_all_categories_categorydata",
       "label": "CategoryData",
       "_callable": true,
@@ -953,6 +953,19 @@
       "source_location": "L74"
     },
     {
+      "id": "src_routes_protected_admin_category_mappings_unmappedtagdata",
+      "label": "UnmappedTagData",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "unmappedtagdata",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L58"
+    },
+    {
       "id": "src_routes_protected_admin_store_submissions_submissionfilter",
       "label": "SubmissionFilter",
       "_callable": true,
@@ -964,19 +977,6 @@
       "norm_label": "submissionfilter",
       "source_file": "src/routes/_protected/admin/store-submissions.tsx",
       "source_location": "L58"
-    },
-    {
-      "id": "src_components_brand_logo_brandlogoprops",
-      "label": "BrandLogoProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "brandlogoprops",
-      "source_file": "src/components/brand-logo.tsx",
-      "source_location": "L3"
     },
     {
       "id": "src_routetree_gen_fileroutesbyfullpath",
@@ -1102,7 +1102,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "activecategoriesfilters",
       "source_file": "src/queries/product-queries.ts",
@@ -1115,7 +1115,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "productqueryargs",
       "source_file": "src/queries/product-queries.ts",
@@ -1128,7 +1128,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "storesqueryfilters",
       "source_file": "src/queries/store-queries.ts",
@@ -1159,18 +1159,6 @@
       "source_location": "L18"
     },
     {
-      "id": "src_components_addstoredialog_addstoredialog",
-      "label": "AddStoreDialog()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "addstoredialog()",
-      "source_file": "src/components/AddStoreDialog.tsx",
-      "source_location": "L17"
-    },
-    {
       "id": "src_components_productform_fieldinfo",
       "label": "FieldInfo()",
       "_callable": true,
@@ -1183,16 +1171,268 @@
       "source_location": "L65"
     },
     {
-      "id": "src_components_ui_dialog_dialogtrigger",
-      "label": "DialogTrigger()",
+      "id": "src_components_ui_combobox_comboboxchip",
+      "label": "ComboboxChip()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "dialogtrigger()",
-      "source_file": "src/components/ui/dialog.tsx",
-      "source_location": "L15"
+      "norm_label": "comboboxchip()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L244"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxchips",
+      "label": "ComboboxChips()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxchips()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L227"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxchipsinput",
+      "label": "ComboboxChipsInput()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxchipsinput()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L275"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxclear",
+      "label": "ComboboxClear()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxclear()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxcollection",
+      "label": "ComboboxCollection()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxcollection()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L195"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxcontent",
+      "label": "ComboboxContent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxcontent()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L92"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxempty",
+      "label": "ComboboxEmpty()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxempty()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L201"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxgroup",
+      "label": "ComboboxGroup()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxgroup()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L169"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxinput",
+      "label": "ComboboxInput()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxinput()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L55"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxitem",
+      "label": "ComboboxItem()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxitem()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L142"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxlabel",
+      "label": "ComboboxLabel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxlabel()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L179"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxlist",
+      "label": "ComboboxList()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxlist()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L129"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxseparator",
+      "label": "ComboboxSeparator()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxseparator()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L214"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxtrigger",
+      "label": "ComboboxTrigger()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxtrigger()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxvalue",
+      "label": "ComboboxValue()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "comboboxvalue()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_components_ui_combobox_usecomboboxanchor",
+      "label": "useComboboxAnchor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "usecomboboxanchor()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L289"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroup",
+      "label": "InputGroup()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgroup()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupaddon",
+      "label": "InputGroupAddon()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgroupaddon()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L58"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupbutton",
+      "label": "InputGroupButton()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgroupbutton()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L98"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupinput",
+      "label": "InputGroupInput()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgroupinput()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L129"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgrouptext",
+      "label": "InputGroupText()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgrouptext()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L117"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgrouptextarea",
+      "label": "InputGroupTextarea()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgrouptextarea()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L145"
     },
     {
       "id": "src_components_ui_input_input",
@@ -1303,18 +1543,6 @@
       "source_location": "L5"
     },
     {
-      "id": "src_hooks_use_debounce_usedebounce",
-      "label": "useDebounce()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "usedebounce()",
-      "source_file": "src/hooks/use-debounce.ts",
-      "source_location": "L3"
-    },
-    {
       "id": "src_hooks_use_image_upload_mutation_useimageuploadmutation",
       "label": "useImageUploadMutation()",
       "_callable": true,
@@ -1327,18 +1555,6 @@
       "source_location": "L6"
     },
     {
-      "id": "src_integrations_tanstack_query_root_provider_tanstackqueryprovider",
-      "label": "TanstackQueryProvider()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "tanstackqueryprovider()",
-      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
-      "source_location": "L19"
-    },
-    {
       "id": "src_lib_i18n_getlocalizedservererror",
       "label": "getLocalizedServerError()",
       "_callable": true,
@@ -1349,102 +1565,6 @@
       "norm_label": "getlocalizedservererror()",
       "source_file": "src/lib/i18n.ts",
       "source_location": "L82"
-    },
-    {
-      "id": "src_queries_category_queries_categoriesqueryoptions",
-      "label": "categoriesQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "categoriesqueryoptions()",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_queries_category_queries_categoryqueryoptions",
-      "label": "categoryQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "categoryqueryoptions()",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_queries_category_queries_unmappedtagsqueryoptions",
-      "label": "unmappedTagsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "unmappedtagsqueryoptions()",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L26"
-    },
-    {
-      "id": "src_queries_ingredient_queries_unmappedingredientsqueryoptions",
-      "label": "unmappedIngredientsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "unmappedingredientsqueryoptions()",
-      "source_file": "src/queries/ingredient-queries.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "src_routes_protected_admin_all_categories_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/all-categories.tsx",
-      "source_location": "L74"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_mappingrowactions",
-      "label": "MappingRowActions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "mappingrowactions()",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L70"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L124"
-    },
-    {
-      "id": "src_routes_protected_admin_ingredient_mappings_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
-      "source_location": "L125"
     },
     {
       "id": "src_routes_protected_public_products_productid_add_store_addstoretoproductpage",
@@ -1675,6 +1795,66 @@
       "source_location": "L24"
     },
     {
+      "id": "src_components_landing_how_it_works_section_howitworkssection",
+      "label": "HowItWorksSection()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "howitworkssection()",
+      "source_file": "src/components/landing/how-it-works-section.tsx",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_components_landing_how_it_works_section_stepchoosevisual",
+      "label": "StepChooseVisual()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "stepchoosevisual()",
+      "source_file": "src/components/landing/how-it-works-section.tsx",
+      "source_location": "L202"
+    },
+    {
+      "id": "src_components_landing_how_it_works_section_stepinspectvisual",
+      "label": "StepInspectVisual()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "stepinspectvisual()",
+      "source_file": "src/components/landing/how-it-works-section.tsx",
+      "source_location": "L149"
+    },
+    {
+      "id": "src_components_landing_how_it_works_section_stepsearchvisual",
+      "label": "StepSearchVisual()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "stepsearchvisual()",
+      "source_file": "src/components/landing/how-it-works-section.tsx",
+      "source_location": "L95"
+    },
+    {
+      "id": "src_components_landing_landing_data_getcatalogcategories",
+      "label": "getCatalogCategories()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "getcatalogcategories()",
+      "source_file": "src/components/landing/landing-data.ts",
+      "source_location": "L91"
+    },
+    {
       "id": "src_components_landing_landing_data_getfooterexplorelinks",
       "label": "getFooterExploreLinks()",
       "_callable": true,
@@ -1733,6 +1913,18 @@
       "norm_label": "getsociallinks()",
       "source_file": "src/components/landing/landing-data.ts",
       "source_location": "L240"
+    },
+    {
+      "id": "src_components_landing_landing_data_getstepitems",
+      "label": "getStepItems()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "getstepitems()",
+      "source_file": "src/components/landing/landing-data.ts",
+      "source_location": "L145"
     },
     {
       "id": "src_components_landing_landing_footer_landingfooter",
@@ -1903,18 +2095,6 @@
       "source_location": "L314"
     },
     {
-      "id": "src_components_search_search_bar_searchbar",
-      "label": "SearchBar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "stores.tsx",
-      "file_type": "code",
-      "norm_label": "searchbar()",
-      "source_file": "src/components/search/search-bar.tsx",
-      "source_location": "L22"
-    },
-    {
       "id": "src_components_stores_store_sidebar_mobilestoredrawer",
       "label": "MobileStoreDrawer()",
       "_callable": true,
@@ -2059,18 +2239,6 @@
       "source_location": "L9"
     },
     {
-      "id": "src_components_ui_separator_separator",
-      "label": "Separator()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "stores.tsx",
-      "file_type": "code",
-      "norm_label": "separator()",
-      "source_file": "src/components/ui/separator.tsx",
-      "source_location": "L6"
-    },
-    {
       "id": "src_components_ui_sheet_sheet",
       "label": "Sheet()",
       "_callable": true,
@@ -2203,18 +2371,6 @@
       "source_location": "L306"
     },
     {
-      "id": "src_components_home_product_card_productcard",
-      "label": "ProductCard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "productcard()",
-      "source_file": "src/components/home/product-card.tsx",
-      "source_location": "L77"
-    },
-    {
       "id": "src_components_home_product_card_storechip",
       "label": "StoreChip()",
       "_callable": true,
@@ -2237,6 +2393,18 @@
       "norm_label": "languageswitcher()",
       "source_file": "src/components/language-switcher.tsx",
       "source_location": "L71"
+    },
+    {
+      "id": "src_components_search_search_bar_searchbar",
+      "label": "SearchBar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "searchbar()",
+      "source_file": "src/components/search/search-bar.tsx",
+      "source_location": "L22"
     },
     {
       "id": "src_components_stores_store_avatar_getpaletteforstore",
@@ -2719,16 +2887,16 @@
       "source_location": "L128"
     },
     {
-      "id": "src_components_ui_skeleton_skeleton",
-      "label": "Skeleton()",
+      "id": "src_components_ui_separator_separator",
+      "label": "Separator()",
       "_callable": true,
       "_origin": "ast",
       "community": 204,
       "community_name": "cn",
       "file_type": "code",
-      "norm_label": "skeleton()",
-      "source_file": "src/components/ui/skeleton.tsx",
-      "source_location": "L3"
+      "norm_label": "separator()",
+      "source_file": "src/components/ui/separator.tsx",
+      "source_location": "L6"
     },
     {
       "id": "src_components_ui_slider_slider",
@@ -2765,54 +2933,6 @@
       "norm_label": "cn()",
       "source_file": "src/lib/utils.ts",
       "source_location": "L5"
-    },
-    {
-      "id": "src_queries_profile_queries_userexcludedingredientsqueryoptions",
-      "label": "userExcludedIngredientsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "userexcludedingredientsqueryoptions()",
-      "source_file": "src/queries/profile-queries.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_queries_profile_queries_userfavoriteproductsqueryoptions",
-      "label": "userFavoriteProductsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "userfavoriteproductsqueryoptions()",
-      "source_file": "src/queries/profile-queries.ts",
-      "source_location": "L13"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_favoritespage",
-      "label": "FavoritesPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "favoritespage()",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L40"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_getscorefilteroptions",
-      "label": "getScoreFilterOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "getscorefilteroptions()",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L18"
     },
     {
       "id": "src_routes_protected_public_profile_getinitials",
@@ -2971,6 +3091,18 @@
       "source_location": "L5"
     },
     {
+      "id": "src_components_addstoredialog_addstoredialog",
+      "label": "AddStoreDialog()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "lucide-react",
+      "file_type": "code",
+      "norm_label": "addstoredialog()",
+      "source_file": "src/components/AddStoreDialog.tsx",
+      "source_location": "L17"
+    },
+    {
       "id": "src_components_scannerdialog_scannerdialog",
       "label": "ScannerDialog()",
       "_callable": true,
@@ -3091,6 +3223,18 @@
       "source_location": "L120"
     },
     {
+      "id": "src_components_ui_dialog_dialogtrigger",
+      "label": "DialogTrigger()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "lucide-react",
+      "file_type": "code",
+      "norm_label": "dialogtrigger()",
+      "source_file": "src/components/ui/dialog.tsx",
+      "source_location": "L15"
+    },
+    {
       "id": "src_components_ui_tabs_tabs",
       "label": "Tabs()",
       "_callable": true,
@@ -3151,6 +3295,18 @@
       "source_location": "L5"
     },
     {
+      "id": "src_components_home_product_card_productcard",
+      "label": "ProductCard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "productcard()",
+      "source_file": "src/components/home/product-card.tsx",
+      "source_location": "L77"
+    },
+    {
       "id": "src_components_productreporterrordialog_productreporterrordialog",
       "label": "ProductReportErrorDialog()",
       "_callable": true,
@@ -3185,6 +3341,18 @@
       "norm_label": "validateemail()",
       "source_file": "src/components/ProductReportErrorDialog.tsx",
       "source_location": "L14"
+    },
+    {
+      "id": "src_components_ui_skeleton_skeleton",
+      "label": "Skeleton()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "skeleton()",
+      "source_file": "src/components/ui/skeleton.tsx",
+      "source_location": "L3"
     },
     {
       "id": "src_lib_additive_highlighting_isphrasefoundintext",
@@ -3245,6 +3413,54 @@
       "norm_label": "productdetailsqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
       "source_location": "L61"
+    },
+    {
+      "id": "src_queries_profile_queries_userexcludedingredientsqueryoptions",
+      "label": "userExcludedIngredientsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "userexcludedingredientsqueryoptions()",
+      "source_file": "src/queries/profile-queries.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_queries_profile_queries_userfavoriteproductsqueryoptions",
+      "label": "userFavoriteProductsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "userfavoriteproductsqueryoptions()",
+      "source_file": "src/queries/profile-queries.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_favoritespage",
+      "label": "FavoritesPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "favoritespage()",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L40"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_getscorefilteroptions",
+      "label": "getScoreFilterOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "getscorefilteroptions()",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L18"
     },
     {
       "id": "src_routes_protected_public_products_productid_formatproductdate",
@@ -3396,7 +3612,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "getlegallastupdateddate()",
       "source_file": "src/components/landing/landing-data.ts",
@@ -3408,7 +3624,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "landinglegallayout()",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
@@ -3420,11 +3636,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "legalsection()",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L350"
+      "source_location": "L351"
     },
     {
       "id": "src_components_landing_landing_legal_layout_toclinkslist",
@@ -3432,11 +3648,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "toclinkslist()",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L327"
+      "source_location": "L328"
     },
     {
       "id": "src_routes_disclaimer_disclaimerpage",
@@ -3444,7 +3660,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "disclaimerpage()",
       "source_file": "src/routes/disclaimer.tsx",
@@ -3456,7 +3672,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "getdisclaimertoc()",
       "source_file": "src/routes/disclaimer.tsx",
@@ -3468,7 +3684,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "getclassificationlevels()",
       "source_file": "src/routes/metodologie.tsx",
@@ -3480,7 +3696,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "getmethodologyexclusions()",
       "source_file": "src/routes/metodologie.tsx",
@@ -3492,7 +3708,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "getmetodologietoc()",
       "source_file": "src/routes/metodologie.tsx",
@@ -3504,7 +3720,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "metodologiepage()",
       "source_file": "src/routes/metodologie.tsx",
@@ -3533,6 +3749,42 @@
       "norm_label": "toaster()",
       "source_file": "src/components/ui/sonner.tsx",
       "source_location": "L11"
+    },
+    {
+      "id": "src_integrations_tanstack_query_root_provider_getcontext",
+      "label": "getContext()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "getcontext()",
+      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_integrations_tanstack_query_root_provider_tanstackqueryprovider",
+      "label": "TanstackQueryProvider()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "tanstackqueryprovider()",
+      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "src_router_getrouter",
+      "label": "getRouter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "getrouter()",
+      "source_file": "src/router.tsx",
+      "source_location": "L5"
     },
     {
       "id": "src_routes_root_rootdocument",
@@ -3588,7 +3840,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 300,
-      "community_name": "why-section.tsx",
+      "community_name": "src_paraglide_messages",
       "file_type": "code",
       "norm_label": "getwhycards()",
       "source_file": "src/components/landing/landing-data.ts",
@@ -3600,7 +3852,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 300,
-      "community_name": "why-section.tsx",
+      "community_name": "src_paraglide_messages",
       "file_type": "code",
       "norm_label": "whybenefiticon()",
       "source_file": "src/components/landing/why-icons.tsx",
@@ -3612,7 +3864,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 300,
-      "community_name": "why-section.tsx",
+      "community_name": "src_paraglide_messages",
       "file_type": "code",
       "norm_label": "whysection()",
       "source_file": "src/components/landing/why-section.tsx",
@@ -3624,7 +3876,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 300,
-      "community_name": "why-section.tsx",
+      "community_name": "src_paraglide_messages",
       "file_type": "code",
       "norm_label": "card()",
       "source_file": "src/components/ui/card.tsx",
@@ -3677,294 +3929,6 @@
       "norm_label": "homequeryoptions()",
       "source_file": "src/queries/home-queries.ts",
       "source_location": "L4"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxchip",
-      "label": "ComboboxChip()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxchip()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L244"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxchips",
-      "label": "ComboboxChips()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxchips()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L227"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxchipsinput",
-      "label": "ComboboxChipsInput()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxchipsinput()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L275"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxclear",
-      "label": "ComboboxClear()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxclear()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L42"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxcollection",
-      "label": "ComboboxCollection()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxcollection()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L195"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxcontent",
-      "label": "ComboboxContent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxcontent()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L92"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxempty",
-      "label": "ComboboxEmpty()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxempty()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L201"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxgroup",
-      "label": "ComboboxGroup()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxgroup()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L169"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxinput",
-      "label": "ComboboxInput()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxinput()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L55"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxitem",
-      "label": "ComboboxItem()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxitem()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L142"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxlabel",
-      "label": "ComboboxLabel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxlabel()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L179"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxlist",
-      "label": "ComboboxList()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxlist()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L129"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxseparator",
-      "label": "ComboboxSeparator()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxseparator()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L214"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxtrigger",
-      "label": "ComboboxTrigger()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxtrigger()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxvalue",
-      "label": "ComboboxValue()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "comboboxvalue()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_components_ui_combobox_usecomboboxanchor",
-      "label": "useComboboxAnchor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "usecomboboxanchor()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L289"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroup",
-      "label": "InputGroup()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgroup()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupaddon",
-      "label": "InputGroupAddon()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgroupaddon()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L58"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupbutton",
-      "label": "InputGroupButton()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgroupbutton()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L98"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupinput",
-      "label": "InputGroupInput()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgroupinput()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L129"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgrouptext",
-      "label": "InputGroupText()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgrouptext()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L117"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgrouptextarea",
-      "label": "InputGroupTextarea()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgrouptextarea()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L145"
-    },
-    {
-      "id": "src_integrations_tanstack_query_root_provider_getcontext",
-      "label": "getContext()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "code",
-      "norm_label": "getcontext()",
-      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_router_getrouter",
-      "label": "getRouter()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "code",
-      "norm_label": "getrouter()",
-      "source_file": "src/router.tsx",
-      "source_location": "L5"
     },
     {
       "id": "src_components_productform_productform",
@@ -4687,76 +4651,40 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_landing_how_it_works_section_howitworkssection",
-      "label": "HowItWorksSection()",
+      "id": "src_components_brand_logo_brandlogo",
+      "label": "BrandLogo()",
       "_callable": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
-      "norm_label": "howitworkssection()",
-      "source_file": "src/components/landing/how-it-works-section.tsx",
-      "source_location": "L15"
+      "norm_label": "brandlogo()",
+      "source_file": "src/components/brand-logo.tsx",
+      "source_location": "L36"
     },
     {
-      "id": "src_components_landing_how_it_works_section_stepchoosevisual",
-      "label": "StepChooseVisual()",
+      "id": "src_components_landing_hero_section_herosection",
+      "label": "HeroSection()",
       "_callable": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
-      "norm_label": "stepchoosevisual()",
-      "source_file": "src/components/landing/how-it-works-section.tsx",
-      "source_location": "L202"
+      "norm_label": "herosection()",
+      "source_file": "src/components/landing/hero-section.tsx",
+      "source_location": "L14"
     },
     {
-      "id": "src_components_landing_how_it_works_section_stepinspectvisual",
-      "label": "StepInspectVisual()",
+      "id": "src_components_landing_landing_data_getherotierexamples",
+      "label": "getHeroTierExamples()",
       "_callable": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
-      "norm_label": "stepinspectvisual()",
-      "source_file": "src/components/landing/how-it-works-section.tsx",
-      "source_location": "L149"
-    },
-    {
-      "id": "src_components_landing_how_it_works_section_stepsearchvisual",
-      "label": "StepSearchVisual()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "how-it-works-section.tsx",
-      "file_type": "code",
-      "norm_label": "stepsearchvisual()",
-      "source_file": "src/components/landing/how-it-works-section.tsx",
-      "source_location": "L95"
-    },
-    {
-      "id": "src_components_landing_landing_data_getcatalogcategories",
-      "label": "getCatalogCategories()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "how-it-works-section.tsx",
-      "file_type": "code",
-      "norm_label": "getcatalogcategories()",
+      "norm_label": "getherotierexamples()",
       "source_file": "src/components/landing/landing-data.ts",
-      "source_location": "L91"
-    },
-    {
-      "id": "src_components_landing_landing_data_getstepitems",
-      "label": "getStepItems()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 41,
-      "community_name": "how-it-works-section.tsx",
-      "file_type": "code",
-      "norm_label": "getstepitems()",
-      "source_file": "src/components/landing/landing-data.ts",
-      "source_location": "L145"
+      "source_location": "L64"
     },
     {
       "id": "src_components_ui_badge_badge",
@@ -4764,7 +4692,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "badge()",
       "source_file": "src/components/ui/badge.tsx",
@@ -4776,7 +4704,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "scorebadge()",
       "source_file": "src/components/ui/score-badge.tsx",
@@ -5119,16 +5047,112 @@
       "source_location": "L21"
     },
     {
-      "id": "src_components_brand_logo_brandlogo",
-      "label": "BrandLogo()",
+      "id": "src_hooks_use_debounce_usedebounce",
+      "label": "useDebounce()",
       "_callable": true,
       "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
       "file_type": "code",
-      "norm_label": "brandlogo()",
-      "source_file": "src/components/brand-logo.tsx",
-      "source_location": "L36"
+      "norm_label": "usedebounce()",
+      "source_file": "src/hooks/use-debounce.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "src_queries_category_queries_categoriesqueryoptions",
+      "label": "categoriesQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "categoriesqueryoptions()",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_queries_category_queries_categoryqueryoptions",
+      "label": "categoryQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "categoryqueryoptions()",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_queries_category_queries_unmappedtagsqueryoptions",
+      "label": "unmappedTagsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "unmappedtagsqueryoptions()",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "src_queries_product_queries_allproductsqueryoptions",
+      "label": "allProductsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "allproductsqueryoptions()",
+      "source_file": "src/queries/product-queries.ts",
+      "source_location": "L55"
+    },
+    {
+      "id": "src_routes_protected_admin_all_categories_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/all-categories.tsx",
+      "source_location": "L74"
+    },
+    {
+      "id": "src_routes_protected_admin_all_products_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/all-products.tsx",
+      "source_location": "L86"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_mappingrowactions",
+      "label": "MappingRowActions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "mappingrowactions()",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L70"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L124"
     },
     {
       "id": "src_components_landing_final_cta_section_finalctasection",
@@ -5136,23 +5160,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community_name": "landing.tsx",
       "file_type": "code",
       "norm_label": "finalctasection()",
       "source_file": "src/components/landing/final-cta-section.tsx",
       "source_location": "L11"
-    },
-    {
-      "id": "src_components_landing_hero_section_herosection",
-      "label": "HeroSection()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "herosection()",
-      "source_file": "src/components/landing/hero-section.tsx",
-      "source_location": "L14"
     },
     {
       "id": "src_components_landing_landing_data_getheaderlinks",
@@ -5160,23 +5172,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community_name": "landing.tsx",
       "file_type": "code",
       "norm_label": "getheaderlinks()",
       "source_file": "src/components/landing/landing-data.ts",
       "source_location": "L31"
-    },
-    {
-      "id": "src_components_landing_landing_data_getherotierexamples",
-      "label": "getHeroTierExamples()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "getherotierexamples()",
-      "source_file": "src/components/landing/landing-data.ts",
-      "source_location": "L64"
     },
     {
       "id": "src_components_landing_landing_header_landingheader",
@@ -5184,7 +5184,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community_name": "landing.tsx",
       "file_type": "code",
       "norm_label": "landingheader()",
       "source_file": "src/components/landing/landing-header.tsx",
@@ -5196,7 +5196,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community_name": "landing.tsx",
       "file_type": "code",
       "norm_label": "usepwainstall()",
       "source_file": "src/lib/pwa-install.tsx",
@@ -5208,7 +5208,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community_name": "landing.tsx",
       "file_type": "code",
       "norm_label": "landingpage()",
       "source_file": "src/routes/landing.tsx",
@@ -5220,11 +5220,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "ingredientsqueryoptions()",
       "source_file": "src/queries/ingredient-queries.ts",
       "source_location": "L4"
+    },
+    {
+      "id": "src_queries_ingredient_queries_unmappedingredientsqueryoptions",
+      "label": "unmappedIngredientsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "@tanstack/react-query",
+      "file_type": "code",
+      "norm_label": "unmappedingredientsqueryoptions()",
+      "source_file": "src/queries/ingredient-queries.ts",
+      "source_location": "L10"
     },
     {
       "id": "src_queries_product_queries_activecategoriesqueryoptions",
@@ -5232,23 +5244,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "activecategoriesqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
       "source_location": "L23"
-    },
-    {
-      "id": "src_queries_product_queries_allproductsqueryoptions",
-      "label": "allProductsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "admin/add-product.tsx",
-      "file_type": "code",
-      "norm_label": "allproductsqueryoptions()",
-      "source_file": "src/queries/product-queries.ts",
-      "source_location": "L55"
     },
     {
       "id": "src_queries_product_queries_categoriesqueryoptions",
@@ -5256,7 +5256,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "categoriesqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
@@ -5268,7 +5268,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "productqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
@@ -5280,7 +5280,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "infinitesearchqueryoptions()",
       "source_file": "src/queries/search-queries.ts",
@@ -5292,7 +5292,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "searchcategorysectionsqueryoptions()",
       "source_file": "src/queries/search-queries.ts",
@@ -5304,7 +5304,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "storeexclusiveproductsqueryoptions()",
       "source_file": "src/queries/store-queries.ts",
@@ -5316,7 +5316,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "storesqueryoptions()",
       "source_file": "src/queries/store-queries.ts",
@@ -5328,7 +5328,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "routecomponent()",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
@@ -5340,23 +5340,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "routecomponent()",
       "source_file": "src/routes/_protected/admin/all-ingredients.tsx",
       "source_location": "L35"
-    },
-    {
-      "id": "src_routes_protected_admin_all_products_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "admin/add-product.tsx",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/all-products.tsx",
-      "source_location": "L86"
     },
     {
       "id": "src_routes_protected_admin_all_stores_deletestoredialog",
@@ -5364,7 +5352,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "deletestoredialog()",
       "source_file": "src/routes/_protected/admin/all-stores.tsx",
@@ -5376,7 +5364,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "routecomponent()",
       "source_file": "src/routes/_protected/admin/all-stores.tsx",
@@ -5388,11 +5376,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "mappingrowactions()",
       "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
       "source_location": "L70"
+    },
+    {
+      "id": "src_routes_protected_admin_ingredient_mappings_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "@tanstack/react-query",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
+      "source_location": "L125"
     },
     {
       "id": "src_routes_protected_public_add_product_addproductroute",
@@ -5400,7 +5400,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "addproductroute()",
       "source_file": "src/routes/_protected/_public/add-product.tsx",
@@ -5412,7 +5412,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "searchpage()",
       "source_file": "src/routes/_protected/_public/search.tsx",
@@ -5424,7 +5424,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "buildstorecategoriesdata()",
       "source_file": "src/routes/_protected/_public/stores.tsx",
@@ -5436,7 +5436,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "storespage()",
       "source_file": "src/routes/_protected/_public/stores.tsx",
@@ -5513,17 +5513,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_addstoredialog",
-      "label": "AddStoreDialog.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "addstoredialog.tsx",
-      "source_file": "src/components/AddStoreDialog.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_productform",
       "label": "ProductForm.tsx",
       "_origin": "ast",
@@ -5532,6 +5521,17 @@
       "file_type": "code",
       "norm_label": "productform.tsx",
       "source_file": "src/components/ProductForm.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_combobox",
+      "label": "combobox.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "combobox.tsx",
+      "source_file": "src/components/ui/combobox.tsx",
       "source_location": "L1"
     },
     {
@@ -5544,6 +5544,39 @@
       "norm_label": "input.tsx",
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_input_group",
+      "label": "input-group.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "input-group.tsx",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupaddonvariants",
+      "label": "inputGroupAddonVariants",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgroupaddonvariants",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupbuttonvariants",
+      "label": "inputGroupButtonVariants",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "inputgroupbuttonvariants",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L80"
     },
     {
       "id": "src_components_ui_label",
@@ -5579,17 +5612,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_hooks_use_debounce",
-      "label": "use-debounce.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "use-debounce.ts",
-      "source_file": "src/hooks/use-debounce.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_hooks_use_image_upload_mutation",
       "label": "use-image-upload-mutation.ts",
       "_origin": "ast",
@@ -5599,94 +5621,6 @@
       "norm_label": "use-image-upload-mutation.ts",
       "source_file": "src/hooks/use-image-upload-mutation.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "src_integrations_tanstack_query_root_provider",
-      "label": "root-provider.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "root-provider.tsx",
-      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_queries_category_queries",
-      "label": "category-queries.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "category-queries.ts",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_queries_ingredient_queries",
-      "label": "ingredient-queries.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "ingredient-queries.ts",
-      "source_file": "src/queries/ingredient-queries.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_admin_all_categories_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/all-categories.tsx",
-      "source_location": "L50"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings",
-      "label": "category-mappings.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "category-mappings.tsx",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_columnhelper",
-      "label": "columnHelper",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "columnhelper",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L68"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_features",
-      "label": "features",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "features",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L62"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L38"
     },
     {
       "id": "src_routes_protected_admin_ingredient_mappings",
@@ -5722,39 +5656,6 @@
       "source_location": "L62"
     },
     {
-      "id": "src_routes_protected_admin_ingredient_mappings_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
-      "source_location": "L38"
-    },
-    {
-      "id": "src_routes_protected_public_add_product",
-      "label": "_public/add-product.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "_public/add-product.tsx",
-      "source_file": "src/routes/_protected/_public/add-product.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_public_add_product_searchschema",
-      "label": "searchSchema",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "searchschema",
-      "source_file": "src/routes/_protected/_public/add-product.tsx",
-      "source_location": "L10"
-    },
-    {
       "id": "src_routes_protected_public_products_productid_add_store",
       "label": "$productId_.add-store.tsx",
       "_origin": "ast",
@@ -5766,48 +5667,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_server_category_functions_getcategories",
-      "label": "getCategories",
+      "id": "ref_base_ui_react",
+      "label": "@base-ui/react",
       "_origin": "ast",
       "community": 0,
       "community_name": "react",
-      "file_type": "code",
-      "norm_label": "getcategories",
-      "source_file": "src/server/category-functions.ts",
-      "source_location": "L22"
+      "file_type": "concept",
+      "norm_label": "@base-ui/react",
+      "source_file": "package.json",
+      "source_location": "L28"
     },
     {
-      "id": "src_server_category_functions_getcategory",
-      "label": "getCategory",
+      "id": "ref_cn",
+      "label": "cn",
       "_origin": "ast",
       "community": 0,
       "community_name": "react",
-      "file_type": "code",
-      "norm_label": "getcategory",
-      "source_file": "src/server/category-functions.ts",
-      "source_location": "L91"
-    },
-    {
-      "id": "src_server_category_functions_getunmappedtags",
-      "label": "getUnmappedTags",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "getunmappedtags",
-      "source_file": "src/server/category-functions.ts",
-      "source_location": "L136"
-    },
-    {
-      "id": "src_server_ingredient_functions_getunmappedingredients",
-      "label": "getUnmappedIngredients",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "getunmappedingredients",
-      "source_file": "src/server/ingredient-functions.ts",
-      "source_location": "L118"
+      "file_type": "concept",
+      "norm_label": "cn",
+      "source_file": "package.json",
+      "source_location": "L48"
     },
     {
       "id": "ref_react",
@@ -5830,17 +5709,6 @@
       "norm_label": "sonner",
       "source_file": "package.json",
       "source_location": "L59"
-    },
-    {
-      "id": "ref_tanstack_react_query",
-      "label": "@tanstack/react-query",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "concept",
-      "norm_label": "@tanstack/react-query",
-      "source_file": "package.json",
-      "source_location": "L33"
     },
     {
       "id": "ref_tanstack_react_start",
@@ -5884,6 +5752,17 @@
       "file_type": "code",
       "norm_label": "auth-shell.tsx",
       "source_file": "src/components/auth/auth-shell.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_lib_auth_client",
+      "label": "auth-client.ts",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "auth-fields.tsx",
+      "file_type": "code",
+      "norm_label": "auth-client.ts",
+      "source_file": "src/lib/auth-client.ts",
       "source_location": "L1"
     },
     {
@@ -21974,6 +21853,17 @@
       "source_location": "L60"
     },
     {
+      "id": "src_components_landing_how_it_works_section",
+      "label": "how-it-works-section.tsx",
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "how-it-works-section.tsx",
+      "source_file": "src/components/landing/how-it-works-section.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_landing_landing_data",
       "label": "landing-data.ts",
       "_origin": "ast",
@@ -21983,6 +21873,28 @@
       "norm_label": "landing-data.ts",
       "source_file": "src/components/landing/landing-data.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_components_landing_landing_data_legal_last_updated_iso",
+      "label": "LEGAL_LAST_UPDATED_ISO",
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "legal_last_updated_iso",
+      "source_file": "src/components/landing/landing-data.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_components_landing_landing_data_sample_stores",
+      "label": "SAMPLE_STORES",
+      "_origin": "ast",
+      "community": 164,
+      "community_name": "landing-data.ts",
+      "file_type": "code",
+      "norm_label": "sample_stores",
+      "source_file": "src/components/landing/landing-data.ts",
+      "source_location": "L84"
     },
     {
       "id": "src_components_landing_landing_data_support_email",
@@ -26318,17 +26230,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_search_search_bar",
-      "label": "search-bar.tsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "stores.tsx",
-      "file_type": "code",
-      "norm_label": "search-bar.tsx",
-      "source_file": "src/components/search/search-bar.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_stores_store_sidebar",
       "label": "store-sidebar.tsx",
       "_origin": "ast",
@@ -26359,17 +26260,6 @@
       "file_type": "code",
       "norm_label": "collapsible.tsx",
       "source_file": "src/components/ui/collapsible.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_ui_separator",
-      "label": "separator.tsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "stores.tsx",
-      "file_type": "code",
-      "norm_label": "separator.tsx",
-      "source_file": "src/components/ui/separator.tsx",
       "source_location": "L1"
     },
     {
@@ -26961,6 +26851,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_search_search_bar",
+      "label": "search-bar.tsx",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "search-bar.tsx",
+      "source_file": "src/components/search/search-bar.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_stores_store_avatar",
       "label": "store-avatar.tsx",
       "_origin": "ast",
@@ -27049,14 +26950,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_ui_skeleton",
-      "label": "skeleton.tsx",
+      "id": "src_components_ui_separator",
+      "label": "separator.tsx",
       "_origin": "ast",
       "community": 204,
       "community_name": "cn",
       "file_type": "code",
-      "norm_label": "skeleton.tsx",
-      "source_file": "src/components/ui/skeleton.tsx",
+      "norm_label": "separator.tsx",
+      "source_file": "src/components/ui/separator.tsx",
       "source_location": "L1"
     },
     {
@@ -27093,50 +26994,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_queries_profile_queries",
-      "label": "profile-queries.ts",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "profile-queries.ts",
-      "source_file": "src/queries/profile-queries.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_public_favorites",
-      "label": "favorites.tsx",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "favorites.tsx",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L12"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_skeleton_keys",
-      "label": "SKELETON_KEYS",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "skeleton_keys",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L27"
-    },
-    {
       "id": "src_routes_protected_public_index",
       "label": "index.tsx",
       "_origin": "ast",
@@ -27159,28 +27016,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_server_profile_functions_getuserexcludedingredients",
-      "label": "getUserExcludedIngredients",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "getuserexcludedingredients",
-      "source_file": "src/server/profile-functions.ts",
-      "source_location": "L13"
-    },
-    {
-      "id": "src_server_profile_functions_getuserfavoriteproducts",
-      "label": "getUserFavoriteProducts",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "getuserfavoriteproducts",
-      "source_file": "src/server/profile-functions.ts",
-      "source_location": "L70"
-    },
-    {
       "id": "ref_radix_ui",
       "label": "radix-ui",
       "_origin": "ast",
@@ -27190,6 +27025,17 @@
       "norm_label": "radix-ui",
       "source_file": "package.json",
       "source_location": "L55"
+    },
+    {
+      "id": "ref_tanstack_react_router",
+      "label": "@tanstack/react-router",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "concept",
+      "norm_label": "@tanstack/react-router",
+      "source_file": "package.json",
+      "source_location": "L35"
     },
     {
       "id": "drizzle_0010_many_orphan",
@@ -38576,6 +38422,17 @@
       "source_location": "L176"
     },
     {
+      "id": "src_components_addstoredialog",
+      "label": "AddStoreDialog.tsx",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "lucide-react",
+      "file_type": "code",
+      "norm_label": "addstoredialog.tsx",
+      "source_file": "src/components/AddStoreDialog.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_landing_landing_info_dialog",
       "label": "landing-info-dialog.tsx",
       "_origin": "ast",
@@ -39313,6 +39170,61 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_ui_skeleton",
+      "label": "skeleton.tsx",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "skeleton.tsx",
+      "source_file": "src/components/ui/skeleton.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_queries_profile_queries",
+      "label": "profile-queries.ts",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "profile-queries.ts",
+      "source_file": "src/queries/profile-queries.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_public_favorites",
+      "label": "favorites.tsx",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "favorites.tsx",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_skeleton_keys",
+      "label": "SKELETON_KEYS",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "skeleton_keys",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L27"
+    },
+    {
       "id": "src_routes_protected_public_products_productid",
       "label": "$productId.tsx",
       "_origin": "ast",
@@ -39366,6 +39278,28 @@
       "norm_label": "getproductdetailsbyid",
       "source_file": "src/server/product-functions.ts",
       "source_location": "L350"
+    },
+    {
+      "id": "src_server_profile_functions_getuserexcludedingredients",
+      "label": "getUserExcludedIngredients",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "getuserexcludedingredients",
+      "source_file": "src/server/profile-functions.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "src_server_profile_functions_getuserfavoriteproducts",
+      "label": "getUserFavoriteProducts",
+      "_origin": "ast",
+      "community": 28,
+      "community_name": "$productId.tsx",
+      "file_type": "code",
+      "norm_label": "getuserfavoriteproducts",
+      "source_file": "src/server/profile-functions.ts",
+      "source_location": "L70"
     },
     {
       "id": "agents_skills_modern_web_guidance_guides_accessibility_accessibility_7_forms_and_input_controls",
@@ -40521,22 +40455,11 @@
       "source_location": "L142"
     },
     {
-      "id": "src_components_landing_landing_data_legal_last_updated_iso",
-      "label": "LEGAL_LAST_UPDATED_ISO",
-      "_origin": "ast",
-      "community": 298,
-      "community_name": "landing-legal-layout.tsx",
-      "file_type": "code",
-      "norm_label": "legal_last_updated_iso",
-      "source_file": "src/components/landing/landing-data.ts",
-      "source_location": "L10"
-    },
-    {
       "id": "src_components_landing_landing_data_methodology_review_sla_days",
       "label": "METHODOLOGY_REVIEW_SLA_DAYS",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "methodology_review_sla_days",
       "source_file": "src/components/landing/landing-data.ts",
@@ -40547,7 +40470,7 @@
       "label": "landing-legal-layout.tsx",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "landing-legal-layout.tsx",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
@@ -40558,7 +40481,7 @@
       "label": "disclaimer.tsx",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "disclaimer.tsx",
       "source_file": "src/routes/disclaimer.tsx",
@@ -40569,7 +40492,7 @@
       "label": "legalSearchSchema",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "legalsearchschema",
       "source_file": "src/routes/disclaimer.tsx",
@@ -40580,7 +40503,7 @@
       "label": "Route",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/disclaimer.tsx",
@@ -40591,7 +40514,7 @@
       "label": "metodologie.tsx",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "metodologie.tsx",
       "source_file": "src/routes/metodologie.tsx",
@@ -40602,7 +40525,7 @@
       "label": "legalSearchSchema",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "legalsearchschema",
       "source_file": "src/routes/metodologie.tsx",
@@ -40613,7 +40536,7 @@
       "label": "Route",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/metodologie.tsx",
@@ -40624,7 +40547,7 @@
       "label": "auth-functions.ts",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "auth-functions.ts",
       "source_file": "src/server/auth-functions.ts",
@@ -40635,7 +40558,7 @@
       "label": "getSession",
       "_origin": "ast",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "file_type": "code",
       "norm_label": "getsession",
       "source_file": "src/server/auth-functions.ts",
@@ -40664,6 +40587,39 @@
       "source_location": "L1"
     },
     {
+      "id": "src_integrations_tanstack_query_root_provider",
+      "label": "root-provider.tsx",
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "root-provider.tsx",
+      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_router",
+      "label": "router.tsx",
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "router.tsx",
+      "source_file": "src/router.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_router_tanstack_react_router",
+      "label": "@tanstack/react-router",
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "@tanstack/react-router",
+      "source_file": "src/router.tsx",
+      "source_location": "L22"
+    },
+    {
       "id": "src_routes_root",
       "label": "__root.tsx",
       "_origin": "ast",
@@ -40673,6 +40629,17 @@
       "norm_label": "__root.tsx",
       "source_file": "src/routes/__root.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_routetree_gen_routetree",
+      "label": "routeTree",
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "code",
+      "norm_label": "routetree",
+      "source_file": "src/routeTree.gen.ts",
+      "source_location": "L637"
     },
     {
       "id": "ref_next_themes",
@@ -40717,6 +40684,17 @@
       "norm_label": "@tanstack/react-router-devtools",
       "source_file": "package.json",
       "source_location": "L36"
+    },
+    {
+      "id": "ref_tanstack_react_router_ssr_query",
+      "label": "@tanstack/react-router-ssr-query",
+      "_origin": "ast",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "file_type": "concept",
+      "norm_label": "@tanstack/react-router-ssr-query",
+      "source_file": "package.json",
+      "source_location": "L37"
     },
     {
       "id": "package_dependencies",
@@ -41328,7 +41306,7 @@
       "label": "why-icons.tsx",
       "_origin": "ast",
       "community": 300,
-      "community_name": "why-section.tsx",
+      "community_name": "src_paraglide_messages",
       "file_type": "code",
       "norm_label": "why-icons.tsx",
       "source_file": "src/components/landing/why-icons.tsx",
@@ -41339,7 +41317,7 @@
       "label": "why-section.tsx",
       "_origin": "ast",
       "community": 300,
-      "community_name": "why-section.tsx",
+      "community_name": "src_paraglide_messages",
       "file_type": "code",
       "norm_label": "why-section.tsx",
       "source_file": "src/components/landing/why-section.tsx",
@@ -41388,17 +41366,6 @@
       "norm_label": "serverenvschema",
       "source_file": "src/env.ts",
       "source_location": "L3"
-    },
-    {
-      "id": "src_lib_auth_client",
-      "label": "auth-client.ts",
-      "_origin": "ast",
-      "community": 301,
-      "community_name": "zod",
-      "file_type": "code",
-      "norm_label": "auth-client.ts",
-      "source_file": "src/lib/auth-client.ts",
-      "source_location": "L1"
     },
     {
       "id": "ref_zod",
@@ -41465,116 +41432,6 @@
       "norm_label": "gethomedata",
       "source_file": "src/server/home-functions.ts",
       "source_location": "L13"
-    },
-    {
-      "id": "src_components_ui_combobox",
-      "label": "combobox.tsx",
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "combobox.tsx",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_ui_input_group",
-      "label": "input-group.tsx",
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "input-group.tsx",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupaddonvariants",
-      "label": "inputGroupAddonVariants",
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgroupaddonvariants",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L37"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupbuttonvariants",
-      "label": "inputGroupButtonVariants",
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "code",
-      "norm_label": "inputgroupbuttonvariants",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L80"
-    },
-    {
-      "id": "ref_base_ui_react",
-      "label": "@base-ui/react",
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "concept",
-      "norm_label": "@base-ui/react",
-      "source_file": "package.json",
-      "source_location": "L28"
-    },
-    {
-      "id": "ref_cn",
-      "label": "cn",
-      "_origin": "ast",
-      "community": 304,
-      "community_name": "combobox.tsx",
-      "file_type": "concept",
-      "norm_label": "cn",
-      "source_file": "package.json",
-      "source_location": "L48"
-    },
-    {
-      "id": "src_router",
-      "label": "router.tsx",
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "code",
-      "norm_label": "router.tsx",
-      "source_file": "src/router.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_router_tanstack_react_router",
-      "label": "@tanstack/react-router",
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "code",
-      "norm_label": "@tanstack/react-router",
-      "source_file": "src/router.tsx",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_routetree_gen_routetree",
-      "label": "routeTree",
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "code",
-      "norm_label": "routetree",
-      "source_file": "src/routeTree.gen.ts",
-      "source_location": "L637"
-    },
-    {
-      "id": "ref_tanstack_react_router_ssr_query",
-      "label": "@tanstack/react-router-ssr-query",
-      "_origin": "ast",
-      "community": 305,
-      "community_name": "router.tsx",
-      "file_type": "concept",
-      "norm_label": "@tanstack/react-router-ssr-query",
-      "source_file": "package.json",
-      "source_location": "L37"
     },
     {
       "id": "src_lib_additive_highlighting",
@@ -42322,17 +42179,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_routes_protected_route_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 37,
-      "community_name": "language-switcher.tsx",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/route.tsx",
-      "source_location": "L8"
-    },
-    {
       "id": "src_server_locale_functions_updatepreferredlocale",
       "label": "updatePreferredLocale",
       "_origin": "ast",
@@ -42934,33 +42780,88 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_landing_how_it_works_section",
-      "label": "how-it-works-section.tsx",
+      "id": "src_components_brand_logo",
+      "label": "brand-logo.tsx",
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
-      "norm_label": "how-it-works-section.tsx",
-      "source_file": "src/components/landing/how-it-works-section.tsx",
+      "norm_label": "brand-logo.tsx",
+      "source_file": "src/components/brand-logo.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_landing_landing_data_sample_stores",
-      "label": "SAMPLE_STORES",
+      "id": "src_components_brand_logo_adaptive_img_size",
+      "label": "ADAPTIVE_IMG_SIZE",
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
-      "norm_label": "sample_stores",
+      "norm_label": "adaptive_img_size",
+      "source_file": "src/components/brand-logo.tsx",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_components_brand_logo_dark_img_size",
+      "label": "DARK_IMG_SIZE",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "badge.tsx",
+      "file_type": "code",
+      "norm_label": "dark_img_size",
+      "source_file": "src/components/brand-logo.tsx",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_components_brand_logo_pill_padding",
+      "label": "PILL_PADDING",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "badge.tsx",
+      "file_type": "code",
+      "norm_label": "pill_padding",
+      "source_file": "src/components/brand-logo.tsx",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_components_landing_final_cta_section",
+      "label": "final-cta-section.tsx",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "badge.tsx",
+      "file_type": "code",
+      "norm_label": "final-cta-section.tsx",
+      "source_file": "src/components/landing/final-cta-section.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_landing_hero_section",
+      "label": "hero-section.tsx",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "badge.tsx",
+      "file_type": "code",
+      "norm_label": "hero-section.tsx",
+      "source_file": "src/components/landing/hero-section.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_landing_landing_data_hero_stores",
+      "label": "HERO_STORES",
+      "_origin": "ast",
+      "community": 41,
+      "community_name": "badge.tsx",
+      "file_type": "code",
+      "norm_label": "hero_stores",
       "source_file": "src/components/landing/landing-data.ts",
-      "source_location": "L84"
+      "source_location": "L62"
     },
     {
       "id": "src_components_ui_badge",
       "label": "badge.tsx",
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "badge.tsx",
       "source_file": "src/components/ui/badge.tsx",
@@ -42971,7 +42872,7 @@
       "label": "badgeVariants",
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "badgevariants",
       "source_file": "src/components/ui/badge.tsx",
@@ -42982,7 +42883,7 @@
       "label": "score-badge.tsx",
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "score-badge.tsx",
       "source_file": "src/components/ui/score-badge.tsx",
@@ -42993,7 +42894,7 @@
       "label": "TIER_BADGES",
       "_origin": "ast",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "file_type": "code",
       "norm_label": "tier_badges",
       "source_file": "src/components/ui/score-badge.tsx",
@@ -46541,6 +46442,28 @@
       "source_location": "L7"
     },
     {
+      "id": "src_hooks_use_debounce",
+      "label": "use-debounce.ts",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "use-debounce.ts",
+      "source_file": "src/hooks/use-debounce.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_queries_category_queries",
+      "label": "category-queries.ts",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "category-queries.ts",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_routes_protected_admin_all_categories",
       "label": "all-categories.tsx",
       "_origin": "ast",
@@ -46572,6 +46495,17 @@
       "norm_label": "features",
       "source_file": "src/routes/_protected/admin/all-categories.tsx",
       "source_location": "L66"
+    },
+    {
+      "id": "src_routes_protected_admin_all_categories_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/all-categories.tsx",
+      "source_location": "L50"
     },
     {
       "id": "src_routes_protected_admin_all_ingredients",
@@ -46618,6 +46552,61 @@
       "source_location": "L78"
     },
     {
+      "id": "src_routes_protected_admin_all_products_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/all-products.tsx",
+      "source_location": "L55"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings",
+      "label": "category-mappings.tsx",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "category-mappings.tsx",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_columnhelper",
+      "label": "columnHelper",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "columnhelper",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L68"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_features",
+      "label": "features",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "features",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L62"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L38"
+    },
+    {
       "id": "src_routes_protected_admin_store_submissions",
       "label": "store-submissions.tsx",
       "_origin": "ast",
@@ -46629,15 +46618,48 @@
       "source_location": "L1"
     },
     {
-      "id": "ref_tanstack_react_router",
-      "label": "@tanstack/react-router",
+      "id": "src_server_category_functions_getcategories",
+      "label": "getCategories",
       "_origin": "ast",
       "community": 64,
       "community_name": "store-submissions.tsx",
-      "file_type": "concept",
-      "norm_label": "@tanstack/react-router",
-      "source_file": "package.json",
-      "source_location": "L35"
+      "file_type": "code",
+      "norm_label": "getcategories",
+      "source_file": "src/server/category-functions.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_server_category_functions_getcategory",
+      "label": "getCategory",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "getcategory",
+      "source_file": "src/server/category-functions.ts",
+      "source_location": "L91"
+    },
+    {
+      "id": "src_server_category_functions_getunmappedtags",
+      "label": "getUnmappedTags",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "getunmappedtags",
+      "source_file": "src/server/category-functions.ts",
+      "source_location": "L136"
+    },
+    {
+      "id": "src_server_product_functions_getallproducts",
+      "label": "getAllProducts",
+      "_origin": "ast",
+      "community": 64,
+      "community_name": "store-submissions.tsx",
+      "file_type": "code",
+      "norm_label": "getallproducts",
+      "source_file": "src/server/product-functions.ts",
+      "source_location": "L123"
     },
     {
       "id": "ref_tanstack_react_table",
@@ -47011,88 +47033,11 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_brand_logo",
-      "label": "brand-logo.tsx",
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "brand-logo.tsx",
-      "source_file": "src/components/brand-logo.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_brand_logo_adaptive_img_size",
-      "label": "ADAPTIVE_IMG_SIZE",
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "adaptive_img_size",
-      "source_file": "src/components/brand-logo.tsx",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_components_brand_logo_dark_img_size",
-      "label": "DARK_IMG_SIZE",
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "dark_img_size",
-      "source_file": "src/components/brand-logo.tsx",
-      "source_location": "L29"
-    },
-    {
-      "id": "src_components_brand_logo_pill_padding",
-      "label": "PILL_PADDING",
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "pill_padding",
-      "source_file": "src/components/brand-logo.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_components_landing_final_cta_section",
-      "label": "final-cta-section.tsx",
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "final-cta-section.tsx",
-      "source_file": "src/components/landing/final-cta-section.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_landing_hero_section",
-      "label": "hero-section.tsx",
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "hero-section.tsx",
-      "source_file": "src/components/landing/hero-section.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_landing_landing_data_hero_stores",
-      "label": "HERO_STORES",
-      "_origin": "ast",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "file_type": "code",
-      "norm_label": "hero_stores",
-      "source_file": "src/components/landing/landing-data.ts",
-      "source_location": "L62"
-    },
-    {
       "id": "src_components_landing_landing_header",
       "label": "landing-header.tsx",
       "_origin": "ast",
       "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community_name": "landing.tsx",
       "file_type": "code",
       "norm_label": "landing-header.tsx",
       "source_file": "src/components/landing/landing-header.tsx",
@@ -47103,7 +47048,7 @@
       "label": "landing.tsx",
       "_origin": "ast",
       "community": 66,
-      "community_name": "src_paraglide_messages",
+      "community_name": "landing.tsx",
       "file_type": "code",
       "norm_label": "landing.tsx",
       "source_file": "src/routes/landing.tsx",
@@ -47668,6 +47613,17 @@
       "norm_label": "route",
       "source_file": "src/routes/_protected/_public/profile.tsx",
       "source_location": "L58"
+    },
+    {
+      "id": "src_routes_protected_route_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "routeTree.gen.ts",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/route.tsx",
+      "source_location": "L8"
     },
     {
       "id": "src_routes_reset_password_route",
@@ -49431,11 +49387,22 @@
       "source_location": "L72"
     },
     {
+      "id": "src_queries_ingredient_queries",
+      "label": "ingredient-queries.ts",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "@tanstack/react-query",
+      "file_type": "code",
+      "norm_label": "ingredient-queries.ts",
+      "source_file": "src/queries/ingredient-queries.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_queries_product_queries",
       "label": "product-queries.ts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "product-queries.ts",
       "source_file": "src/queries/product-queries.ts",
@@ -49446,7 +49413,7 @@
       "label": "store-queries.ts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "store-queries.ts",
       "source_file": "src/queries/store-queries.ts",
@@ -49457,7 +49424,7 @@
       "label": "admin/add-product.tsx",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "admin/add-product.tsx",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
@@ -49468,7 +49435,7 @@
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
@@ -49479,29 +49446,51 @@
       "label": "searchSchema",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "searchschema",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
       "source_location": "L17"
     },
     {
-      "id": "src_routes_protected_admin_all_products_route",
+      "id": "src_routes_protected_admin_ingredient_mappings_route",
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/all-products.tsx",
-      "source_location": "L55"
+      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
+      "source_location": "L38"
+    },
+    {
+      "id": "src_routes_protected_public_add_product",
+      "label": "_public/add-product.tsx",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "@tanstack/react-query",
+      "file_type": "code",
+      "norm_label": "_public/add-product.tsx",
+      "source_file": "src/routes/_protected/_public/add-product.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_public_add_product_searchschema",
+      "label": "searchSchema",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "@tanstack/react-query",
+      "file_type": "code",
+      "norm_label": "searchschema",
+      "source_file": "src/routes/_protected/_public/add-product.tsx",
+      "source_location": "L10"
     },
     {
       "id": "src_routes_protected_public_search_route",
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/_protected/_public/search.tsx",
@@ -49512,7 +49501,7 @@
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/_protected/_public/stores.tsx",
@@ -49523,7 +49512,7 @@
       "label": "getActiveCategories",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "getactivecategories",
       "source_file": "src/server/category-functions.ts",
@@ -49534,29 +49523,29 @@
       "label": "getIngredients",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "getingredients",
       "source_file": "src/server/ingredient-functions.ts",
       "source_location": "L20"
     },
     {
-      "id": "src_server_product_functions_getallproducts",
-      "label": "getAllProducts",
+      "id": "src_server_ingredient_functions_getunmappedingredients",
+      "label": "getUnmappedIngredients",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
-      "norm_label": "getallproducts",
-      "source_file": "src/server/product-functions.ts",
-      "source_location": "L123"
+      "norm_label": "getunmappedingredients",
+      "source_file": "src/server/ingredient-functions.ts",
+      "source_location": "L118"
     },
     {
       "id": "src_server_product_functions_getcategories",
       "label": "getCategories",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "getcategories",
       "source_file": "src/server/product-functions.ts",
@@ -49567,7 +49556,7 @@
       "label": "getProductById",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "getproductbyid",
       "source_file": "src/server/product-functions.ts",
@@ -49578,7 +49567,7 @@
       "label": "getStoreExclusiveProducts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "getstoreexclusiveproducts",
       "source_file": "src/server/store-functions.ts",
@@ -49589,7 +49578,7 @@
       "label": "getStores",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "code",
       "norm_label": "getstores",
       "source_file": "src/server/store-functions.ts",
@@ -49600,11 +49589,22 @@
       "label": "react-zoom-pan-pinch",
       "_origin": "ast",
       "community": 77,
-      "community_name": "admin/add-product.tsx",
+      "community_name": "@tanstack/react-query",
       "file_type": "concept",
       "norm_label": "react-zoom-pan-pinch",
       "source_file": "package.json",
       "source_location": "L58"
+    },
+    {
+      "id": "ref_tanstack_react_query",
+      "label": "@tanstack/react-query",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "@tanstack/react-query",
+      "file_type": "concept",
+      "norm_label": "@tanstack/react-query",
+      "source_file": "package.json",
+      "source_location": "L33"
     },
     {
       "id": "docs_adr_0001_i18n_paraglide_cookie_locale",
@@ -54421,6 +54421,30 @@
       "type": "external"
     },
     {
+      "id": "ref_better_auth_client_plugins",
+      "label": "ref_better_auth_client_plugins",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "auth-fields.tsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_better_auth_client_plugins",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_better_auth_react",
+      "label": "ref_better_auth_react",
+      "_origin": "semantic",
+      "community": 1,
+      "community_name": "auth-fields.tsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_better_auth_react",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_drizzle_orm_pg_core",
       "label": "ref_drizzle_orm_pg_core",
       "_origin": "semantic",
@@ -54473,10 +54497,22 @@
       "label": "ref_tanstack_react_start_server",
       "_origin": "semantic",
       "community": 298,
-      "community_name": "landing-legal-layout.tsx",
+      "community_name": "src_paraglide_messages_m",
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_tanstack_react_start_server",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "src_paraglide_messages_m",
+      "label": "src_paraglide_messages_m",
+      "_origin": "semantic",
+      "community": 298,
+      "community_name": "src_paraglide_messages_m",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_paraglide_messages_m",
       "source_file": "",
       "type": "external"
     },
@@ -54493,38 +54529,14 @@
       "type": "external"
     },
     {
-      "id": "src_paraglide_runtime",
-      "label": "src_paraglide_runtime",
+      "id": "src_paraglide_messages",
+      "label": "src_paraglide_messages",
       "_origin": "semantic",
-      "community": 299,
-      "community_name": "__root.tsx",
+      "community": 300,
+      "community_name": "src_paraglide_messages",
       "external": true,
       "file_type": "concept",
-      "norm_label": "src_paraglide_runtime",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_better_auth_client_plugins",
-      "label": "ref_better_auth_client_plugins",
-      "_origin": "semantic",
-      "community": 301,
-      "community_name": "zod",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_better_auth_client_plugins",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_better_auth_react",
-      "label": "ref_better_auth_react",
-      "_origin": "semantic",
-      "community": 301,
-      "community_name": "zod",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_better_auth_react",
+      "norm_label": "src_paraglide_messages",
       "source_file": "",
       "type": "external"
     },
@@ -54673,6 +54685,18 @@
       "type": "external"
     },
     {
+      "id": "src_paraglide_runtime",
+      "label": "src_paraglide_runtime",
+      "_origin": "semantic",
+      "community": 37,
+      "community_name": "language-switcher.tsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_paraglide_runtime",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "src_paraglide_runtime_getlocale",
       "label": "src_paraglide_runtime_getlocale",
       "_origin": "semantic",
@@ -54701,7 +54725,7 @@
       "label": "src_assets_bronze_badge",
       "_origin": "semantic",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "external": true,
       "file_type": "concept",
       "norm_label": "src_assets_bronze_badge",
@@ -54713,7 +54737,7 @@
       "label": "src_assets_gold_badge",
       "_origin": "semantic",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "external": true,
       "file_type": "concept",
       "norm_label": "src_assets_gold_badge",
@@ -54725,7 +54749,7 @@
       "label": "src_assets_silver_badge",
       "_origin": "semantic",
       "community": 41,
-      "community_name": "how-it-works-section.tsx",
+      "community_name": "badge.tsx",
       "external": true,
       "file_type": "concept",
       "norm_label": "src_assets_silver_badge",
@@ -54765,30 +54789,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_tanstack_react_start_plugin_vite",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "src_paraglide_messages",
-      "label": "src_paraglide_messages",
-      "_origin": "semantic",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "src_paraglide_messages",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "src_paraglide_messages_m",
-      "label": "src_paraglide_messages_m",
-      "_origin": "semantic",
-      "community": 66,
-      "community_name": "src_paraglide_messages",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "src_paraglide_messages_m",
       "source_file": "",
       "type": "external"
     }
@@ -55187,7 +55187,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L22",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -55199,7 +55199,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L23",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -55211,7 +55211,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L24",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -55223,7 +55223,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L25",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -59796,18 +59796,6 @@
       "context": "call",
       "source_file": "src/utils/safe-envs.ts",
       "source_location": "L35",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_landing_landing_legal_layout_landinglegallayoutprops",
-      "target": "src_components_landing_landing_data_infomodaltopic",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "field",
-      "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -69960,6 +69948,18 @@
       "context": "import",
       "source_file": "src/routes/__root.tsx",
       "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_routes_root",
+      "target": "src_integrations_tanstack_query_root_provider_tanstackqueryprovider",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/routes/__root.tsx",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -121119,7 +121119,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L327",
+      "source_location": "L328",
       "weight": 1.0
     },
     {
@@ -121130,7 +121130,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L350",
+      "source_location": "L351",
       "weight": 1.0
     },
     {
@@ -129021,5 +129021,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "cc72d271c56ee912a0f8c2bc6c39cc93ce25ab9c"
+  "built_at_commit": "e78ab72e16a8ae4f23dd5f669a2f059c09c10b2e"
 }

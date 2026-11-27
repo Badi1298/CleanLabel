@@ -3724,7 +3724,7 @@
       "file_type": "code",
       "norm_label": "rootdocument()",
       "source_file": "src/routes/__root.tsx",
-      "source_location": "L81"
+      "source_location": "L82"
     },
     {
       "id": "src_server_off_functions_getorcreateuncategorized",
@@ -128536,7 +128536,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "src/routes/__root.tsx",
-      "source_location": "L77",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -129033,5 +129033,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "cc72d271c56ee912a0f8c2bc6c39cc93ce25ab9c"
+  "built_at_commit": "e78ab72e16a8ae4f23dd5f669a2f059c09c10b2e"
 }
