@@ -12,10 +12,12 @@ import { m } from "#/paraglide/messages.js";
 
 export function LandingFooter({
 	onOpenInfoModal,
+	isSignedIn,
 	isLandingPage = true,
 	from,
 }: {
 	onOpenInfoModal: (topic: InfoModalTopic) => void;
+	isSignedIn: boolean;
 	isLandingPage?: boolean;
 	from?: "profile";
 }) {
@@ -24,6 +26,10 @@ export function LandingFooter({
 	const footerLegalLinks = getFooterLegalLinks();
 	const { isStandalone } = usePwaInstall();
 	const hideMarketingLinks = !isLandingPage && isStandalone;
+	const ctaTarget = isSignedIn ? ("/" as const) : ("/signup" as const);
+	const ctaLabel = isSignedIn
+		? m.landing_header_cta_signed_in()
+		: m.landing_final_cta_signed_out();
 
 	const brandClassName =
 		"inline-flex items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54]";
@@ -105,10 +111,10 @@ export function LandingFooter({
 								))}
 							<li>
 								<Link
-									to="/"
+									to={ctaTarget}
 									className="inline-flex items-center py-1 text-[#D8AB54] hover:text-[#E8C476] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54] rounded-sm"
 								>
-									{m.landing_header_cta_signed_in()}
+									{ctaLabel}
 								</Link>
 							</li>
 						</ul>

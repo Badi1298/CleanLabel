@@ -17,6 +17,32 @@
       "source_location": "L50"
     },
     {
+      "id": "src_queries_category_queries_categoryqueryargs",
+      "label": "CategoryQueryArgs",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "categoryqueryargs",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_unmappedtagdata",
+      "label": "UnmappedTagData",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "unmappedtagdata",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L58"
+    },
+    {
       "id": "src_routes_protected_admin_ingredient_mappings_unmappedtagdata",
       "label": "UnmappedTagData",
       "_callable": true,
@@ -251,6 +277,19 @@
       "source_location": "L295"
     },
     {
+      "id": "src_components_search_search_bar_searchbarprops",
+      "label": "SearchBarProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "stores.tsx",
+      "file_type": "code",
+      "norm_label": "searchbarprops",
+      "source_file": "src/components/search/search-bar.tsx",
+      "source_location": "L10"
+    },
+    {
       "id": "src_components_stores_store_sidebar_mobilestoredrawerprops",
       "label": "MobileStoreDrawerProps",
       "_callable": true,
@@ -342,19 +381,6 @@
       "source_location": "L34"
     },
     {
-      "id": "src_components_search_search_bar_searchbarprops",
-      "label": "SearchBarProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "searchbarprops",
-      "source_file": "src/components/search/search-bar.tsx",
-      "source_location": "L10"
-    },
-    {
       "id": "src_components_stores_store_avatar_storeavatarprops",
       "label": "StoreAvatarProps",
       "_callable": true,
@@ -379,6 +405,19 @@
       "norm_label": "storecardprops",
       "source_file": "src/components/stores/store-card.tsx",
       "source_location": "L7"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_scorefilter",
+      "label": "ScoreFilter",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "scorefilter",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L16"
     },
     {
       "id": "src_routes_protected_public_profile_samplefavoriteproduct",
@@ -511,19 +550,6 @@
       "source_location": "L10"
     },
     {
-      "id": "src_routes_protected_public_favorites_scorefilter",
-      "label": "ScoreFilter",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "scorefilter",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L16"
-    },
-    {
       "id": "src_routes_protected_public_products_productid_imageside",
       "label": "ImageSide",
       "_callable": true,
@@ -641,19 +667,6 @@
       "source_location": "L26"
     },
     {
-      "id": "src_router_register",
-      "label": "Register",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "register",
-      "source_file": "src/router.tsx",
-      "source_location": "L23"
-    },
-    {
       "id": "src_routes_root_myroutercontext",
       "label": "MyRouterContext",
       "_callable": true,
@@ -667,19 +680,6 @@
       "source_location": "L18"
     },
     {
-      "id": "src_routetree_gen_register",
-      "label": "Register",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "register",
-      "source_file": "src/routeTree.gen.ts",
-      "source_location": "L644"
-    },
-    {
       "id": "src_components_landing_landing_data_whyiconkey",
       "label": "WhyIconKey",
       "_callable": true,
@@ -691,6 +691,32 @@
       "norm_label": "whyiconkey",
       "source_file": "src/components/landing/landing-data.ts",
       "source_location": "L8"
+    },
+    {
+      "id": "src_router_register",
+      "label": "Register",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "code",
+      "norm_label": "register",
+      "source_file": "src/router.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "src_routetree_gen_register",
+      "label": "Register",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "code",
+      "norm_label": "register",
+      "source_file": "src/routeTree.gen.ts",
+      "source_location": "L644"
     },
     {
       "id": "src_lib_additive_highlighting_highlightsegment",
@@ -901,19 +927,6 @@
       "source_location": "L22"
     },
     {
-      "id": "src_queries_category_queries_categoryqueryargs",
-      "label": "CategoryQueryArgs",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "categoryqueryargs",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L8"
-    },
-    {
       "id": "src_routes_protected_admin_all_categories_categorydata",
       "label": "CategoryData",
       "_callable": true,
@@ -938,19 +951,6 @@
       "norm_label": "productdata",
       "source_file": "src/routes/_protected/admin/all-products.tsx",
       "source_location": "L74"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_unmappedtagdata",
-      "label": "UnmappedTagData",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "unmappedtagdata",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L58"
     },
     {
       "id": "src_routes_protected_admin_store_submissions_submissionfilter",
@@ -1102,7 +1102,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "activecategoriesfilters",
       "source_file": "src/queries/product-queries.ts",
@@ -1115,7 +1115,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "productqueryargs",
       "source_file": "src/queries/product-queries.ts",
@@ -1128,7 +1128,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "storesqueryfilters",
       "source_file": "src/queries/store-queries.ts",
@@ -1159,6 +1159,18 @@
       "source_location": "L18"
     },
     {
+      "id": "src_components_addstoredialog_addstoredialog",
+      "label": "AddStoreDialog()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "addstoredialog()",
+      "source_file": "src/components/AddStoreDialog.tsx",
+      "source_location": "L17"
+    },
+    {
       "id": "src_components_productform_fieldinfo",
       "label": "FieldInfo()",
       "_callable": true,
@@ -1171,268 +1183,16 @@
       "source_location": "L65"
     },
     {
-      "id": "src_components_ui_combobox_comboboxchip",
-      "label": "ComboboxChip()",
+      "id": "src_components_ui_dialog_dialogtrigger",
+      "label": "DialogTrigger()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "comboboxchip()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L244"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxchips",
-      "label": "ComboboxChips()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxchips()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L227"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxchipsinput",
-      "label": "ComboboxChipsInput()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxchipsinput()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L275"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxclear",
-      "label": "ComboboxClear()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxclear()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L42"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxcollection",
-      "label": "ComboboxCollection()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxcollection()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L195"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxcontent",
-      "label": "ComboboxContent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxcontent()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L92"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxempty",
-      "label": "ComboboxEmpty()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxempty()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L201"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxgroup",
-      "label": "ComboboxGroup()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxgroup()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L169"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxinput",
-      "label": "ComboboxInput()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxinput()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L55"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxitem",
-      "label": "ComboboxItem()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxitem()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L142"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxlabel",
-      "label": "ComboboxLabel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxlabel()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L179"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxlist",
-      "label": "ComboboxList()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxlist()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L129"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxseparator",
-      "label": "ComboboxSeparator()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxseparator()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L214"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxtrigger",
-      "label": "ComboboxTrigger()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxtrigger()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_components_ui_combobox_comboboxvalue",
-      "label": "ComboboxValue()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "comboboxvalue()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_components_ui_combobox_usecomboboxanchor",
-      "label": "useComboboxAnchor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "usecomboboxanchor()",
-      "source_file": "src/components/ui/combobox.tsx",
-      "source_location": "L289"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroup",
-      "label": "InputGroup()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgroup()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupaddon",
-      "label": "InputGroupAddon()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgroupaddon()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L58"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupbutton",
-      "label": "InputGroupButton()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgroupbutton()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L98"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupinput",
-      "label": "InputGroupInput()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgroupinput()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L129"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgrouptext",
-      "label": "InputGroupText()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgrouptext()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L117"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgrouptextarea",
-      "label": "InputGroupTextarea()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgrouptextarea()",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L145"
+      "norm_label": "dialogtrigger()",
+      "source_file": "src/components/ui/dialog.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_components_ui_input_input",
@@ -1543,6 +1303,18 @@
       "source_location": "L5"
     },
     {
+      "id": "src_hooks_use_debounce_usedebounce",
+      "label": "useDebounce()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "usedebounce()",
+      "source_file": "src/hooks/use-debounce.ts",
+      "source_location": "L3"
+    },
+    {
       "id": "src_hooks_use_image_upload_mutation_useimageuploadmutation",
       "label": "useImageUploadMutation()",
       "_callable": true,
@@ -1555,6 +1327,18 @@
       "source_location": "L6"
     },
     {
+      "id": "src_integrations_tanstack_query_root_provider_tanstackqueryprovider",
+      "label": "TanstackQueryProvider()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "tanstackqueryprovider()",
+      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
+      "source_location": "L19"
+    },
+    {
       "id": "src_lib_i18n_getlocalizedservererror",
       "label": "getLocalizedServerError()",
       "_callable": true,
@@ -1565,6 +1349,102 @@
       "norm_label": "getlocalizedservererror()",
       "source_file": "src/lib/i18n.ts",
       "source_location": "L82"
+    },
+    {
+      "id": "src_queries_category_queries_categoriesqueryoptions",
+      "label": "categoriesQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "categoriesqueryoptions()",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_queries_category_queries_categoryqueryoptions",
+      "label": "categoryQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "categoryqueryoptions()",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_queries_category_queries_unmappedtagsqueryoptions",
+      "label": "unmappedTagsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "unmappedtagsqueryoptions()",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "src_queries_ingredient_queries_unmappedingredientsqueryoptions",
+      "label": "unmappedIngredientsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "unmappedingredientsqueryoptions()",
+      "source_file": "src/queries/ingredient-queries.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_routes_protected_admin_all_categories_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/all-categories.tsx",
+      "source_location": "L74"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_mappingrowactions",
+      "label": "MappingRowActions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "mappingrowactions()",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L70"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L124"
+    },
+    {
+      "id": "src_routes_protected_admin_ingredient_mappings_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
+      "source_location": "L125"
     },
     {
       "id": "src_routes_protected_public_products_productid_add_store_addstoretoproductpage",
@@ -2023,6 +1903,18 @@
       "source_location": "L314"
     },
     {
+      "id": "src_components_search_search_bar_searchbar",
+      "label": "SearchBar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "stores.tsx",
+      "file_type": "code",
+      "norm_label": "searchbar()",
+      "source_file": "src/components/search/search-bar.tsx",
+      "source_location": "L22"
+    },
+    {
       "id": "src_components_stores_store_sidebar_mobilestoredrawer",
       "label": "MobileStoreDrawer()",
       "_callable": true,
@@ -2167,6 +2059,18 @@
       "source_location": "L9"
     },
     {
+      "id": "src_components_ui_separator_separator",
+      "label": "Separator()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "stores.tsx",
+      "file_type": "code",
+      "norm_label": "separator()",
+      "source_file": "src/components/ui/separator.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_components_ui_sheet_sheet",
       "label": "Sheet()",
       "_callable": true,
@@ -2299,6 +2203,18 @@
       "source_location": "L306"
     },
     {
+      "id": "src_components_home_product_card_productcard",
+      "label": "ProductCard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "productcard()",
+      "source_file": "src/components/home/product-card.tsx",
+      "source_location": "L77"
+    },
+    {
       "id": "src_components_home_product_card_storechip",
       "label": "StoreChip()",
       "_callable": true,
@@ -2321,18 +2237,6 @@
       "norm_label": "languageswitcher()",
       "source_file": "src/components/language-switcher.tsx",
       "source_location": "L71"
-    },
-    {
-      "id": "src_components_search_search_bar_searchbar",
-      "label": "SearchBar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "searchbar()",
-      "source_file": "src/components/search/search-bar.tsx",
-      "source_location": "L22"
     },
     {
       "id": "src_components_stores_store_avatar_getpaletteforstore",
@@ -2815,16 +2719,16 @@
       "source_location": "L128"
     },
     {
-      "id": "src_components_ui_separator_separator",
-      "label": "Separator()",
+      "id": "src_components_ui_skeleton_skeleton",
+      "label": "Skeleton()",
       "_callable": true,
       "_origin": "ast",
       "community": 204,
       "community_name": "cn",
       "file_type": "code",
-      "norm_label": "separator()",
-      "source_file": "src/components/ui/separator.tsx",
-      "source_location": "L6"
+      "norm_label": "skeleton()",
+      "source_file": "src/components/ui/skeleton.tsx",
+      "source_location": "L3"
     },
     {
       "id": "src_components_ui_slider_slider",
@@ -2861,6 +2765,54 @@
       "norm_label": "cn()",
       "source_file": "src/lib/utils.ts",
       "source_location": "L5"
+    },
+    {
+      "id": "src_queries_profile_queries_userexcludedingredientsqueryoptions",
+      "label": "userExcludedIngredientsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "userexcludedingredientsqueryoptions()",
+      "source_file": "src/queries/profile-queries.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_queries_profile_queries_userfavoriteproductsqueryoptions",
+      "label": "userFavoriteProductsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "userfavoriteproductsqueryoptions()",
+      "source_file": "src/queries/profile-queries.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_favoritespage",
+      "label": "FavoritesPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "favoritespage()",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L40"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_getscorefilteroptions",
+      "label": "getScoreFilterOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "getscorefilteroptions()",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L18"
     },
     {
       "id": "src_routes_protected_public_profile_getinitials",
@@ -3019,18 +2971,6 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_addstoredialog_addstoredialog",
-      "label": "AddStoreDialog()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "lucide-react",
-      "file_type": "code",
-      "norm_label": "addstoredialog()",
-      "source_file": "src/components/AddStoreDialog.tsx",
-      "source_location": "L17"
-    },
-    {
       "id": "src_components_scannerdialog_scannerdialog",
       "label": "ScannerDialog()",
       "_callable": true,
@@ -3151,18 +3091,6 @@
       "source_location": "L120"
     },
     {
-      "id": "src_components_ui_dialog_dialogtrigger",
-      "label": "DialogTrigger()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "lucide-react",
-      "file_type": "code",
-      "norm_label": "dialogtrigger()",
-      "source_file": "src/components/ui/dialog.tsx",
-      "source_location": "L15"
-    },
-    {
       "id": "src_components_ui_tabs_tabs",
       "label": "Tabs()",
       "_callable": true,
@@ -3223,18 +3151,6 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_home_product_card_productcard",
-      "label": "ProductCard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "productcard()",
-      "source_file": "src/components/home/product-card.tsx",
-      "source_location": "L77"
-    },
-    {
       "id": "src_components_productreporterrordialog_productreporterrordialog",
       "label": "ProductReportErrorDialog()",
       "_callable": true,
@@ -3269,18 +3185,6 @@
       "norm_label": "validateemail()",
       "source_file": "src/components/ProductReportErrorDialog.tsx",
       "source_location": "L14"
-    },
-    {
-      "id": "src_components_ui_skeleton_skeleton",
-      "label": "Skeleton()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "skeleton()",
-      "source_file": "src/components/ui/skeleton.tsx",
-      "source_location": "L3"
     },
     {
       "id": "src_lib_additive_highlighting_isphrasefoundintext",
@@ -3341,54 +3245,6 @@
       "norm_label": "productdetailsqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
       "source_location": "L61"
-    },
-    {
-      "id": "src_queries_profile_queries_userexcludedingredientsqueryoptions",
-      "label": "userExcludedIngredientsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "userexcludedingredientsqueryoptions()",
-      "source_file": "src/queries/profile-queries.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_queries_profile_queries_userfavoriteproductsqueryoptions",
-      "label": "userFavoriteProductsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "userfavoriteproductsqueryoptions()",
-      "source_file": "src/queries/profile-queries.ts",
-      "source_location": "L13"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_favoritespage",
-      "label": "FavoritesPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "favoritespage()",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L40"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_getscorefilteroptions",
-      "label": "getScoreFilterOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "getscorefilteroptions()",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L18"
     },
     {
       "id": "src_routes_protected_public_products_productid_formatproductdate",
@@ -3679,42 +3535,6 @@
       "source_location": "L11"
     },
     {
-      "id": "src_integrations_tanstack_query_root_provider_getcontext",
-      "label": "getContext()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "getcontext()",
-      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_integrations_tanstack_query_root_provider_tanstackqueryprovider",
-      "label": "TanstackQueryProvider()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "tanstackqueryprovider()",
-      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
-      "source_location": "L19"
-    },
-    {
-      "id": "src_router_getrouter",
-      "label": "getRouter()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "getrouter()",
-      "source_file": "src/router.tsx",
-      "source_location": "L5"
-    },
-    {
       "id": "src_routes_root_rootdocument",
       "label": "RootDocument()",
       "_callable": true,
@@ -3857,6 +3677,294 @@
       "norm_label": "homequeryoptions()",
       "source_file": "src/queries/home-queries.ts",
       "source_location": "L4"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxchip",
+      "label": "ComboboxChip()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxchip()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L244"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxchips",
+      "label": "ComboboxChips()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxchips()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L227"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxchipsinput",
+      "label": "ComboboxChipsInput()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxchipsinput()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L275"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxclear",
+      "label": "ComboboxClear()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxclear()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxcollection",
+      "label": "ComboboxCollection()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxcollection()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L195"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxcontent",
+      "label": "ComboboxContent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxcontent()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L92"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxempty",
+      "label": "ComboboxEmpty()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxempty()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L201"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxgroup",
+      "label": "ComboboxGroup()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxgroup()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L169"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxinput",
+      "label": "ComboboxInput()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxinput()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L55"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxitem",
+      "label": "ComboboxItem()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxitem()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L142"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxlabel",
+      "label": "ComboboxLabel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxlabel()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L179"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxlist",
+      "label": "ComboboxList()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxlist()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L129"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxseparator",
+      "label": "ComboboxSeparator()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxseparator()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L214"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxtrigger",
+      "label": "ComboboxTrigger()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxtrigger()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_components_ui_combobox_comboboxvalue",
+      "label": "ComboboxValue()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "comboboxvalue()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_components_ui_combobox_usecomboboxanchor",
+      "label": "useComboboxAnchor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "usecomboboxanchor()",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L289"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroup",
+      "label": "InputGroup()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgroup()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupaddon",
+      "label": "InputGroupAddon()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgroupaddon()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L58"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupbutton",
+      "label": "InputGroupButton()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgroupbutton()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L98"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupinput",
+      "label": "InputGroupInput()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgroupinput()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L129"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgrouptext",
+      "label": "InputGroupText()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgrouptext()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L117"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgrouptextarea",
+      "label": "InputGroupTextarea()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgrouptextarea()",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L145"
+    },
+    {
+      "id": "src_integrations_tanstack_query_root_provider_getcontext",
+      "label": "getContext()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "code",
+      "norm_label": "getcontext()",
+      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_router_getrouter",
+      "label": "getRouter()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "code",
+      "norm_label": "getrouter()",
+      "source_file": "src/router.tsx",
+      "source_location": "L5"
     },
     {
       "id": "src_components_productform_productform",
@@ -5011,114 +5119,6 @@
       "source_location": "L21"
     },
     {
-      "id": "src_hooks_use_debounce_usedebounce",
-      "label": "useDebounce()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "usedebounce()",
-      "source_file": "src/hooks/use-debounce.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "src_queries_category_queries_categoriesqueryoptions",
-      "label": "categoriesQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "categoriesqueryoptions()",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_queries_category_queries_categoryqueryoptions",
-      "label": "categoryQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "categoryqueryoptions()",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L20"
-    },
-    {
-      "id": "src_queries_category_queries_unmappedtagsqueryoptions",
-      "label": "unmappedTagsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "unmappedtagsqueryoptions()",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L26"
-    },
-    {
-      "id": "src_queries_product_queries_allproductsqueryoptions",
-      "label": "allProductsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "allproductsqueryoptions()",
-      "source_file": "src/queries/product-queries.ts",
-      "source_location": "L55"
-    },
-    {
-      "id": "src_routes_protected_admin_all_categories_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/all-categories.tsx",
-      "source_location": "L74"
-    },
-    {
-      "id": "src_routes_protected_admin_all_products_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/all-products.tsx",
-      "source_location": "L86"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_mappingrowactions",
-      "label": "MappingRowActions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "mappingrowactions()",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L70"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L124"
-    },
-    {
       "id": "src_components_brand_logo_brandlogo",
       "label": "BrandLogo()",
       "_callable": true,
@@ -5220,23 +5220,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "ingredientsqueryoptions()",
       "source_file": "src/queries/ingredient-queries.ts",
       "source_location": "L4"
-    },
-    {
-      "id": "src_queries_ingredient_queries_unmappedingredientsqueryoptions",
-      "label": "unmappedIngredientsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "@tanstack/react-query",
-      "file_type": "code",
-      "norm_label": "unmappedingredientsqueryoptions()",
-      "source_file": "src/queries/ingredient-queries.ts",
-      "source_location": "L10"
     },
     {
       "id": "src_queries_product_queries_activecategoriesqueryoptions",
@@ -5244,11 +5232,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "activecategoriesqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
       "source_location": "L23"
+    },
+    {
+      "id": "src_queries_product_queries_allproductsqueryoptions",
+      "label": "allProductsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "admin/add-product.tsx",
+      "file_type": "code",
+      "norm_label": "allproductsqueryoptions()",
+      "source_file": "src/queries/product-queries.ts",
+      "source_location": "L55"
     },
     {
       "id": "src_queries_product_queries_categoriesqueryoptions",
@@ -5256,7 +5256,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "categoriesqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
@@ -5268,7 +5268,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "productqueryoptions()",
       "source_file": "src/queries/product-queries.ts",
@@ -5280,7 +5280,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "infinitesearchqueryoptions()",
       "source_file": "src/queries/search-queries.ts",
@@ -5292,7 +5292,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "searchcategorysectionsqueryoptions()",
       "source_file": "src/queries/search-queries.ts",
@@ -5304,7 +5304,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "storeexclusiveproductsqueryoptions()",
       "source_file": "src/queries/store-queries.ts",
@@ -5316,7 +5316,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "storesqueryoptions()",
       "source_file": "src/queries/store-queries.ts",
@@ -5328,7 +5328,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "routecomponent()",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
@@ -5340,11 +5340,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "routecomponent()",
       "source_file": "src/routes/_protected/admin/all-ingredients.tsx",
       "source_location": "L35"
+    },
+    {
+      "id": "src_routes_protected_admin_all_products_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "admin/add-product.tsx",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/all-products.tsx",
+      "source_location": "L86"
     },
     {
       "id": "src_routes_protected_admin_all_stores_deletestoredialog",
@@ -5352,7 +5364,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "deletestoredialog()",
       "source_file": "src/routes/_protected/admin/all-stores.tsx",
@@ -5364,7 +5376,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "routecomponent()",
       "source_file": "src/routes/_protected/admin/all-stores.tsx",
@@ -5376,23 +5388,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "mappingrowactions()",
       "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
       "source_location": "L70"
-    },
-    {
-      "id": "src_routes_protected_admin_ingredient_mappings_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "@tanstack/react-query",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
-      "source_location": "L125"
     },
     {
       "id": "src_routes_protected_public_add_product_addproductroute",
@@ -5400,7 +5400,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "addproductroute()",
       "source_file": "src/routes/_protected/_public/add-product.tsx",
@@ -5412,7 +5412,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "searchpage()",
       "source_file": "src/routes/_protected/_public/search.tsx",
@@ -5424,7 +5424,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "buildstorecategoriesdata()",
       "source_file": "src/routes/_protected/_public/stores.tsx",
@@ -5436,7 +5436,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "storespage()",
       "source_file": "src/routes/_protected/_public/stores.tsx",
@@ -5513,6 +5513,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_addstoredialog",
+      "label": "AddStoreDialog.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "addstoredialog.tsx",
+      "source_file": "src/components/AddStoreDialog.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_productform",
       "label": "ProductForm.tsx",
       "_origin": "ast",
@@ -5521,17 +5532,6 @@
       "file_type": "code",
       "norm_label": "productform.tsx",
       "source_file": "src/components/ProductForm.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_ui_combobox",
-      "label": "combobox.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "combobox.tsx",
-      "source_file": "src/components/ui/combobox.tsx",
       "source_location": "L1"
     },
     {
@@ -5544,39 +5544,6 @@
       "norm_label": "input.tsx",
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_components_ui_input_group",
-      "label": "input-group.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "input-group.tsx",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupaddonvariants",
-      "label": "inputGroupAddonVariants",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgroupaddonvariants",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L37"
-    },
-    {
-      "id": "src_components_ui_input_group_inputgroupbuttonvariants",
-      "label": "inputGroupButtonVariants",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "inputgroupbuttonvariants",
-      "source_file": "src/components/ui/input-group.tsx",
-      "source_location": "L80"
     },
     {
       "id": "src_components_ui_label",
@@ -5612,6 +5579,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_hooks_use_debounce",
+      "label": "use-debounce.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "use-debounce.ts",
+      "source_file": "src/hooks/use-debounce.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_hooks_use_image_upload_mutation",
       "label": "use-image-upload-mutation.ts",
       "_origin": "ast",
@@ -5621,6 +5599,94 @@
       "norm_label": "use-image-upload-mutation.ts",
       "source_file": "src/hooks/use-image-upload-mutation.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_integrations_tanstack_query_root_provider",
+      "label": "root-provider.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "root-provider.tsx",
+      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_queries_category_queries",
+      "label": "category-queries.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "category-queries.ts",
+      "source_file": "src/queries/category-queries.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_queries_ingredient_queries",
+      "label": "ingredient-queries.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "ingredient-queries.ts",
+      "source_file": "src/queries/ingredient-queries.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_admin_all_categories_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/all-categories.tsx",
+      "source_location": "L50"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings",
+      "label": "category-mappings.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "category-mappings.tsx",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_columnhelper",
+      "label": "columnHelper",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "columnhelper",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L68"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_features",
+      "label": "features",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "features",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L62"
+    },
+    {
+      "id": "src_routes_protected_admin_category_mappings_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
+      "source_location": "L38"
     },
     {
       "id": "src_routes_protected_admin_ingredient_mappings",
@@ -5656,6 +5722,39 @@
       "source_location": "L62"
     },
     {
+      "id": "src_routes_protected_admin_ingredient_mappings_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
+      "source_location": "L38"
+    },
+    {
+      "id": "src_routes_protected_public_add_product",
+      "label": "_public/add-product.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "_public/add-product.tsx",
+      "source_file": "src/routes/_protected/_public/add-product.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_public_add_product_searchschema",
+      "label": "searchSchema",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "searchschema",
+      "source_file": "src/routes/_protected/_public/add-product.tsx",
+      "source_location": "L10"
+    },
+    {
       "id": "src_routes_protected_public_products_productid_add_store",
       "label": "$productId_.add-store.tsx",
       "_origin": "ast",
@@ -5667,26 +5766,48 @@
       "source_location": "L1"
     },
     {
-      "id": "ref_base_ui_react",
-      "label": "@base-ui/react",
+      "id": "src_server_category_functions_getcategories",
+      "label": "getCategories",
       "_origin": "ast",
       "community": 0,
       "community_name": "react",
-      "file_type": "concept",
-      "norm_label": "@base-ui/react",
-      "source_file": "package.json",
-      "source_location": "L28"
+      "file_type": "code",
+      "norm_label": "getcategories",
+      "source_file": "src/server/category-functions.ts",
+      "source_location": "L22"
     },
     {
-      "id": "ref_cn",
-      "label": "cn",
+      "id": "src_server_category_functions_getcategory",
+      "label": "getCategory",
       "_origin": "ast",
       "community": 0,
       "community_name": "react",
-      "file_type": "concept",
-      "norm_label": "cn",
-      "source_file": "package.json",
-      "source_location": "L48"
+      "file_type": "code",
+      "norm_label": "getcategory",
+      "source_file": "src/server/category-functions.ts",
+      "source_location": "L91"
+    },
+    {
+      "id": "src_server_category_functions_getunmappedtags",
+      "label": "getUnmappedTags",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "getunmappedtags",
+      "source_file": "src/server/category-functions.ts",
+      "source_location": "L136"
+    },
+    {
+      "id": "src_server_ingredient_functions_getunmappedingredients",
+      "label": "getUnmappedIngredients",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "getunmappedingredients",
+      "source_file": "src/server/ingredient-functions.ts",
+      "source_location": "L118"
     },
     {
       "id": "ref_react",
@@ -5709,6 +5830,17 @@
       "norm_label": "sonner",
       "source_file": "package.json",
       "source_location": "L59"
+    },
+    {
+      "id": "ref_tanstack_react_query",
+      "label": "@tanstack/react-query",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "react",
+      "file_type": "concept",
+      "norm_label": "@tanstack/react-query",
+      "source_file": "package.json",
+      "source_location": "L33"
     },
     {
       "id": "ref_tanstack_react_start",
@@ -5752,17 +5884,6 @@
       "file_type": "code",
       "norm_label": "auth-shell.tsx",
       "source_file": "src/components/auth/auth-shell.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_auth_client",
-      "label": "auth-client.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "auth-fields.tsx",
-      "file_type": "code",
-      "norm_label": "auth-client.ts",
-      "source_file": "src/lib/auth-client.ts",
       "source_location": "L1"
     },
     {
@@ -26197,6 +26318,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_search_search_bar",
+      "label": "search-bar.tsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "stores.tsx",
+      "file_type": "code",
+      "norm_label": "search-bar.tsx",
+      "source_file": "src/components/search/search-bar.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_stores_store_sidebar",
       "label": "store-sidebar.tsx",
       "_origin": "ast",
@@ -26227,6 +26359,17 @@
       "file_type": "code",
       "norm_label": "collapsible.tsx",
       "source_file": "src/components/ui/collapsible.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_separator",
+      "label": "separator.tsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "stores.tsx",
+      "file_type": "code",
+      "norm_label": "separator.tsx",
+      "source_file": "src/components/ui/separator.tsx",
       "source_location": "L1"
     },
     {
@@ -26818,17 +26961,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_search_search_bar",
-      "label": "search-bar.tsx",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "code",
-      "norm_label": "search-bar.tsx",
-      "source_file": "src/components/search/search-bar.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_stores_store_avatar",
       "label": "store-avatar.tsx",
       "_origin": "ast",
@@ -26917,14 +27049,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_ui_separator",
-      "label": "separator.tsx",
+      "id": "src_components_ui_skeleton",
+      "label": "skeleton.tsx",
       "_origin": "ast",
       "community": 204,
       "community_name": "cn",
       "file_type": "code",
-      "norm_label": "separator.tsx",
-      "source_file": "src/components/ui/separator.tsx",
+      "norm_label": "skeleton.tsx",
+      "source_file": "src/components/ui/skeleton.tsx",
       "source_location": "L1"
     },
     {
@@ -26961,6 +27093,50 @@
       "source_location": "L1"
     },
     {
+      "id": "src_queries_profile_queries",
+      "label": "profile-queries.ts",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "profile-queries.ts",
+      "source_file": "src/queries/profile-queries.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_public_favorites",
+      "label": "favorites.tsx",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "favorites.tsx",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_routes_protected_public_favorites_skeleton_keys",
+      "label": "SKELETON_KEYS",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "skeleton_keys",
+      "source_file": "src/routes/_protected/_public/favorites.tsx",
+      "source_location": "L27"
+    },
+    {
       "id": "src_routes_protected_public_index",
       "label": "index.tsx",
       "_origin": "ast",
@@ -26983,6 +27159,28 @@
       "source_location": "L1"
     },
     {
+      "id": "src_server_profile_functions_getuserexcludedingredients",
+      "label": "getUserExcludedIngredients",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "getuserexcludedingredients",
+      "source_file": "src/server/profile-functions.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "src_server_profile_functions_getuserfavoriteproducts",
+      "label": "getUserFavoriteProducts",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "cn",
+      "file_type": "code",
+      "norm_label": "getuserfavoriteproducts",
+      "source_file": "src/server/profile-functions.ts",
+      "source_location": "L70"
+    },
+    {
       "id": "ref_radix_ui",
       "label": "radix-ui",
       "_origin": "ast",
@@ -26992,17 +27190,6 @@
       "norm_label": "radix-ui",
       "source_file": "package.json",
       "source_location": "L55"
-    },
-    {
-      "id": "ref_tanstack_react_router",
-      "label": "@tanstack/react-router",
-      "_origin": "ast",
-      "community": 204,
-      "community_name": "cn",
-      "file_type": "concept",
-      "norm_label": "@tanstack/react-router",
-      "source_file": "package.json",
-      "source_location": "L35"
     },
     {
       "id": "drizzle_0010_many_orphan",
@@ -38389,17 +38576,6 @@
       "source_location": "L176"
     },
     {
-      "id": "src_components_addstoredialog",
-      "label": "AddStoreDialog.tsx",
-      "_origin": "ast",
-      "community": 27,
-      "community_name": "lucide-react",
-      "file_type": "code",
-      "norm_label": "addstoredialog.tsx",
-      "source_file": "src/components/AddStoreDialog.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_landing_landing_info_dialog",
       "label": "landing-info-dialog.tsx",
       "_origin": "ast",
@@ -39137,61 +39313,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_ui_skeleton",
-      "label": "skeleton.tsx",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "skeleton.tsx",
-      "source_file": "src/components/ui/skeleton.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_queries_profile_queries",
-      "label": "profile-queries.ts",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "profile-queries.ts",
-      "source_file": "src/queries/profile-queries.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_public_favorites",
-      "label": "favorites.tsx",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "favorites.tsx",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L12"
-    },
-    {
-      "id": "src_routes_protected_public_favorites_skeleton_keys",
-      "label": "SKELETON_KEYS",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "skeleton_keys",
-      "source_file": "src/routes/_protected/_public/favorites.tsx",
-      "source_location": "L27"
-    },
-    {
       "id": "src_routes_protected_public_products_productid",
       "label": "$productId.tsx",
       "_origin": "ast",
@@ -39245,28 +39366,6 @@
       "norm_label": "getproductdetailsbyid",
       "source_file": "src/server/product-functions.ts",
       "source_location": "L350"
-    },
-    {
-      "id": "src_server_profile_functions_getuserexcludedingredients",
-      "label": "getUserExcludedIngredients",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "getuserexcludedingredients",
-      "source_file": "src/server/profile-functions.ts",
-      "source_location": "L13"
-    },
-    {
-      "id": "src_server_profile_functions_getuserfavoriteproducts",
-      "label": "getUserFavoriteProducts",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "$productId.tsx",
-      "file_type": "code",
-      "norm_label": "getuserfavoriteproducts",
-      "source_file": "src/server/profile-functions.ts",
-      "source_location": "L70"
     },
     {
       "id": "agents_skills_modern_web_guidance_guides_accessibility_accessibility_7_forms_and_input_controls",
@@ -40565,39 +40664,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_integrations_tanstack_query_root_provider",
-      "label": "root-provider.tsx",
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "root-provider.tsx",
-      "source_file": "src/integrations/tanstack-query/root-provider.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_router",
-      "label": "router.tsx",
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "router.tsx",
-      "source_file": "src/router.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_router_tanstack_react_router",
-      "label": "@tanstack/react-router",
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "@tanstack/react-router",
-      "source_file": "src/router.tsx",
-      "source_location": "L22"
-    },
-    {
       "id": "src_routes_root",
       "label": "__root.tsx",
       "_origin": "ast",
@@ -40607,17 +40673,6 @@
       "norm_label": "__root.tsx",
       "source_file": "src/routes/__root.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_routetree_gen_routetree",
-      "label": "routeTree",
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "code",
-      "norm_label": "routetree",
-      "source_file": "src/routeTree.gen.ts",
-      "source_location": "L637"
     },
     {
       "id": "ref_next_themes",
@@ -40662,17 +40717,6 @@
       "norm_label": "@tanstack/react-router-devtools",
       "source_file": "package.json",
       "source_location": "L36"
-    },
-    {
-      "id": "ref_tanstack_react_router_ssr_query",
-      "label": "@tanstack/react-router-ssr-query",
-      "_origin": "ast",
-      "community": 299,
-      "community_name": "__root.tsx",
-      "file_type": "concept",
-      "norm_label": "@tanstack/react-router-ssr-query",
-      "source_file": "package.json",
-      "source_location": "L37"
     },
     {
       "id": "package_dependencies",
@@ -41346,6 +41390,17 @@
       "source_location": "L3"
     },
     {
+      "id": "src_lib_auth_client",
+      "label": "auth-client.ts",
+      "_origin": "ast",
+      "community": 301,
+      "community_name": "zod",
+      "file_type": "code",
+      "norm_label": "auth-client.ts",
+      "source_file": "src/lib/auth-client.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "ref_zod",
       "label": "zod",
       "_origin": "ast",
@@ -41410,6 +41465,116 @@
       "norm_label": "gethomedata",
       "source_file": "src/server/home-functions.ts",
       "source_location": "L13"
+    },
+    {
+      "id": "src_components_ui_combobox",
+      "label": "combobox.tsx",
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "combobox.tsx",
+      "source_file": "src/components/ui/combobox.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_input_group",
+      "label": "input-group.tsx",
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "input-group.tsx",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupaddonvariants",
+      "label": "inputGroupAddonVariants",
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgroupaddonvariants",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_components_ui_input_group_inputgroupbuttonvariants",
+      "label": "inputGroupButtonVariants",
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "code",
+      "norm_label": "inputgroupbuttonvariants",
+      "source_file": "src/components/ui/input-group.tsx",
+      "source_location": "L80"
+    },
+    {
+      "id": "ref_base_ui_react",
+      "label": "@base-ui/react",
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "concept",
+      "norm_label": "@base-ui/react",
+      "source_file": "package.json",
+      "source_location": "L28"
+    },
+    {
+      "id": "ref_cn",
+      "label": "cn",
+      "_origin": "ast",
+      "community": 304,
+      "community_name": "combobox.tsx",
+      "file_type": "concept",
+      "norm_label": "cn",
+      "source_file": "package.json",
+      "source_location": "L48"
+    },
+    {
+      "id": "src_router",
+      "label": "router.tsx",
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "code",
+      "norm_label": "router.tsx",
+      "source_file": "src/router.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_router_tanstack_react_router",
+      "label": "@tanstack/react-router",
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "code",
+      "norm_label": "@tanstack/react-router",
+      "source_file": "src/router.tsx",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_routetree_gen_routetree",
+      "label": "routeTree",
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "code",
+      "norm_label": "routetree",
+      "source_file": "src/routeTree.gen.ts",
+      "source_location": "L637"
+    },
+    {
+      "id": "ref_tanstack_react_router_ssr_query",
+      "label": "@tanstack/react-router-ssr-query",
+      "_origin": "ast",
+      "community": 305,
+      "community_name": "router.tsx",
+      "file_type": "concept",
+      "norm_label": "@tanstack/react-router-ssr-query",
+      "source_file": "package.json",
+      "source_location": "L37"
     },
     {
       "id": "src_lib_additive_highlighting",
@@ -42155,6 +42320,17 @@
       "norm_label": "_protected/route.tsx",
       "source_file": "src/routes/_protected/route.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_routes_protected_route_route",
+      "label": "Route",
+      "_origin": "ast",
+      "community": 37,
+      "community_name": "language-switcher.tsx",
+      "file_type": "code",
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/route.tsx",
+      "source_location": "L8"
     },
     {
       "id": "src_server_locale_functions_updatepreferredlocale",
@@ -46365,28 +46541,6 @@
       "source_location": "L7"
     },
     {
-      "id": "src_hooks_use_debounce",
-      "label": "use-debounce.ts",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "use-debounce.ts",
-      "source_file": "src/hooks/use-debounce.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_queries_category_queries",
-      "label": "category-queries.ts",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "category-queries.ts",
-      "source_file": "src/queries/category-queries.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_routes_protected_admin_all_categories",
       "label": "all-categories.tsx",
       "_origin": "ast",
@@ -46418,17 +46572,6 @@
       "norm_label": "features",
       "source_file": "src/routes/_protected/admin/all-categories.tsx",
       "source_location": "L66"
-    },
-    {
-      "id": "src_routes_protected_admin_all_categories_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/all-categories.tsx",
-      "source_location": "L50"
     },
     {
       "id": "src_routes_protected_admin_all_ingredients",
@@ -46475,61 +46618,6 @@
       "source_location": "L78"
     },
     {
-      "id": "src_routes_protected_admin_all_products_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/all-products.tsx",
-      "source_location": "L55"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings",
-      "label": "category-mappings.tsx",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "category-mappings.tsx",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_columnhelper",
-      "label": "columnHelper",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "columnhelper",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L68"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_features",
-      "label": "features",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "features",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L62"
-    },
-    {
-      "id": "src_routes_protected_admin_category_mappings_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/category-mappings.tsx",
-      "source_location": "L38"
-    },
-    {
       "id": "src_routes_protected_admin_store_submissions",
       "label": "store-submissions.tsx",
       "_origin": "ast",
@@ -46541,48 +46629,15 @@
       "source_location": "L1"
     },
     {
-      "id": "src_server_category_functions_getcategories",
-      "label": "getCategories",
+      "id": "ref_tanstack_react_router",
+      "label": "@tanstack/react-router",
       "_origin": "ast",
       "community": 64,
       "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "getcategories",
-      "source_file": "src/server/category-functions.ts",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_server_category_functions_getcategory",
-      "label": "getCategory",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "getcategory",
-      "source_file": "src/server/category-functions.ts",
-      "source_location": "L91"
-    },
-    {
-      "id": "src_server_category_functions_getunmappedtags",
-      "label": "getUnmappedTags",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "getunmappedtags",
-      "source_file": "src/server/category-functions.ts",
-      "source_location": "L136"
-    },
-    {
-      "id": "src_server_product_functions_getallproducts",
-      "label": "getAllProducts",
-      "_origin": "ast",
-      "community": 64,
-      "community_name": "store-submissions.tsx",
-      "file_type": "code",
-      "norm_label": "getallproducts",
-      "source_file": "src/server/product-functions.ts",
-      "source_location": "L123"
+      "file_type": "concept",
+      "norm_label": "@tanstack/react-router",
+      "source_file": "package.json",
+      "source_location": "L35"
     },
     {
       "id": "ref_tanstack_react_table",
@@ -47613,17 +47668,6 @@
       "norm_label": "route",
       "source_file": "src/routes/_protected/_public/profile.tsx",
       "source_location": "L58"
-    },
-    {
-      "id": "src_routes_protected_route_route",
-      "label": "Route",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "routeTree.gen.ts",
-      "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/route.tsx",
-      "source_location": "L8"
     },
     {
       "id": "src_routes_reset_password_route",
@@ -49387,22 +49431,11 @@
       "source_location": "L72"
     },
     {
-      "id": "src_queries_ingredient_queries",
-      "label": "ingredient-queries.ts",
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "@tanstack/react-query",
-      "file_type": "code",
-      "norm_label": "ingredient-queries.ts",
-      "source_file": "src/queries/ingredient-queries.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "src_queries_product_queries",
       "label": "product-queries.ts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "product-queries.ts",
       "source_file": "src/queries/product-queries.ts",
@@ -49413,7 +49446,7 @@
       "label": "store-queries.ts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "store-queries.ts",
       "source_file": "src/queries/store-queries.ts",
@@ -49424,7 +49457,7 @@
       "label": "admin/add-product.tsx",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "admin/add-product.tsx",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
@@ -49435,7 +49468,7 @@
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
@@ -49446,51 +49479,29 @@
       "label": "searchSchema",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "searchschema",
       "source_file": "src/routes/_protected/admin/add-product.tsx",
       "source_location": "L17"
     },
     {
-      "id": "src_routes_protected_admin_ingredient_mappings_route",
+      "id": "src_routes_protected_admin_all_products_route",
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/ingredient-mappings.tsx",
-      "source_location": "L38"
-    },
-    {
-      "id": "src_routes_protected_public_add_product",
-      "label": "_public/add-product.tsx",
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "@tanstack/react-query",
-      "file_type": "code",
-      "norm_label": "_public/add-product.tsx",
-      "source_file": "src/routes/_protected/_public/add-product.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_routes_protected_public_add_product_searchschema",
-      "label": "searchSchema",
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "@tanstack/react-query",
-      "file_type": "code",
-      "norm_label": "searchschema",
-      "source_file": "src/routes/_protected/_public/add-product.tsx",
-      "source_location": "L10"
+      "source_file": "src/routes/_protected/admin/all-products.tsx",
+      "source_location": "L55"
     },
     {
       "id": "src_routes_protected_public_search_route",
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/_protected/_public/search.tsx",
@@ -49501,7 +49512,7 @@
       "label": "Route",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "route",
       "source_file": "src/routes/_protected/_public/stores.tsx",
@@ -49512,7 +49523,7 @@
       "label": "getActiveCategories",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "getactivecategories",
       "source_file": "src/server/category-functions.ts",
@@ -49523,29 +49534,29 @@
       "label": "getIngredients",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "getingredients",
       "source_file": "src/server/ingredient-functions.ts",
       "source_location": "L20"
     },
     {
-      "id": "src_server_ingredient_functions_getunmappedingredients",
-      "label": "getUnmappedIngredients",
+      "id": "src_server_product_functions_getallproducts",
+      "label": "getAllProducts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
-      "norm_label": "getunmappedingredients",
-      "source_file": "src/server/ingredient-functions.ts",
-      "source_location": "L118"
+      "norm_label": "getallproducts",
+      "source_file": "src/server/product-functions.ts",
+      "source_location": "L123"
     },
     {
       "id": "src_server_product_functions_getcategories",
       "label": "getCategories",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "getcategories",
       "source_file": "src/server/product-functions.ts",
@@ -49556,7 +49567,7 @@
       "label": "getProductById",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "getproductbyid",
       "source_file": "src/server/product-functions.ts",
@@ -49567,7 +49578,7 @@
       "label": "getStoreExclusiveProducts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "getstoreexclusiveproducts",
       "source_file": "src/server/store-functions.ts",
@@ -49578,7 +49589,7 @@
       "label": "getStores",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "code",
       "norm_label": "getstores",
       "source_file": "src/server/store-functions.ts",
@@ -49589,22 +49600,11 @@
       "label": "react-zoom-pan-pinch",
       "_origin": "ast",
       "community": 77,
-      "community_name": "@tanstack/react-query",
+      "community_name": "admin/add-product.tsx",
       "file_type": "concept",
       "norm_label": "react-zoom-pan-pinch",
       "source_file": "package.json",
       "source_location": "L58"
-    },
-    {
-      "id": "ref_tanstack_react_query",
-      "label": "@tanstack/react-query",
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "@tanstack/react-query",
-      "file_type": "concept",
-      "norm_label": "@tanstack/react-query",
-      "source_file": "package.json",
-      "source_location": "L33"
     },
     {
       "id": "docs_adr_0001_i18n_paraglide_cookie_locale",
@@ -54421,30 +54421,6 @@
       "type": "external"
     },
     {
-      "id": "ref_better_auth_client_plugins",
-      "label": "ref_better_auth_client_plugins",
-      "_origin": "semantic",
-      "community": 1,
-      "community_name": "auth-fields.tsx",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_better_auth_client_plugins",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "ref_better_auth_react",
-      "label": "ref_better_auth_react",
-      "_origin": "semantic",
-      "community": 1,
-      "community_name": "auth-fields.tsx",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "ref_better_auth_react",
-      "source_file": "",
-      "type": "external"
-    },
-    {
       "id": "ref_drizzle_orm_pg_core",
       "label": "ref_drizzle_orm_pg_core",
       "_origin": "semantic",
@@ -54513,6 +54489,42 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_styles_css_url",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "src_paraglide_runtime",
+      "label": "src_paraglide_runtime",
+      "_origin": "semantic",
+      "community": 299,
+      "community_name": "__root.tsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_paraglide_runtime",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_better_auth_client_plugins",
+      "label": "ref_better_auth_client_plugins",
+      "_origin": "semantic",
+      "community": 301,
+      "community_name": "zod",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_better_auth_client_plugins",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "ref_better_auth_react",
+      "label": "ref_better_auth_react",
+      "_origin": "semantic",
+      "community": 301,
+      "community_name": "zod",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "ref_better_auth_react",
       "source_file": "",
       "type": "external"
     },
@@ -54657,18 +54669,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "src_assets_pickitwell_icons_09_alimente_copii",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "src_paraglide_runtime",
-      "label": "src_paraglide_runtime",
-      "_origin": "semantic",
-      "community": 37,
-      "community_name": "language-switcher.tsx",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "src_paraglide_runtime",
       "source_file": "",
       "type": "external"
     },
@@ -58619,7 +58619,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/routes/_protected/_public/profile.tsx",
-      "source_location": "L947",
+      "source_location": "L954",
       "weight": 1.0
     },
     {
@@ -69960,18 +69960,6 @@
       "context": "import",
       "source_file": "src/routes/__root.tsx",
       "source_location": "L13",
-      "weight": 1.0
-    },
-    {
-      "source": "src_routes_root",
-      "target": "src_integrations_tanstack_query_root_provider_tanstackqueryprovider",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/routes/__root.tsx",
-      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -129033,5 +129021,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d480ad4100201ed6dc116ecee7500453ecbe3ee3"
+  "built_at_commit": "cc72d271c56ee912a0f8c2bc6c39cc93ce25ab9c"
 }

@@ -76,7 +76,7 @@
   "74": "settings.json",
   "75": "Agentic JavaScript Tools",
   "76": "Guidelines",
-  "77": "@tanstack/react-query",
+  "77": "admin/add-product.tsx",
   "78": "0001. Bilingual i18n with Paraglide JS and Cookie-Only Locale Routing",
   "79": "Implementation with `<dialog>`",
   "80": "How to implement",
@@ -302,5 +302,7 @@
   "300": "why-section.tsx",
   "301": "zod",
   "302": "_public/route.tsx",
-  "303": "home-queries.ts"
+  "303": "home-queries.ts",
+  "304": "combobox.tsx",
+  "305": "router.tsx"
 }

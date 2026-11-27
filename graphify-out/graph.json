@@ -3568,7 +3568,7 @@
       "file_type": "code",
       "norm_label": "legalsection()",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L350"
+      "source_location": "L351"
     },
     {
       "id": "src_components_landing_landing_legal_layout_toclinkslist",
@@ -3580,7 +3580,7 @@
       "file_type": "code",
       "norm_label": "toclinkslist()",
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L327"
+      "source_location": "L328"
     },
     {
       "id": "src_routes_disclaimer_disclaimerpage",
@@ -55187,7 +55187,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L22",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -55199,7 +55199,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L23",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -55211,7 +55211,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L24",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -55223,7 +55223,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/landing-footer.tsx",
-      "source_location": "L25",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -121131,7 +121131,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L327",
+      "source_location": "L328",
       "weight": 1.0
     },
     {
@@ -121142,7 +121142,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/landing/landing-legal-layout.tsx",
-      "source_location": "L350",
+      "source_location": "L351",
       "weight": 1.0
     },
     {
@@ -129033,5 +129033,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d480ad4100201ed6dc116ecee7500453ecbe3ee3"
+  "built_at_commit": "cc72d271c56ee912a0f8c2bc6c39cc93ce25ab9c"
 }

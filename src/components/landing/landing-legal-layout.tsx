@@ -309,6 +309,7 @@ export function LandingLegalLayout({
 			</main>
 
 			<LandingFooter
+				isSignedIn={isSignedIn}
 				isLandingPage={false}
 				from={from}
 				onOpenInfoModal={(selected) => onSelectModalTopic(selected)}

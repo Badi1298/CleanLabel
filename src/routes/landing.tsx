@@ -90,7 +90,7 @@ function LandingPage() {
 				<FinalCtaSection isSignedIn={isSignedIn} />
 			</main>
 
-			<LandingFooter onOpenInfoModal={setModalTopic} />
+			<LandingFooter isSignedIn={isSignedIn} onOpenInfoModal={setModalTopic} />
 
 			<LandingInfoDialog
 				topic={modalTopic}

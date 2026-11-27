@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/profile.tsx": {
-    "mtime": 1795778198.1789837,
-    "seen": 1795778221.0582552,
-    "ast_hash": "fcb251a1b74525ca6501c56d60f5abec",
+    "mtime": 1795778231.8834372,
+    "seen": 1795778263.194089,
+    "ast_hash": "75f39fcb1ec2a0a9568bd67f559705ff",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "src/components/landing/hero-section.tsx": {
-    "mtime": 1795778196.5303104,
-    "seen": 1795778221.058204,
-    "ast_hash": "78732d1790e1131bd3314e8f9ed7fd0c",
+    "mtime": 1795778231.8800519,
+    "seen": 1795778263.194036,
+    "ast_hash": "89f9a4fbd446dc1254662fcc040fad48",
     "semantic_hash": ""
   },
   "src/components/landing/how-it-works-section.tsx": {
