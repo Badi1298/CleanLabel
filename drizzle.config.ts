@@ -1,7 +1,11 @@
+import { existsSync } from 'node:fs'
 import { config } from 'dotenv'
 import { defineConfig } from 'drizzle-kit'
 
-config({ path: ['.env.local', '.env'] })
+config({ path: '.env', quiet: true })
+if (existsSync('.env.local')) {
+  config({ path: '.env.local', override: true })
+}
 
 export default defineConfig({
   out: './drizzle',

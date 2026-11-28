@@ -25,6 +25,7 @@ import { Route as ProtectedPublicFavoritesRouteImport } from './routes/_protecte
 import { Route as ProtectedPublicProfileRouteImport } from './routes/_protected/_public/profile'
 import { Route as ProtectedPublicSearchRouteImport } from './routes/_protected/_public/search'
 import { Route as ProtectedPublicStoresRouteImport } from './routes/_protected/_public/stores'
+import { Route as ProtectedAdminIndexRouteImport } from './routes/_protected/admin/index'
 import { Route as ProtectedAdminAddProductRouteImport } from './routes/_protected/admin/add-product'
 import { Route as ProtectedAdminAllCategoriesRouteImport } from './routes/_protected/admin/all-categories'
 import { Route as ProtectedAdminAllIngredientsRouteImport } from './routes/_protected/admin/all-ingredients'
@@ -117,6 +118,11 @@ const ProtectedPublicStoresRoute = ProtectedPublicStoresRouteImport.update({
   path: '/stores',
   getParentRoute: () => ProtectedPublicRouteRoute,
 } as any)
+const ProtectedAdminIndexRoute = ProtectedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProtectedAdminRouteRoute,
+} as any)
 const ProtectedAdminAddProductRoute =
   ProtectedAdminAddProductRouteImport.update({
     id: '/add-product',
@@ -206,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
   '/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/': typeof ProtectedAdminIndexRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/products/$productId/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
 }
@@ -218,7 +225,6 @@ export interface FileRoutesByTo {
   '/metodologie': typeof MetodologieRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/add-product': typeof ProtectedPublicAddProductRoute
   '/favorites': typeof ProtectedPublicFavoritesRoute
   '/profile': typeof ProtectedPublicProfileRoute
@@ -233,6 +239,7 @@ export interface FileRoutesByTo {
   '/admin/ingredient-mappings': typeof ProtectedAdminIngredientMappingsRoute
   '/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin': typeof ProtectedAdminIndexRoute
   '/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/products/$productId/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
 }
@@ -263,6 +270,7 @@ export interface FileRoutesById {
   '/_protected/admin/store-submissions': typeof ProtectedAdminStoreSubmissionsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_protected/_public/': typeof ProtectedPublicIndexRoute
+  '/_protected/admin/': typeof ProtectedAdminIndexRoute
   '/_protected/_public/products/$productId': typeof ProtectedPublicProductsProductIdRoute
   '/_protected/_public/products/$productId_/add-store': typeof ProtectedPublicProductsProductIdAddStoreRoute
 }
@@ -292,6 +300,7 @@ export interface FileRouteTypes {
     | '/admin/ingredient-mappings'
     | '/admin/store-submissions'
     | '/api/auth/$'
+    | '/admin/'
     | '/products/$productId'
     | '/products/$productId/add-store'
   fileRoutesByTo: FileRoutesByTo
@@ -304,7 +313,6 @@ export interface FileRouteTypes {
     | '/metodologie'
     | '/reset-password'
     | '/signup'
-    | '/admin'
     | '/add-product'
     | '/favorites'
     | '/profile'
@@ -319,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/ingredient-mappings'
     | '/admin/store-submissions'
     | '/api/auth/$'
+    | '/admin'
     | '/products/$productId'
     | '/products/$productId/add-store'
   id:
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/_protected/admin/store-submissions'
     | '/api/auth/$'
     | '/_protected/_public/'
+    | '/_protected/admin/'
     | '/_protected/_public/products/$productId'
     | '/_protected/_public/products/$productId_/add-store'
   fileRoutesById: FileRoutesById
@@ -478,6 +488,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedPublicStoresRouteImport
       parentRoute: typeof ProtectedPublicRouteRoute
     }
+    '/_protected/admin/': {
+      id: '/_protected/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof ProtectedAdminIndexRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
     '/_protected/admin/add-product': {
       id: '/_protected/admin/add-product'
       path: '/add-product'
@@ -593,6 +610,7 @@ interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminCategoryMappingsRoute: typeof ProtectedAdminCategoryMappingsRoute
   ProtectedAdminIngredientMappingsRoute: typeof ProtectedAdminIngredientMappingsRoute
   ProtectedAdminStoreSubmissionsRoute: typeof ProtectedAdminStoreSubmissionsRoute
+  ProtectedAdminIndexRoute: typeof ProtectedAdminIndexRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
@@ -604,6 +622,7 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminCategoryMappingsRoute: ProtectedAdminCategoryMappingsRoute,
   ProtectedAdminIngredientMappingsRoute: ProtectedAdminIngredientMappingsRoute,
   ProtectedAdminStoreSubmissionsRoute: ProtectedAdminStoreSubmissionsRoute,
+  ProtectedAdminIndexRoute: ProtectedAdminIndexRoute,
 }
 
 const ProtectedAdminRouteRouteWithChildren =

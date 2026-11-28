@@ -6,6 +6,7 @@ import {
 	useLocation,
 } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { pendingStoreSubmissionsCountQueryOptions } from "#/queries/store-submission-queries";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
 	Breadcrumb,
@@ -20,7 +21,6 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { pendingStoreSubmissionsCountQueryOptions } from "#/queries/store-submission-queries";
 
 export const Route = createFileRoute("/_protected/admin")({
 	beforeLoad: ({ context }) => {
@@ -47,6 +47,17 @@ function RouteComponent() {
 
 	const sidebarData = useMemo(
 		() => [
+			{
+				title: "Overview",
+				items: [
+					{
+						title: "Dashboard",
+						url: "/admin",
+						isActive:
+							location.pathname === "/admin" || location.pathname === "/admin/",
+					},
+				],
+			},
 			{
 				title: "Products",
 				items: [
@@ -114,7 +125,7 @@ function RouteComponent() {
 				],
 			},
 		],
-		[location.pathname],
+		[location.pathname, pendingCount],
 	);
 
 	const { breadcrumbGroup, breadcrumbPage } = useMemo(() => {
@@ -132,7 +143,7 @@ function RouteComponent() {
 	return (
 		<SidebarProvider>
 			<AppSidebar sidebarData={sidebarData} />
-			<SidebarInset>
+			<SidebarInset lang="en">
 				<header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
 					<SidebarTrigger className="-ml-1" />
 					<Separator

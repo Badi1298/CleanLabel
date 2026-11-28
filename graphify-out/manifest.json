@@ -24,9 +24,9 @@
     "semantic_hash": ""
   },
   "drizzle.config.ts": {
-    "mtime": 1787748404.3065295,
-    "seen": 1790925917.0617778,
-    "ast_hash": "4b1c8621ebb6359584e679b158f73ab5",
+    "mtime": 1795867033.2417903,
+    "seen": 1795867065.0425339,
+    "ast_hash": "2b9ea443dbab0e060c56ba62687b6e16",
     "semantic_hash": ""
   },
   "drizzle/meta/0000_snapshot.json": {
@@ -36,15 +36,15 @@
     "semantic_hash": ""
   },
   "drizzle/meta/_journal.json": {
-    "mtime": 1795773435.8800395,
-    "seen": 1795776010.9220648,
-    "ast_hash": "db4b3c2c6ad48ace83ae3a40da7cab11",
+    "mtime": 1795864762.9730606,
+    "seen": 1795865512.9337978,
+    "ast_hash": "b07ffa4f8dd0c8456c3b5117c5805d0b",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1795773435.9105968,
-    "seen": 1795776010.9220679,
-    "ast_hash": "39da9d5b7091c7a5e5f88475cdb7641f",
+    "mtime": 1795864874.4146967,
+    "seen": 1795865512.9338,
+    "ast_hash": "1e16b8db4cb4795f099470b2aaac847b",
     "semantic_hash": ""
   },
   "public/registerSW.js": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "src/db/app-schema.ts": {
-    "mtime": 1795425753.8612025,
-    "seen": 1795603622.037452,
-    "ast_hash": "d57982db1bef37c22c22eb6150fc57e8",
+    "mtime": 1795864741.7174804,
+    "seen": 1795865512.933846,
+    "ast_hash": "1480a71043d5a4d5e1e3df7933901737",
     "semantic_hash": ""
   },
   "src/db/auth-schema.ts": {
@@ -330,9 +330,9 @@
     "semantic_hash": ""
   },
   "src/routeTree.gen.ts": {
-    "mtime": 1795775936.6677434,
-    "seen": 1795776010.922135,
-    "ast_hash": "fc369636656563da432fe3775094ddae",
+    "mtime": 1795865491.6316552,
+    "seen": 1795865512.933862,
+    "ast_hash": "3598ebf4a8b97239b11b4dd2236e34d3",
     "semantic_hash": ""
   },
   "src/router.tsx": {
@@ -396,15 +396,15 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/admin/route.tsx": {
-    "mtime": 1794831181.383518,
-    "seen": 1794831233.1595972,
-    "ast_hash": "691949304f99ff7e4224e143b69ecf95",
+    "mtime": 1795865460.0563338,
+    "seen": 1795865512.933874,
+    "ast_hash": "2bef36f1917c6906be17fb54490fcfb6",
     "semantic_hash": ""
   },
   "src/routes/_protected/route.tsx": {
-    "mtime": 1795773435.93579,
-    "seen": 1795776010.9221492,
-    "ast_hash": "6d5a55c6918d094346c35f68281bff11",
+    "mtime": 1795864765.5241206,
+    "seen": 1795865512.933876,
+    "ast_hash": "6817e6f5ed8d410148ca24ef9d8ecd5f",
     "semantic_hash": ""
   },
   "src/routes/api/auth/$.ts": {
@@ -2574,9 +2574,9 @@
     "semantic_hash": ""
   },
   "GLOSSARY.md": {
-    "mtime": 1795773435.8779786,
-    "seen": 1795776010.9223318,
-    "ast_hash": "be3da3e0427c902aaa4fd2af3213116f",
+    "mtime": 1795864727.1468556,
+    "seen": 1795865512.93404,
+    "ast_hash": "83096de19ab8e674f2c97356aec928fe",
     "semantic_hash": ""
   },
   "docs/adr/0001-i18n-paraglide-cookie-locale.md": {
@@ -2592,9 +2592,9 @@
     "semantic_hash": ""
   },
   "src/lib/pwa-install.tsx": {
-    "mtime": 1795778194.9416118,
-    "seen": 1795778221.058244,
-    "ast_hash": "af2c08cb0d5de75faa312aa0a28fc50d",
+    "mtime": 1795864742.8664362,
+    "seen": 1795865512.933856,
+    "ast_hash": "c93967c51946bc55f553f6abd94fc8ea",
     "semantic_hash": ""
   },
   "docs/adr/0002-pwa-install-and-standalone-routing.md": {
@@ -2643,6 +2643,54 @@
     "mtime": 1795788706.9065366,
     "seen": 1795790924.874933,
     "ast_hash": "5396c3c7b7255911222d2a106033c32a",
+    "semantic_hash": ""
+  },
+  "drizzle/0011_loud_roxanne_simpson.sql": {
+    "mtime": 1795864762.9732935,
+    "seen": 1795865512.93379,
+    "ast_hash": "0c507ca6d8d92daaa8e2212aae7d7b20",
+    "semantic_hash": ""
+  },
+  "drizzle/meta/0011_snapshot.json": {
+    "mtime": 1795864762.9728591,
+    "seen": 1795865512.9337971,
+    "ast_hash": "9ed92495403499ac0ddcbb98cb13891b",
+    "semantic_hash": ""
+  },
+  "src/components/ui/chart.tsx": {
+    "mtime": 1795865485.173197,
+    "seen": 1795865512.933832,
+    "ast_hash": "9745202fa4f6dab763553197f7e20ea4",
+    "semantic_hash": ""
+  },
+  "src/lib/analytics-client.ts": {
+    "mtime": 1795864730.3319192,
+    "seen": 1795865512.933853,
+    "ast_hash": "54197e3313e4ad287a19b5eb38182cc3",
+    "semantic_hash": ""
+  },
+  "src/queries/analytics-queries.ts": {
+    "mtime": 1795864763.916672,
+    "seen": 1795865512.933857,
+    "ast_hash": "d2dabdd919a8759ff1a0b8f40493101d",
+    "semantic_hash": ""
+  },
+  "src/routes/_protected/admin/index.tsx": {
+    "mtime": 1795865460.0585945,
+    "seen": 1795865512.933873,
+    "ast_hash": "b09cf08e548eb17633029e6e2151ba95",
+    "semantic_hash": ""
+  },
+  "src/server/analytics-functions.ts": {
+    "mtime": 1795864785.4745924,
+    "seen": 1795865512.933882,
+    "ast_hash": "19f5e2dce3b42d80ef97b3858907df33",
+    "semantic_hash": ""
+  },
+  "docs/adr/0003-first-party-founder-kpis.md": {
+    "mtime": 1795864728.0030007,
+    "seen": 1795865512.9340422,
+    "ast_hash": "135b54050bba4c139debad079023fa71",
     "semantic_hash": ""
   }
 }
