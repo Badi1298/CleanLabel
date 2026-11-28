@@ -27,3 +27,15 @@ _Avoid_: Product content, catalog text
 **Locale**:
 The user's active display language (`ro` or `en`), defaulting to Romanian (`ro`).
 _Avoid_: Region, country
+
+**Registered User**:
+A `client` account created in PickItWell, excluding internal `admin` accounts.
+_Avoid_: User (when ambiguous), visitor, account
+
+**Active User**:
+A Registered User who opens the authenticated application at least once within a given period — daily (`DAU`), rolling 7-day (`WAU`), or rolling 30-day (`MAU`) — measured on the `Europe/Bucharest` calendar day.
+_Avoid_: Visitor, session, traffic
+
+**App Install**:
+A Registered User who has installed PickItWell as a standalone Progressive Web App, counted once per user with platform classification (`ios`, `android`, or `desktop`).
+_Avoid_: Download, installation event, device install

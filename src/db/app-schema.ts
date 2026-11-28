@@ -1,6 +1,8 @@
 import { relations } from "drizzle-orm";
 import {
 	boolean,
+	date,
+	index,
 	integer,
 	jsonb,
 	pgEnum,
@@ -21,6 +23,11 @@ export const productStatusEnum = pgEnum("product_status", [
 	"pending_review",
 	"approved",
 	"rejected",
+]);
+export const appInstallPlatformEnum = pgEnum("app_install_platform", [
+	"ios",
+	"android",
+	"desktop",
 ]);
 
 export const categories = pgTable("categories", {
@@ -187,6 +194,45 @@ export const productStoreSubmissions = pgTable("product_store_submissions", {
 	}),
 });
 
+export const userDailyActivity = pgTable(
+	"user_daily_activity",
+	{
+		userId: text("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		activityDate: date("activity_date", { mode: "string" }).notNull(),
+		usedStandalone: boolean("used_standalone").default(false).notNull(),
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		updatedAt: timestamp("updated_at")
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull(),
+	},
+	(t) => [
+		primaryKey({ columns: [t.userId, t.activityDate] }),
+		index("user_daily_activity_date_idx").on(t.activityDate),
+	],
+);
+
+export const userAppInstalls = pgTable(
+	"user_app_installs",
+	{
+		userId: text("user_id")
+			.primaryKey()
+			.references(() => user.id, { onDelete: "cascade" }),
+		platform: appInstallPlatformEnum("platform").notNull(),
+		firstInstalledAt: timestamp("first_installed_at").defaultNow().notNull(),
+		lastStandaloneAt: timestamp("last_standalone_at"),
+		updatedAt: timestamp("updated_at")
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull(),
+	},
+	(t) => [
+		index("user_app_installs_first_installed_at_idx").on(t.firstInstalledAt),
+	],
+);
+
 // --- Drizzle ORM Relations ---
 
 export const productsRelations = relations(products, ({ one, many }) => ({
@@ -331,6 +377,26 @@ export const productStoreSubmissionsRelations = relations(
 			fields: [productStoreSubmissions.reviewedById],
 			references: [user.id],
 			relationName: "store_submission_reviewer",
+		}),
+	}),
+);
+
+export const userDailyActivityRelations = relations(
+	userDailyActivity,
+	({ one }) => ({
+		user: one(user, {
+			fields: [userDailyActivity.userId],
+			references: [user.id],
+		}),
+	}),
+);
+
+export const userAppInstallsRelations = relations(
+	userAppInstalls,
+	({ one }) => ({
+		user: one(user, {
+			fields: [userAppInstalls.userId],
+			references: [user.id],
 		}),
 	}),
 );

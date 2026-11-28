@@ -144,6 +144,7 @@ if (typeof window !== "undefined") {
 
 interface PwaInstallContextValue {
 	isStandalone: boolean;
+	isInstalled: boolean;
 	installMode: PwaInstallMode;
 	canInstall: boolean;
 	isInstalling: boolean;
@@ -152,6 +153,7 @@ interface PwaInstallContextValue {
 
 const PwaInstallContext = createContext<PwaInstallContextValue>({
 	isStandalone: false,
+	isInstalled: false,
 	installMode: "hidden",
 	canInstall: false,
 	isInstalling: false,
@@ -296,6 +298,7 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
 		<PwaInstallContext.Provider
 			value={{
 				isStandalone,
+				isInstalled,
 				installMode,
 				canInstall,
 				isInstalling,
