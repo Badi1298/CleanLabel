@@ -5792,59 +5792,11 @@
       "source_location": "L4"
     },
     {
-      "id": "src_queries_store_submission_queries_pendingstoresubmissionscountqueryoptions",
-      "label": "pendingStoreSubmissionsCountQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "store-submission-queries.ts",
-      "file_type": "code",
-      "norm_label": "pendingstoresubmissionscountqueryoptions()",
-      "source_file": "src/queries/store-submission-queries.ts",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_queries_store_submission_queries_storesubmissionsqueryoptions",
-      "label": "storeSubmissionsQueryOptions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "store-submission-queries.ts",
-      "file_type": "code",
-      "norm_label": "storesubmissionsqueryoptions()",
-      "source_file": "src/queries/store-submission-queries.ts",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_routes_protected_admin_route_routecomponent",
-      "label": "RouteComponent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "store-submission-queries.ts",
-      "file_type": "code",
-      "norm_label": "routecomponent()",
-      "source_file": "src/routes/_protected/admin/route.tsx",
-      "source_location": "L41"
-    },
-    {
-      "id": "src_routes_protected_admin_store_submissions_storesubmissionsadminpage",
-      "label": "StoreSubmissionsAdminPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 77,
-      "community_name": "store-submission-queries.ts",
-      "file_type": "code",
-      "norm_label": "storesubmissionsadminpage()",
-      "source_file": "src/routes/_protected/admin/store-submissions.tsx",
-      "source_location": "L71"
-    },
-    {
       "id": "src_queries_store_queries_storeexclusiveproductsqueryoptions",
       "label": "storeExclusiveProductsQueryOptions()",
       "_callable": true,
       "_origin": "ast",
-      "community": 90,
+      "community": 77,
       "community_name": "store-functions.ts",
       "file_type": "code",
       "norm_label": "storeexclusiveproductsqueryoptions()",
@@ -5856,12 +5808,60 @@
       "label": "DeleteStoreDialog()",
       "_callable": true,
       "_origin": "ast",
-      "community": 90,
+      "community": 77,
       "community_name": "store-functions.ts",
       "file_type": "code",
       "norm_label": "deletestoredialog()",
       "source_file": "src/routes/_protected/admin/all-stores.tsx",
       "source_location": "L30"
+    },
+    {
+      "id": "src_queries_store_submission_queries_pendingstoresubmissionscountqueryoptions",
+      "label": "pendingStoreSubmissionsCountQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 90,
+      "community_name": "store-submission-queries.ts",
+      "file_type": "code",
+      "norm_label": "pendingstoresubmissionscountqueryoptions()",
+      "source_file": "src/queries/store-submission-queries.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_queries_store_submission_queries_storesubmissionsqueryoptions",
+      "label": "storeSubmissionsQueryOptions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 90,
+      "community_name": "store-submission-queries.ts",
+      "file_type": "code",
+      "norm_label": "storesubmissionsqueryoptions()",
+      "source_file": "src/queries/store-submission-queries.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_routes_protected_admin_route_routecomponent",
+      "label": "RouteComponent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 90,
+      "community_name": "store-submission-queries.ts",
+      "file_type": "code",
+      "norm_label": "routecomponent()",
+      "source_file": "src/routes/_protected/admin/route.tsx",
+      "source_location": "L41"
+    },
+    {
+      "id": "src_routes_protected_admin_store_submissions_storesubmissionsadminpage",
+      "label": "StoreSubmissionsAdminPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 90,
+      "community_name": "store-submission-queries.ts",
+      "file_type": "code",
+      "norm_label": "storesubmissionsadminpage()",
+      "source_file": "src/routes/_protected/admin/store-submissions.tsx",
+      "source_location": "L71"
     },
     {
       "id": "src_components_addcategorydialog",
@@ -50404,48 +50404,125 @@
       "source_location": "L72"
     },
     {
-      "id": "src_queries_store_submission_queries",
-      "label": "store-submission-queries.ts",
+      "id": "src_server_store_functions",
+      "label": "store-functions.ts",
       "_origin": "ast",
       "community": 77,
-      "community_name": "store-submission-queries.ts",
+      "community_name": "store-functions.ts",
       "file_type": "code",
-      "norm_label": "store-submission-queries.ts",
-      "source_file": "src/queries/store-submission-queries.ts",
+      "norm_label": "store-functions.ts",
+      "source_file": "src/server/store-functions.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_routes_protected_admin_route_route",
-      "label": "Route",
+      "id": "src_server_store_functions_addstore",
+      "label": "addStore",
       "_origin": "ast",
       "community": 77,
-      "community_name": "store-submission-queries.ts",
+      "community_name": "store-functions.ts",
       "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/route.tsx",
-      "source_location": "L25"
+      "norm_label": "addstore",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L49"
     },
     {
-      "id": "src_routes_protected_admin_store_submissions_route",
-      "label": "Route",
+      "id": "src_server_store_functions_addstoreschema",
+      "label": "addStoreSchema",
       "_origin": "ast",
       "community": 77,
-      "community_name": "store-submission-queries.ts",
+      "community_name": "store-functions.ts",
       "file_type": "code",
-      "norm_label": "route",
-      "source_file": "src/routes/_protected/admin/store-submissions.tsx",
-      "source_location": "L60"
+      "norm_label": "addstoreschema",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L44"
     },
     {
-      "id": "src_server_store_submission_functions_getpendingstoresubmissionscount",
-      "label": "getPendingStoreSubmissionsCount",
+      "id": "src_server_store_functions_deletestore",
+      "label": "deleteStore",
       "_origin": "ast",
       "community": 77,
-      "community_name": "store-submission-queries.ts",
+      "community_name": "store-functions.ts",
       "file_type": "code",
-      "norm_label": "getpendingstoresubmissionscount",
-      "source_file": "src/server/store-submission-functions.ts",
-      "source_location": "L93"
+      "norm_label": "deletestore",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L129"
+    },
+    {
+      "id": "src_server_store_functions_deletestoreschema",
+      "label": "deleteStoreSchema",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "store-functions.ts",
+      "file_type": "code",
+      "norm_label": "deletestoreschema",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L125"
+    },
+    {
+      "id": "src_server_store_functions_getstoreexclusiveproducts",
+      "label": "getStoreExclusiveProducts",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "store-functions.ts",
+      "file_type": "code",
+      "norm_label": "getstoreexclusiveproducts",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L96"
+    },
+    {
+      "id": "src_server_store_functions_getstores",
+      "label": "getStores",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "store-functions.ts",
+      "file_type": "code",
+      "norm_label": "getstores",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_server_store_functions_getstoresschema",
+      "label": "getStoresSchema",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "store-functions.ts",
+      "file_type": "code",
+      "norm_label": "getstoresschema",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_server_store_functions_storeidschema",
+      "label": "storeIdSchema",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "store-functions.ts",
+      "file_type": "code",
+      "norm_label": "storeidschema",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L92"
+    },
+    {
+      "id": "src_server_store_functions_updatestore",
+      "label": "updateStore",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "store-functions.ts",
+      "file_type": "code",
+      "norm_label": "updatestore",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L73"
+    },
+    {
+      "id": "src_server_store_functions_updatestoreschema",
+      "label": "updateStoreSchema",
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "store-functions.ts",
+      "file_type": "code",
+      "norm_label": "updatestoreschema",
+      "source_file": "src/server/store-functions.ts",
+      "source_location": "L67"
     },
     {
       "id": "docs_adr_0001_i18n_paraglide_cookie_locale",
@@ -53591,125 +53668,48 @@
       "source_location": "L146"
     },
     {
-      "id": "src_server_store_functions",
-      "label": "store-functions.ts",
+      "id": "src_queries_store_submission_queries",
+      "label": "store-submission-queries.ts",
       "_origin": "ast",
       "community": 90,
-      "community_name": "store-functions.ts",
+      "community_name": "store-submission-queries.ts",
       "file_type": "code",
-      "norm_label": "store-functions.ts",
-      "source_file": "src/server/store-functions.ts",
+      "norm_label": "store-submission-queries.ts",
+      "source_file": "src/queries/store-submission-queries.ts",
       "source_location": "L1"
     },
     {
-      "id": "src_server_store_functions_addstore",
-      "label": "addStore",
+      "id": "src_routes_protected_admin_route_route",
+      "label": "Route",
       "_origin": "ast",
       "community": 90,
-      "community_name": "store-functions.ts",
+      "community_name": "store-submission-queries.ts",
       "file_type": "code",
-      "norm_label": "addstore",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L49"
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/route.tsx",
+      "source_location": "L25"
     },
     {
-      "id": "src_server_store_functions_addstoreschema",
-      "label": "addStoreSchema",
+      "id": "src_routes_protected_admin_store_submissions_route",
+      "label": "Route",
       "_origin": "ast",
       "community": 90,
-      "community_name": "store-functions.ts",
+      "community_name": "store-submission-queries.ts",
       "file_type": "code",
-      "norm_label": "addstoreschema",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L44"
+      "norm_label": "route",
+      "source_file": "src/routes/_protected/admin/store-submissions.tsx",
+      "source_location": "L60"
     },
     {
-      "id": "src_server_store_functions_deletestore",
-      "label": "deleteStore",
+      "id": "src_server_store_submission_functions_getpendingstoresubmissionscount",
+      "label": "getPendingStoreSubmissionsCount",
       "_origin": "ast",
       "community": 90,
-      "community_name": "store-functions.ts",
+      "community_name": "store-submission-queries.ts",
       "file_type": "code",
-      "norm_label": "deletestore",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L129"
-    },
-    {
-      "id": "src_server_store_functions_deletestoreschema",
-      "label": "deleteStoreSchema",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "store-functions.ts",
-      "file_type": "code",
-      "norm_label": "deletestoreschema",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L125"
-    },
-    {
-      "id": "src_server_store_functions_getstoreexclusiveproducts",
-      "label": "getStoreExclusiveProducts",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "store-functions.ts",
-      "file_type": "code",
-      "norm_label": "getstoreexclusiveproducts",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L96"
-    },
-    {
-      "id": "src_server_store_functions_getstores",
-      "label": "getStores",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "store-functions.ts",
-      "file_type": "code",
-      "norm_label": "getstores",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_server_store_functions_getstoresschema",
-      "label": "getStoresSchema",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "store-functions.ts",
-      "file_type": "code",
-      "norm_label": "getstoresschema",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L8"
-    },
-    {
-      "id": "src_server_store_functions_storeidschema",
-      "label": "storeIdSchema",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "store-functions.ts",
-      "file_type": "code",
-      "norm_label": "storeidschema",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L92"
-    },
-    {
-      "id": "src_server_store_functions_updatestore",
-      "label": "updateStore",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "store-functions.ts",
-      "file_type": "code",
-      "norm_label": "updatestore",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L73"
-    },
-    {
-      "id": "src_server_store_functions_updatestoreschema",
-      "label": "updateStoreSchema",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "store-functions.ts",
-      "file_type": "code",
-      "norm_label": "updatestoreschema",
-      "source_file": "src/server/store-functions.ts",
-      "source_location": "L67"
+      "norm_label": "getpendingstoresubmissionscount",
+      "source_file": "src/server/store-submission-functions.ts",
+      "source_location": "L93"
     },
     {
       "id": "agents_skills_modern_web_guidance_guides_security_passkey_conditional_create",
@@ -56098,7 +56098,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/hero-phone-demo.tsx",
-      "source_location": "L160",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -56110,7 +56110,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/hero-phone-demo.tsx",
-      "source_location": "L254",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -56122,7 +56122,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/landing/hero-phone-demo.tsx",
-      "source_location": "L339",
+      "source_location": "L314",
       "weight": 1.0
     },
     {
@@ -132073,5 +132073,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ae674760fc6b402cae41beb82f4c7f3ffbaaec17"
+  "built_at_commit": "8a37952de669132e886eb66263c1d173445d8fc7"
 }

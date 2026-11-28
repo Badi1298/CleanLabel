@@ -390,7 +390,7 @@ dialog::backdrop {
   }
 
   .hero-demo-outro-logo {
-    animation: hero-demo-outro-logo-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+    animation: hero-demo-outro-logo-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 1.35s both;
   }
 
   .hero-demo-outro-so[data-paused="true"],
@@ -400,6 +400,10 @@ dialog::backdrop {
 
   .hero-demo-tap-ripple {
     animation: hero-demo-tap-ripple-kf 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .hero-demo-tap-ripple[data-paused="true"] {
+    animation-play-state: paused;
   }
 
   .hero-demo-progress-bar {

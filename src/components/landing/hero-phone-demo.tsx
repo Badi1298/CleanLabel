@@ -42,9 +42,9 @@ type DemoState = {
 const PHASE_DURATIONS_MS: Record<DemoPhase, number> = {
 	"home-browse": 2300,
 	"home-tap": 1000,
-	"product-top": 2500,
-	"product-details": 4200,
-	outro: 3600,
+	"product-top": 3200,
+	"product-details": 3500,
+	outro: 4300,
 };
 
 const NEXT_PHASE: Record<DemoPhase, DemoPhase> = {
@@ -135,11 +135,8 @@ export function HeroPhoneDemo() {
 		chapterDurationMs: CHAPTER_HOME_TOTAL_MS,
 	});
 	const [isManuallyPaused, setIsManuallyPaused] = useState(false);
-	const [isMouseHovered, setIsMouseHovered] = useState(false);
-	const [isFocusWithin, setIsFocusWithin] = useState(false);
 	const [isInView, setIsInView] = useState(true);
 	const [isDocumentHidden, setIsDocumentHidden] = useState(false);
-	const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 	const [scrollDistance, setScrollDistance] = useState(320);
 
 	const containerRef = useRef<HTMLElement>(null);
@@ -150,12 +147,7 @@ export function HeroPhoneDemo() {
 	const phaseStartedAtRef = useRef<number | null>(null);
 	const prevRunTokenRef = useRef<string>("home-browse:0");
 
-	const isPaused =
-		isManuallyPaused ||
-		isMouseHovered ||
-		isFocusWithin ||
-		!isInView ||
-		isDocumentHidden;
+	const isPaused = isManuallyPaused || !isInView || isDocumentHidden;
 
 	const activeChapter = getChapterIndex(demoState.phase);
 	const isProductView =
@@ -167,7 +159,6 @@ export function HeroPhoneDemo() {
 	useEffect(() => {
 		const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 		const applyPreference = (matches: boolean) => {
-			setPrefersReducedMotion(matches);
 			if (matches) {
 				setIsManuallyPaused(true);
 				setDemoState((prev) => ({
@@ -305,22 +296,6 @@ export function HeroPhoneDemo() {
 	return (
 		<figure
 			ref={containerRef}
-			onPointerEnter={(event) => {
-				if (event.pointerType === "mouse") {
-					setIsMouseHovered(true);
-				}
-			}}
-			onPointerLeave={(event) => {
-				if (event.pointerType === "mouse") {
-					setIsMouseHovered(false);
-				}
-			}}
-			onFocusCapture={() => setIsFocusWithin(true)}
-			onBlurCapture={(event) => {
-				if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-					setIsFocusWithin(false);
-				}
-			}}
 			className="mx-auto w-full max-w-[336px] sm:max-w-[364px] flex flex-col items-center"
 		>
 			<figcaption className="sr-only">
@@ -328,7 +303,7 @@ export function HeroPhoneDemo() {
 			</figcaption>
 
 			{/* Phone Hardware Bezel */}
-			<div className="w-full rounded-[2.6rem] bg-[#0B120F] p-2.5 shadow-[0_28px_70px_rgba(0,0,0,0.4)] border border-[#FCE8C6]/22">
+			<div className="relative w-full rounded-[2.6rem] bg-[#0B120F] p-2.5 shadow-[0_28px_70px_rgba(0,0,0,0.4)] border border-[#FCE8C6]/22">
 				{/* Decorative App Screen (excluded from AT & tab order; described by figcaption) */}
 				<div
 					aria-hidden="true"
@@ -453,7 +428,10 @@ export function HeroPhoneDemo() {
 														>
 															{/* Translucent Touch Ripple on Tap */}
 															{isTapped && (
-																<span className="hero-demo-tap-ripple absolute left-1/2 top-1/2 -ml-8 -mt-8 w-16 h-16 rounded-full bg-[#D8AB54]/35 dark:bg-[#D8AB54]/30 z-20" />
+																<span
+																	data-paused={isPaused ? "true" : "false"}
+																	className="hero-demo-tap-ripple absolute left-1/2 top-1/2 -ml-8 -mt-8 w-16 h-16 rounded-full bg-[#D8AB54]/35 dark:bg-[#D8AB54]/30 z-20"
+																/>
 															)}
 
 															{/* Product Photo Frame */}
@@ -828,6 +806,18 @@ export function HeroPhoneDemo() {
 						</div>
 					</div>
 				</div>
+
+				{/* Accessible Screen Tap/Click Overlay (sibling outside aria-hidden & overflow-hidden) */}
+				<button
+					type="button"
+					onClick={handleTogglePlayPause}
+					aria-label={
+						isManuallyPaused
+							? m.landing_hero_demo_play()
+							: m.landing_hero_demo_pause()
+					}
+					className="absolute inset-2.5 z-40 rounded-[2rem] cursor-pointer bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FCE8C6]"
+				/>
 			</div>
 
 			{/* Minimal Chapter Progress & Play/Pause Controls */}
@@ -849,7 +839,14 @@ export function HeroPhoneDemo() {
 									aria-current={isActive ? "step" : undefined}
 									className="group min-h-11 py-1.5 px-1 flex flex-col justify-center gap-1.5 text-left cursor-pointer rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
 								>
-									<span className="block w-full h-1.5 rounded-full bg-[#FCE8C6]/22 overflow-hidden">
+									<span
+										className={cn(
+											"block w-full h-1.5 rounded-full overflow-hidden transition-colors",
+											isActive && isPaused
+												? "bg-[#FCE8C6]/35"
+												: "bg-[#FCE8C6]/22",
+										)}
+									>
 										{isActive ? (
 											<span
 												key={demoState.chapterRunKey}
@@ -893,10 +890,18 @@ export function HeroPhoneDemo() {
 								? m.landing_hero_demo_play()
 								: m.landing_hero_demo_pause()
 						}
-						className="min-w-11 min-h-11 rounded-full bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 border border-[#FCE8C6]/25 text-[#FCE8C6] flex items-center justify-center shrink-0 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]"
+						className={cn(
+							"min-w-11 min-h-11 rounded-full border flex items-center justify-center shrink-0 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCE8C6]",
+							isManuallyPaused
+								? "bg-[#D8AB54] hover:bg-[#E2BA68] border-[#D8AB54] text-[#112A1F] shadow-xs"
+								: "bg-[#FBF4E6]/10 hover:bg-[#FBF4E6]/18 border-[#FCE8C6]/25 text-[#FCE8C6]",
+						)}
 					>
-						{isManuallyPaused || (prefersReducedMotion && isPaused) ? (
-							<Play className="w-4 h-4 fill-current" aria-hidden="true" />
+						{isManuallyPaused ? (
+							<Play
+								className="w-4 h-4 fill-current translate-x-[1px]"
+								aria-hidden="true"
+							/>
 						) : (
 							<Pause className="w-4 h-4" aria-hidden="true" />
 						)}

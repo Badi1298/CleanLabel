@@ -1,7 +1,7 @@
 # Graph Report - CleanLabel  (2026-11-28)
 
 ## Corpus Check
-- 415 files · ~568,773 words
+- 415 files · ~568,769 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ae674760`
+- Built from commit: `8a37952d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -87,7 +87,7 @@
 - settings.json
 - Agentic JavaScript Tools
 - Guidelines
-- store-submission-queries.ts
+- store-functions.ts
 - 0001. Bilingual i18n with Paraglide JS and Cookie-Only Locale Routing
 - Implementation with `<dialog>`
 - How to implement
@@ -100,7 +100,7 @@
 - Build a carousel
 - Fallback strategies
 - Custom text decorations
-- store-functions.ts
+- store-submission-queries.ts
 - Implementation Steps
 - Fallback strategies
 - Scrollability Affordance Hints
@@ -612,9 +612,9 @@ Nodes (16): Agentic JavaScript Tools, API Notes, Controlling cross-origin tool e
 Cohesion: 0.10
 Nodes (20): Accessibility, Accessible name and initial focus, Backdrop and styling, Choose how it can be dismissed, Choose the overlay type, `closedby` (`dialog-closedby`), Closing, Dialog (+12 more)
 
-### Community 77 - "store-submission-queries.ts"
-Cohesion: 0.36
-Nodes (7): pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), Route, RouteComponent(), Route, StoreSubmissionsAdminPage(), getPendingStoreSubmissionsCount
+### Community 77 - "store-functions.ts"
+Cohesion: 0.15
+Nodes (12): storeExclusiveProductsQueryOptions(), DeleteStoreDialog(), addStore, addStoreSchema, deleteStore, deleteStoreSchema, getStoreExclusiveProducts, getStores (+4 more)
 
 ### Community 78 - "0001. Bilingual i18n with Paraglide JS and Cookie-Only Locale Routing"
 Cohesion: 0.33
@@ -664,9 +664,9 @@ Nodes (15): 1. Triggering the hovercard, 2. Positioning with Anchor Positioning,
 Cohesion: 0.12
 Nodes (15): Border area, Border shape, Choose a technique, Control where the line is skipped, Custom text decorations, Draw a custom line with a pseudo-element, Fallback Strategies, Ink skipping (+7 more)
 
-### Community 90 - "store-functions.ts"
-Cohesion: 0.15
-Nodes (12): storeExclusiveProductsQueryOptions(), DeleteStoreDialog(), addStore, addStoreSchema, deleteStore, deleteStoreSchema, getStoreExclusiveProducts, getStores (+4 more)
+### Community 90 - "store-submission-queries.ts"
+Cohesion: 0.36
+Nodes (7): pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), Route, RouteComponent(), Route, StoreSubmissionsAdminPage(), getPendingStoreSubmissionsCount
 
 ### Community 91 - "Implementation Steps"
 Cohesion: 0.13
