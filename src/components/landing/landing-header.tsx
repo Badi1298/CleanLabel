@@ -36,7 +36,7 @@ export function LandingHeader({
 
 	const brandClassName =
 		"inline-flex items-center rounded-lg px-0.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8AB54] shrink-0";
-	const brandContent = <BrandLogo surface="dark" size="md" />;
+	const brandContent = <BrandLogo surface="dark" size="lg" />;
 
 	const desktopNavLinkClassName =
 		"inline-flex items-center min-h-9 px-3.5 py-1.5 rounded-xl text-sm font-semibold text-[#FCE8C6]/82 hover:text-[#FCE8C6] hover:bg-[#FBF4E6]/10 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54]";

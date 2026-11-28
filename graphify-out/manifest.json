@@ -354,9 +354,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/index.tsx": {
-    "mtime": 1795773435.9285028,
-    "seen": 1795776010.922139,
-    "ast_hash": "b53e59add5a26c7ab77aeecbd9088f72",
+    "mtime": 1795873010.9479122,
+    "seen": 1795873045.580551,
+    "ast_hash": "ab3f7b0d0d7db50d69203b6ec7eeb354",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/products/$productId.tsx": {
@@ -372,9 +372,9 @@
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/route.tsx": {
-    "mtime": 1795773435.9300845,
-    "seen": 1795776010.9221408,
-    "ast_hash": "c6e64958ae8399f26ecfa191e3356b22",
+    "mtime": 1795873009.1741152,
+    "seen": 1795873045.580554,
+    "ast_hash": "7f81ba1d734f06a23379f830de814f38",
     "semantic_hash": ""
   },
   "src/routes/_protected/_public/search.tsx": {
@@ -924,15 +924,15 @@
     "semantic_hash": ""
   },
   "src/components/landing/landing-footer.tsx": {
-    "mtime": 1795778707.1446028,
-    "seen": 1795778730.109041,
-    "ast_hash": "b859feb718f1320adc14a3926c724364",
+    "mtime": 1795873008.420074,
+    "seen": 1795873045.5805051,
+    "ast_hash": "58c921aee022c0009877f17a73adace2",
     "semantic_hash": ""
   },
   "src/components/landing/landing-header.tsx": {
-    "mtime": 1795775907.8424342,
-    "seen": 1795776010.922087,
-    "ast_hash": "a843eb0f79c8ef8fe9b34aeac539ab82",
+    "mtime": 1795873007.672922,
+    "seen": 1795873045.5805051,
+    "ast_hash": "2e294739878de0463832ca4c15c64d31",
     "semantic_hash": ""
   },
   "src/components/landing/landing-info-dialog.tsx": {
@@ -2328,9 +2328,9 @@
     "semantic_hash": ""
   },
   "src/components/brand-logo.tsx": {
-    "mtime": 1795783517.1206567,
-    "seen": 1795786309.289539,
-    "ast_hash": "f1358de7ad6610e9ac7b9c28f23d2e76",
+    "mtime": 1795873006.6792488,
+    "seen": 1795873045.580499,
+    "ast_hash": "05e21a32fc9e4b1f92efb1ba454ee345",
     "semantic_hash": ""
   },
   "public/pickitwell-logo.png": {
@@ -2622,9 +2622,9 @@
     "semantic_hash": ""
   },
   "src/components/landing/hero-phone-demo.tsx": {
-    "mtime": 1795790903.6489015,
-    "seen": 1795790924.874681,
-    "ast_hash": "1f9b5ae3b050fe93721d3bbf6e269a8b",
+    "mtime": 1795874963.0530648,
+    "seen": 1795874988.561985,
+    "ast_hash": "7b9ab32277c0a7e72f2e6b17f5001658",
     "semantic_hash": ""
   },
   "src/assets/demo/demo-bronze-product.jpeg": {
