@@ -33,7 +33,7 @@ export function LandingFooter({
 
 	const brandClassName =
 		"inline-flex items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54]";
-	const brandContent = <BrandLogo surface="dark" size="md" loading="lazy" />;
+	const brandContent = <BrandLogo surface="dark" size="lg" loading="lazy" />;
 	const exploreLinkClassName =
 		"inline-flex items-center py-1 text-[#FBF4E6]/85 hover:text-[#FCE8C6] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D8AB54] rounded-sm";
 	const legalLinkClassName =

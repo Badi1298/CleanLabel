@@ -3,8 +3,10 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Check, SlidersHorizontal, Store as StoreIcon, X } from "lucide-react";
 import { useState } from "react";
 
+import { BrandLogo } from "#/components/brand-logo";
 import { CategoryIcon } from "#/components/categories/category-icon";
 import { ProductCard } from "#/components/home/product-card";
+import { LanguageSwitcher } from "#/components/language-switcher";
 import { SearchBar } from "#/components/search/search-bar";
 import { StoreAvatar } from "#/components/stores/store-avatar";
 import { StoreCard } from "#/components/stores/store-card";
@@ -60,7 +62,12 @@ function Home() {
 					aria-hidden="true"
 				/>
 
-				<div className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-10 pb-7 md:pt-12 md:pb-10">
+				<div className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-5 pb-7 md:pt-12 md:pb-10">
+					<div className="md:hidden flex items-center justify-between gap-3 mb-5">
+						<BrandLogo surface="dark" size="md" />
+						<LanguageSwitcher surface="dark" isSignedIn />
+					</div>
+
 					<div className="max-w-2xl">
 						<h1 className="text-[2.5rem] sm:text-5xl lg:text-[3.25rem] font-extrabold tracking-tight leading-[1.03] text-[#FCE8C6]">
 							{m.home_hero_title_line1()}

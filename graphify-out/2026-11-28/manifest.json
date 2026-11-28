@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1795864874.4146967,
-    "seen": 1795865512.9338,
-    "ast_hash": "1e16b8db4cb4795f099470b2aaac847b",
+    "mtime": 1795870066.40946,
+    "seen": 1795870082.298074,
+    "ast_hash": "3e4339a27af6514c4af47fee97bd0a80",
     "semantic_hash": ""
   },
   "public/registerSW.js": {
@@ -2691,6 +2691,12 @@
     "mtime": 1795864728.0030007,
     "seen": 1795865512.9340422,
     "ast_hash": "135b54050bba4c139debad079023fa71",
+    "semantic_hash": ""
+  },
+  "scripts/migrate.mjs": {
+    "mtime": 1795870065.3249438,
+    "seen": 1795870082.298076,
+    "ast_hash": "382805af198ee64dd7ee6aaab3cd8092",
     "semantic_hash": ""
   }
 }

@@ -1,17 +1,17 @@
 # Graph Report - CleanLabel  (2026-11-28)
 
 ## Corpus Check
-- 415 files · ~568,734 words
+- 415 files · ~568,773 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 5, .ico 1, .css 1)
 
 ## Summary
-- 4773 nodes · 6708 edges · 305 communities (290 shown, 15 thin omitted)
+- 4773 nodes · 6712 edges · 305 communities (290 shown, 15 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 77 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f897f5f4`
+- Built from commit: `ae674760`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -362,7 +362,7 @@ Nodes (40): dependencies, @aws-sdk/client-s3, @aws-sdk/s3-request-presigner, @ba
 
 ### Community 4 - "cn"
 Cohesion: 0.05
-Nodes (68): radix-ui, AppSidebar(), SidebarGroupData, SidebarItem, Badge(), badgeVariants, CardAction(), CardContent() (+60 more)
+Nodes (69): radix-ui, AppSidebar(), SidebarGroupData, SidebarItem, Badge(), badgeVariants, CardAction(), CardContent() (+61 more)
 
 ### Community 5 - "organization-best-practices/SKILL.md"
 Cohesion: 0.06
@@ -614,7 +614,7 @@ Nodes (20): Accessibility, Accessible name and initial focus, Backdrop and styli
 
 ### Community 77 - "store-submission-queries.ts"
 Cohesion: 0.36
-Nodes (7): pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), Route, RouteComponent(), Route, StoreSubmissionsAdminPage(), getStoreSubmissions
+Nodes (7): pendingStoreSubmissionsCountQueryOptions(), storeSubmissionsQueryOptions(), Route, RouteComponent(), Route, StoreSubmissionsAdminPage(), getPendingStoreSubmissionsCount
 
 ### Community 78 - "0001. Bilingual i18n with Paraglide JS and Cookie-Only Locale Routing"
 Cohesion: 0.33
@@ -961,8 +961,8 @@ Cohesion: 0.20
 Nodes (9): 1. **Identify text elements**:, 2. **Apply the chosen wrapping**:, Choosing the Right Wrapping Method, Critical Constraints and Performance, Fallback strategies, Implementation, Improve Text Layout and Legibility, text-wrap: balance (+1 more)
 
 ### Community 164 - "lucide-react"
-Cohesion: 0.06
-Nodes (56): Decision, lucide-react, @tanstack/react-router, ADAPTIVE_IMG_SIZE, BrandLogo(), BrandLogoProps, DARK_IMG_SIZE, PILL_PADDING (+48 more)
+Cohesion: 0.07
+Nodes (52): Decision, lucide-react, @tanstack/react-router, ADAPTIVE_IMG_SIZE, BrandLogo(), BrandLogoProps, DARK_IMG_SIZE, PILL_PADDING (+44 more)
 
 ### Community 165 - "Language Detection"
 Cohesion: 0.22
@@ -1117,8 +1117,8 @@ Cohesion: 0.25
 Nodes (7): Alpha vs Luminance Masking Modes, Fallback strategies, Implementation, Method 1: Using a repeating raster image (Recommended for realistic textures), Method 2: Using CSS Gradients for geometric patterns, Overview, Visually Texture Content
 
 ### Community 204 - "profile.tsx"
-Cohesion: 0.08
-Nodes (37): src_assets_bronze_badge, src_assets_gold_badge, src_assets_silver_badge, HighlightedIngredientsText(), ProductCard(), ProductCardProps, StoreChip(), getLegalLastUpdatedDate() (+29 more)
+Cohesion: 0.07
+Nodes (40): src_assets_bronze_badge, src_assets_gold_badge, src_assets_silver_badge, HighlightedIngredientsText(), ProductCard(), ProductCardProps, StoreChip(), getLegalLastUpdatedDate() (+32 more)
 
 ### Community 206 - "1. Content Navigability and Structure"
 Cohesion: 0.29

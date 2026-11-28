@@ -51,13 +51,13 @@ function RouteComponent() {
 	return (
 		<div className="relative min-h-screen pb-20 md:pb-10 bg-[#FAF8F5] dark:bg-[#0E1612] text-[#1B3328] dark:text-[#EDF2EE]">
 			{/* Desktop & Tablet Slim Top Navigation */}
-			<header className="hidden md:block sticky top-0 z-40 bg-[#FDFBF7]/92 dark:bg-[#131F19]/92 backdrop-blur-md border-b border-[#EAE4D7] dark:border-[#24362D]">
+			<header className="hidden md:block sticky top-0 z-40 bg-[#1B4332]/95 dark:bg-[#112A1F]/95 backdrop-blur-md border-b border-[#FCE8C6]/12">
 				<div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
 					<Link
 						to="/"
-						className="inline-flex items-center rounded-xl px-0.5 py-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
+						className="inline-flex items-center rounded-lg px-0.5 py-0.5 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8AB54]"
 					>
-						<BrandLogo surface="adaptive" size="md" />
+						<BrandLogo surface="dark" size="lg" />
 					</Link>
 
 					<div className="flex items-center gap-3">
@@ -70,10 +70,14 @@ function RouteComponent() {
 									key={to}
 									to={to}
 									activeOptions={{ exact }}
-									className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium text-[#5C665E] dark:text-[#9AA89E] hover:text-[#1B4332] dark:hover:text-[#FBF4E6] hover:bg-[#F3EFE6]/80 dark:hover:bg-[#1A2922] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B4332]"
+									className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D8AB54]"
+									inactiveProps={{
+										className:
+											"font-medium text-[#FCE8C6]/82 hover:text-[#FCE8C6] hover:bg-[#FBF4E6]/10",
+									}}
 									activeProps={{
 										className:
-											"bg-[#E3EDE7] dark:bg-[#1E3A2C] text-[#1B4332] dark:text-[#CBE3D4] font-semibold hover:bg-[#E3EDE7] dark:hover:bg-[#1E3A2C]",
+											"bg-[#FBF4E6]/16 text-[#FCE8C6] font-semibold ring-1 ring-[#FCE8C6]/18 hover:bg-[#FBF4E6]/20",
 									}}
 								>
 									<Icon className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -82,7 +86,7 @@ function RouteComponent() {
 							))}
 						</nav>
 
-						<LanguageSwitcher surface="light" isSignedIn />
+						<LanguageSwitcher surface="dark" isSignedIn />
 					</div>
 				</div>
 			</header>

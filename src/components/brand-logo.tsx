@@ -22,15 +22,15 @@ const PILL_PADDING: Record<NonNullable<BrandLogoProps["size"]>, string> = {
 const ADAPTIVE_IMG_SIZE: Record<NonNullable<BrandLogoProps["size"]>, string> = {
 	xs: "h-5 dark:h-6",
 	sm: "h-6.5 dark:h-8",
-	md: "h-14",
-	lg: "h-14 dark:h-14",
+	md: "h-9 dark:h-11",
+	lg: "h-12 dark:h-14",
 };
 
 const DARK_IMG_SIZE: Record<NonNullable<BrandLogoProps["size"]>, string> = {
 	xs: "h-6",
 	sm: "h-7",
-	md: "h-14",
-	lg: "h-12 sm:h-13",
+	md: "h-11",
+	lg: "h-14",
 };
 
 export function BrandLogo({

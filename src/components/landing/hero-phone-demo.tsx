@@ -373,8 +373,11 @@ export function HeroPhoneDemo() {
 									)}
 								>
 									{/* Botanical Home Hero Header */}
-									<div className="relative bg-[#1B4332] text-[#FBF4E6] px-4 pt-2 pb-4 rounded-b-3xl shadow-sm shrink-0">
+									<div className="relative bg-[#1B4332] text-[#FBF4E6] px-4 pt-1 pb-3.5 rounded-b-3xl shadow-sm shrink-0">
 										<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,244,230,0.1),transparent_58%)] rounded-b-3xl" />
+										<div className="relative z-10 mb-1 flex items-center">
+											<BrandLogo surface="dark" size="xs" className="h-5" />
+										</div>
 										<p className="relative z-10 text-xl font-extrabold tracking-tight leading-tight text-[#FCE8C6]">
 											{m.home_hero_title_line1()} {m.home_hero_title_line2()}
 										</p>
